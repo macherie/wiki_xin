@@ -1,5 +1,0 @@
-<span class="kw1">return</span><span class="sy0">;</span>
-&nbsp;
-<span class="kw1">return</span> myDisk.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>             <span class="co1">//	避免</span>
-&nbsp;
-<span class="kw1">return</span> <span class="br0">&#40;</span>size <span class="sy0">?</span> size <span class="sy0">:</span> defaultSize<span class="br0">&#41;</span><span class="sy0">;</span>    <span class="co1">//	避免</span>

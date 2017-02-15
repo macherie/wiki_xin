@@ -1,6 +1,0 @@
-<span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i n<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
-    doSomething<span class="br0">&#40;</span>i<span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>
-<span class="kw1">for</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+iterator"><span class="kw3">Iterator</span></a> i <span class="sy0">=</span> c.<span class="me1">iterator</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> i.<span class="me1">hasNext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#41;</span> <span class="br0">&#123;</span>
-    doSomethingElse<span class="br0">&#40;</span>i.<span class="me1">next</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

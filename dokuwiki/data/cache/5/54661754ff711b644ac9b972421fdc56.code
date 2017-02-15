@@ -1,3 +1,0 @@
-    argv<span class="sy0">++;</span>     	<span class="co1">// 推荐</span>
-    argc<span class="sy0">--;</span>     	<span class="co1">// 推荐</span>
-    argv<span class="sy0">++;</span> argc<span class="sy0">--;</span> 	<span class="co1">// 避免</span>

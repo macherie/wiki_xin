@@ -1,5 +1,0 @@
-    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.CAMERA&quot;</span> <span class="re2">/&gt;</span></span>
-    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.RECORD_AUDIO&quot;</span> <span class="re2">/&gt;</span></span>
-    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.MOUNT_UNMOUNT_FILESYSTEMS&quot;</span> <span class="re2">/&gt;</span></span>
-    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> <span class="re2">/&gt;</span></span>
-    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.INTERNET&quot;</span><span class="re2">/&gt;</span></span>

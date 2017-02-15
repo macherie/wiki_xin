@@ -1,5 +1,0 @@
-    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span> mPauseListener <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
-        <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-            doPauseResume<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-        <span class="br0">&#125;</span>
-    <span class="br0">&#125;</span><span class="sy0">;</span>

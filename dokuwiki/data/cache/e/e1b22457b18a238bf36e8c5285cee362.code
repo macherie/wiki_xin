@@ -1,5 +1,0 @@
-<span class="kw1">final</span> BitmapFactory.<span class="me1">Options</span> options <span class="sy0">=</span> <span class="kw1">new</span> BitmapFactory.<span class="me1">Options</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-options.<span class="me1">inScaled</span> <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>   <span class="co1">// No pre-scaling</span>
-&nbsp;
-<span class="co1">// Read in the resource</span>
-<span class="kw1">final</span> Bitmap bitmap <span class="sy0">=</span> BitmapFactory.<span class="me1">decodeResource</span><span class="br0">&#40;</span>context.<span class="me1">getResources</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, resourceId, options<span class="br0">&#41;</span><span class="sy0">;</span>

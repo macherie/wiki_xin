@@ -1,3 +1,0 @@
-<span class="co1">// Initiate the outgoing call, and simultaneously launch the</span>
-<span class="co1">// InCallScreen to display the in-call UI:</span>
-PhoneApp.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">callController</span>.<span class="me1">placeCall</span><span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>

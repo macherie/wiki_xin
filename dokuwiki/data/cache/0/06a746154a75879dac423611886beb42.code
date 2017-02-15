@@ -1,4 +1,0 @@
-<span class="co2">#undef NDEBUG       //打开LOGV/LOGI/LOGD</span>
-<span class="co2">#define LOG_NDEBUG   0  //打开LOGV</span>
-<span class="co2">#define LOG_NIDEBUG  0  //打开LOGI</span>
-<span class="co2">#define LOG_NDDEBUG 0 //打开LOGD</span>

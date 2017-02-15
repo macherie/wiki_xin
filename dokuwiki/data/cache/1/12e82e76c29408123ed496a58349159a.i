@@ -1,3 +1,0 @@
-a:10:{i:0;a:3:{i:0;s:14:"document_start";i:1;a:0:{}i:2;i:0;}i:1;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:0;}i:2;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:30:"温度传感器位置示意图";}i:2;i:1;}i:3;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:31;}i:4;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:31;}i:5;a:3:{i:0;s:13:"internalmedia";i:1;a:7:{i:0;s:50:":platform:8996:2017-01-16_17_36_02屏幕截图.png";i:1;s:0:"";i:2;N;i:3;N;i:4;N;i:5;s:5:"cache";i:6;s:7:"details";}i:2;i:33;}i:6;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:0:"";}i:2;i:88;}i:7;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:89;}i:8;a:3:{i:0;s:12:"preformatted";i:1;a:1:{i:0;s:69:"cat /sys/devices/virtual/thermal/thermal_zone7/temp
-625
-62.5摄氏度";}i:2;i:89;}i:9;a:3:{i:0;s:12:"document_end";i:1;a:0:{}i:2;i:89;}}

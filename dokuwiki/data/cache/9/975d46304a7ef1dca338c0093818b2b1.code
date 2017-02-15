@@ -1,7 +1,0 @@
-&nbsp;
-<span class="kw4">int</span> main<span class="br0">&#40;</span><span class="br0">&#41;</span>
-<span class="br0">&#123;</span>
-    <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span class="kw3">printf</span></a><span class="br0">&#40;</span><span class="st0">&quot;Hello wiki<span class="es1">\n</span>&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-&nbsp;
-    <span class="kw1">return</span> <span class="nu0">0</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

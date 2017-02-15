@@ -1,1 +1,0 @@
-repo init <span class="re5">-u</span> git:<span class="sy0">//</span>192.167.100.232<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> msm8255_jb <span class="re5">--repo-url</span>=git:<span class="sy0">//</span>192.167.100.232<span class="sy0">/</span>repo.git

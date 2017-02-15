@@ -1,9 +1,0 @@
-  attribute vec2 a_TexCoordinate<span class="sy0">;</span> <span class="co1">// Per-vertex texture coordinate information we will pass in.</span>
-&nbsp;
-...
-&nbsp;
-<span class="me1">varying</span> vec2 v_TexCoordinate<span class="sy0">;</span>   <span class="co1">// This will be passed into the fragment shader.</span>
-&nbsp;
-...
-<span class="co1">// Pass through the texture coordinate.</span>
-v_TexCoordinate <span class="sy0">=</span> a_TexCoordinate<span class="sy0">;</span>

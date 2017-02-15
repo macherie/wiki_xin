@@ -1,6 +1,0 @@
-如何查看WIFI软硬件版本（WIFI firmware版本）
-
-<code>
-root@d508:/ # iwpriv wlan0 version                                             
-wlan0     version:Host SW:3.2.3.172, FW:154_1, HW:WCN v2.0 RadioPhy vUnknown with 19.2MHz XO
-</code>

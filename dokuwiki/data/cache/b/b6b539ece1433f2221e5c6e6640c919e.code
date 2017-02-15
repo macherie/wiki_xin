@@ -1,8 +1,0 @@
-<span class="kw4">void</span> myMethod<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
-<span class="kw4">int</span> int1 <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>		<span class="co1">// beginning of method block</span>
-&nbsp;
-    <span class="kw1">if</span> <span class="br0">&#40;</span>condition<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-        <span class="kw4">int</span> int2 <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>	<span class="co1">// beginning of “if” block</span>
-        ...
-    <span class="br0">&#125;</span>
-<span class="br0">&#125;</span>

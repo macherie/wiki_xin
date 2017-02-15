@@ -1,1 +1,0 @@
-am start <span class="re5">-n</span> com.android.music<span class="sy0">/</span>com.android.music.MediaPlaybackActivity <span class="re5">-d</span> <span class="sy0">/</span>mnt<span class="sy0">/</span>sdcard<span class="sy0">/</span>test.mp3

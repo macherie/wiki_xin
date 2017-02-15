@@ -1,6 +1,0 @@
-a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1392606896;s:8:"modified";i:1392724239;}s:11:"last_change";a:7:{s:4:"date";i:1392724239;s:2:"ip";s:11:"172.21.2.20";s:4:"type";s:1:"E";s:2:"id";s:29:"tool:ubuntu下的烧录工具";s:4:"user";N;s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:5:"title";s:19:"Flash Image Tool1.0";s:11:"description";a:2:{s:15:"tableofcontents";a:1:{i:0;a:4:{s:3:"hid";s:18:"flash_image_tool10";s:5:"title";s:19:"Flash Image Tool1.0";s:4:"type";s:2:"ul";s:5:"level";i:1;}}s:8:"abstract";s:483:"--- 杨克猛 2014/02/17
-
-Flash Image Tool1.0
-
-为了ubuntu下能够方便地烧录版本，我开发了Flash Image Tool.现在服务器(192.167.100.225)上有一份它的拷贝share/Tool/ubuntu下的烧录工具。
-Flash Image Tool采用java开发的，界面用了 swing,目前它能够支持三个平台的烧录MSM8625Q，MSM8960和MSM8928，如果将来有新的平台，在配置表burnimg.cfg添加它，代码的组合框添加平台的名字就可以了，扩展很方便。";}s:8:"relation";a:2:{s:5:"media";a:1:{s:20:"tool:flashimage2.jpg";b:1;}s:10:"firstimage";s:20:"tool:flashimage2.jpg";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}}s:10:"persistent";a:4:{s:4:"date";a:2:{s:7:"created";i:1392606896;s:8:"modified";i:1392724239;}s:11:"last_change";a:7:{s:4:"date";i:1392724239;s:2:"ip";s:11:"172.21.2.20";s:4:"type";s:1:"E";s:2:"id";s:29:"tool:ubuntu下的烧录工具";s:4:"user";N;s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:4:"user";s:0:"";s:7:"creator";s:0:"";}}

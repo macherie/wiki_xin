@@ -1,5 +1,0 @@
-long1 <span class="sy0">=</span> long2 <span class="sy0">*</span> <span class="br0">&#40;</span>long3 <span class="sy0">+</span> long4 <span class="sy0">-</span> long5<span class="br0">&#41;</span>
-        <span class="sy0">+</span> <span class="nu0">4</span> <span class="sy0">*</span> longname6<span class="sy0">;</span>             <span class="co1">// 推荐</span>
-&nbsp;
-long1 <span class="sy0">=</span> long2 <span class="sy0">*</span> <span class="br0">&#40;</span>long3 <span class="sy0">+</span> long4
-               <span class="sy0">-</span> long5<span class="br0">&#41;</span> <span class="sy0">+</span> <span class="nu0">4</span> <span class="sy0">*</span> long6<span class="sy0">;</span> <span class="co1">// 避免</span>

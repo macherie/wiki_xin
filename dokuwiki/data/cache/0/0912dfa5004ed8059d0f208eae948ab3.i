@@ -1,3 +1,0 @@
-a:9:{i:0;a:3:{i:0;s:14:"document_start";i:1;a:0:{}i:2;i:0;}i:1;a:3:{i:0;s:6:"header";i:1;a:3:{i:0;s:31:"使用QXDM的dmc配置抓取log";i:1;i:2;i:2;i:1;}i:2;i:1;}i:2;a:3:{i:0;s:12:"section_open";i:1;a:1:{i:0;i:2;}i:2;i:1;}i:3;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:1;}i:4;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:39:"见教学视频，在共享服务器：";}i:2;i:44;}i:5;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:89;}i:6;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:87:"
-smb://192.167.100.225/share/项目分类/Modem/How To use DMC to capture QXDM log.wmv
-";i:1;N;i:2;N;}i:2;i:89;}i:7;a:3:{i:0;s:13:"section_close";i:1;a:0:{}i:2;i:184;}i:8;a:3:{i:0;s:12:"document_end";i:1;a:0:{}i:2;i:184;}}

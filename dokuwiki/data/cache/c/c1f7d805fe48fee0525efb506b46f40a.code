@@ -1,1 +1,0 @@
-<span class="kw2">zip</span> <span class="re5">-r</span> <span class="re5">-X</span> <span class="re5">-Z</span> store ..<span class="sy0">/</span>bootanimation foldername<span class="sy0">*/*</span>.png desc.txt

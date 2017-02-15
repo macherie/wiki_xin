@@ -1,2 +1,0 @@
-$ <span class="kw2">mkdir</span> ~<span class="sy0">/</span>bin
-$ <span class="re2">PATH</span>=~<span class="sy0">/</span>bin:<span class="re1">$PATH</span>

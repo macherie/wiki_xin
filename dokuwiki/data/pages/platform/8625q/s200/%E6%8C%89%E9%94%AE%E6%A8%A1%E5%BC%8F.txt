@@ -1,3 +1,0 @@
-进入fastboot模式：音量+
-
-进入recovery模式：音量-

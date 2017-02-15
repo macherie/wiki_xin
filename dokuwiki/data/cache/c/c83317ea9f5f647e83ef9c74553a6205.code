@@ -1,3 +1,0 @@
-<span class="kw4">int</span>		level<span class="sy0">;</span>		<span class="co1">// indentation level</span>
-<span class="kw4">int</span>		size<span class="sy0">;</span>			<span class="co1">// size of table</span>
-<span class="kw4">char</span> 	username<span class="sy0">;</span>	<span class="co1">// username</span>

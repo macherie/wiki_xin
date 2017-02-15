@@ -1,7 +1,0 @@
-adb root 
-adb remount 
-adb shell chmod <span class="nu0">777</span> <span class="sy0">/</span>data<span class="sy0">/</span>misc<span class="sy0">/</span>media 
-adb shell setprop vidc.<span class="me1">enc</span>.<a href="http://www.opengroup.org/onlinepubs/009695399/functions/log.html"><span class="kw3">log</span></a>.<span class="me1">in</span> <span class="nu0">1</span> 
-adb shell getprop vidc.<span class="me1">enc</span>.<a href="http://www.opengroup.org/onlinepubs/009695399/functions/log.html"><span class="kw3">log</span></a>.<span class="me1">in</span> <span class="co1">//ensure this value is set.</span>
-adb shell setprop vidc.<span class="me1">enc</span>.<a href="http://www.opengroup.org/onlinepubs/009695399/functions/log.html"><span class="kw3">log</span></a>.<span class="me1">out</span> <span class="nu0">1</span> 
-adb shell getprop vidc.<span class="me1">enc</span>.<a href="http://www.opengroup.org/onlinepubs/009695399/functions/log.html"><span class="kw3">log</span></a>.<span class="me1">out</span> <span class="co1">//ensure this value is set.</span>

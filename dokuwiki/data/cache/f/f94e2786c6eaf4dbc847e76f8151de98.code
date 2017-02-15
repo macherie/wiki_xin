@@ -1,5 +1,0 @@
-<span class="kw1">private</span> <span class="kw4">void</span> setupTabs<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
-    addTab<span class="br0">&#40;</span>TabState.<span class="me1">GROUPS</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_groups</span>, R.<span class="me1">string</span>.<span class="me1">contactsGroupsLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    addTab<span class="br0">&#40;</span>TabState.<span class="me1">ALL</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_all</span>, R.<span class="me1">string</span>.<span class="me1">contactsAllLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    addTab<span class="br0">&#40;</span>TabState.<span class="me1">FAVORITES</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_starred</span>, R.<span class="me1">string</span>.<span class="me1">contactsFavoritesLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

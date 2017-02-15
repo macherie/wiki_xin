@@ -1,1 +1,0 @@
-<span class="kw2">find</span> .<span class="sy0">/</span> <span class="re5">-type</span> d <span class="sy0">|</span><span class="kw2">xargs</span> <span class="kw2">chmod</span> <span class="nu0">750</span>

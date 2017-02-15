@@ -1,2 +1,0 @@
-service DataSourceService <span class="sy0">/</span><a href="http://www.opengroup.org/onlinepubs/009695399/functions/system.html"><span class="kw3">system</span></a><span class="sy0">/</span>bin<span class="sy0">/</span>DataSourceService
-    class main

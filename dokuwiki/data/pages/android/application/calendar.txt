@@ -1,7 +1,0 @@
-熟悉日历使用模块：
-该程序入口类（AllInOneActivity）使用了singleTask启动模式，继承AbstractCalendarActivity类，实现了{ EventHandler,
-        OnSharedPreferenceChangeListener, SearchView.OnQueryTextListener, ActionBar.TabListener,
-        LoaderManager.LoaderCallbacks<Cursor>,
-        ActionBar.OnNavigationListener, OnSuggestionListener }几个接口。
-然后分别重写了{ onNewIntent/onCreate/onResume/onPause/onUserLeaveHint/onUserLeaveHint/onDestroy/onDestroy/onCreateOptionsMenu/onOptionsItemSelected/onOptionsItemSelected/onOptionsItemSelected/handleEvent/eventsChanged/onQueryTextChange/onQueryTextSubmit/onTabSelected/onTabReselected/onTabUnselected/onNavigationItemSelected/onSuggestionSelect/onSuggestionSelect/onSearchRequested/onCreateLoader/onLoadFinished/onLoaderReset这些函数。
-另外声明了内部类QueryHandler，GoToDialogFragment分别继承了AsyncQueryHandler，DialogFragment，并且GoToDialogFragment实现了DatePickerDialog.OnDateSetListener接口}。

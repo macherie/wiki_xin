@@ -1,3 +1,0 @@
-$ <span class="kw2">mv</span> file_from file_to
-$ <span class="kw2">git rm</span> file_from
-$ <span class="kw2">git add</span> file_to

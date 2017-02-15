@@ -1,6 +1,0 @@
-====== 蓝牙文件传输过程解析之UI实现 ======
-http://blog.csdn.net/u011960402/article/details/19538593 
-
-====== 蓝牙opp文件发送过程剖析 ======
-http://blog.csdn.net/u011960402/article/details/20605721
-

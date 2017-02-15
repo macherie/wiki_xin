@@ -1,3 +1,0 @@
-    <span class="kw1">private</span> <span class="kw4">void</span> openThread<span class="br0">&#40;</span><span class="kw4">long</span> threadId<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-        startActivity<span class="br0">&#40;</span>ComposeMessageActivity.<span class="me1">createIntent</span><span class="br0">&#40;</span><span class="kw1">this</span>, threadId<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="br0">&#125;</span>

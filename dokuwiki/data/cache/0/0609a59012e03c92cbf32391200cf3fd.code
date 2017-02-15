@@ -1,3 +1,0 @@
-classMethod<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>               <span class="co1">//	推荐</span>
-AClass.<span class="me1">classMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>       <span class="co1">//	推荐</span>
-anObject.<span class="me1">classMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>     <span class="co1">//	避免</span>

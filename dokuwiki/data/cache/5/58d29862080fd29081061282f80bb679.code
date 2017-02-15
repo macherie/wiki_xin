@@ -1,1 +1,0 @@
-x11vnc <span class="re5">-forever</span> <span class="re5">-shared</span> <span class="re5">-rfbauth</span> ~<span class="sy0">/</span>.vnc<span class="sy0">/</span><span class="kw2">passwd</span>

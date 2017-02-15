@@ -1,6 +1,0 @@
-    <span class="kw1">private</span> <span class="kw4">void</span> initListAdapter<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
-        mListAdapter <span class="sy0">=</span> <span class="kw1">new</span> ConversationListAdapter<span class="br0">&#40;</span><span class="kw1">this</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
-        mListAdapter.<span class="me1">setOnContentChangedListener</span><span class="br0">&#40;</span>mContentChangedListener<span class="br0">&#41;</span><span class="sy0">;</span>
-        setListAdapter<span class="br0">&#40;</span>mListAdapter<span class="br0">&#41;</span><span class="sy0">;</span>
-        getListView<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">setRecyclerListener</span><span class="br0">&#40;</span>mListAdapter<span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="br0">&#125;</span>

@@ -1,7 +1,0 @@
-alpha <span class="sy0">=</span> <span class="br0">&#40;</span>aLongBooleanExpression<span class="br0">&#41;</span> <span class="sy0">?</span> beta <span class="sy0">:</span> gamma<span class="sy0">;</span>
-alpha <span class="sy0">=</span> <span class="br0">&#40;</span>aLongBooleanExpression<span class="br0">&#41;</span> <span class="sy0">?</span> beta
-                                        <span class="sy0">:</span> gamma<span class="sy0">;</span>
-&nbsp;
-alpha <span class="sy0">=</span> <span class="br0">&#40;</span>aLongBooleanExpression<span class="br0">&#41;</span>
-<span class="sy0">?</span> beta
-        <span class="sy0">:</span> gamma<span class="sy0">;</span>

@@ -1,3 +1,0 @@
-<span class="re2">PATH</span>=<span class="st0">&quot;/opt/jdk6/jdk1.6.0_34/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games&quot;</span>
-<span class="re2">JAVA_HOME</span>=<span class="sy0">/</span>opt<span class="sy0">/</span>jdk6<span class="sy0">/</span>jdk1.6.0_34
-<span class="re2">CLASSPATH</span>=.:<span class="sy0">/</span>opt<span class="sy0">/</span>jdk6<span class="sy0">/</span>jdk1.6.0_34<span class="sy0">/</span>lib

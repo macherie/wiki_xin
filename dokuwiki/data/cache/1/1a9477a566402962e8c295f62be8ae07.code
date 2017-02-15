@@ -1,5 +1,0 @@
-<span class="kw2">sudo</span> <span class="kw2">apt-get install</span> mtp-tools mtpfs
-<span class="kw2">sudo</span> service udev restart
-<span class="kw2">sudo</span> <span class="kw2">mkdir</span> <span class="sy0">/</span>media<span class="sy0">/</span>mtp
-<span class="kw2">sudo</span> <span class="kw2">chmod</span> a+rwx <span class="sy0">/</span>media<span class="sy0">/</span>mtp
-<span class="kw2">sudo</span> adduser YOURUSERNAME fuse

@@ -1,5 +1,0 @@
-<span class="nu0">1066</span>     <span class="sy0">&lt;!--</span> pbs01 secondary mic <span class="nu0">2016</span><span class="sy0">-</span><span class="nu0">12</span><span class="sy0">-</span><span class="nu0">8</span> daimiao.<span class="me1">chen</span>@sim.<span class="me1">com</span> <span class="sy0">--&gt;</span>
-<span class="nu0">1067</span>     <span class="sy0">&lt;</span>path name<span class="sy0">=</span><span class="st0">&quot;secondary-mic&quot;</span><span class="sy0">&gt;</span>
-<span class="nu0">1068</span>         <span class="sy0">&lt;</span>path name<span class="sy0">=</span><span class="st0">&quot;adc3&quot;</span> <span class="sy0">/&gt;</span>
-<span class="nu0">1069</span>         <span class="sy0">&lt;</span>ctl name<span class="sy0">=</span><span class="st0">&quot;IIR1 INP1 MUX&quot;</span> value<span class="sy0">=</span><span class="st0">&quot;DEC3&quot;</span> <span class="sy0">/&gt;</span>
-<span class="nu0">1070</span>     <span class="sy0">&lt;/</span>path<span class="sy0">&gt;</span>

@@ -1,2 +1,0 @@
-    MediaRecorder mRecorder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
-    MediaPlayer mPlayer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>

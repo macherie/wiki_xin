@@ -1,2 +1,0 @@
-$ <span class="kw2">git commit</span>
-$ <span class="kw2">git rebase</span> <span class="re5">--continue</span>

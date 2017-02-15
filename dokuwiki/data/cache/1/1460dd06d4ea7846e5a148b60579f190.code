@@ -1,8 +1,0 @@
-<span class="kw1">package</span> <span class="co2">com.android.opengldemo.example</span><span class="sy0">;</span>
-&nbsp;
-<span class="kw1">import</span> <span class="co2">javax.microedition.khronos.opengles.GL10</span><span class="sy0">;</span>
-&nbsp;
-<span class="kw1">public</span> <span class="kw1">interface</span> IOpenGLDemo <span class="br0">&#123;</span>
-    <span class="co1">//drawScene提供统一的绘制函数，实现主要的绘制图形工作</span>
-    <span class="kw1">public</span> <span class="kw4">void</span> drawScene<span class="br0">&#40;</span>GL10 gl<span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

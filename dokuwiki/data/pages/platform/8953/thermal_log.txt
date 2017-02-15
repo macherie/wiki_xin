@@ -1,6 +1,0 @@
-
-  adb root
-  adb shell
-  stop thermal-engine
-  thermal-engine --debug &
-  logcat -v time -s ThermalEngine

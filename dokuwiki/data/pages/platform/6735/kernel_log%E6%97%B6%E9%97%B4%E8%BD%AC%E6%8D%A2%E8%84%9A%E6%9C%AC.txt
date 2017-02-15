@@ -1,3 +1,0 @@
-路径在smb://192.167.100.225/share/Tool/kernel.py
-具体用法:
-python kernel.py -i kernel_log -o kernel.txt

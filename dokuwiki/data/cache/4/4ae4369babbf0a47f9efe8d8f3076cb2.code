@@ -1,3 +1,0 @@
-   <span class="kw1">if</span><span class="br0">&#40;</span> debug_board_present<span class="sy0">==</span> TRUE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-       next_state_ptr <span class="sy0">=</span> <span class="sy0">&amp;</span>pm_chg_state__bootup_ok<span class="sy0">;</span>  <span class="co1">//Bootup OK</span>
-<span class="br0">&#125;</span>

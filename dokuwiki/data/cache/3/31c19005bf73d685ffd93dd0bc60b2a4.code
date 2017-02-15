@@ -1,4 +1,0 @@
-start on login-session-start
-script
-x11vnc <span class="re5">-display</span> :<span class="nu0">0</span> <span class="re5">-auth</span> <span class="sy0">/</span>var<span class="sy0">/</span>run<span class="sy0">/</span>lightdm<span class="sy0">/</span>root<span class="sy0">/</span>:<span class="nu0">0</span> <span class="re5">-forever</span> <span class="re5">-bg</span> <span class="re5">-o</span> <span class="sy0">/</span>var<span class="sy0">/</span>log<span class="sy0">/</span>x11vnc.log <span class="re5">-rfbauth</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass <span class="re5">-rfbport</span> <span class="nu0">5900</span>
-end script

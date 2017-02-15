@@ -1,6 +1,0 @@
-<span class="co1">// Bind to the texture in OpenGL</span>
-GLES20.<span class="me1">glBindTexture</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, textureHandle<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-&nbsp;
-<span class="co1">// Set filtering</span>
-GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, GLES20.<span class="me1">GL_TEXTURE_MIN_FILTER</span>, GLES20.<span class="me1">GL_NEAREST</span><span class="br0">&#41;</span><span class="sy0">;</span>
-GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, GLES20.<span class="me1">GL_TEXTURE_MAG_FILTER</span>, GLES20.<span class="me1">GL_NEAREST</span><span class="br0">&#41;</span><span class="sy0">;</span>

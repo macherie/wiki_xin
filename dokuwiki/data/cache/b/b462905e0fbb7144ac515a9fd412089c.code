@@ -1,4 +1,0 @@
-$ <span class="kw2">mkdir</span> <span class="re5">-p</span> <span class="sy0">/</span>opt<span class="sy0">/</span>jdk6
-$ <span class="kw2">cp</span> .<span class="sy0">/</span>jdk-6u34-linux-x64.bin <span class="sy0">/</span>opt<span class="sy0">/</span>jdk6
-$ <span class="kw3">cd</span> <span class="sy0">/</span>opt<span class="sy0">/</span>jdk6
-$ .<span class="sy0">/</span>jdk-6u34-linux-x64.bin

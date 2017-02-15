@@ -1,1 +1,0 @@
-    mToken <span class="sy0">=</span> MusicUtils.<span class="me1">bindToService</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>

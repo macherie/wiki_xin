@@ -1,7 +1,0 @@
-<span class="kw1">interface</span> ILightsManager <span class="br0">&#123;</span>
-    <span class="kw4">void</span> setLight<span class="br0">&#40;</span><span class="kw4">int</span> light<span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="kw4">void</span> setColor<span class="br0">&#40;</span><span class="kw4">int</span> color<span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="kw4">void</span> setFlashing<span class="br0">&#40;</span><span class="kw4">int</span> color, <span class="kw4">int</span> mode, <span class="kw4">int</span> onMS, <span class="kw4">int</span> offMS<span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="kw4">void</span> turnOff<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="kw4">void</span> stopFlashing<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

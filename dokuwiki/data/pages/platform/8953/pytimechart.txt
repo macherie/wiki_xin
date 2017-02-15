@@ -1,8 +1,0 @@
-**pytimechart**
-
-  安装:
-  sudo apt-get install python-chaco python-setuptools python-lzma lzma
-  sudo apt-get install python-dev
-  sudo easy_install --find-links http://www.pythonware.com/products/pil/ Imaging
-  sudo easy_install pytimechart
-  sudo easy_install etsproxy

@@ -1,6 +1,0 @@
-a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1483949542;s:8:"modified";i:1484282677;}s:7:"creator";s:6:"xin.qi";s:4:"user";s:6:"xin.qi";s:11:"last_change";a:7:{s:4:"date";i:1484282677;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"C";s:2:"id";s:28:"platform:8953:thermal-engine";s:4:"user";s:6:"xin.qi";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"xin.qi";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:274:"主要用于监控系统tz温度，电池温度，GPU温度等，通过设定阀值，超过阀值会触发降频和关核动作
-
-1 通过ADB来输出系统thermal的参数
-thermal-engine -o
-2 加载thermal-config文件
-thermal-engine -c /system/etc/thermal-engine-perf.conf";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1483949542;s:8:"modified";i:1484282677;}s:7:"creator";s:6:"xin.qi";s:4:"user";s:6:"xin.qi";s:11:"last_change";a:7:{s:4:"date";i:1484282677;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"C";s:2:"id";s:28:"platform:8953:thermal-engine";s:4:"user";s:6:"xin.qi";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"xin.qi";}}}

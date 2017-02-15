@@ -1,2 +1,0 @@
-convert <span class="re5">-depth</span> <span class="nu0">8</span> android_logo.png rgb:android_logo.raw
-xxd <span class="re5">-i</span> android_logo.raw <span class="sy0">&gt;</span> initlogo.h 

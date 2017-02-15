@@ -1,3 +1,0 @@
-====== MSM8939: adb shell 获取 root 权限 ======
-
-<color red>adb shell setprop service.adb.root 1</color>

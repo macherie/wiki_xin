@@ -1,6 +1,0 @@
-<span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>very_longer_variable1 <span class="sy0">&gt;=</span> very_longer_variable12<span class="br0">&#41;</span>
-    <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span>very_longer_variable3 <span class="sy0">&lt;=</span> very_longer_variable14<span class="br0">&#41;</span>
-    <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span>very_longer_variable5 <span class="sy0">&lt;=</span> very_longer_variable16<span class="br0">&#41;</span><span class="br0">&#41;</span>
-<span class="br0">&#123;</span>
-    DoSomething<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>

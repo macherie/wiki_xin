@@ -1,6 +1,0 @@
-<span class="co2">#define FEATURE_DLOAD_HW_RESET_DETECT </span>
-<span class="co2">#define FEATURE_DLOAD_MEM_DEBUG </span>
-<span class="co2">#define FEATURE_AUTO_DLOAD_ON_ERROR </span>
-<span class="co2">#define FEATURE_ERR_EXTENDED_STORE //For EFS logs </span>
-<span class="co2">#define FEATURE_QPMD //For QPMD log, </span>
-<span class="co2">#define FEATURE_SMEM_LOG </span>

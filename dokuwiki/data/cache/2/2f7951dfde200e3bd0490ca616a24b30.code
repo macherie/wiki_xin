@@ -1,6 +1,0 @@
-<span class="co0">#include &lt;stdio.h&gt;</span>
-int main<span class="br0">&#40;</span>int argc, char <span class="sy0">**</span>argv<span class="br0">&#41;</span>
-<span class="br0">&#123;</span>
-    <span class="kw3">printf</span><span class="br0">&#40;</span><span class="st0">&quot;Hello World!<span class="es1">\n</span>&quot;</span><span class="br0">&#41;</span>;
-    <span class="kw3">return</span> <span class="nu0">0</span>;
-<span class="br0">&#125;</span>

@@ -1,9 +1,0 @@
-a:2:{s:7:"current";a:7:{s:4:"date";a:2:{s:7:"created";i:1484619165;s:8:"modified";i:1484619165;}s:7:"creator";s:9:"qiancheng";s:4:"user";s:9:"qiancheng";s:11:"last_change";a:7:{s:4:"date";i:1484619165;s:2:"ip";s:12:"172.21.1.195";s:4:"type";s:1:"C";s:2:"id";s:27:"platform:8996:sensor:配置";s:4:"user";s:9:"qiancheng";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:295:"手动修改机器中config文件
-adb root
-adb remount
-adb shell rm /etc/sensors/sensor_def_qcomdev.conf
-adb push sensor_def_qcomdev.conf /etc/sensors/sensor_def_qcomdev.conf
-adb shell chmod 644 /etc/sensors/sensor_def_qcomdev.conf
-adb shell rm /persist/sensors/sns.reg
-adb shell sync
-adb reboot";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:4:{s:4:"date";a:1:{s:7:"created";i:1484619165;}s:7:"creator";s:9:"qiancheng";s:4:"user";s:9:"qiancheng";s:11:"last_change";a:7:{s:4:"date";i:1484619165;s:2:"ip";s:12:"172.21.1.195";s:4:"type";s:1:"C";s:2:"id";s:27:"platform:8996:sensor:配置";s:4:"user";s:9:"qiancheng";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}}}

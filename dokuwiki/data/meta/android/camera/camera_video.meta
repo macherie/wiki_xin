@@ -1,9 +1,0 @@
-a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1486955750;s:8:"modified";i:1486955750;}s:11:"last_change";a:8:{s:4:"date";i:1486955750;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"C";s:2:"id";s:27:"android:camera:camera_video";s:4:"user";s:0:"";s:3:"sum";s:7:"created";s:5:"extra";s:0:"";s:10:"sizechange";i:2460;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:5:"title";s:33:"关于camera录制视频的分析";s:11:"description";a:2:{s:15:"tableofcontents";a:2:{i:0;a:4:{s:3:"hid";s:33:"关于camera录制视频的分析";s:5:"title";s:33:"关于camera录制视频的分析";s:4:"type";s:2:"ul";s:5:"level";i:3;}i:1;a:4:{s:3:"hid";s:27:"录制视频模糊的分析";s:5:"title";s:27:"录制视频模糊的分析";s:4:"type";s:2:"ul";s:5:"level";i:3;}}s:8:"abstract";s:639:"关于camera录制视频的分析
-
-camera 录像流程
-  1. camera模块将从hal层的预览线程中，获取原始的未压缩的yvu视屏帧，通过回调函数传递到CameraSource模块。
-  
-  2. OMXCodec模块将从CameraSource模块的read接口获取yuv视频帧拷贝到编码模块提供的输入端口的buffer列表中。
-      编码模块从输入端口的buffer列表读取包含yuv的buffer、编码、然后送回到输出端口的buffer列表，供OMXCodec模块取回。
-      
-  3. 从OMXCodec模块的read接口读取压缩编码后的h264帧，通过TS容器写到输出文件句柄上，得到TS流的文件。…";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:4:{s:4:"date";a:1:{s:7:"created";i:1486955750;}s:11:"last_change";a:8:{s:4:"date";i:1486955750;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"C";s:2:"id";s:27:"android:camera:camera_video";s:4:"user";s:0:"";s:3:"sum";s:7:"created";s:5:"extra";s:0:"";s:10:"sizechange";i:2460;}s:4:"user";s:0:"";s:7:"creator";s:0:"";}}

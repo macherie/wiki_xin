@@ -1,5 +1,0 @@
-a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1437472554;s:8:"modified";i:1482227891;}s:7:"creator";s:9:"shuang.yu";s:4:"user";s:9:"shuang.yu";s:11:"last_change";a:7:{s:4:"date";i:1482227891;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"E";s:2:"id";s:24:"android:powerconsumption";s:4:"user";s:6:"xin.qi";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:362:"转自   <http://blog.csdn.net/green1900/article/details/42496741#comments>
-
-1、底电流调试（Rock Bottom Current Optimization）
-
-底电流在手机飞行模式下调试。每个平台的底电流数据可能不一样，具体可以参考release出来的Current Consumption Data文档或者release note。一般情况下的底电流参考数据上限是：";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"xin.qi";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1437472554;s:8:"modified";i:1482227891;}s:7:"creator";s:9:"shuang.yu";s:4:"user";s:9:"shuang.yu";s:11:"last_change";a:7:{s:4:"date";i:1482227891;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"E";s:2:"id";s:24:"android:powerconsumption";s:4:"user";s:6:"xin.qi";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"xin.qi";}}}

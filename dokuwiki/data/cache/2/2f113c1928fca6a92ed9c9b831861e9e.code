@@ -1,9 +1,0 @@
-@Override
-<span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> newView<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw4">int</span> partition, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor, <span class="kw4">int</span> position,
-        ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-    ContactListItemView view <span class="sy0">=</span> <span class="kw1">new</span> ContactListItemView<span class="br0">&#40;</span>context, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    view.<span class="me1">setUnknownNameText</span><span class="br0">&#40;</span>mUnknownNameText<span class="br0">&#41;</span><span class="sy0">;</span>
-    view.<span class="me1">setQuickContactEnabled</span><span class="br0">&#40;</span>isQuickContactEnabled<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    view.<span class="me1">setActivatedStateSupported</span><span class="br0">&#40;</span>isSelectionVisible<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-    <span class="kw1">return</span> view<span class="sy0">;</span>
-<span class="br0">&#125;</span>

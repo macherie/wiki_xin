@@ -1,3 +1,0 @@
-gl.<span class="me1">glEnableClientState</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_VERTEX_ARRAY</span><span class="br0">&#41;</span><span class="sy0">;</span>
-&nbsp;
-gl.<span class="me1">glDisableClientState</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_VERTEX_ARRAY</span><span class="br0">&#41;</span><span class="sy0">;</span> 

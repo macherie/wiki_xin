@@ -1,3 +1,0 @@
-<span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>Non-HLOS <span class="re5">-b</span> msm8996
-&nbsp;
-<span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:6xx<span class="sy0">/</span>Non-HLOS <span class="re5">-b</span> MSM8996_LA2.0  <span class="br0">&#40;</span>三部<span class="br0">&#41;</span>

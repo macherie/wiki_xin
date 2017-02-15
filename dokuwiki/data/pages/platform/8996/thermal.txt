@@ -1,7 +1,0 @@
-温度传感器位置示意图
-
-{{:platform:8996:2017-01-16_17_36_02屏幕截图.png|}}
-
-  cat /sys/devices/virtual/thermal/thermal_zone7/temp
-  625
-  62.5摄氏度

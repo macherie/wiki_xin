@@ -1,4 +1,0 @@
-a:7:{i:0;a:3:{i:0;s:14:"document_start";i:1;a:0:{}i:2;i:0;}i:1;a:3:{i:0;s:12:"preformatted";i:1;a:1:{i:0;s:537:" 1.安装SP Flash Tool,有两个版本，SP_Flash_Tool_exe_Linux_v5.1604.00.100.zip和SP_Flash_Tool_exe_Windows_v5.1604.00.000.zip，可根据使用系统选择
- 工具地址参见:\\192.167.100.225\share\Tool
- 2.安装完后，打开flash_tool.exe，点击Scatter-loading，选择对应CB04下载版本，然后双击MT6735_Android_scatter.txt，完成后选择Format all+Download，
- 按下Download，随后插上数据线将板子与电脑连接即可（机器关机状态，板子接上电池），Download完成后，开机即可。";}i:2;i:0;}i:2;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:0;}i:3;a:3:{i:0;s:13:"internalmedia";i:1;a:7:{i:0;s:25:":platform:6735:捕获.png";i:1;s:0:"";i:2;N;i:3;s:3:"300";i:4;N;i:5;s:5:"cache";i:6;s:6:"direct";}i:2;i:547;}i:4;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:588;}i:5;a:3:{i:0;s:12:"preformatted";i:1;a:1:{i:0;s:92:" 注：首次下载需要Format,若后续下载依旧使用Format,RF参数需重新校准。";}i:2;i:588;}i:6;a:3:{i:0;s:12:"document_end";i:1;a:0:{}i:2;i:588;}}

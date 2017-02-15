@@ -1,4 +1,0 @@
-<span class="co1">// 使用 VetexBuffer 来绘制，顶点的顺序由 vertexBuffer 中的顺序指定。</span>
-<span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw4">void</span> glDrawArrays<span class="br0">&#40;</span><span class="kw4">int</span> mode, <span class="kw4">int</span> first, <span class="kw4">int</span> count<span class="br0">&#41;</span>
-<span class="co1">//可以重新定义顶点的顺序，顶点的顺序由 indices Buffer 指定</span>
-<span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw4">void</span> glDrawElements<span class="br0">&#40;</span><span class="kw4">int</span> mode, <span class="kw4">int</span> count, <span class="kw4">int</span> type, Buffer indices<span class="br0">&#41;</span>

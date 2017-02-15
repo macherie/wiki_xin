@@ -1,5 +1,0 @@
-<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+instrument"><span class="kw3">Instrument</span></a> i <span class="sy0">=</span>
-        someLongexpression_r<span class="br0">&#40;</span>that, NotFit, on, one, line<span class="br0">&#41;</span><span class="sy0">;</span>    <span class="co1">// 推荐</span>
-&nbsp;
-<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+instrument"><span class="kw3">Instrument</span></a> i <span class="sy0">=</span>
-    someLongexpression_r<span class="br0">&#40;</span>that, NotFit, on, one, line<span class="br0">&#41;</span><span class="sy0">;</span>        <span class="co1">// 避免</span>

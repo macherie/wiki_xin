@@ -1,7 +1,0 @@
-<span class="kw1">final</span> color <span class="sy0">=</span> material color <span class="sy0">*</span> ambient light color
-&nbsp;
-Step <span class="nu0">1</span><span class="sy0">:</span> Calculate the lambert factor.（lambert factor的取值范围在<span class="nu0">0</span><span class="sy0">-</span><span class="nu0">1</span>之间），主要计算光与平面的角度
-&nbsp;
-light vector <span class="sy0">=</span> light position <span class="sy0">-</span> object position
-cosine <span class="sy0">=</span> dot product<span class="br0">&#40;</span>object normal, normalize<span class="br0">&#40;</span>light vector<span class="br0">&#41;</span><span class="br0">&#41;</span>
-lambert factor <span class="sy0">=</span> max<span class="br0">&#40;</span>cosine, <span class="nu0">0</span><span class="br0">&#41;</span>
