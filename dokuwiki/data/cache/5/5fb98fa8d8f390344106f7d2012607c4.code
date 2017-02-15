@@ -1,0 +1,4 @@
+<span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw1">class</span> ContactEntryListFragment<span class="sy0">&lt;</span>T <span class="kw1">extends</span> ContactEntryListAdapter<span class="sy0">&gt;</span>
+        <span class="kw1">extends</span> Fragment
+        <span class="kw1">implements</span> OnItemClickListener, OnScrollListener, OnFocusChangeListener, OnTouchListener,
+                LoaderCallbacks<span class="sy0">&lt;</span>Cursor<span class="sy0">&gt;</span> 

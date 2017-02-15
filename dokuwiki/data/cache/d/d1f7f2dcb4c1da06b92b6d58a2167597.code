@@ -1,0 +1,22 @@
+diff <span class="sy0">--</span>git a<span class="sy0">/</span>media<span class="sy0">/</span>libmedia<span class="sy0">/</span>AudioTrack.<span class="me1">cpp</span> b<span class="sy0">/</span>media<span class="sy0">/</span>libmedia<span class="sy0">/</span>AudioTrack.<span class="me1">cpp</span> 
+&nbsp;
+@@ <span class="sy0">-</span><span class="nu0">1861</span><span class="sy0">,</span><span class="nu0">6</span> <span class="sy0">+</span><span class="nu0">1862</span><span class="sy0">,</span><span class="nu0">20</span> @@ nsecs_t AudioTrack<span class="sy0">::</span><span class="me2">processAudioBuffer</span><span class="br0">&#40;</span><span class="br0">&#41;</span> 
+ audioBuffer.<span class="me1">size</span> <span class="sy0">&lt;&lt;=</span> <span class="nu0">1</span><span class="sy0">;</span> 
+ <span class="br0">&#125;</span> 
+&nbsp;
+<span class="sy0">+</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> <span class="kw4">int</span> tmpFd<span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw4">const</span> <span class="kw4">uint8_t</span><span class="sy0">*</span> p <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">uint8_t</span> <span class="sy0">*</span><span class="br0">&#41;</span><span class="br0">&#40;</span>audioBuffer.<span class="me1">i8</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw4">size_t</span> copy <span class="sy0">=</span> audioBuffer.<span class="me1">size</span><span class="sy0">;</span> 
+<span class="sy0">+</span> tmpFd <span class="sy0">=</span> <span class="sy0">::</span><span class="me2">open</span><span class="br0">&#40;</span><span class="st0">&quot;/data/misc/audio/dump-audiotrack.pcm&quot;</span><span class="sy0">,</span> O_WRONLY<span class="sy0">|</span>O_APPEND<span class="sy0">|</span>O_CREAT，<span class="nu8">0777</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw1">if</span> <span class="br0">&#40;</span> tmpFd <span class="sy0">&lt;</span> <span class="nu0">0</span> <span class="br0">&#41;</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> ALOGE<span class="br0">&#40;</span><span class="st0">&quot;Fail to open dump file&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> <span class="sy0">::</span><span class="me2">write</span><span class="br0">&#40;</span>tmpFd<span class="sy0">,</span> p<span class="sy0">,</span> copy<span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="sy0">::</span><span class="me2">close</span><span class="br0">&#40;</span>tmpFd<span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> 
+<span class="sy0">+</span> 
+ <span class="kw4">size_t</span> releasedFrames <span class="sy0">=</span> audioBuffer.<span class="me1">size</span> <span class="sy0">/</span> mFrameSizeAF<span class="sy0">;</span> 
+ audioBuffer.<span class="me1">frameCount</span> <span class="sy0">=</span> releasedFrames<span class="sy0">;</span> 
+ mRemainingFrames <span class="sy0">-=</span> releasedFrames<span class="sy0">;</span>

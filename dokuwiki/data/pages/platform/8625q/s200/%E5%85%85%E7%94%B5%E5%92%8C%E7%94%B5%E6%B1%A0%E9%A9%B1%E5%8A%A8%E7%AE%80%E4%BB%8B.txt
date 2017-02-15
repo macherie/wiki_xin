@@ -1,0 +1,101 @@
+====== 充电和电池驱动简介 ======
+席芳清   2013-11-25
+
+===== 一，Modem侧主要代码文件： =====
+
+
+1，充电：电池电压小于开机电压（一般为3400mV）时,调用osbl层：
+
+**oemsbl_usb_chg_fast.c**
+
+**hsu_chg_boot.c**
+
+    void oemsbl_usb_chg_init(void)
+    {
+        err = (hsu_chg_boot_err_type) hsu_chg_boot(&param);
+    }
+
+2，充电：设备开机后，流程在AMSS层;
+
+**chg_task.cpp** 与kernel文件**rpc_hsusb.c**RPC对应，四个重要函数，插拔充电器会被调用 。 
+
+    void chg_usb_i_is_available(uint32 i_ma){}
+    void chg_usb_i_is_not_available(void){}
+    void chg_usb_charger_connected(pm_app_otg_a_dev_type otg_dev){}
+    void chg_usb_charger_disconnected(void){ }
+
+**chg_config.h**  配置充电电流，截止电压等；
+
+**chg_common.cpp**  定义了很多充电结构体和变量，比较重要比如，
+    pm_app_otg_a_dev_type    chg_usb_otg_dev = PM_APP_OTG_A_DEV_TYPE__USB_UNKNOWN;
+    void chg_get_general_status(chg_general_status_type* status)
+    {
+        ASSERT(NULL != status);
+        *status = ChargingFactory::GetAutoChargingManager()->GetGeneralStatus();
+        return;
+    }
+
+    
+    
+**chg_autocharging_pulse_topoff.cpp** 充电轮询，充电状态监测
+    void AutoChargingManagerPulseTopoff::EventFired(ChargingEvent *event)
+
+**charger_svc.c** 通过RPC对应Kernel文件**rpc_hsusb.c**
+
+
+3,电池驱动
+
+**XoAdcBsp.c**  可配置电池温度-电压表格
+    static const AdcMapPtInt32toInt32Type adcMap_BattTherm_SKUD[]
+
+**vbatt.c** 每15秒更新PMIC ADC参数
+    vbatt_update_adc_battery_params ( void )
+
+**vbatt_task.c**  设置信号和定时器
+    rex_def_timer ( &vbatt_rpt_timer , &vbatt_tcb, VBATT_RPT_TIMER_SIG ) ; /* Dog Report */
+    rex_def_timer ( &vbatt_hys_timer , &vbatt_tcb, VBATT_TIME_HYS_SIG  ) ;
+    void vbatt_notify_chg_event ( void ) 
+    {
+        vbatt_set_chg_event ( ) ;
+        ( void ) rex_set_sigs ( &vbatt_tcb , VBATT_CHG_EVT_SIG ) ;
+    }
+
+**vbatt_remote_svc.c** 通过RPC对应kernel文件**msm_battery.c**
+
+**board_8x25_skud.c**  配置电压-电量对应表，开机电压等
+    static uint32 skud_voltage_2_capacity[101][2]
+    board_oemsbl_weakly_charging_setting.vbatt_weak_thresh = 3400;
+
+
+
+===== 二，AP侧主要代码文件： =====
+
+
+**msm_battery.c**
+    void msm_battery_update_psy_status(void) {};
+    static int __devinit msm_battery_probe(struct platform_device *pdev)
+    {
+        power_supply_register(&pdev->dev, &msm_psy_ac);
+        ...
+    }
+
+**rpc_hsusb.c**  对应modem文件 **chg_task.cpp**
+    void hsusb_chg_connected(enum chg_type chgtype){}
+
+**msm72k_udc.c**
+    static inline enum chg_type usb_get_chg_type(struct usb_info *ui){ }
+
+**msm72k_otg.c**
+    static int msm_otg_set_power(struct usb_phy *xceiv, unsigned mA)
+
+
+===== 三，关于充电管理芯片BQ24196 =====
+
+I2C驱动,最好用kernel中现成的i2c-gpio，使用modem侧gpio模拟,容易出现一些意想不到的问题，比如，概率性的出现I2C_CLK一直拉不高。
+
+在kernel中添加**bq24196_charger.c**，
+主要功能有：根据充电器类型设置充电电流，充电截至电压，电池过温禁止充电，满电指示灯打开等。
+
+===== 四，关于BQ27510库伦计 =====
+
+在kernel中添加**bq27510_fuelgauger.c**，烧写该芯片ROM的应用程序代码为**bq27510_flash.c**

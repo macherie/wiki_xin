@@ -1,0 +1,31 @@
+<span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> getView<span class="br0">&#40;</span><span class="kw4">int</span> position, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> convertView, ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ensureCacheValid<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">int</span> start <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> mSize<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw4">int</span> end <span class="sy0">=</span> start <span class="sy0">+</span> mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">count</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">&gt;=</span> start <span class="sy0">&amp;&amp;</span> position <span class="sy0">&lt;</span> end<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw4">int</span> offset <span class="sy0">=</span> position <span class="sy0">-</span> start<span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">hasHeader</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                offset<span class="sy0">--;</span>
+            <span class="br0">&#125;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> view<span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>offset <span class="sy0">==</span> <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                view <span class="sy0">=</span> getHeaderView<span class="br0">&#40;</span>i, mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>, convertView, parent<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>.<span class="me1">moveToPosition</span><span class="br0">&#40;</span>offset<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalstateexception"><span class="kw3">IllegalStateException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Couldn't move cursor to position &quot;</span>
+                            <span class="sy0">+</span> offset<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                view <span class="sy0">=</span> getView<span class="br0">&#40;</span>i, mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>, offset, convertView, parent<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>view <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+nullpointerexception"><span class="kw3">NullPointerException</span></a><span class="br0">&#40;</span><span class="st0">&quot;View should not be null, partition: &quot;</span> <span class="sy0">+</span> i
+                        <span class="sy0">+</span> <span class="st0">&quot; position: &quot;</span> <span class="sy0">+</span> offset<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">return</span> view<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        start <span class="sy0">=</span> end<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+arrayindexoutofboundsexception"><span class="kw3">ArrayIndexOutOfBoundsException</span></a><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

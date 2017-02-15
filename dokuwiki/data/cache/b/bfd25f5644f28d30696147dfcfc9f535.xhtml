@@ -1,0 +1,173 @@
+
+<p>
+— <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2014/9/10</em>
+</p>
+
+<h1 class="sectionedit1" id="git服务器搭建">Git服务器搭建</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Git服务器搭建" [46-78] -->
+<h2 class="sectionedit2" id="安装ubuntu系统">1、 安装ubuntu系统</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT2 SECTION "1、 安装ubuntu系统" [79-113] -->
+<h2 class="sectionedit3" id="安装x11vnc远程管理">2、 安装x11vnc远程管理</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85x11vnc%E8%BF%9C%E7%A8%8B%E7%AE%A1%E7%90%86" class="wikilink1" title="linux:服务器管理:安装x11vnc远程管理">安装 x11vnc 远程管理</a>
+</p>
+
+</div>
+<!-- EDIT3 SECTION "2、 安装x11vnc远程管理" [114-232] -->
+<h2 class="sectionedit4" id="安装openssh服务器端">3、 安装openssh服务器端</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85openssh%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF" class="wikilink1" title="linux:服务器管理:安装openssh的服务器端">安装 openssh 服务器端</a>
+</p>
+
+</div>
+<!-- EDIT4 SECTION "3、 安装openssh服务器端" [233-359] -->
+<h2 class="sectionedit5" id="安装git_daemon">4、 安装git daemon</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85git_daemon" class="wikilink1" title="linux:服务器管理:安装git_daemon">安装 git daemon</a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "4、 安装git daemon" [360-453] -->
+<h2 class="sectionedit6" id="安装gitweb">5、 安装gitweb</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85gitweb" class="wikilink1" title="linux:服务器管理:安装gitweb">安装 gitweb</a>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "5、 安装gitweb" [454-535] -->
+<h2 class="sectionedit7" id="安装java">6、 安装java</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83:%E5%AE%89%E8%A3%85java" class="wikilink1" title="linux:搭建工作环境:安装java">安装 Java 6</a>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "6、 安装java" [536-616] -->
+<h2 class="sectionedit8" id="安装gerrit">7、 安装gerrit</h2>
+<div class="level2">
+
+<p>
+<a href="/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85gerrit" class="wikilink1" title="linux:服务器管理:安装gerrit">安装 gerrit</a>
+</p>
+
+</div>
+<!-- EDIT8 SECTION "7、 安装gerrit" [617-698] -->
+<h2 class="sectionedit9" id="问题解决">8、 问题解决</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT9 SECTION "8、 问题解决" [699-726] -->
+<h3 class="sectionedit10" id="服务器不接显示器远程vnc连接不上_服务器端错误如下">1. 服务器不接显示器远程vnc连接不上，服务器端错误如下：</h3>
+<div class="level3">
+<pre class="code">The System is running in low-graphics mode
+Your screen, graphics card, and input device settings cound not be detected correctly. You will need to configure these yourself.</pre>
+
+<p>
+解决方法如下：
+</p>
+<pre class="code">cd /etc/X11
+sudo cp xorg.conf.failsafe xorg.conf</pre>
+
+<p>
+reboot重启就好了
+</p>
+
+</div>
+<!-- EDIT10 SECTION "1. 服务器不接显示器远程vnc连接不上，服务器端错误如下：" [727-1110] -->
+<h3 class="sectionedit11" id="开启git外网同步功能">2. 开启git外网同步功能：</h3>
+<div class="level3">
+
+<p>
+使用智能HTTP协议
+查看文件git-http-backend的安装位置，可以用如下命令。
+Ls $(git –exec-path)/git-http-backend
+更改Apache的配置文件：
+sudo vim /etc/apache2/sites-available/default
+</p>
+<pre class="code">&lt;VirtualHost *:80&gt;
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /var/www
+        &lt;Directory /&gt;
+                Options FollowSymLinks
+                AllowOverride None
+        &lt;/Directory&gt;
+        &lt;Directory /var/www/&gt;
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        &lt;/Directory&gt;
+
+        ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+        &lt;Directory &quot;/usr/lib/cgi-bin&quot;&gt;
+                AllowOverride None
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                Order allow,deny
+                Allow from all
+        &lt;/Directory&gt;</pre>
+
+<p>
+加入
+</p>
+<pre class="code">        #Git configuration
+        SetEnv GIT_PROJECT_ROOT /home/git
+        SetEnv GIT_HTTP_EXPORT_ALL
+        SetEnv REMOTE_USER=$REDIRECT_REMOTE_USER
+
+        # This pattern matches git operations and passes them to http-backend
+        ScriptAliasMatch \
+                &quot;(?x)^/git/(.*/(HEAD | \
+                        info/refs | \
+                        objects/(info/[^/]+ | \
+                                [0-9a-f]{2}/[0-9a-f]{38} | \
+                                pack/pack-[0-9a-f]{40}\.(pack|idx)) | \
+                                git-(upload|receive)-pack))$&quot; \
+        /usr/lib/git-core/git-http-backend/$1
+
+        # Anything not matched above goes to displayable gitweb interface
+        ScriptAlias /git /usr/share/gitweb/gitweb.cgi/
+
+        # Git repository # Read-Only
+        &lt;LocationMatch &quot;^/git/.*/git-receive-pack$&quot;&gt;
+                #Write access
+                AuthType Basic
+                AuthName &quot;git repository&quot;
+                AuthUserFile /etc/apache2/gitAuth/Authfile
+                Require valid-user
+        &lt;/LocationMatch&gt;</pre>
+<pre class="code">        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;</pre>
+
+<p>
+说明： 
+<span style='color:red; '>SetEnv GIT_PROJECT_ROOT</span>设置版本库的根目录为/home/git
+</p>
+
+<p>
+<span style='color:red; '>SetEnv GIT_HTTP_EXPORT_ALL</span>设置所有版本库均可访问，无论在版本库中是否存在git-daemon-export-ok文件。默认只有在版本库目录中存在git-daemon-export-ok文件时，该版本库才可以访问。这个文件是git-daemon服务的一个特性。
+</p>
+
+</div>
+<!-- EDIT11 SECTION "2. 开启git外网同步功能：" [1111-] -->

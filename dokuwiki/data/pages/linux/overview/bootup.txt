@@ -1,0 +1,2 @@
+===图解ARM-Linux的启动全过程===
+{{:linux:图解arm-linux的启动全过程.jpg?1026x3020|}}

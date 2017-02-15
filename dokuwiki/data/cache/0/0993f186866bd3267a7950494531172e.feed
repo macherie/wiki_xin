@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:8625q:issues</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T07:05:11+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:%E4%BA%A7%E7%BA%BF%E5%86%99cit%E6%A0%87%E5%BF%97%E4%BD%8D%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:5m_yuv_camera%E6%8B%8D%E7%85%A7%E5%8D%A1%E6%AD%BB&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:8625q%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:s200_reboot&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:%E4%BA%A7%E7%BA%BF%E5%86%99cit%E6%A0%87%E5%BF%97%E4%BD%8D%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:issues:产线写cit标志位丢失问题</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:%E4%BA%A7%E7%BA%BF%E5%86%99cit%E6%A0%87%E5%BF%97%E4%BD%8D%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98&amp;rev=1390476864&amp;do=diff</link>
+        <description>问题描述：
+  产线测试时，CIT测试，PCB测试会将测试结果写入NV中便于后面的工序查询。
+  在界面测试完成后程序自动完成写入步骤。但一般会立即断电测试下一块主板或整机。导致测试结果写入NV中但实际并为真正保存。
+修改方法：</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:5m_yuv_camera%E6%8B%8D%E7%85%A7%E5%8D%A1%E6%AD%BB&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:issues:5m_yuv_camera拍照卡死</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:5m_yuv_camera%E6%8B%8D%E7%85%A7%E5%8D%A1%E6%AD%BB&amp;rev=1390476864&amp;do=diff</link>
+        <description>MSM8625Q平台上移植5M的 OV5640 Camera 会出现几个大小卡死。
+
+主要原因：
+  VFE 在 设置 pixel crop info 的代码有bug。没有考虑大像素的 YUV sensor。
+  计算 delta 值的时候错了，应该是大的减去小的。还有就是 YUV 的时候是2个byte，所以还要乘以2.
+修改</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:8625q%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:issues:8625q播放视频死机问题探究</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:8625q%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E6%8E%A2%E7%A9%B6&amp;rev=1390476864&amp;do=diff</link>
+        <description>问题现象：播放视频时候（小于720p的视频），死机，整个机器重启；
+
+现象步骤：
+      1.首先在视频中播放高清视频，暂停，home退出。
+      2.进入相机录像，录像完毕后播放录像。
+      3.进入视频播放原来停止的视频
+问题分析：</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:s200_reboot&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:issues:s200_reboot</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:issues:s200_reboot&amp;rev=1390476864&amp;do=diff</link>
+        <description>现象:
+
+
+kernel起来后会出现Oops,而且这个Oops不是固定的，每次都可能不同。接着机器就重启了，就这样不断的重启。
+
+
+原因:
+
+
+8625Q平台使用NCP6335D这颗DC-DC Buck来提供CPU的Core电压，某些情况下这个IC会进入错误的状态，它的输出已经不是一系列的方波了，而是连续不变的。
+在这种状态下，即使机器重启也不能恢复正常，除非彻底断电。
+由于这颗IC的状态异常，也就导致了CPU的Core的电压异常，kernel就会出现随机的Panic，从而导致机器重启。…</description>
+    </item>
+</rdf:RDF>

@@ -1,0 +1,7 @@
+<span class="kw2">git log</span> <span class="re5">--until</span>=<span class="nu0">2013</span>-<span class="nu0">11</span>-<span class="nu0">23</span>  <span class="co0">#表示查看2013年11月23日以前的log</span>
+<span class="kw2">git log</span> <span class="re5">--since</span>=<span class="st0">&quot;2 days ago&quot;</span> <span class="re5">--until</span>=<span class="st0">&quot;10 hour ago&quot;</span> <span class="co0">#就表示你希望查找两天前到十小时前的log</span>
+<span class="kw2">git log</span> <span class="re5">--until</span>=<span class="nu0">1</span>.minute.ago <span class="co0"># 一分钟之前的所有 log</span>
+<span class="kw2">git log</span> <span class="re5">--since</span>=<span class="nu0">1</span>.day.ago <span class="co0">#一天之内的log</span>
+<span class="kw2">git log</span> <span class="re5">--since</span>=<span class="nu0">1</span>.hour.ago <span class="co0">#一个小时之内的 log</span>
+<span class="kw2">git log</span> <span class="re5">--since</span>=<span class="nu0">1</span>.month.ago <span class="re5">--until</span>=<span class="nu0">2</span>.weeks.ago <span class="co0">#一个月之前到半个月之前的log</span>
+<span class="kw2">git log</span> <span class="re5">--since</span>=2013.08.01 <span class="re5">--until</span>=<span class="nu0">2013</span>-09-07 <span class="co0">#某个时间段的 log</span>

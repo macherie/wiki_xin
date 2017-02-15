@@ -1,0 +1,46 @@
+
+<p>
+手机加密功能：（设置→安全→加密）
+</p>
+
+<p>
+In Android M, google force device to be encrypted.
+You can use below change to make FDE disabled defaultly.
+</p>
+
+<p>
+— a/fstab.qcom
+</p>
+
+<p>
++++ b/fstab.qcom
+</p>
+
+<p>
+@@ -7,6 +7,6 @@
+ #&lt;src&gt;                                  &lt;mnt_point&gt;       &lt;type&gt;  &lt;mnt_flags and options&gt;                     &lt;fs_mgr_flags&gt;
+</p>
+
+<p>
+/dev/block/bootdevice/by-name/system    /system           ext4    ro,barrier=1,discard                                wait
+</p>
+
+<p>
+-/dev/block/bootdevice/by-name/userdata  /data             ext4    nosuid,nodev,barrier=1,noauto_da_alloc,discard      wait,check,<strong>forceencrypt=footer</strong>(表示默认开启)
+</p>
+
+<p>
++/dev/block/bootdevice/by-name/userdata  /data             ext4    nosuid,nodev,barrier=1,noauto_da_alloc,discard      wait,check,<strong>encryptable=footer</strong>(表示默认关闭)
+</p>
+
+<p>
+/devices/soc/74a4900.sdhci/mmc_host*    /storage/sdcard1  vfat    nosuid,nodev                                        wait,voldmanaged=sdcard1:auto,encryptable=footer
+</p>
+
+<p>
+/dev/block/zram0                        none              swap    defaults                                            zramsize=536870912
+</p>
+
+<p>
+文件所在位置：device/qcom/project_name/fstab.qcom
+</p>

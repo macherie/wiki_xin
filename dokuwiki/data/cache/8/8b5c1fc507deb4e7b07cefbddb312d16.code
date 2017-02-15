@@ -1,0 +1,23 @@
+boolean gmm_valid_mt_detach_request_message
+<span class="br0">&#40;</span>
+  mm_cmd_type                 <span class="sy0">*</span>message<span class="sy0">,</span>
+  gmm_mt_detach_request_msg_T <span class="sy0">*</span>detach_request_msg
+<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+&nbsp;
+....
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_REATTACH_REQUIRED<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+        <span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_REATTACH_NOT_REQUIRED<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+        <span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_MT_IMSI_DETACH<span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="coMULTI">/* ----------------------------------------------------------
+      ** All other values are interpreted as re-attach not required
+      ** by this version of the protocol (24.008 Table 10.5.138)
+      ** ---------------------------------------------------------- */</span>
+      detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">=</span> GMM_REATTACH_NOT_REQUIRED<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+....
+&nbsp;
+<span class="br0">&#125;</span>

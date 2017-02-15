@@ -1,0 +1,5 @@
+<span class="co1">// Load the bitmap into the bound texture.</span>
+GLUtils.<span class="me1">texImage2D</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, <span class="nu0">0</span>, bitmap, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Recycle the bitmap, since its data has been loaded into OpenGL.</span>
+bitmap.<span class="me1">recycle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>

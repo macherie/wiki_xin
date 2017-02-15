@@ -1,0 +1,14 @@
+ <span class="nu0">96</span> A stereo control spanning <span class="nu0">2</span> registers
+ <span class="nu0">97</span> 
+ <span class="nu0">98</span>     <span class="co2">#define SOC_ENUM_SINGLE(xreg, xshift, xmask, xtexts)</span>
+ <span class="nu0">99</span> 
+<span class="nu0">100</span> Defines an single enumerated control as follows<span class="sy0">:-</span>
+<span class="nu0">101</span> 
+<span class="nu0">102</span>    xreg <span class="sy0">=</span> <span class="kw4">register</span>
+<span class="nu0">103</span>    xshift <span class="sy0">=</span> control bit<span class="br0">&#40;</span>s<span class="br0">&#41;</span> offset in <span class="kw4">register</span>
+<span class="nu0">104</span>    xmask <span class="sy0">=</span> control bit<span class="br0">&#40;</span>s<span class="br0">&#41;</span> size
+<span class="nu0">105</span>    xtexts <span class="sy0">=</span> pointer to array of strings that describe each setting
+<span class="nu0">106</span> 
+<span class="nu0">107</span>    <span class="co2">#define SOC_ENUM_DOUBLE(xreg, xshift_l, xshift_r, xmask, xtexts)</span>
+<span class="nu0">108</span> 
+<span class="nu0">109</span> Defines a stereo enumerated control

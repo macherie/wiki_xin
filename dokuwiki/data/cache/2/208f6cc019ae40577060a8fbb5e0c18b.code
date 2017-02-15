@@ -1,0 +1,7 @@
+<span class="kw1">public</span>	<span class="kw1">class</span> MyClass <span class="br0">&#123;</span>
+    <span class="kw1">public</span> <span class="kw4">int</span> publicField<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> MyClass sSingleton<span class="sy0">;</span>
+    <span class="kw4">int</span> mPackagePrivate<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">int</span> mPrivate<span class="sy0">;</span>
+    <span class="kw1">protected</span> <span class="kw4">int</span> mProtected<span class="sy0">;</span>
+<span class="br0">&#125;</span>

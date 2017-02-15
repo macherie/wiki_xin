@@ -1,0 +1,9 @@
+<span class="co3">/**
+ * Updates the phone UI in response to phone state changes.
+ *
+ * Watch out: certain state changes are actually handled by their own
+ * specific methods:
+ *   - see onNewRingingConnection() for new incoming calls
+ *   - see onDisconnect() for calls being hung up or disconnected
+ */</span>
+<span class="kw1">private</span> <span class="kw4">void</span> onPhoneStateChanged<span class="br0">&#40;</span>AsyncResult r<span class="br0">&#41;</span> <span class="br0">&#123;</span>

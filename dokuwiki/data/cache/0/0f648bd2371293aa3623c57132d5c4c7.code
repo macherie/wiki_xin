@@ -1,0 +1,2 @@
+<span class="kw2">sudo</span> x11vnc <span class="re5">-storepasswd</span> <span class="kw1">in</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass
+<span class="kw2">sudo</span> <span class="kw2">cp</span> ~<span class="sy0">/</span>.vnc<span class="sy0">/</span><span class="kw2">passwd</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass

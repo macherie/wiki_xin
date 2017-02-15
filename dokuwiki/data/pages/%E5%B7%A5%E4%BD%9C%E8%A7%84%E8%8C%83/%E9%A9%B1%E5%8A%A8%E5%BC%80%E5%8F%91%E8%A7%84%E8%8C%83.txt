@@ -1,0 +1,107 @@
+====== 驱动开发规范 ======
+
+===== 开发规范 =====
+  - 熟练掌握模块所涉及的硬件设计，如所用的电，GPIO，CLOCK等。
+  - 开发阶段时序一定要符合spec。
+  - 关注负责模块的耗电流，包括工作电流，模块加入前后系统底电流变化。
+  - 新功能和较大的修改需要通过评审。
+  - 整体功能完成后需由硬件部配合验证时序。
+  - 对于因为自己代码出现的编译或者运行时的 warning 都需要处理掉。
+  - 主管及时更新项目表格中的模块调试状态。
+
+
+===== 编程规范 =====
+====1: 用 #if XXX   #endif  的时候需要在 #endif 中指名对应的是哪个 #if 格式如下：(多个#if时)====
+<code c>
+void __init msm8226_add_drivers(void)
+{
+#if NOT_DO_INIT
+        msm_smem_init();
+        msm_init_modem_notifier_list();
+#if JUST_FOR_TEST
+        msm_smd_init();
+        #if NOT_USE_RPM_SPM_PM
+        msm_rpm_driver_init();
+        msm_spm_device_init();
+        msm_pm_sleep_status_init();
+#endif /* NOT_USE_RPM_SPM_PM */
+#endif /* JUST_FOR_TEST */
+        rpm_regulator_smd_driver_init();
+#endif /* NOT_DO_INIT */
+}
+</code>
+
+====2: 注释掉的代码如果超过两行请使用  #if 0 的方式。如果使用 #if 0 则需要在后面跟上一个标识，标识后面可以跟上注释，并在对应 #endif 中使用此标识：====
+<code c>
+void __init msm8226_add_drivers(void)
+{
+        msm_smem_init();
+        msm_init_modem_notifier_list();
+        msm_smd_init();
+#if 0 //TEST_LABEL: 注释
+        msm_rpm_driver_init();
+        msm_spm_device_init();
+        msm_pm_sleep_status_init();
+        rpm_regulator_smd_driver_init();
+        qpnp_regulator_init();
+        if (of_board_is_rumi())
+                msm_clock_init(&msm8226_rumi_clock_init_data);
+        else
+                msm_clock_init(&msm8226_clock_init_data);
+        tsens_tm_init_driver();
+#endif /* TEST_LABEL */
+        msm_thermal_device_init();
+}
+</code>
+
+==== 3:缩进格式保持和源文件一致，如果是新建文件， 缩进使用4个空格 ====
+
+==== 4:对于不能一眼就看出来的功能或者算法，需要写注释说明功能或者原理等。自己写的代码文件要有说明 ====
+
+==== 5:对于自己定义的对外接口函数需要对其说明，包括功能，参数，返回值，格式如下： ====
+<code c>
+/*************************************************
+ * Description: 函数功能、性能等的描述
+ * Input: 输入参数说明，包括每个参数的作用、取值说明及参数间关系。
+ * Return: 函数返回值的说明
+**************************************************/
+</code>
+
+==== 6:对于数据结构申明，需要在成员后面注明功能等 ====
+
+==== 7:注释的格式要统一起来，[SIMT-姓名-年月日]，姓请采用首字母，名字请使用拼音全称，不采用英文命名规则，采用顺序拼写,比如“周靓炯”  ====
+注释示例：
+<code c>
+[SIMT-zliangjiong-20140101]
+</code>
+
+==== 8:单行代码也需要用{},比如： ====
+<code c>
+if(ret < 0)
+{
+    return ret;
+}
+</code>
+
+==== 9:命名要有意义，Review人员需要在codereview或者代码评审的时候去关注 ====
+
+==== 10:代码行最大长度宜控制在70至80个字符以内 ====
+长表达式要在低优先级操作符处拆分成新行，操作符放在新行之首（以便突出操作符），拆分出的新行要进行适当的缩进，使排版整齐，语句可读
+<code c>
+if ((very_longer_variable1 >= very_longer_variable12)
+    && (very_longer_variable3 <= very_longer_variable14)
+    && (very_longer_variable5 <= very_longer_variable16))
+{
+    DoSomething();
+}
+</code>
+
+==== 11:使用统一的Debug打印函数，规范打印信息，在user版本中把debug信息关闭 ====
+
+==== 12:代码里要做输入验证边界检查，不要让别人犯的错导致我们的程序崩溃(Code Review人员在review时需要关注) ====
+
+==== 13:降低函数间的耦合度，并提高函数的独立性以及代码可读性、效率和可维护性(Code Review人员在review时需要关注) ====
+
+
+{{:规范:驱动开发规范-v1.0.pdf|}}
+

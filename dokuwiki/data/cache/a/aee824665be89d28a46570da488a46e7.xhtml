@@ -1,0 +1,91 @@
+
+<h1 class="sectionedit1" id="upgrading_git_on_linux">Upgrading Git on Linux</h1>
+<div class="level1">
+
+<p>
+Linux/Ubuntu You must upgrade the Linux Git client version to 1.8.1.2 or higher and configure Git to use openSSL instead of gnuTLS. Git uses gnuTLS by default on Ubuntu. To fix it, git should use OpenSSL instead with at least version 1.8.0.
+</p>
+
+<p>
+Here are the steps:
+</p>
+<pre class="code">sudo apt-get install libcurl4-openssl-dev build-essential autoconf
+git clone https://github.com/git/git
+cd git
+git checkout v1.8.2
+make configure
+./configure with-openssl
+make prefix=/usr/local all
+sudo make prefix=/usr/local install</pre>
+
+<p>
+After upgrading, log out and log back in, and do git —version to verify the upgrade was successful.
+</p>
+
+<p>
+Alternate method:
+</p>
+<pre class="code">sudo apt-get install libcurl4-openssl-dev build-essential
+wget http://git-core.googlecode.com/files/git-1.8.2.tar.gz
+tar xvfz git-1.8.2.tar.gz
+cd git-1.8.2
+./configure with-openssl
+make prefix=/usr/bin all
+sudo make prefix=/usr/bin install</pre>
+
+<p>
+<strong>Preferred Package</strong> To upgrade Git on Linux, it is easiest to install using the preferred package manager of your Linux distribution.
+</p>
+
+<p>
+1. See <a href="http://git-scm.com/download/linux" class="urlextern" title="http://git-scm.com/download/linux"  rel="nofollow">http://git-scm.com/download/linux</a> for commands for your Linux <abbr title="Operating System">OS</abbr>
+</p>
+
+<p>
+2. Check the version of git by using the following command:
+</p>
+
+<p>
+git –version
+</p>
+
+<p>
+<strong>Alternate Package</strong> If the preferred package version of Git on your Linux <abbr title="Operating System">OS</abbr> is not sufficient for use with Qualcomm ChipCode, then you will need to download the source and then build it for your system.
+</p>
+
+<p>
+1. Download or clone the code from <a href="https://github.com/git/git.git" class="urlextern" title="https://github.com/git/git.git"  rel="nofollow">https://github.com/git/git.git</a>
+</p>
+
+<p>
+2. Navigate your shell to the cloned path of the Git source code and then type the following commands:
+</p>
+
+<p>
+make make install
+</p>
+
+<p>
+3. Check the version of Git after the install
+</p>
+
+<p>
+git –version
+</p>
+
+<p>
+4. Built Git files may not be placed in usr/bin by default. If they are not, then you must copy them there, or adjust your PATH to point to the location where Git was built and placed. For example:
+</p>
+
+<p>
+sudo cp ~/bin/git* /usr/bin sudo cp -r ~/lib/* /usr/lib sudo cp -r ~/libexec/* /usr/libexec sudo cp -r ~/share/* /usr/share
+</p>
+
+<p>
+<strong>Installer Dependencies</strong> The Git installer is reasonably self-sufficient, but does require some basic libraries to be present. Here are a few that have been known to be missing. If you receive any compile errors, you can use these commands to verify you are up-to-date on the required components:
+</p>
+<pre class="code">sudo apt-get install libexpat1-dev
+sudo apt-get install libc6-dev
+sudo apt-get install libcurl4-openssl-dev</pre>
+
+</div>

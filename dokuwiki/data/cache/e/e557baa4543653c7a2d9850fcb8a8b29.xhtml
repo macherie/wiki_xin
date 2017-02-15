@@ -1,0 +1,58 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2013/12/11</em>
+</p>
+
+<h1 class="sectionedit1" id="git_忽略文件">Git 忽略文件</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Git 忽略文件" [48-78] -->
+<h2 class="sectionedit2" id="gitignore_文件">.gitignore 文件</h2>
+<div class="level2">
+
+<p>
+有些文件无需纳入Git版本库，也不希望它们总出现未跟踪文件列表。通常都是些自动生成的文件，像是日志或者编译过程中创建的等等。可以创建一个名为.gitignore的文件，列出要忽略的文件模式。
+</p>
+
+<p>
+文件.gitignore可以放在任何目录中，它的作用范围是其所处的目录及其子目录。
+</p>
+
+<p>
+忽略只对未跟踪文件有效，对于已加入版本库的文件无效。
+</p>
+
+</div>
+<!-- EDIT2 SECTION ".gitignore 文件" [79-554] -->
+<h2 class="sectionedit3" id="git忽略语法">Git忽略语法：</h2>
+<div class="level2">
+
+<p>
+忽略文件中的空行或以井号(#)开始的行会被忽略。
+</p>
+
+<p>
+可以使用通配符，参见Linux手册：glob(7)。例如：星号(*)代表任意多字符，问号(?)代表一个字符，方括号([abc])代表可先字符范围等。
+</p>
+
+<p>
+如果名称的最前面是一个路径分隔符(/)，表明要忽略的文件在此目录下，而非子目录的文件。
+</p>
+
+<p>
+如果名称的最后面是一个路径的分隔符(/)，表明要忽略的是整个目录，同名文件不忽略，否则同名的文件和目录都忽略。
+</p>
+
+<p>
+通过在名称的最前面添加一个感叹号(!)，代表不忽略。
+</p>
+<pre class="code"># 此为注释－－将被 Git 忽略
+*.a       ＃ 忽略所有 .a 结尾的文件
+!lib.a    ＃ 但 lib.a 除外
+/TODO     ＃ 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+build/    ＃ 忽略 build/ 目录下的所有文件
+doc/*.txt ＃ 会忽略 doc/notes.txt，但不包括 doc/server/arch.txt</pre>
+
+</div>
+<!-- EDIT3 SECTION "Git忽略语法：" [555-] -->

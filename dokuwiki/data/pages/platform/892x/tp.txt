@@ -1,0 +1,7 @@
+^     TP Info  ^^^^^^
+|Project Name|Vendor|FW Name|Product ID|Config ID|Multipoint|
+|S55|Boyi|S55_Boyi_S3202_PR1521505.img|S55_21 & s3202_ver5|75.83.49.52|10|
+|G55|Boyi|G55_S3202_PR1521505.img|G55_21|33.83.1.5|10|
+|S55(White)|Truly|S55_Truly_White_S3202_PR1510935.img|S55-000001|48.48.48.48|10|
+|S55(Black)|Truly|S55_Truly_Black_S3202_PR1510935.img|S55-000002|48.48.48.49|10|
+|D508|Truly|HD508-A-s3202_PR1521505.img|HD508-A|48.48.48.50|10|

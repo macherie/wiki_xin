@@ -1,0 +1,73 @@
+    <span class="kw1">public</span> <span class="kw4">void</span> startRecording<span class="br0">&#40;</span><span class="kw4">int</span> outputfileformat, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> extension, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw4">int</span> audiosourcetype, <span class="kw4">int</span> codectype<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ...
+        <span class="me1">mRecorder</span> <span class="sy0">=</span> <span class="kw1">new</span> MediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecorder.<span class="me1">setAudioSource</span><span class="br0">&#40;</span>audiosourcetype<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">//set channel for surround sound recording.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mChannels <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mRecorder.<span class="me1">setAudioChannels</span><span class="br0">&#40;</span>mChannels<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mSamplingRate <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mRecorder.<span class="me1">setAudioSamplingRate</span><span class="br0">&#40;</span>mSamplingRate<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        mRecorder.<span class="me1">setOutputFormat</span><span class="br0">&#40;</span>outputfileformat<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mRecorder.<span class="me1">setAudioEncoder</span><span class="br0">&#40;</span>codectype<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a> exception<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            setError<span class="br0">&#40;</span>UNSUPPORTED_FORMAT<span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecorder.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecorder.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mSampleFile <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+               mSampleFile.<span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSampleFile <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            mSampleLength <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            mRecorder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        mRecorder.<span class="me1">setOutputFile</span><span class="br0">&#40;</span>mSampleFile.<span class="me1">getAbsolutePath</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Handle IOException</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mRecorder.<span class="me1">prepare</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> exception<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            setError<span class="br0">&#40;</span>RECORDING<span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecorder.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecorder.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mSampleFile <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+               mSampleFile.<span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSampleFile <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            mSampleLength <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            mRecorder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// Handle RuntimeException if the recording couldn't start</span>
+        Log.<span class="me1">e</span><span class="br0">&#40;</span>TAG,<span class="st0">&quot;audiosourcetype &quot;</span> <span class="sy0">+</span>audiosourcetype<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mRecorder.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a> exception<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            AudioManager audioMngr <span class="sy0">=</span> <span class="br0">&#40;</span>AudioManager<span class="br0">&#41;</span>context.<span class="me1">getSystemService</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">AUDIO_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">boolean</span> isInCall <span class="sy0">=</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>audioMngr.<span class="me1">getMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> AudioManager.<span class="me1">MODE_IN_CALL</span><span class="br0">&#41;</span> <span class="sy0">||</span>
+                    <span class="br0">&#40;</span>audioMngr.<span class="me1">getMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> AudioManager.<span class="me1">MODE_IN_COMMUNICATION</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>isInCall<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>isVTCall<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    setError<span class="br0">&#40;</span>IN_VIDEO_CALL_ERROR<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    setError<span class="br0">&#40;</span>IN_CALL_RECORD_ERROR<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                setError<span class="br0">&#40;</span>RECORDING<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            mRecorder.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecorder.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mSampleFile <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                mSampleFile.<span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSampleFile <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            mSampleLength <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            mRecorder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mSampleStart <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+system"><span class="kw3">System</span></a>.<span class="me1">currentTimeMillis</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        setState<span class="br0">&#40;</span>RECORDING_STATE<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

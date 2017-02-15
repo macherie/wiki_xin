@@ -1,0 +1,32 @@
+几个项目共用一套代码，由于项目的不同，其所需要的资源也会有所不同。针对不同的项目要有只针对自己的资源。
+在替换资源时要给出替换的文件的路径，以此来确定替换的是那个文件。
+
+**1.1替换资源**
+
+vendor/qcom/opensource/qrdplus/QRDExtensions/DynamicComponents/res/CustomizationRes/
+该目录下保存了不同项目中自己所需的资源。如c500文件夹(保存c500中不同的资源文件)。
+
+替换framwork下的资源文件
+    比如要在xxxx项目下替换 frameworks/base/core/res/drawable/a.png。则
+    在该目录创建xxxx文件夹并依次创建frameworks,base,core,res，drawable文件夹。若已存在则不用创建。并将替换的文件
+    a.png保存在此目录下。
+
+替换某个应用的资源文件,与以上方式相同。
+   比如要替换 packages/apps/Camera/res/drawable/btn_shutter.xml，则
+   在该目录创建xxxx文件夹并依次创建packages,apps,Camera,res，drawables文件夹。若已存在则不用创建。并将替换的文件
+   btn_shutter.xml保存在此目录下。
+   
+**1.2编译时覆盖要替换的文件**
+
+有些文件不能编译时替换，可以在编译前将替换文件覆盖到要替换的文件所在的文件夹。
+
+   比如要在xxxx项目下替换 frameworks/base/core/res/assets/images/android-logo-mask.png。(android字符串---开机动画)
+   1.在frameworks/base/core/res/下创建xxxx/assetx/images/文件夹，并将替换文件保存在该目录。
+   2.修改Anroid.mk文件
+   ifeq ($(TARGET_QRD_BUILD_SPEC), xxxx)
+        $(shell cp $(LOCAL_PATH)/xxxx/assets/images/* $(LOCAL_PATH)/assets/images/)
+   endif
+   编译前会将xxxx/assets/images/下的所有文件都覆盖到assets/images/下
+
+   
+

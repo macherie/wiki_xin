@@ -1,0 +1,134 @@
+                 ====== How to enable Dolby DS1 on 8926 Bagheera family ======
+===== 1. Get dolby license from Dolby =====
+
+Ask customer to get dolby license from Dolby.
+
+===== 2. Set license metainfo =====
+
+Provide dolby license and dsp.elf file to Qualcomm,they will attach dolby license(vestel_eval_dapv1_ddp_rsa.lic) to dsp.elf and provide us dsp2.mbn and /firmware/ folder.
+
+==== a.For testing purpose, you can use below command to update your ADSP image: ====
+
+
+adb root
+
+adb remount
+
+adb shell mount -o remount,rw /firmware
+
+adb push <file> /firmware/image/
+
+adb shell sync
+
+adb reboot
+
+==== b.For compiling usage,you can copy and replace the dsp2.mbn to the corresponding folder to generate None-HLOS.mbn. ====
+ 
+
+~/s55_1028$ find . -name "dsp2.mbn"
+
+./Non-HLOS/adsp_proc/obj/qdsp6v5_ReleaseG/non_reloc/dsp2.mbn
+
+./Non-HLOS/adsp_proc/obj/qdsp6v5_ReleaseG/dsp2.mbn
+
+./Non-HLOS/adsp_proc/build/ms/bin/AAAAAAAA/dsp2.mbn
+
+./Non-HLOS/adsp_proc/build/ms/bin/AAAAAAAA/non-reloc/dsp2.mbn
+
+cd Non-HLOS/common/build
+
+source S55.sh(update_common_info.py --nonhlos)
+
+Non-HLOS/common/build/bin/asic/NON-HLOS.bin
+===== 3. Modify the system.prop =====
+
+
+==== Do following steps before starting DAP testing on 8916: ====
+
+
+Modify .\device\qcom\<platform>\system.prop, adding
+
+dmid=<dmid>
+
+audio.ds1.metainfo.key=273
+
+
+==== For fast verification purpose, you can ====
+
+
+adb root
+
+adb remount
+
+adb shell "echo 'dmid=<dmid>' >> /system/build.prop"
+
+adb shell "echo 'audio.ds1.metainfo.key=273' >> /system/build.prop"
+
+adb reboot
+
+
+**Default key(audio.ds1.metainfo.key)** used for dolby is 273
+
+**<dmid>** is a serial digital number which should be got from dolby as well
+
+
+Dolby provide to the Manufacturer ID (DMID) version:
+
+Decimal: 247639057(use Decimal)
+
+Hex: 0x0ec2ac11
+
+===== 4.Enable .ac3(.ec3)file =====
+
+diff --git a/media_codecs.xml b/media_codecs_8226.xml
+
+--- a/media_codecs.xml
+
++++ b/media_codecs_8226.xml
+@@ -84,6 +84,16 @@
+         <MediaCodec name="OMX.qcom.audio.decoder.evrc" type="audio/evrc" >
+             <Quirk name="requires-global-flush" />
+         </MediaCodec>
+         
+add start---
+         
+        <!-- DOLBY_UDC -->
+        <MediaCodec name="OMX.dolby.ac3.decoder" type="audio/ac3" >
+            <Quirk name="needs-flush-before-disable" />
+            <Quirk name="requires-flush-complete-emulation" />
+        </MediaCodec>
+        <MediaCodec name="OMX.dolby.ec3.decoder" type="audio/eac3" >
+            <Quirk name="needs-flush-before-disable" />
+            <Quirk name="requires-flush-complete-emulation" />
+        </MediaCodec>
+        <!-- DOLBY_UDC END -->
+        
+add end---        
+
+         <!-- Video Hardware  -->
+         <MediaCodec name="OMX.qcom.video.decoder.avc" type="video/avc" >
+             <Quirk name="requires-allocate-on-input-ports" />
+        
+
+===== 5.Select AUDIO_DS1_TOPOLOGY in ACDB. =====
+
+
+View --> Device Designer --> SPKR_PHONE_SPKR_MONO-->Audio PoPP Topology --> GENERAL_PLAYBACK = AUDIO_DS1_TOPOLOGY
+
+View --> Device Designer --> HEADSET_SPKR_STEREO-->Audio PoPP Topology --> GENERAL_PLAYBACK = AUDIO_DS1_TOPOLOGY
+
+===== 6. Disable audio+ function =====
+
+To disable audio+ function,you need reset POPP as AUDIO_Stream_Default in QACT device design as below:
+
+View --> Device Designer --> Audio PoPP Topology --> GENERAL_PLAYBACK = AUDIO_Stream_Default
+
+===== 7. Test the dolby function=====
+
+Push a song of .ac3(.ec3) file into the phone.
+
+If you can play the song normal,then congratulations!  :-P
+You have added the Dolby function.
+
+BTW,if there's a little staccato or some jump when you play the music or mp3 music,maybe the license is an evaluated version.
+Ask Dolby for a formal version license.

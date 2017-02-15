@@ -1,0 +1,264 @@
+1.新建层使用命令yocto-layer create layer_name
+
+yangzhiwen@yzw-kingsee:yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp$ cd sources/
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources$ ls
+
+base  meta-browser  meta-daiane  meta-fsl-arm  meta-fsl-arm-extra  meta-fsl-bsp-release  meta-fsl-demos  meta-openembedded  meta-qt5  poky
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources$ yocto-layer create elmo
+
+<code bash>
+Please enter the layer priority you'd like to use for the layer: [default: 6]                         #优先级
+Would you like to have an example recipe created? (y/n) [default: n] y                                #是否包含一个样例
+Please enter the name you'd like to use for your example recipe: [default: example] elmo-example    #样例名字
+Would you like to have an example bbappend file created? (y/n) [default: n] y                        #是否创建样例的bbappend文件
+Please enter the name you'd like to use for your bbappend file: [default: example] elmo-example        #样例的bbappend名字
+Please enter the version number you'd like to use for your bbappend file (this should match the recipe you're appending to): [default: 0.1]    #版本号
+
+New layer created in meta-elmo.
+
+Don't forget to add it to your BBLAYERS (for details see meta-elmo\README).
+</code>
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources$
+
+
+2.到此为止，已经建好层了，并且已经有个Demo,先睹为快
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources$ ls
+
+base  meta-browser  meta-daiane  meta-elmo  meta-fsl-arm  meta-fsl-arm-extra  meta-fsl-bsp-release  meta-fsl-demos  meta-openembedded  meta-qt5  poky
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources$ cd meta-elmo/
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo$ ls
+
+conf  COPYING.MIT  README  recipes-example  recipes-example-bbappend
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo$ cd recipes-example/example/
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ ls
+
+elmo-example-0.1  elmo-example_0.1.bb
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ ls elmo-example-0.1/
+
+example.patch  helloworld.c
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ cat elmo-example-0.1/helloworld.c
+
+<code bash>
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+    printf("Hello World!\n");
+    return 0;
+
+}
+</code>
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ cat elmo-example-0.1/example.patch
+<code bash>
+#
+# This is a non-functional placeholder file, here for example purposes
+# only.
+#
+# If you had a patch for your recipe, you'd put it in this directory
+# and reference it from your recipe's SRC_URI:
+#
+#  SRC_URI += "file://example.patch"
+#
+# Note that you could also rename the directory containing this patch
+# to remove the version number or simply rename it 'files'.  Doing so
+# allows you to use the same directory for multiple recipes.
+</code>
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ cat elmo-example_0.1.bb
+<code bash>
+#
+# This file was derived from the 'Hello World!' example recipe in the
+# Yocto Project Development Manual.
+#
+
+DESCRIPTION = "Simple helloworld application"
+SECTION = "examples"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+PR = "r0"
+
+SRC_URI = "file://helloworld.c"
+
+S = "${WORKDIR}"
+
+do_compile() {
+             ${CC} helloworld.c -o helloworld
+}
+
+do_install() {
+             install -d ${D}${bindir}
+             install -m 0755 helloworld ${D}${bindir}
+}
+</code>
+3.编译我们所建层的recipes,方法：bitbake bbappend_name
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/sources/meta-elmo/recipes-example/example$ cd ../../../../build_qt5
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ bitbake elmo-example
+
+<code bash>
+Loading cache: 100% |###################################################################################################################################| ETA:  00:00:00
+Loaded 2566 entries from dependency cache.
+Parsing recipes: 100% |#################################################################################################################################| Time: 00:00:01
+Parsing of 2049 .bb files complete (2028 cached, 21 parsed). 2564 targets, 157 skipped, 3 masked, 0 errors.
+ERROR: Nothing PROVIDES 'elmo-example'
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+</code>
+报错找不到我们的elmo-example,原因是我们没有加进fsl-image-qt5,先加进去
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ vi conf/bblayers.conf
+<code bash>
+LCONF_VERSION = "6"
+
+BBPATH = "${TOPDIR}"
+BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
+
+BBFILES ?= ""
+BBLAYERS = " \
+  ${BSPDIR}/sources/poky/meta \
+  ${BSPDIR}/sources/poky/meta-yocto \
+  \
+  ${BSPDIR}/sources/meta-openembedded/meta-oe \
+  ${BSPDIR}/sources/meta-openembedded/meta-multimedia \
+  \
+  ${BSPDIR}/sources/meta-fsl-arm \
+  ${BSPDIR}/sources/meta-fsl-arm-extra \
+  ${BSPDIR}/sources/meta-fsl-demos \
+"
+##Freescale Yocto Release layer
+BBLAYERS += " ${BSPDIR}/sources/meta-fsl-bsp-release/imx/meta-bsp "
+BBLAYERS += " ${BSPDIR}/sources/meta-fsl-bsp-release/imx/meta-sdk "
+BBLAYERS += " ${BSPDIR}/sources/meta-browser "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-gnome "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-networking "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-python "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-ruby "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-filesystems "
+BBLAYERS += " ${BSPDIR}/sources/meta-qt5 "
+BBLAYERS += " ${BSPDIR}/sources/meta-elmo "
+</code>
+再次编译
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ bitbake elmo-example
+<code bash>
+Parsing recipes: 100% |#################################################################################################################################| Time: 00:01:06
+Parsing of 2050 .bb files complete (0 cached, 2050 parsed). 2565 targets, 157 skipped, 3 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION        = "1.26.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "arm-poky-linux-gnueabi"
+MACHINE           = "imx6ulevk"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.8"
+TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa7"
+TARGET_FPU        = "vfp-neon"
+meta              
+meta-yocto        = "(nobranch):83aa565d93aacae484976562ef1ae8dbbb6b2bc0"
+meta-oe           
+meta-multimedia   = "(nobranch):10d3c8f85280a0bf867a8e4f84bcda81c290d28e"
+meta-fsl-arm      = "(nobranch):c5326c90d6754c8630504ae29244907b0841c3a9"
+meta-fsl-arm-extra = "(nobranch):436b86e3421736216412bdbb21cd9cb08c758c75"
+meta-fsl-demos    = "(nobranch):836bdf5a9d500ed258f1ddc07d89eca74a704098"
+meta-bsp          
+meta-sdk          = "(nobranch):2f59ef1080f616f391b1c488fb2204e570f90239"
+meta-browser      = "(nobranch):4b27058a8275a5310161459c9bb8f4c52a77762c"
+meta-gnome        
+meta-networking   
+meta-python       
+meta-ruby         
+meta-filesystems  = "(nobranch):10d3c8f85280a0bf867a8e4f84bcda81c290d28e"
+meta-qt5          = "(nobranch):fc026381545650e10fdd488d5b2a3b2d78f87793"
+meta-elmo         = "<unknown>:<unknown>"
+
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted 371 tasks of which 358 didn't need to be rerun and all succeeded.
+</code>
+编译文件在tmp/work/cortexa7hf-vfp-neon-poky-linux-gnueabi/elmo-example/0.1-r0
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ ls tmp/work/cortexa7hf-vfp-neon-poky-linux-gnueabi/elmo-example/0.1-r0
+
+configure.sstate   elmo-example.spec  image            packages-split  sstate-install-packagedata        sstate-install-populate_lic      temp
+debugsources.list  helloworld         license-destdir  pkgdata         sstate-install-package_qa         sstate-install-populate_sysroot
+deploy-rpms        helloworld.c       package          pseudo          sstate-install-package_write_rpm  sysroot-destdir
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ cat tmp/work/cortexa7hf-vfp-neon-poky-linux-gnueabi/elmo-example/0.1-r0/helloworld.c
+<code bash>
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+    printf("Hello World!\n");
+    return 0;
+}
+</code>
+
+OK了，但此时文件系统里并没有我们的helloworld,先看看镜像中有没有Helloworld
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ sudo mount -o loop -t ext3 tmp/deploy/images/imx6ulevk/fsl-image-qt5-imx6ulevk.ext3 /home/work/rootfs/
+
+[sudo] password for yangzhiwen:
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ ls /home/work/rootfs/usr/bin/helloworld
+
+ls: cannot access /home/work/rootfs/usr/bin/helloworld: No such file or directory
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ sudo umount /home/work/rootfs
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$
+
+因为我们的APP没有加进系统，现在我们加进去。
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ vi ../sources/meta-elmo/conf/layer.conf
+<code bash>
+# We have a conf and classes directory, add to BBPATH
+BBPATH .= ":${LAYERDIR}"
+
+# We have recipes-* directories, add to BBFILES
+BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
+        ${LAYERDIR}/recipes-*/*/*.bbappend"
+
+IMAGE_INSTALL_append += "elmo-example"        #添加此语句
+
+BBFILE_COLLECTIONS += "elmo"
+BBFILE_PATTERN_elmo = "^${LAYERDIR}/"
+BBFILE_PRIORITY_elmo = "6"
+~  
+</code>
+                          
+再编译,然后我们看看文件系统镜像：
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ bitbake fsl-image-qt5
+
+/*省略编译过程,直接看结果*/
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ sudo mount -o loop -t ext3 tmp/deploy/images/imx6ulevk/fsl-image-qt5-imx6ulevk.ext3 /home/work/rootfs/
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$ ls /home/work/rootfs/usr/bin/helloworld
+
+/home/work/rootfs/usr/bin/helloworld
+
+yangzhiwen@yzw-kingsee:/home/work/workspace/fsl-release-bsp/build_qt5$
+
+4.我们烧到板子上看看是否正确，minicom
+Poky (Yocto Project Reference Distro) 1.8 imx6ulevk /dev/ttymxc0
+
+imx6ulevk login: root
+root@imx6ulevk:~# helloworld
+Hello World!
+root@imx6ulevk:~#
+
+OK了。其他自己写的应用可以参照这个recipes的样板加入到文件系统。

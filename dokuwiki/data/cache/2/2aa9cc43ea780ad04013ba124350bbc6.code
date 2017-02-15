@@ -1,0 +1,35 @@
+<span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> loadTexture<span class="br0">&#40;</span><span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw1">final</span> <span class="kw4">int</span> resourceId<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">final</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="br0">&#93;</span> textureHandle <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+    GLES20.<span class="me1">glGenTextures</span><span class="br0">&#40;</span><span class="nu0">1</span>, textureHandle, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>textureHandle<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">final</span> BitmapFactory.<span class="me1">Options</span> options <span class="sy0">=</span> <span class="kw1">new</span> BitmapFactory.<span class="me1">Options</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        options.<span class="me1">inScaled</span> <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>   <span class="co1">// No pre-scaling</span>
+&nbsp;
+        <span class="co1">// Read in the resource</span>
+        <span class="kw1">final</span> Bitmap bitmap <span class="sy0">=</span> BitmapFactory.<span class="me1">decodeResource</span><span class="br0">&#40;</span>context.<span class="me1">getResources</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, resourceId, options<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Bind to the texture in OpenGL</span>
+        GLES20.<span class="me1">glBindTexture</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, textureHandle<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Set filtering</span>
+        GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, GLES20.<span class="me1">GL_TEXTURE_MIN_FILTER</span>, GLES20.<span class="me1">GL_NEAREST</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, GLES20.<span class="me1">GL_TEXTURE_MAG_FILTER</span>, GLES20.<span class="me1">GL_NEAREST</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Load the bitmap into the bound texture.</span>
+        GLUtils.<span class="me1">texImage2D</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_TEXTURE_2D</span>, <span class="nu0">0</span>, bitmap, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Recycle the bitmap, since its data has been loaded into OpenGL.</span>
+        bitmap.<span class="me1">recycle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>textureHandle<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Error loading texture.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> textureHandle<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

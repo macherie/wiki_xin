@@ -1,0 +1,8 @@
+<span class="co3">/**	设置端口，假如值不是数字则程序终止。 */</span>
+<span class="kw4">void</span> setServerPort<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> value<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">try</span> <span class="br0">&#123;</span>
+        serverPort <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">parseInt</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+numberformatexception"><span class="kw3">NumberFormatException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;port &quot;</span> <span class="sy0">+</span> value <span class="st0">&quot; is invalid, &quot;</span>, e<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

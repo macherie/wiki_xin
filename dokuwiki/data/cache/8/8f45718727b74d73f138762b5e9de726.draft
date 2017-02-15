@@ -1,0 +1,46 @@
+a:6:{s:2:"id";s:23:"playground:android_root";s:6:"prefix";s:0:"";s:4:"text";s:859:"<del>删除线</del>
+
+**Android 开机流程**
+
+//创建新界面 测试//
+
+__下划线__
+
+
+{{:playground:未命名.jpg?300}}
+
+
+<code c>
+#include <stdio.h>
+int main()
+{
+    printf("Hello wiki\n");
+    
+    return 0;
+}
+</code>
+
+<code java>
+package com.android.sim;                                                                                                           
+public class CommonDrive {
+    static {
+        System.loadLibrary("CommonDrive");
+    }
+    public native int getVoltage();
+    public native String getCapacity();
+    public native int changeUsbDriver(String value);
+    public native int getUsbDriver();
+    public native int openMic();
+    public native int closeMic();
+}
+</code>
+
+<file c myexample.c>
+#include <stdio.h>
+int main()
+{
+    printf("Hello wiki\n");
+    
+    return 0;
+}
+</file>";s:6:"suffix";s:0:"";s:4:"date";i:0;s:6:"client";s:11:"meifeng.cai";}

@@ -1,0 +1,225 @@
+
+<p>
+本文以系统中已经有的LightsService为例，逐步讲解在系统中搭建系统服务的过程。有几个前提需要说明：
+</p>
+<ul>
+<li class="level1"><div class="li"> 由于系统内部就有LightsService这个类（在原生的代码中，它并不是一个真正的服务，只是一个普通类），所以我们无需再建立此类，并且可以根据此类的内容确定需要提供的服务内容。</div>
+</li>
+<li class="level1"><div class="li"> 此处LightsService中需要提供的服务主要是将Light（内部类）的一些操作提供出去</div>
+</li>
+</ul>
+
+<h1 class="sectionedit1" id="编写aidl">编写aidl</h1>
+<div class="level1">
+
+<p>
+所有远程服务的开始都是从编写aidl开始，新建一个aidl的了文件LightsManager.aidl，放在framework/base/core/java/android/app目录下。文件里的内容主要如下：
+</p>
+<pre class="code java"><span class="kw1">interface</span> ILightsManager <span class="br0">&#123;</span>
+    <span class="kw4">void</span> setLight<span class="br0">&#40;</span><span class="kw4">int</span> light<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">void</span> setColor<span class="br0">&#40;</span><span class="kw4">int</span> color<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">void</span> setFlashing<span class="br0">&#40;</span><span class="kw4">int</span> color, <span class="kw4">int</span> mode, <span class="kw4">int</span> onMS, <span class="kw4">int</span> offMS<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">void</span> turnOff<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">void</span> stopFlashing<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+文件里的内容根据LightsService需要提供的服务内容确定。
+</p>
+
+<p>
+如果在一般的程序中编写自己的aidl文件后，你需要使用google提供的aidl工具编译生成对应的java文件，然后将java文件加入到项目中。
+</p>
+
+<p>
+但是现在我们只需要添加aidl文件，而不用手动生成，因为在系统编译的过程中会自动根据aidl生成对应的java文件。不过这样的前提是，我们需要告诉编译器我们添加了这个文件。我们找到framework/base下的Android.mk文件，并向里面加入下面这行：
+</p>
+<pre class="code java">core<span class="sy0">/</span>java<span class="sy0">/</span>android<span class="sy0">/</span>app<span class="sy0">/</span>ILightsManager.<span class="me1">aidl</span> \</pre>
+
+<p>
+生成以后的java文件为ILightsManager.java。因为新添的文件会生成新的api，所以需要更新frameworks/base/api/current.txt。否则在编译的时候会中断，并提示更新。<br/>
+也可以直接运行
+</p>
+<pre class="code shell">make update-api</pre>
+
+<p>
+自动更新此文件，检查确认正确后，跟代码一起提交即可。
+</p>
+
+<p>
+关于ILightsManager有几个重要的描述：
+</p>
+<ul>
+<li class="level1"><div class="li"> ILightsManager是一个接口类，并且继承语android.os.IInterface</div>
+</li>
+<li class="level1"><div class="li"> ILightsManager里面会有一个名叫Stub的内部实现类，该类继承android.os.Binder，后面LightsService将继承于这个类</div>
+</li>
+<li class="level1"><div class="li"> 同时里面还会有一个私有内部实现类Proxy，这个类将作为LightsService的代理在Stub类的asInterface中返回给远程客户端</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT1 SECTION "编写aidl" [491-2307] -->
+<h1 class="sectionedit2" id="改写lightsservice_服务端">改写LightsService（服务端）</h1>
+<div class="level1">
+
+<p>
+首先我们要让LightsService继承于ILightsManager.Stub，作为远程服务端。其次我们需要添加一个Light的内部变量，方便直接操作。其次需要将对应的方法都实现一遍：
+</p>
+<pre class="code java">    <span class="kw1">public</span> <span class="kw4">void</span> setColor<span class="br0">&#40;</span><span class="kw4">int</span> color<span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mLight <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mLight.<span class="me1">setColor</span><span class="br0">&#40;</span>color<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> setFlashing<span class="br0">&#40;</span><span class="kw4">int</span> color, <span class="kw4">int</span> mode, <span class="kw4">int</span> on, <span class="kw4">int</span> off<span class="br0">&#41;</span>
+            <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mLight <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mLight.<span class="me1">setFlashing</span><span class="br0">&#40;</span>color, mode, on, off<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> setLight<span class="br0">&#40;</span><span class="kw4">int</span> light<span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> <span class="br0">&#123;</span>
+        mLight <span class="sy0">=</span> getLight<span class="br0">&#40;</span>light<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> stopFlashing<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mLight <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mLight.<span class="me1">stopFlashing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> turnOff<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mLight <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mLight.<span class="me1">turnOff</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+LightsService实现好以后，还需要将其注册到ServiceManager中，客户端才可以获取到该服务。在SystemServer文件中LightsService初始化后面添加一行。
+</p>
+<pre class="code">ServiceManager.addService(Context.LIGHTS_SERVICE, lights);</pre>
+
+</div>
+<!-- EDIT2 SECTION "改写LightsService（服务端）" [2308-3551] -->
+<h1 class="sectionedit3" id="添加lightsmanager_客户端_服务端代理">添加LightsManager（客户端/服务端代理）</h1>
+<div class="level1">
+
+<p>
+在远程服务段搭建好了以后，我们需要搭建客户端LightsManager，在core/java/android/app建立该文件。内容如下：
+</p>
+<pre class="code java"><span class="kw1">package</span> <span class="co2">android.app</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.content.Intent</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.os.RemoteException</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.util.Log</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">class</span> LightsManager <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> TAG <span class="sy0">=</span> <span class="st0">&quot;LightsManager&quot;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_BACKLIGHT <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_KEYBOARD <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_BUTTONS <span class="sy0">=</span> <span class="nu0">2</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_BATTERY <span class="sy0">=</span> <span class="nu0">3</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_NOTIFICATIONS <span class="sy0">=</span> <span class="nu0">4</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_ATTENTION <span class="sy0">=</span> <span class="nu0">5</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_BLUETOOTH <span class="sy0">=</span> <span class="nu0">6</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_WIFI <span class="sy0">=</span> <span class="nu0">7</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_ID_COUNT <span class="sy0">=</span> <span class="nu0">8</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_FLASH_NONE <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_FLASH_TIMED <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> LIGHT_FLASH_HARDWARE <span class="sy0">=</span> <span class="nu0">2</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">final</span> ILightsManager mService<span class="sy0">;</span>
+&nbsp;
+    <span class="co3">/**
+     * package private on purpose
+     */</span>
+    <span class="kw1">public</span> LightsManager<span class="br0">&#40;</span>ILightsManager service<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mService <span class="sy0">=</span> service<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="co3">/**
+     * Set the light by light id
+     * eg:LIGHT_ID_BATTERY/LIGHT_ID_NOTIFICATIONS is leds light
+     * @param light
+     */</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> setLight<span class="br0">&#40;</span><span class="kw4">int</span> light<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mService.<span class="me1">setLight</span><span class="br0">&#40;</span>light<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="co3">/**
+     * Set the light color. The Color is GRB by 16 digits.
+     * eg: 0xFF0000 is red.
+     * @param color
+     */</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> setColor<span class="br0">&#40;</span><span class="kw4">int</span> color<span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mService.<span class="me1">setColor</span><span class="br0">&#40;</span>color<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="co3">/**
+     *
+     * @param color The light color same as setColor
+     * @param mode  The flash mode. LIGHT_FLASH_NONE,LIGHT_FLASH_TIMED or LIGHT_FLASH_HARDWARE
+     * @param onMS  The flash time. It's millisecond. eg: 200
+     * @param offMS The flash time interval. It's millisecond. eg: 200
+     */</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> setFlashing<span class="br0">&#40;</span><span class="kw4">int</span> color, <span class="kw4">int</span> mode, <span class="kw4">int</span> onMS, <span class="kw4">int</span> offMS<span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mService.<span class="me1">setFlashing</span><span class="br0">&#40;</span>color, mode, onMS, offMS<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="co3">/**
+     * Turn off the light
+     */</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> turnOff<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mService.<span class="me1">turnOff</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+    <span class="co3">/**
+     * Stop the playing flashing
+     */</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> stopFlashing<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mService.<span class="me1">stopFlashing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT3 SECTION "添加LightsManager（客户端/服务端代理）" [3552-6175] -->
+<h1 class="sectionedit4" id="建立连接">建立连接</h1>
+<div class="level1">
+
+<p>
+我们常见的获取系统的方法是通过上下文调用getSystemService()获取相应的服务。该方法的实现在ContextImpl中，我们需要将一下代码加入静态块中。
+</p>
+<pre class="code">registerService(LIGHTS_SERVICE, new StaticServiceFetcher() {
+    public Object createStaticService() {
+    IBinder b = ServiceManager.getService(LIGHTS_SERVICE);
+    ILightsManager service = ILightsManager.Stub.asInterface(b);
+    return new LightsManager(service);
+}});</pre>
+
+<p>
+这里将已经与远程服务端建立好连接的客户端的实例注册在ContextImpl的一个HashMap中，后面getSystemService中将从该HashMap取出客户端的实例返回。
+到这里为止，我们的服务就搭建好了
+</p>
+
+</div>
+<!-- EDIT4 SECTION "建立连接" [6176-6910] -->
+<h1 class="sectionedit5" id="其它注意事项">其它注意事项</h1>
+<div class="level1">
+<ul>
+<li class="level1"><div class="li"> 普通列表项目如果我们的服务需要在其他某些项目启动好以后再执行一些操作，可以在LightService中添加systemReady（）方法，让后在所有其他项目都准备好以后在调用该服务的systemReady方法。</div>
+</li>
+<li class="level1"><div class="li"> 新添加的服务的初始化尽量放在别的服务的启动后面</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT5 SECTION "其它注意事项" [6911-] -->

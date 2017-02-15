@@ -1,0 +1,35 @@
+
+<p>
+ — <em><a href="mailto:&#x79;&#x75;&#x6e;&#x71;&#x69;&#x2e;&#x6d;&#x69;&#x61;&#x6f;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x79;&#x75;&#x6e;&#x71;&#x69;&#x2e;&#x6d;&#x69;&#x61;&#x6f;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">苗运齐</a> 2013/12/03 09:28</em><img src="/dokuwiki/lib/images/smileys/fixme.gif" class="icon" alt="FIXME" />
+</p>
+
+<h1 class="sectionedit1" id="代码内嵌log">代码内嵌LOG</h1>
+<div class="level1">
+
+<p>
+1、实现
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> LOG_TAG <span class="sy0">=</span> <span class="st0">&quot;---MainActivity---&quot;</span> <span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">boolean</span> sDebug <span class="sy0">=</span> <span class="sy0">!</span><span class="st0">&quot;user&quot;</span>.<span class="me1">equals</span><span class="br0">&#40;</span>android.<span class="me1">os</span>.<span class="me1">Build</span>.<span class="me1">TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw4">void</span> sLogD<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> msg<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>sDebug<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            android.<span class="me1">util</span>.<span class="me1">Log</span>.<span class="me1">d</span><span class="br0">&#40;</span>LOG_TAG, msg<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+2、调用
+</p>
+<pre class="code java">    sLogD<span class="br0">&#40;</span><span class="st0">&quot;This is behavior. You can do it!&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+3、总结
+</p>
+
+<p>
+希望对您有帮助哦
+</p>
+
+</div>
+<!-- EDIT1 SECTION "代码内嵌LOG" [65-] -->

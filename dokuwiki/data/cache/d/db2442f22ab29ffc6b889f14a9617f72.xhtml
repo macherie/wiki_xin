@@ -1,0 +1,42 @@
+
+<h1 class="sectionedit1" id="x平台是如何来打包dtb">892x平台是如何来打包dtb</h1>
+<div class="level1">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">liangjiong.zhou</a> 2014/03/11 13:09</em>
+</p>
+
+<p>
+892x 平台的kernel已经用了 dts 文件来组织设备。这里来讲一下 892x 平台是如何来打包 各个 dtb 文件的。
+Device tree 友情链接 <a href="/dokuwiki/doku.php/linux;kernel;device_tree" class="wikilink1" title="linux:kernel:device_tree">ARM Linux Device Tree</a>
+</p>
+
+<p>
+在编译kernel的时候，kernel中的 dtc 脚本会编译出所有相关的dtb。而高通平台上最终打包到boot.img里去的是
+dt.img，这个镜像是一个叫 dtbtool 的工具来产生的。
+</p>
+
+</div>
+<!-- EDIT1 SECTION "892x平台是如何来打包dtb" [1-534] -->
+<h2 class="sectionedit2" id="这个工具的位置">这个工具的位置：</h2>
+<div class="level2">
+
+<p>
+device/qcom/common/dtbtool
+</p>
+
+</div>
+<!-- EDIT2 SECTION "这个工具的位置：" [535-600] -->
+<h2 class="sectionedit3" id="参考文档">参考文档：</h2>
+<div class="level2">
+
+<p>
+device/qcom/common/dtbtool/dtbtool.txt
+</p>
+
+<p>
+<em>TODO： add more
+</p>
+
+</div>
+<!-- EDIT3 SECTION "参考文档：" [601-] -->

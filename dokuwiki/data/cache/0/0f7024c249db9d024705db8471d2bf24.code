@@ -1,0 +1,18 @@
+<span class="coMULTI">/* Change CALL_PRIVILEGED into CALL or CALL_EMERGENCY as needed. */</span>
+<span class="co1">// TODO: This code is redundant with some code in InCallScreen: refactor.</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>Intent.<span class="me1">ACTION_CALL_PRIVILEGED</span>.<span class="me1">equals</span><span class="br0">&#40;</span>action<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">// We're handling a CALL_PRIVILEGED intent, so we know this request came</span>
+    <span class="co1">// from a trusted source (like the built-in dialer.)  So even a number</span>
+    <span class="co1">// that's *potentially* an emergency number can safely be promoted to</span>
+    <span class="co1">// CALL_EMERGENCY (since we *should* allow you to dial &quot;91112345&quot; from</span>
+    <span class="co1">// the dialer if you really want to.)</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>isPotentialEmergencyNumber<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;ACTION_CALL_PRIVILEGED is used while the number is a potential&quot;</span>
+                <span class="sy0">+</span> <span class="st0">&quot; emergency number. Use ACTION_CALL_EMERGENCY as an action instead.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        action <span class="sy0">=</span> Intent.<span class="me1">ACTION_CALL_EMERGENCY</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        action <span class="sy0">=</span> Intent.<span class="me1">ACTION_CALL</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> Log.<span class="me1">v</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot; - updating action from CALL_PRIVILEGED to &quot;</span> <span class="sy0">+</span> action<span class="br0">&#41;</span><span class="sy0">;</span>
+    intent.<span class="me1">setAction</span><span class="br0">&#40;</span>action<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

@@ -1,0 +1,4 @@
+<span class="br0">&#91;</span>branch <span class="st0">&quot;master&quot;</span><span class="br0">&#93;</span>
+  remote = origin
+  merge = refs<span class="sy0">/</span>heads<span class="sy0">/</span>master
+  rebase = <span class="kw2">true</span>

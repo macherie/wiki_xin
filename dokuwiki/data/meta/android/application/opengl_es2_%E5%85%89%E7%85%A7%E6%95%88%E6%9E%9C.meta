@@ -1,0 +1,6 @@
+a:2:{s:7:"current";a:7:{s:4:"date";a:2:{s:7:"created";i:1477986629;s:8:"modified";i:1477986629;}s:7:"creator";s:10:"zhijun.liu";s:4:"user";s:10:"zhijun.liu";s:11:"last_change";a:7:{s:4:"date";i:1477986629;s:2:"ip";s:12:"172.19.1.175";s:4:"type";s:1:"C";s:2:"id";s:43:"android:application:opengl_es2_光照效果";s:4:"user";s:10:"zhijun.liu";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:389:"1.参考网址：
+<http://www.learnopengles.com/android-lesson-two-ambient-and-diffuse-lighting/>
+
+2.Opengl ES2中光的分类
+对物体而言，分为：环境光（Ambient lighting），漫反射（Diffuse lighting），镜面反射三种（Specular lighting）
+对光源而言，分为：定向光（Directional lighting），点光源（Point lighting），聚合光（Spot lighting）";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:4:{s:4:"date";a:1:{s:7:"created";i:1477986629;}s:7:"creator";s:10:"zhijun.liu";s:4:"user";s:10:"zhijun.liu";s:11:"last_change";a:7:{s:4:"date";i:1477986629;s:2:"ip";s:12:"172.19.1.175";s:4:"type";s:1:"C";s:2:"id";s:43:"android:application:opengl_es2_光照效果";s:4:"user";s:10:"zhijun.liu";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}}}

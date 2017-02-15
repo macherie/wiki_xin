@@ -1,0 +1,605 @@
+
+<p>
+该流程基于S100D 源码分析，以程序启动和常用操作为主要引导线。水平有限，如有错误，请及时更正。
+</p>
+
+<h1 class="sectionedit1" id="存储联系人">存储联系人</h1>
+<div class="level1">
+<ol>
+<li class="level1"><div class="li"> 储存联系人，若选择保存在本地，则存入数据库，理论上没有数量上限</div>
+</li>
+<li class="level1"><div class="li"> 储存联系人，若选择保存在Sim卡，则根据sim卡的存储大小不同</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT1 SECTION "存储联系人" [137-349] -->
+<h1 class="sectionedit2" id="程序启动">程序启动</h1>
+<div class="level1">
+
+<p>
+通讯录模块中有两个入口：PeopleActivity.java和DialtactsActivity.java。
+</p>
+
+<p>
+PeopleActivity是联系人入口类，DialtactsActivity是拨号入口类，分别对应桌面的联系人和拨号两个图标。
+</p>
+
+</div>
+<!-- EDIT2 SECTION "程序启动" [350-591] -->
+<h1 class="sectionedit3" id="联系人模块">联系人模块</h1>
+<div class="level1">
+
+<p>
+程序启动先做一些准备工作，如：检测联系人数据是否可用、创建电话帐号（一般直接使用系统默认本地帐号）、通讯录过滤控制器的初始化等。然后执行该模块的三个主要子模块的初始化：分组、通讯列表、收藏（分别对应三个fragment）和actionBar的初始化。
+</p>
+<pre class="code java"><span class="co1">// Create the fragments and add as children of the view pager.</span>
+<span class="co1">// The pager adapter will only change the visibility; it'll never create/destroy</span>
+<span class="co1">// fragments.</span>
+<span class="co1">// However, if it's after screen rotation, the fragments have been re-created by</span>
+<span class="co1">// the fragment manager, so first see if there're already the target fragments</span>
+<span class="co1">// existing.</span>
+mFavoritesFragment <span class="sy0">=</span> <span class="br0">&#40;</span>ContactTileListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>FAVORITE_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+mAllFragment <span class="sy0">=</span> <span class="br0">&#40;</span>DefaultContactBrowseListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>ALL_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+mGroupsFragment <span class="sy0">=</span> <span class="br0">&#40;</span>GroupBrowseListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>GROUPS_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>mFavoritesFragment <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    mFavoritesFragment <span class="sy0">=</span> <span class="kw1">new</span> ContactTileListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mAllFragment <span class="sy0">=</span> <span class="kw1">new</span> DefaultContactBrowseListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mGroupsFragment <span class="sy0">=</span> <span class="kw1">new</span> GroupBrowseListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mFavoritesFragment, FAVORITE_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mAllFragment, ALL_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mGroupsFragment, GROUPS_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+actionBar的初始化主要是设置了searchView和tabs
+</p>
+<pre class="code java">mActionBar.<span class="me1">setCustomView</span><span class="br0">&#40;</span>customSearchView, layoutParams<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<pre class="code java"><span class="kw1">private</span> <span class="kw4">void</span> setupTabs<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    addTab<span class="br0">&#40;</span>TabState.<span class="me1">GROUPS</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_groups</span>, R.<span class="me1">string</span>.<span class="me1">contactsGroupsLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    addTab<span class="br0">&#40;</span>TabState.<span class="me1">ALL</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_all</span>, R.<span class="me1">string</span>.<span class="me1">contactsAllLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    addTab<span class="br0">&#40;</span>TabState.<span class="me1">FAVORITES</span>, R.<span class="me1">drawable</span>.<span class="me1">ic_tab_starred</span>, R.<span class="me1">string</span>.<span class="me1">contactsFavoritesLabel</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="code java"><span class="kw1">private</span> <span class="kw4">void</span> addTab<span class="br0">&#40;</span><span class="kw4">int</span> expectedTabIndex, <span class="kw4">int</span> icon, <span class="kw4">int</span> description<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">final</span> Tab tab <span class="sy0">=</span> mActionBar.<span class="me1">newTab</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    tab.<span class="me1">setTabListener</span><span class="br0">&#40;</span>mTabListener<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mShowTabsAsText<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        tab.<span class="me1">setText</span><span class="br0">&#40;</span>description<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        tab.<span class="me1">setIcon</span><span class="br0">&#40;</span>icon<span class="br0">&#41;</span><span class="sy0">;</span>
+        tab.<span class="me1">setContentDescription</span><span class="br0">&#40;</span>description<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    mActionBar.<span class="me1">addTab</span><span class="br0">&#40;</span>tab<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>expectedTabIndex <span class="sy0">!=</span> tab.<span class="me1">getPosition</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalstateexception"><span class="kw3">IllegalStateException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Tabs must be created in the right order&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+在onstart中有调用fragment的配置方法configureFragments(boolean fromRequest) ;再该方法中首先处理事件的请求，然后简单配置一下fragment。
+</p>
+<pre class="code java"><span class="kw1">switch</span> <span class="br0">&#40;</span>actionCode<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">case</span> ContactsRequest.<span class="me1">ACTION_ALL_CONTACTS</span><span class="sy0">:</span>
+        filter <span class="sy0">=</span> ContactListFilter.<span class="me1">createFilterWithType</span><span class="br0">&#40;</span>
+                ContactListFilter.<span class="me1">FILTER_TYPE_ALL_ACCOUNTS</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        tabToOpen <span class="sy0">=</span> TabState.<span class="me1">ALL</span><span class="sy0">;</span>
+        <span class="kw1">break</span><span class="sy0">;</span>
+    ...
+    <span class="kw1">case</span> ContactsRequest.<span class="me1">ACTION_GROUP</span><span class="sy0">:</span>
+        tabToOpen <span class="sy0">=</span> TabState.<span class="me1">GROUPS</span><span class="sy0">;</span>
+        <span class="kw1">break</span><span class="sy0">;</span>
+    <span class="kw1">default</span><span class="sy0">:</span>
+        tabToOpen <span class="sy0">=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span>
+        <span class="kw1">break</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>tabToOpen <span class="sy0">!=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    mActionBarAdapter.<span class="me1">setCurrentTab</span><span class="br0">&#40;</span>tabToOpen<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>filter <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    mContactListFilterController.<span class="me1">setContactListFilter</span><span class="br0">&#40;</span>filter, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    searchMode <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>mRequest.<span class="me1">getContactUri</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    searchMode <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+mActionBarAdapter.<span class="me1">setSearchMode</span><span class="br0">&#40;</span>searchMode<span class="br0">&#41;</span><span class="sy0">;</span>
+configureContactListFragmentForRequest<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<pre class="code java">configureContactListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+configureGroupListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+该文件还设置整个页面下三个tab中需要的menu和对应的事件处理
+</p>
+<pre class="code java"><span class="kw1">public</span> <span class="kw4">boolean</span> onCreateOptionsMenu<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menu"><span class="kw3">Menu</span></a> menu<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>areContactsAvailable<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// If contacts aren't available, hide all menu items.</span>
+        <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">super</span>.<span class="me1">onCreateOptionsMenu</span><span class="br0">&#40;</span>menu<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    MenuInflater inflater <span class="sy0">=</span> getMenuInflater<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">menu</span>.<span class="me1">people_options</span>, menu<span class="br0">&#41;</span><span class="sy0">;</span>
+    ...
+    <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="code java"><span class="kw1">public</span> <span class="kw4">boolean</span> onOptionsItemSelected<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menuitem"><span class="kw3">MenuItem</span></a> item<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>FeatureQuery.<span class="me1">FEATURE_BAIDU_XCLOUD</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>XCloudManager.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">handleXCouldRelatedMenuItem</span><span class="br0">&#40;</span>item, <span class="kw1">this</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">switch</span> <span class="br0">&#40;</span>item.<span class="me1">getItemId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">case</span> android.<span class="me1">R</span>.<span class="me1">id</span>.<span class="me1">home</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="co1">// The home icon on the action bar is pressed</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mActionBarAdapter.<span class="me1">isUpShowing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// &quot;UP&quot; icon press -- should be treated as &quot;back&quot;.</span>
+            onBackPressed<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    ...
+    <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">menu_switch_group</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        isLocalGroupsShown <span class="sy0">=</span> <span class="sy0">!</span>isLocalGroupsShown<span class="sy0">;</span>
+        updateGroupsMenu<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mGroupsFragment.<span class="me1">updateGroupData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+此外从该文件的类定义处可以看出，该类继承的一些接口，并作为回调提供了相应的实现。
+</p>
+<pre class="code java"><span class="kw1">public</span> <span class="kw1">class</span> PeopleActivity <span class="kw1">extends</span> ContactsActivity
+        <span class="kw1">implements</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnCreateContextMenuListener</span>, ActionBarAdapter.<span class="me1">Listener</span>,
+        DialogManager.<span class="me1">DialogShowingViewActivity</span>,
+        ContactListFilterController.<span class="me1">ContactListFilterListener</span>, ProviderStatusListener</pre>
+
+</div>
+<!-- EDIT3 SECTION "联系人模块" [592-5511] -->
+<h2 class="sectionedit4" id="联系人分组">联系人分组</h2>
+<div class="level2">
+
+<p>
+主要的类为：GroupBrowseListFragment、GroupBrowseListAdapter、LocalGroupListAdapter。
+GroupBrowseListFragment里的内容相对较少，一是因为界面中下面menu部分的处理都集中在Peoplectivity中，另一个是集中在他的适配器中。它提供updateGroupData()给外部调用刷新数据。并且再内部提供mGroupLoaderListener和mLocalGroupLoaderListener实现LoaderCallbacks&lt;Cursor&gt;作为加载完数据的回调。
+</p>
+<pre class="code java"><span class="kw1">public</span> <span class="kw4">void</span> updateGroupData<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getActivity</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>isLocalShown<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        getLoaderManager<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">restartLoader</span><span class="br0">&#40;</span>LOADER_GROUPS, <span class="kw2">null</span>, mGroupLoaderListener<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        getLoaderManager<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">restartLoader</span><span class="br0">&#40;</span>LOADER_LOCAL_GROUPS, <span class="kw2">null</span>, mLocalGroupLoaderListener<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>	</pre>
+
+<p>
+GroupBrowseListAdapter、LocalGroupListAdapter分别为登录后网络的分组适配器和本地数据的分组适配器。
+</p>
+
+</div>
+<!-- EDIT4 SECTION "联系人分组" [5512-6455] -->
+<h2 class="sectionedit5" id="联系人列表">联系人列表</h2>
+<div class="level2">
+
+<p>
+联系人模块涉及的类相对较多，他的fragment类和适配器都多层继承，其继承关系如图：
+<a href="/dokuwiki/lib/exe/detail.php?id=android%3Aapplication%3Acontacts%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90&amp;media=android:contacts:qq%E6%88%AA%E5%9B%BE20140402150004.png" class="media" title="android:contacts:qq截图20140402150004.png"><img src="/dokuwiki/lib/exe/fetch.php?w=300&amp;tok=02868c&amp;media=android:contacts:qq%E6%88%AA%E5%9B%BE20140402150004.png" class="mediacenter" alt="" width="300" /></a>
+fragment中的逻辑集中体现在ContactEntryListFragment，实现的接口如下：
+</p>
+<pre class="code java"><span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw1">class</span> ContactEntryListFragment<span class="sy0">&lt;</span>T <span class="kw1">extends</span> ContactEntryListAdapter<span class="sy0">&gt;</span>
+        <span class="kw1">extends</span> Fragment
+        <span class="kw1">implements</span> OnItemClickListener, OnScrollListener, OnFocusChangeListener, OnTouchListener,
+                LoaderCallbacks<span class="sy0">&lt;</span>Cursor<span class="sy0">&gt;</span> </pre>
+
+<p>
+再onAttach中绑定数据源
+</p>
+<pre class="code">setLoaderManager(super.getLoaderManager());</pre>
+
+<p>
+在该类的onCreateView()中初始化试图、绑定适配器、绑定图片管理器
+</p>
+<pre class="code java">mListView <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a><span class="br0">&#41;</span>mView.<span class="me1">findViewById</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">id</span>.<span class="me1">list</span><span class="br0">&#41;</span><span class="sy0">;</span>
+...
+<span class="me1">mListView</span>.<span class="me1">setOnItemClickListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setOnFocusChangeListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setOnTouchListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setFastScrollEnabled</span><span class="br0">&#40;</span><span class="sy0">!</span>isSearchMode<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+...
+<span class="me1">mAdapter</span>.<span class="me1">setSearchMode</span><span class="br0">&#40;</span>searchMode<span class="br0">&#41;</span><span class="sy0">;</span>
+mAdapter.<span class="me1">configureDefaultPartition</span><span class="br0">&#40;</span><span class="kw2">false</span>, searchMode<span class="br0">&#41;</span><span class="sy0">;</span>
+mAdapter.<span class="me1">setPhotoLoader</span><span class="br0">&#40;</span>mPhotoManager<span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setAdapter</span><span class="br0">&#40;</span>mAdapter<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+在onStart()中开始获取数据
+</p>
+<pre class="code java">startLoading<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+ContactListAdapter是与listview对应的自定义适配器，最终继承于CompositeCursorAdapter，而CompositeCursorAdapter实际上继承于BaseAdapter，系统采用了CompositeCursorAdapter方法的好处在于它已经实现了getView方法，并且采用了缓存技术，代码如下：
+</p>
+<pre class="code java"><span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> getView<span class="br0">&#40;</span><span class="kw4">int</span> position, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> convertView, ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ensureCacheValid<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">int</span> start <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> mSize<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw4">int</span> end <span class="sy0">=</span> start <span class="sy0">+</span> mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">count</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">&gt;=</span> start <span class="sy0">&amp;&amp;</span> position <span class="sy0">&lt;</span> end<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw4">int</span> offset <span class="sy0">=</span> position <span class="sy0">-</span> start<span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">hasHeader</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                offset<span class="sy0">--;</span>
+            <span class="br0">&#125;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> view<span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>offset <span class="sy0">==</span> <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                view <span class="sy0">=</span> getHeaderView<span class="br0">&#40;</span>i, mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>, convertView, parent<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>.<span class="me1">moveToPosition</span><span class="br0">&#40;</span>offset<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalstateexception"><span class="kw3">IllegalStateException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Couldn't move cursor to position &quot;</span>
+                            <span class="sy0">+</span> offset<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                view <span class="sy0">=</span> getView<span class="br0">&#40;</span>i, mPartitions<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">cursor</span>, offset, convertView, parent<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>view <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+nullpointerexception"><span class="kw3">NullPointerException</span></a><span class="br0">&#40;</span><span class="st0">&quot;View should not be null, partition: &quot;</span> <span class="sy0">+</span> i
+                        <span class="sy0">+</span> <span class="st0">&quot; position: &quot;</span> <span class="sy0">+</span> offset<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">return</span> view<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        start <span class="sy0">=</span> end<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+arrayindexoutofboundsexception"><span class="kw3">ArrayIndexOutOfBoundsException</span></a><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="code java"> <span class="co3">/**
+ * Returns an item view for the specified partition, creating one if needed.
+ */</span>
+<span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> getView<span class="br0">&#40;</span><span class="kw4">int</span> partition, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor, <span class="kw4">int</span> position, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> convertView,
+        ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> view<span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>convertView <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        view <span class="sy0">=</span> convertView<span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        view <span class="sy0">=</span> newView<span class="br0">&#40;</span>mContext, partition, cursor, position, parent<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    bindView<span class="br0">&#40;</span>view, partition, cursor, position<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> view<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+适配器中newView是用来创建每个Item的布局，那么bindView是用来创建布局上每个子视图。bindVIew的代码如下：
+</p>
+<pre class="code java"> @Override
+<span class="kw1">protected</span> <span class="kw4">void</span> bindView<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> itemView, <span class="kw4">int</span> partition, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor, <span class="kw4">int</span> position<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">final</span> ContactListItemView view <span class="sy0">=</span> <span class="br0">&#40;</span>ContactListItemView<span class="br0">&#41;</span>itemView<span class="sy0">;</span>
+&nbsp;
+    view.<span class="me1">setHighlightedPrefix</span><span class="br0">&#40;</span>isSearchMode<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">?</span> getUpperCaseQueryString<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">:</span> <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>isSelectionVisible<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        view.<span class="me1">setActivated</span><span class="br0">&#40;</span>isSelectedContact<span class="br0">&#40;</span>partition, cursor<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    bindSectionHeaderAndDivider<span class="br0">&#40;</span>view, position, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>isQuickContactEnabled<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        bindQuickContact<span class="br0">&#40;</span>view, partition, cursor, ContactQuery.<span class="me1">CONTACT_PHOTO_ID</span>,
+                ContactQuery.<span class="me1">CONTACT_PHOTO_URI</span>, ContactQuery.<span class="me1">CONTACT_ID</span>,
+                ContactQuery.<span class="me1">CONTACT_LOOKUP_KEY</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>getDisplayPhotos<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            bindPhoto<span class="br0">&#40;</span>view, partition, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    bindName<span class="br0">&#40;</span>view, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+    bindPresenceAndStatusMessage<span class="br0">&#40;</span>view, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>isSearchMode<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        bindSearchSnippet<span class="br0">&#40;</span>view, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        view.<span class="me1">setSnippet</span><span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="code java">@Override
+<span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> newView<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw4">int</span> partition, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor, <span class="kw4">int</span> position,
+        ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ContactListItemView view <span class="sy0">=</span> <span class="kw1">new</span> ContactListItemView<span class="br0">&#40;</span>context, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    view.<span class="me1">setUnknownNameText</span><span class="br0">&#40;</span>mUnknownNameText<span class="br0">&#41;</span><span class="sy0">;</span>
+    view.<span class="me1">setQuickContactEnabled</span><span class="br0">&#40;</span>isQuickContactEnabled<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    view.<span class="me1">setActivatedStateSupported</span><span class="br0">&#40;</span>isSelectionVisible<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> view<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+此外还有
+</p>
+<pre class="code java"><span class="kw1">protected</span> <span class="kw4">void</span> bindPhoto<span class="br0">&#40;</span><span class="kw1">final</span> ContactListItemView view, <span class="kw4">int</span> partitionIndex, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>isPhotoSupported<span class="br0">&#40;</span>partitionIndex<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        view.<span class="me1">removePhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// Set the photo, if available</span>
+    <span class="kw4">long</span> photoId <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>cursor.<span class="me1">isNull</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_ID</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        photoId <span class="sy0">=</span> cursor.<span class="me1">getLong</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_ID</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>photoId <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        getPhotoLoader<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">loadThumbnail</span><span class="br0">&#40;</span>view.<span class="me1">getPhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, photoId, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> photoUriString <span class="sy0">=</span> cursor.<span class="me1">getString</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_URI</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> Uri photoUri <span class="sy0">=</span> photoUriString <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">?</span> <span class="kw2">null</span> <span class="sy0">:</span> Uri.<span class="me1">parse</span><span class="br0">&#40;</span>photoUriString<span class="br0">&#41;</span><span class="sy0">;</span>
+        getPhotoLoader<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">loadDirectoryPhoto</span><span class="br0">&#40;</span>view.<span class="me1">getPhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, photoUri, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT5 SECTION "联系人列表" [6456-11903] -->
+<h2 class="sectionedit6" id="收藏">收藏</h2>
+<div class="level2">
+
+<p>
+主要涉及的类有：ContactTileListFragment、ContactTileAdapter。
+ContactTileListFragment中同分组差不多，东西很少，主要是初始化适配器及并绑定到试图，提供加载数据的回调类。
+</p>
+<pre class="code java"><span class="coMULTI">/*onAttach*/</span>
+&nbsp;
+mAdapter <span class="sy0">=</span> <span class="kw1">new</span> ContactTileAdapter<span class="br0">&#40;</span>activity, mAdapterListener,
+                columnCount, mDisplayType<span class="br0">&#41;</span><span class="sy0">;</span>
+mAdapter.<span class="me1">setPhotoLoader</span><span class="br0">&#40;</span>ContactPhotoManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>activity<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<span class="coMULTI">/*onCreateView调用inflateAndSetupView*/</span>
+&nbsp;
+mListView <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a><span class="br0">&#41;</span> listLayout.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">contact_tile_list</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setItemsCanFocus</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setAdapter</span><span class="br0">&#40;</span>mAdapter<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+ContactTileAdapter中getview中通过getItemViewType返回不同的item视图（收藏/最近）
+</p>
+<pre class="code java"><span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> getView<span class="br0">&#40;</span><span class="kw4">int</span> position, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> convertView, ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw4">int</span> itemViewType <span class="sy0">=</span> getItemViewType<span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>itemViewType <span class="sy0">==</span> ViewTypes.<span class="me1">DIVIDER</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// Checking For Divider First so not to cast convertView</span>
+        <span class="kw1">return</span> convertView <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">?</span> getDivider<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">:</span> convertView<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    ContactTileRow contactTileRowView <span class="sy0">=</span> <span class="br0">&#40;</span>ContactTileRow<span class="br0">&#41;</span> convertView<span class="sy0">;</span>
+    ArrayList<span class="sy0">&lt;</span>ContactEntry<span class="sy0">&gt;</span> contactList <span class="sy0">=</span> getItem<span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>contactTileRowView <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// Creating new row if needed</span>
+        contactTileRowView <span class="sy0">=</span> <span class="kw1">new</span> ContactTileRow<span class="br0">&#40;</span>mContext, itemViewType<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    contactTileRowView.<span class="me1">configureRow</span><span class="br0">&#40;</span>contactList, position <span class="sy0">==</span> getCount<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> contactTileRowView<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT6 SECTION "收藏" [11904-13351] -->
+<h2 class="sectionedit7" id="联系人详细页面">联系人详细页面</h2>
+<div class="level2">
+
+<p>
+涉及的类有：ContactDetailActivity、ContactLoaderFragment、ContactDetailLayoutController、ContactDetailFragment
+</p>
+<ul>
+<li class="level1"><div class="li"> ContactDetailActivity主要处理基本试图的初始化及其事件的处理。</div>
+</li>
+<li class="level1"><div class="li"> ContactLoaderFragment主要负责数据加载的启动及处理，添加menu并处理相应的事件。</div>
+</li>
+<li class="level1"><div class="li"> ContactDetailLayoutController作为控制器处理的主要处理ContactDetailFragment实例的创建添加，并且执行数据的显示到视图。</div>
+</li>
+<li class="level1"><div class="li"> ContactDetailFragment是详细信息的主要部分，显示试图为mListview，里面包含一个子类的适配器及事件的处理。但是该页面除了menu以外的点击事件分三个部分：header部分、detailEntryView的item部分和其他item部分。</div>
+</li>
+</ul>
+
+<p>
+下面的代码描述了在创建detailEntryView时绑定了三个事件，这个决定了它将不调用常规的listview的item点击事件。
+</p>
+<pre class="code java"><span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> getDetailEntryView<span class="br0">&#40;</span><span class="kw4">int</span> position, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> convertView, ViewGroup parent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">final</span> DetailViewEntry entry <span class="sy0">=</span> <span class="br0">&#40;</span>DetailViewEntry<span class="br0">&#41;</span> getItem<span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v<span class="sy0">;</span>
+    <span class="kw1">final</span> DetailViewCache viewCache<span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Check to see if we can reuse convertView</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>convertView <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        v <span class="sy0">=</span> convertView<span class="sy0">;</span>
+        viewCache <span class="sy0">=</span> <span class="br0">&#40;</span>DetailViewCache<span class="br0">&#41;</span> v.<span class="me1">getTag</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="co1">// Create a new view if needed</span>
+        v <span class="sy0">=</span> mInflater.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">contact_detail_list_item</span>, parent, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Cache the children</span>
+        viewCache <span class="sy0">=</span> <span class="kw1">new</span> DetailViewCache<span class="br0">&#40;</span>v,
+                mPrimaryActionClickListener, mSecondaryActionClickListener, mThirdActionClickListener<span class="br0">&#41;</span><span class="sy0">;</span>
+        v.<span class="me1">setTag</span><span class="br0">&#40;</span>viewCache<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    bindDetailView<span class="br0">&#40;</span>position, v, entry<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> v<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="code java"> <span class="co3">/**
+ * Default (fallback) list item click listener.  Note the click event for DetailViewEntry is
+ * caught by individual views in the list item view to distinguish the primary action and the
+ * secondary action, so this method won't be invoked for that.  (The listener is set in the
+ * bindview in the adapter)
+ * This listener is used for other kind of entries.
+ */</span>
+@Override
+<span class="kw1">public</span> <span class="kw4">void</span> onItemClick<span class="br0">&#40;</span>AdapterView<span class="sy0">&lt;?&gt;</span> parent, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> view, <span class="kw4">int</span> position, <span class="kw4">long</span> id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mListener <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="kw1">final</span> ViewEntry entry <span class="sy0">=</span> mAdapter.<span class="me1">getItem</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>entry <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="kw1">return</span><span class="sy0">;</span>
+    entry.<span class="me1">click</span><span class="br0">&#40;</span>view, mListener<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT7 SECTION "联系人详细页面" [13352-15696] -->
+<h2 class="sectionedit8" id="联系人编辑页面">联系人编辑页面</h2>
+<div class="level2">
+
+<p>
+主要涉及的类是：ContactEditorActivity、ContactEditorFragment，此外还涉及几个试图类RawContactEditorView、PhotoEditorView、StructuredNameEditorView、PhoneticNameEditorView、GroupMembershipView
+</p>
+<ul>
+<li class="level1"><div class="li"> ContactEditorActivity基本只负责ContactEditorFragment的实例化，并提供一个mFragmentListener实现ContactEditorFragment.Listener</div>
+</li>
+<li class="level1"><div class="li"> ContactEditorFragment中有一个重要的方法bindEditors(),该方法根据获到的数据迭代显示编辑框。在整个运行过程中，只要数据有改动都有调用到这个方法。其中有绑定有绑定监听到编辑框。</div>
+</li>
+</ul>
+<pre class="code java"><span class="kw1">public</span> <span class="kw4">void</span> bindEditors<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">// This may happen when this Fragment is recreated by the system during users</span>
+    <span class="co1">// confirming the split action (and thus this method is called just before onCreate()),</span>
+    <span class="co1">// for example.Check this to prevent the occurrence of NullException when sort mState.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mState <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="co1">// Sort the editors</span>
+    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collections"><span class="kw3">Collections</span></a>.<span class="me1">sort</span><span class="br0">&#40;</span>mState, mComparator<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Remove any existing editors and rebuild any visible</span>
+    mContent.<span class="me1">removeAllViews</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// If photoActionPopup shown, the popup will leak when contact editor</span>
+    <span class="co1">// fragment bind editors. The popup need dismiss with content view</span>
+    <span class="co1">// remove all views.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mBindPhotoHandler <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mBindPhotoHandler.<span class="me1">destroy</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mBindPhotoHandler <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">final</span> LayoutInflater inflater <span class="sy0">=</span> <span class="br0">&#40;</span>LayoutInflater<span class="br0">&#41;</span> mContext.<span class="me1">getSystemService</span><span class="br0">&#40;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">LAYOUT_INFLATER_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">final</span> AccountTypeManager accountTypes <span class="sy0">=</span> AccountTypeManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>mContext<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">int</span> numRawContacts <span class="sy0">=</span> mState.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    currentAccountTpye <span class="sy0">=</span> mState.<span class="me1">get</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span>.<span class="me1">getValues</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">ACCOUNT_TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> numRawContacts<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// TODO ensure proper ordering of entities in the list</span>
+        <span class="kw1">final</span> EntityDelta entity <span class="sy0">=</span> mState.<span class="me1">get</span><span class="br0">&#40;</span>i<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> ValuesDelta values <span class="sy0">=</span> entity.<span class="me1">getValues</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>values.<span class="me1">isVisible</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> accountType <span class="sy0">=</span> values.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">ACCOUNT_TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> dataSet <span class="sy0">=</span> values.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">DATA_SET</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> AccountType type <span class="sy0">=</span> accountTypes.<span class="me1">getAccountType</span><span class="br0">&#40;</span>accountType, dataSet<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> <span class="kw4">long</span> rawContactId <span class="sy0">=</span> values.<span class="me1">getAsLong</span><span class="br0">&#40;</span>RawContacts._ID<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>type.<span class="me1">areContactsWritable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            editor <span class="sy0">=</span> <span class="br0">&#40;</span>BaseRawContactEditorView<span class="br0">&#41;</span> inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>
+                    R.<span class="me1">layout</span>.<span class="me1">raw_contact_readonly_editor_view</span>, mContent, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#40;</span><span class="br0">&#40;</span>RawContactReadOnlyEditorView<span class="br0">&#41;</span> editor<span class="br0">&#41;</span>.<span class="me1">setListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            editor <span class="sy0">=</span> <span class="br0">&#40;</span>RawContactEditorView<span class="br0">&#41;</span> inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">raw_contact_editor_view</span>,
+                    mContent, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>Intent.<span class="me1">ACTION_INSERT</span>.<span class="me1">equals</span><span class="br0">&#40;</span>mAction<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> numRawContacts <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">final</span> List<span class="sy0">&lt;</span>AccountWithDataSet<span class="sy0">&gt;</span> accounts <span class="sy0">=</span>
+                    AccountTypeManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>mContext<span class="br0">&#41;</span>.<span class="me1">getAccounts</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>accounts.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">1</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mNewLocalProfile<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                addAccountSwitcher<span class="br0">&#40;</span>mState.<span class="me1">get</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span>, editor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                disableAccountSwitcher<span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            disableAccountSwitcher<span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        editor.<span class="me1">setEnabled</span><span class="br0">&#40;</span>mEnabled<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mContent.<span class="me1">addView</span><span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        editor.<span class="me1">setState</span><span class="br0">&#40;</span>entity, type, mViewIdGenerator, isEditingUserProfile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Set up the photo handler.</span>
+        bindPhotoHandler<span class="br0">&#40;</span>editor, type, mState<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// If a new photo was chosen but not yet saved, we need to</span>
+        <span class="co1">// update the thumbnail to reflect this.</span>
+        Bitmap bitmap <span class="sy0">=</span> updatedBitmapForRawContact<span class="br0">&#40;</span>rawContactId<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>bitmap <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            editor.<span class="me1">setPhotoBitmap</span><span class="br0">&#40;</span>bitmap<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mUpdatedPhotos.<span class="me1">putBoolean</span><span class="br0">&#40;</span><span class="st0">&quot;has_remove&quot;</span>,<span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>editor <span class="kw1">instanceof</span> RawContactEditorView<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">final</span> Activity activity <span class="sy0">=</span> getActivity<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">final</span> RawContactEditorView rawContactEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RawContactEditorView<span class="br0">&#41;</span> editor<span class="sy0">;</span>
+            EditorListener listener <span class="sy0">=</span> <span class="kw1">new</span> EditorListener<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onRequest<span class="br0">&#40;</span><span class="kw4">int</span> request<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>activity.<span class="me1">isFinishing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="co1">// Make sure activity is still running.</span>
+                        <span class="kw1">return</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>request <span class="sy0">==</span> EditorListener.<span class="me1">FIELD_CHANGED</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>isEditingUserProfile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        acquireAggregationSuggestions<span class="br0">&#40;</span>activity, rawContactEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onDismissPopup<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// Nothing to do.</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onDeleteRequested<span class="br0">&#40;</span>Editor removedEditor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">final</span> TextFieldsEditorView nameEditor <span class="sy0">=</span> rawContactEditor.<span class="me1">getNameEditor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mRequestFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                nameEditor.<span class="me1">requestFocus</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mRequestFocus <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            nameEditor.<span class="me1">setEditorListener</span><span class="br0">&#40;</span>listener<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">final</span> TextFieldsEditorView phoneticNameEditor <span class="sy0">=</span>
+                    rawContactEditor.<span class="me1">getPhoneticNameEditor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            phoneticNameEditor.<span class="me1">setEditorListener</span><span class="br0">&#40;</span>listener<span class="br0">&#41;</span><span class="sy0">;</span>
+            rawContactEditor.<span class="me1">setAutoAddToDefaultGroup</span><span class="br0">&#40;</span>mAutoAddToDefaultGroup<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">if</span> <span class="br0">&#40;</span>rawContactId <span class="sy0">==</span> mAggregationSuggestionsRawContactId <span class="sy0">||</span> mAggregationSuggestionsRawContactId <span class="sy0">&lt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                acquireAggregationSuggestions<span class="br0">&#40;</span>activity, rawContactEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    mRequestFocus <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+&nbsp;
+    bindGroupMetaData<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Show editor now that we've loaded state</span>
+    mContent.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Refresh Action Bar as the visibility of the join command</span>
+    <span class="co1">// Activity can be null if we have been detached from the Activity</span>
+    <span class="kw1">final</span> Activity activity <span class="sy0">=</span> getActivity<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>activity <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> activity.<span class="me1">invalidateOptionsMenu</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+完成事件的处理再menu的item点击事件中处理。
+</p>
+
+</div>
+<!-- EDIT8 SECTION "联系人编辑页面" [15697-21667] -->
+<h1 class="sectionedit9" id="拨号模块">拨号模块</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT9 SECTION "拨号模块" [21668-] -->

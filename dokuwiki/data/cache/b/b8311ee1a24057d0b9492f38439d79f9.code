@@ -1,0 +1,21 @@
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">class</span> ServiceBinder <span class="kw1">implements</span> ServiceConnection <span class="br0">&#123;</span>
+        ServiceConnection mCallback<span class="sy0">;</span>
+        ServiceBinder<span class="br0">&#40;</span>ServiceConnection callback<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mCallback <span class="sy0">=</span> callback<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> onServiceConnected<span class="br0">&#40;</span>ComponentName className, android.<span class="me1">os</span>.<span class="me1">IBinder</span> service<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            sService <span class="sy0">=</span> IMediaPlaybackService.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+stub"><span class="kw3">Stub</span></a>.<span class="me1">asInterface</span><span class="br0">&#40;</span>service<span class="br0">&#41;</span><span class="sy0">;</span>
+            initAlbumArtCache<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mCallback <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mCallback.<span class="me1">onServiceConnected</span><span class="br0">&#40;</span>className, service<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> onServiceDisconnected<span class="br0">&#40;</span>ComponentName className<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mCallback <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mCallback.<span class="me1">onServiceDisconnected</span><span class="br0">&#40;</span>className<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            sService <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

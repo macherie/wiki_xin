@@ -1,0 +1,20 @@
+
+<p>
+mac80211是为支持softmac的网卡设备写的驱动框架。
+</p>
+
+<p>
+SoftMAC的MLME由软件实现，mac80211为SoftMAC实现提供了一组driver API。 
+</p>
+
+<p>
+SoftMAC设备允许对硬件执行更好地控制，允许用软件实现对802.11的帧管理，包括解析和产生802.11无线帧。而FullMAC就是硬件上来管理MLME，它不需要mac80211。
+</p>
+
+<p>
+mac80211为SoftMAC设备实现了cfg80211回调函数，且mac80211通过cfg80211实现了向网络子系统注册和配置。配置由cfg80211通过nl80211和wext实现。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;mac80211;mac80211.png?id=android%3Awifi%3Amac80211%3Amac80211" class="media" title="android:wifi:mac80211:mac80211.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;mac80211;mac80211.png" class="media" alt="" /></a>
+</p>

@@ -1,0 +1,23 @@
+ --- //[[yunqi.miao@sim.com|苗运齐]] 2013/12/03 09:28//FIXME
+====== 代码内嵌LOG ======
+
+1、实现
+<code java>
+    private static final String LOG_TAG = "---MainActivity---" ;
+    private static final boolean sDebug = !"user".equals(android.os.Build.TYPE);
+
+    private static void sLogD(String msg) {
+        if(sDebug) {
+            android.util.Log.d(LOG_TAG, msg);
+        }
+    }
+</code>
+
+2、调用
+<code java>
+    sLogD("This is behavior. You can do it!");
+</code>
+
+3、总结
+
+希望对您有帮助哦

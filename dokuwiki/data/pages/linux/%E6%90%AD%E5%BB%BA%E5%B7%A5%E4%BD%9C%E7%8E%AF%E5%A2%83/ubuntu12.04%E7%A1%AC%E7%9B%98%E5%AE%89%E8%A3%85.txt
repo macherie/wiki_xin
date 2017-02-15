@@ -1,0 +1,33 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2013/12/10//
+====== Ubuntu 12.04硬盘安装教程 ======
+
+  - 从服务器下载Ubuntu 12.04光盘镜像文件到 C 盘。下载地址：\\192.167.100.225\share\Tool\Ubuntu\ubuntu-12.04.1-desktop-amd64.iso
+  - 下载好后用解压工具打开。打开后进入"casper"文件来，解压"vmlinuz"和"initrd.lz"文件到 C 盘。
+  - 从服务器下载grub压缩包到 C 盘。下载地址：\\192.167.100.225\share\Tool\Ubuntu\grub.zip
+  - 打grub.zip中的四个文件（"grldr"、"grldr.mbr"、"grub.exe"、"menu.lst"）解压到 C 盘。
+  - 修改menu.lst文件，将iso文件名替换为要安装的ubuntu镜像文件名，默认为ubuntu-12.04.1-desktop-amd64.iso。
+  - 打开"控制面板"的"文件夹选项"，在"查看栏"显示所有文件的文件夹。
+  - 打开C盘的boot.ini文件，在末尾添加以下内容：（添加完后要保存）
+    * c:\grldr="Ubuntu Install"
+  -  磁盘分区：打开控制面板，双击“管理工具”，双击“计算机管理”，点击“磁盘管理”。
+    * 分区说明：制作一个空白分区，如果你的分区上有资料，则把资料转移到其他分区上，确保你的数据安全。删除分区，分配至少200GB的磁盘空间来安装Ubuntu 12.04。建立分区不要格式化，以便安装Ubuntu 12.04时好找分区。
+  - 重启电脑，选择启动项：Ubuntu Install
+  - 选择 Install Ubuntu12.04
+  - 等待片刻即出现 Ubuntu 桌面，用 Alt+Ctrl+t 调出终端，输入指令：
+    * <code bash>$ sudo umount -l /isodevice</code>
+  - 双击“安装 Ubuntu 12.04 LTS”。安装向导引导步骤：
+    * 欢迎：选择语言：“默认”
+    * 准备安装Ubuntu：安装中下载更新以及安装这个第三方软件“都不选择”，网络连接：“断开”。
+    * 无线：“不联网”，下一步。
+    * 安装类型：选最后一个“其他选项”，下一步，手动分区。（分区一定要小心谨慎，一选错就会破坏整个硬盘数据。）选择一个空白分区来安装
+    * 键盘布局：
+    * 管理员账号：设置用户名和密码。
+  - 安装完后重启电脑输入用户名和密码即可进入Ubuntu 12.04 系统。
+  - 系统安装完成后最好建立2G的文件交换分区，防止编译Android源码时出现内存不足造成编译失败。具体建立方法如下：
+
+       1. dd if=/dev/zero of=/swapfile bs=1k count=2048000
+       2. mkswap /swapfile
+       3. swapon /swapfile
+       4. 修改/etc/fstab使其启动时自动mount：
+          在/etc/fstab中增加如下语句：
+          /swapfile  swap  swap    defaults 0 0

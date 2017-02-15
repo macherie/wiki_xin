@@ -1,0 +1,8 @@
+<span class="kw1">try</span> <span class="br0">&#123;</span>
+    someComplicatedIOFunction<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>       	<span class="co1">//	可能抛出IOException</span>
+    someComplicatedParsingFunction<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>  	<span class="co1">//	可能抛出ParsingException</span>
+    someComplicatedSecurityFunction<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> 	<span class="co1">//	可能抛出SecurityException</span>
+    <span class="co1">//	其他可以抛出Exception的代码</span>
+<span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>                	<span class="co1">//	一次性捕获所有exceptions</span>
+    handleError<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>                     	<span class="co1">//	只有一个通用的处理方法!</span>
+<span class="br0">&#125;</span>

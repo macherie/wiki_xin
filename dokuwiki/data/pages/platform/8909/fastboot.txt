@@ -1,0 +1,17 @@
+===Modem side===
+<code>
+sudo fastboot flash modem  NON-HLOS.bin
+sudo fastboot flash sbl1 sbl1.mbn
+sudo fastboot flash rpm rpm.mbn
+sudo fastboot flash tz tz.mbn
+</code>
+
+===AP side===
+<code>
+sudo fastboot flash aboot emmc_appsboot.mbn 
+sudo fastboot flash boot boot.img
+sudo fastboot flash system system.img
+sudo fastboot flash userdata userdata.img
+sudo fastboot flash persist persist.img
+sudo fastboot flash recovery recovery.img
+</code>

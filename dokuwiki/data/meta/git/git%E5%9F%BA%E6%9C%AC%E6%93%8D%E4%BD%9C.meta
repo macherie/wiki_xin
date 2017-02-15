@@ -1,0 +1,16 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1390478357;s:8:"modified";i:1482305211;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"last_change";a:7:{s:4:"date";i:1482305211;s:2:"ip";s:11:"172.19.2.18";s:4:"type";s:1:"E";s:2:"id";s:19:"git:git基本操作";s:4:"user";s:10:"yuhua.wang";s:3:"sum";s:19:"[Git 基本操作] ";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"yuhua.wang";s:10:"yuhua.wang";}s:5:"title";s:16:"Git 基本操作";s:8:"relation";a:3:{s:5:"media";a:8:{s:26:"git:git使用及技巧.ppt";b:1;s:39:"git:2016-12-20_17_09_08屏幕截图.png";b:1;s:39:"git:2016-12-20_17_05_59屏幕截图.png";b:1;s:39:"git:2016-12-20_17_07_08屏幕截图.png";b:1;s:39:"git:2016-12-21_14_20_06屏幕截图.png";b:1;s:39:"git:2016-12-21_14_17_57屏幕截图.png";b:1;s:39:"git:2016-12-21_14_18_30屏幕截图.png";b:1;s:39:"git:2016-12-21_14_18_49屏幕截图.png";b:1;}s:10:"references";a:2:{s:8:"git:diff";b:1;s:13:"git:gitignore";b:1;}s:10:"firstimage";s:39:"git:2016-12-20_17_09_08屏幕截图.png";}s:11:"description";a:2:{s:15:"tableofcontents";a:8:{i:0;a:4:{s:3:"hid";s:6:"git_rm";s:5:"title";s:6:"git rm";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:6:"git_mv";s:5:"title";s:6:"git mv";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:2;a:4:{s:3:"hid";s:8:"git_diff";s:5:"title";s:8:"git diff";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:3;a:4:{s:3:"hid";s:10:"git_status";s:5:"title";s:10:"git status";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:4;a:4:{s:3:"hid";s:7:"git_log";s:5:"title";s:7:"git log";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:5;a:4:{s:3:"hid";s:15:"多分支操作";s:5:"title";s:15:"多分支操作";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:6;a:4:{s:3:"hid";s:34:"git使用中__和__之间的区别";s:5:"title";s:47:"Git使用中“..”和“...”之间的区别";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:7;a:4:{s:3:"hid";s:16:"git_忽略文件";s:5:"title";s:16:"Git 忽略文件";s:4:"type";s:2:"ul";s:5:"level";i:1;}}s:8:"abstract";s:319:"--- 尹姝 2013/12/11
+
+Git 基本操作
+
+<http://mt.sohu.com/20160927/n469237607.shtml>
+
+
+
+git rm
+
+ 删除文件 
+
+要从Git版本库中删除某个文件，就必须要先从暂存区删除，然后提交。可以用 git rm 命令完成此工作，并连带从工作区中删除指定的文件。
+
+
+$ git rm welcom.txt";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1390478357;s:8:"modified";i:1482305211;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"last_change";a:7:{s:4:"date";i:1482305211;s:2:"ip";s:11:"172.19.2.18";s:4:"type";s:1:"E";s:2:"id";s:19:"git:git基本操作";s:4:"user";s:10:"yuhua.wang";s:3:"sum";s:19:"[Git 基本操作] ";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"yuhua.wang";s:10:"yuhua.wang";}}}

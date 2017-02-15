@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>Simcom-wiki</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico" />
+       <dc:date>2017-01-17T04:53:31+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/%E5%BC%80%E5%A7%8B?rev=1467011304&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/start?rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/thermal?rev=1473301667&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/wiki%E4%BD%BF%E7%94%A8?rev=1420698936&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/wiki_syntax?rev=1477378007&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico">
+        <title>Simcom-wiki</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/%E5%BC%80%E5%A7%8B?rev=1467011304&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-06-27T09:08:24+01:00</dc:date>
+        <title>开始</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/%E5%BC%80%E5%A7%8B?rev=1467011304&amp;do=diff</link>
+        <description>OUR WIKI
+
+欢迎使用 OUR WIKI
+
+你站在桥上看风景，看风景的人在楼上看你。
+
+明月装饰了你的窗子，你装饰了别人的梦。
+
+在wiki的陪伴下，有些不起眼的记录，终究会长成另一些人手中的宝。
+
+分享你的知识让它长成一个宝。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/start?rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>start</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/start?rev=1390476864&amp;do=diff</link>
+        <description>OUR WIKI
+
+欢迎使用 OUR WIKI
+
+你站在桥上看风景，看风景的人在楼上看你。
+
+明月装饰了你的窗子，你装饰了别人的梦。
+
+在wiki的陪伴下，有些不起眼的记录，终究会长成另一些人手中的宝。
+
+分享你的知识让它长成一个宝。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/thermal?rev=1473301667&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-09-08T04:27:47+01:00</dc:date>
+        <title>thermal</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/thermal?rev=1473301667&amp;do=diff</link>
+        <description>Qualcomm Thermal Tuning
+
+高通提供了thermal调节工具，在整机功耗优化基本完成的前提下，调整系统system/etc/thermal-engine.conf文件，调整策略优化整机发热情况。
+
+thermal工具以及参考资料位置如下： 192.167.100.255/share/thermal。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/wiki%E4%BD%BF%E7%94%A8?rev=1420698936&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2015-01-08T07:35:36+01:00</dc:date>
+        <title>wiki使用</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/wiki%E4%BD%BF%E7%94%A8?rev=1420698936&amp;do=diff</link>
+        <description>基本文本格式
+
+DokuWiki支持 粗体， 斜体， 下划线 以及 等宽体 等格式。当然，您也可以 混合使用 所有这些格式。
+
+DokuWiki支持 **粗体**， //斜体//， __下划线__ and ''等宽体'' 等格式。
+
+当然，您也可以 **__//''混合使用''//__** 所有这些格式。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/wiki_syntax?rev=1477378007&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-10-25T08:46:47+01:00</dc:date>
+        <title>wiki_syntax</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/wiki_syntax?rev=1477378007&amp;do=diff</link>
+        <description>Formatting Syntax
+
+DokuWiki supports some simple markup language, which tries to make the datafiles to be as readable as possible. This page contains all possible syntax you may use when editing the pages. Simply have a look at the source of this page by pressing</description>
+    </item>
+</rdf:RDF>

@@ -1,0 +1,4 @@
+同时抓取带时间的logcat和kernel log的方法：
+<code>
+adb shell logcat -v time -f /dev/kmsg | adb shell cat /proc/kmsg | tee kernel_logcat.txt
+</code>

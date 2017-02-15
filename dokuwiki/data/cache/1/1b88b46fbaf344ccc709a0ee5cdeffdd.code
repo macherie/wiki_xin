@@ -1,0 +1,24 @@
+<span class="kw1">public</span> <span class="kw4">boolean</span> onOptionsItemSelected<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menuitem"><span class="kw3">MenuItem</span></a> item<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>FeatureQuery.<span class="me1">FEATURE_BAIDU_XCLOUD</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>XCloudManager.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">handleXCouldRelatedMenuItem</span><span class="br0">&#40;</span>item, <span class="kw1">this</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">switch</span> <span class="br0">&#40;</span>item.<span class="me1">getItemId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">case</span> android.<span class="me1">R</span>.<span class="me1">id</span>.<span class="me1">home</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="co1">// The home icon on the action bar is pressed</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mActionBarAdapter.<span class="me1">isUpShowing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// &quot;UP&quot; icon press -- should be treated as &quot;back&quot;.</span>
+            onBackPressed<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    ...
+    <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">menu_switch_group</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        isLocalGroupsShown <span class="sy0">=</span> <span class="sy0">!</span>isLocalGroupsShown<span class="sy0">;</span>
+        updateGroupsMenu<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mGroupsFragment.<span class="me1">updateGroupData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

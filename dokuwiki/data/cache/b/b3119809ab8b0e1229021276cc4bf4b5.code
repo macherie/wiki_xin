@@ -1,0 +1,151 @@
+ <span class="co1">//start  seperate</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>mOwner<span class="sy0">-&gt;</span>getflagRestart<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            bool flag<span class="sy0">=</span><span class="kw2">false</span><span class="sy0">;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>mIsAudio<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                <span class="kw1">if</span><span class="br0">&#40;</span>mOwner<span class="sy0">-&gt;</span>getflagTrackRestart<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="kw1">if</span><span class="br0">&#40;</span>isSync<span class="sy0">!=</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                        flag<span class="sy0">=</span><span class="kw2">true</span><span class="sy0">;</span>
+                        mOwner<span class="sy0">-&gt;</span>setflagAudioTrackRestart<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+                <span class="kw1">if</span><span class="br0">&#40;</span>mOwner<span class="sy0">-&gt;</span>getflagAudioTrackRestart<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    flag<span class="sy0">=</span><span class="kw2">true</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">if</span><span class="br0">&#40;</span>flag<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    ALOGD<span class="br0">&#40;</span><span class="st0">&quot;Restart :%s &quot;</span><span class="sy0">,</span> trackName<span class="br0">&#41;</span><span class="sy0">;</span>
+                    ALOGD<span class="br0">&#40;</span><span class="st0">&quot;Restart :mChunkSamples%d&quot;</span><span class="sy0">,</span> mChunkSamples.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                    <span class="co1">//record enveriment</span>
+                      mStartTimestampUs_Restart<span class="sy0">=</span>mStartTimestampUs<span class="sy0">;</span>
+                      mMinCttsOffsetTimeUs_restart<span class="sy0">=</span>mMinCttsOffsetTimeUs<span class="sy0">;</span>
+                      mMaxCttsOffsetTimeUs__restart<span class="sy0">=</span>mMaxCttsOffsetTimeUs<span class="sy0">;</span>
+                      mStszTableEntries_resart<span class="sy0">=</span>mStszTableEntries<span class="sy0">;</span>
+                      mStcoTableEntries_restart<span class="sy0">=</span> mStcoTableEntries<span class="sy0">;</span>
+                      mStscTableEntries_restart<span class="sy0">=</span> mStscTableEntries<span class="sy0">;</span>
+                      mStssTableEntries_restart<span class="sy0">=</span> mStssTableEntries<span class="sy0">;</span>
+                      mSttsTableEntries_restart<span class="sy0">=</span>mSttsTableEntries<span class="sy0">;</span>
+                      mCttsTableEntries_restart<span class="sy0">=</span>mCttsTableEntries<span class="sy0">;</span>
+                      mCo64TableEntries_restart<span class="sy0">=</span>mCo64TableEntries<span class="sy0">;</span>
+                      mTrackDurationUs_restart<span class="sy0">=</span>mTrackDurationUs<span class="sy0">;</span>
+&nbsp;
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mStszTableEntries_resart :%d &quot;</span><span class="sy0">,</span> mStszTableEntries_resart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mStcoTableEntries_restart :%d &quot;</span><span class="sy0">,</span> mStcoTableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mStscTableEntries_restart :%d &quot;</span><span class="sy0">,</span> mStscTableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mStssTableEntries_restart :%d &quot;</span><span class="sy0">,</span> mStssTableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mSttsTableEntries_restart :%d &quot;</span><span class="sy0">,</span> mSttsTableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mCttsTableEntries_restart :%d &quot;</span><span class="sy0">,</span> mCttsTableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      ALOGD<span class="br0">&#40;</span><span class="st0">&quot;mCo64TableEntries_restart :%d &quot;</span><span class="sy0">,</span> mCo64TableEntries_restart<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                      <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>mIsAudio<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                        mOwner<span class="sy0">-&gt;</span>setStartTimestampUsRestart<span class="br0">&#40;</span>mOwner<span class="sy0">-&gt;</span>getStartTimestampUs<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mOwner<span class="sy0">-&gt;</span>ResetStartTimestampUs<span class="br0">&#40;</span>0ll<span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                        mTrackRestartDone<span class="sy0">=</span><span class="kw2">true</span><span class="sy0">;</span>
+                        <span class="co1">//bufferchunk</span>
+                    <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>mChunkSamples.<span class="me1">empty</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                        <span class="kw4">int</span> tmptimeStampUs<span class="sy0">=</span>lastTimestampUs<span class="sy0">;</span>
+                        addOneStscTableEntry<span class="br0">&#40;</span><span class="sy0">++</span>nChunks<span class="sy0">,</span> mChunkSamples.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        bufferChunk<span class="br0">&#40;</span>tmptimeStampUs<span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="co1">/////////////////////</span>
+                        <span class="co1">/////////////////////</span>
+                        mRestartbufferchunkStampUs<span class="sy0">=</span>tmptimeStampUs<span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="kw1">else</span><span class="br0">&#123;</span>
+                        mRestartbufferchunkStampUs<span class="sy0">=</span>chunkTimestampUs<span class="sy0">;</span>
+                        <span class="kw1">if</span><span class="br0">&#40;</span>mWritenFileTimestamp<span class="sy0">==</span>mRestartbufferchunkStampUs<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                            <span class="kw1">if</span><span class="br0">&#40;</span>isAudio<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                                ALOGI<span class="br0">&#40;</span><span class="st0">&quot;Audio chunk already writen&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                mOwner<span class="sy0">-&gt;</span>setflagAudioDone<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                            <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+                                ALOGI<span class="br0">&#40;</span><span class="st0">&quot;Vedio chunk already writen&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                mOwner<span class="sy0">-&gt;</span>setflagVedioDone<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                            <span class="br0">&#125;</span>
+                        <span class="br0">&#125;</span>
+                      <span class="br0">&#125;</span>
+                      <span class="co1">// We don't really know how long the last frame lasts, since</span>
+                      <span class="co1">// there is no frame time after it, just repeat the previous</span>
+                      <span class="co1">// frame's duration.</span>
+                     <span class="kw1">if</span> <span class="br0">&#40;</span>mStszTableEntries<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="co2">#ifdef MTK_AOSP_ENHANCEMENT //Do not set duration to 0 even if there is only one frame in this track</span>
+		        ALOGW<span class="br0">&#40;</span><span class="st0">&quot;Only one frame in %s track, Set scaled duration to 1&quot;</span><span class="sy0">,</span> mIsAudio<span class="sy0">?</span> <span class="st0">&quot;audio&quot;</span><span class="sy0">:</span> <span class="st0">&quot;video&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+		        <span class="kw1">if</span> <span class="br0">&#40;</span>mTimeScale <span class="sy0">&gt;=</span> 1000000LL<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+			    lastDurationUs <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+		        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+			    lastDurationUs <span class="sy0">=</span> <span class="br0">&#40;</span>1000000LL <span class="sy0">+</span> <span class="br0">&#40;</span>mTimeScale <span class="sy0">&gt;&gt;</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">/</span> mTimeScale<span class="sy0">;</span>
+		        <span class="br0">&#125;</span>
+		        lastDurationTicks <span class="sy0">=</span> <span class="br0">&#40;</span>lastDurationUs <span class="sy0">*</span> mTimeScale <span class="sy0">+</span> <span class="nu19">5E5</span><span class="br0">&#41;</span> <span class="sy0">/</span> <span class="nu19">1E6</span><span class="sy0">;</span>
+<span class="co2">#else</span>
+                        lastDurationUs <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>  <span class="co1">// A single sample's duration</span>
+                        lastDurationTicks <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="co2">#endif</span>
+                        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                            <span class="sy0">++</span>sampleCount<span class="sy0">;</span>  <span class="co1">// Count for the last sample</span>
+                        <span class="br0">&#125;</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span>mStszTableEntries<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&lt;=</span> <span class="nu0">2</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            addOneSttsTableEntry<span class="br0">&#40;</span><span class="nu0">1</span><span class="sy0">,</span> lastDurationTicks<span class="br0">&#41;</span><span class="sy0">;</span>
+                            <span class="kw1">if</span> <span class="br0">&#40;</span>sampleCount <span class="sy0">-</span> <span class="nu0">1</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                addOneSttsTableEntry<span class="br0">&#40;</span>sampleCount <span class="sy0">-</span> <span class="nu0">1</span><span class="sy0">,</span> lastDurationTicks<span class="br0">&#41;</span><span class="sy0">;</span>
+                             <span class="br0">&#125;</span>
+                         <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                             addOneSttsTableEntry<span class="br0">&#40;</span>sampleCount<span class="sy0">,</span> lastDurationTicks<span class="br0">&#41;</span><span class="sy0">;</span>
+                         <span class="br0">&#125;</span>
+&nbsp;
+                         <span class="co1">// The last ctts box may not have been written yet, and this</span>
+                         <span class="co1">// is to make sure that we write out the last ctts box.</span>
+                         <span class="kw1">if</span> <span class="br0">&#40;</span>currCttsOffsetTimeTicks <span class="sy0">==</span> lastCttsOffsetTimeTicks<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            <span class="kw1">if</span> <span class="br0">&#40;</span>cttsSampleCount <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                addOneCttsTableEntry<span class="br0">&#40;</span>cttsSampleCount<span class="sy0">,</span> lastCttsOffsetTimeTicks<span class="br0">&#41;</span><span class="sy0">;</span>
+                                <span class="br0">&#125;</span>
+                            <span class="br0">&#125;</span>
+&nbsp;
+                         mTrackDurationUs_restart<span class="sy0">+=</span> lastDurationUs<span class="sy0">;</span>
+                         mReachedEOS <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+                         sendTrackSummary<span class="br0">&#40;</span>hasMultipleTracks<span class="br0">&#41;</span><span class="sy0">;</span>
+                         ALOGI<span class="br0">&#40;</span><span class="st0">&quot;Received total/0-length (%d/%d) buffers and encoded %d frames. - %s&quot;</span><span class="sy0">,</span>
+                            count<span class="sy0">,</span> nZeroLengthFrames<span class="sy0">,</span> mStszTableEntries<span class="sy0">-&gt;</span>count<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> trackName<span class="br0">&#41;</span><span class="sy0">;</span>
+                         ALOGI<span class="br0">&#40;</span><span class="st0">&quot;counttest:%d - %s&quot;</span><span class="sy0">,</span>counttst<span class="sy0">,</span> trackName<span class="br0">&#41;</span><span class="sy0">;</span>
+                         ALOGI<span class="br0">&#40;</span><span class="st0">&quot;mchunsamplerecieve:%d - %s&quot;</span><span class="sy0">,</span>mchunsamplerecieve<span class="sy0">,</span> trackName<span class="br0">&#41;</span><span class="sy0">;</span>
+                         <span class="kw1">if</span> <span class="br0">&#40;</span>mIsAudio<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            ALOGI<span class="br0">&#40;</span><span class="st0">&quot;Audio track drift time: %&quot;</span> PRId64 <span class="st0">&quot; us&quot;</span><span class="sy0">,</span> mOwner<span class="sy0">-&gt;</span>getDriftTimeUs<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                         <span class="br0">&#125;</span>
+&nbsp;
+                      <span class="co1">//reset varible</span>
+                      mStszTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mStcoTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mCo64TableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>off64_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mStscTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">3</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mStssTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mSttsTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mCttsTableEntries<span class="sy0">=</span>new ListTableEntries<span class="sy0">&lt;</span>uint32_t<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="nu0">1000</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                      mStartTimestampUs<span class="sy0">=-</span><span class="nu0">1</span><span class="sy0">;</span>
+                      mTrackDurationUs<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+                      <span class="co1">//reset local var</span>
+                      count <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+                      chunkTimestampUs <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                      nChunks <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                      nZeroLengthFrames <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                      lastTimestampUs <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>      <span class="co1">// Previous sample time stamp</span>
+                      lastDurationUs <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>       <span class="co1">// Between the previous two samples</span>
+                      currDurationTicks <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>    <span class="co1">// Timescale based ticks</span>
+                      lastDurationTicks <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>    <span class="co1">// Timescale based ticks</span>
+                      sampleCount <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>          <span class="co1">// Sample count in the current stts table entry</span>
+                      previousSampleSize <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>  <span class="co1">// Size of the previous sample</span>
+                      previousPausedDurationUs <span class="sy0">=</span> lastSouceTimestampUs<span class="sy0">;</span>
+                      cttsOffsetTimeUs <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                      currCttsOffsetTimeTicks <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>   <span class="co1">// Timescale based ticks</span>
+                      lastCttsOffsetTimeTicks <span class="sy0">=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span>  <span class="co1">// Timescale based ticks</span>
+                      cttsSampleCount <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>           <span class="co1">// Sample count in the current ctts table entry</span>
+                      lastSamplesPerChunk <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                      mMdatSizeBytes<span class="sy0">=</span>sampleSize<span class="sy0">;</span>
+&nbsp;
+                      <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>mIsAudio<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                        mOwner<span class="sy0">-&gt;</span>setflagTrackRestart<span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+                        mOwner<span class="sy0">-&gt;</span>setflagAudioTrackRestart<span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                        flag<span class="sy0">=</span><span class="kw2">false</span><span class="sy0">;</span>
+&nbsp;
+                        <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>

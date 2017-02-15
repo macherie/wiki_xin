@@ -1,0 +1,13 @@
+
+<h1 class="sectionedit1" id="如何抓取中断唤醒源">如何抓取中断唤醒源</h1>
+<div class="level1">
+
+<p>
+打开log: echo 1 &gt;  /sys/module/msm_show_resume_irq/parameters/debug_mask
+</p>
+
+<p>
+抓取log: cat /proc/kmsg &gt;/data/wakeup.txt
+</p>
+
+</div>

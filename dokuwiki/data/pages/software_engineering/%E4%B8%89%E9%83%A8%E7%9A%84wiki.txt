@@ -1,0 +1,3 @@
+3部的wiki地址
+
+[[http://172.19.1.122/doku.php?id=docs:tools:qpst:image_download&do=index]]

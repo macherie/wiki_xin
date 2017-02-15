@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! playground</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:41:22+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:%E6%B5%8B%E8%AF%95&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:burn&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:cpu%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E4%B8%8E%E8%AF%84%E6%B5%8B%E7%BD%91&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:fun&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:hehe&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:o&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:playground&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:sed%E5%91%BD%E4%BB%A4&amp;rev=1392692198&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:test&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:test_1&amp;rev=1392690858&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:transform&amp;rev=1393898490&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:we_test&amp;rev=1390476865&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=playground:what&amp;rev=1390476865&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:%E6%B5%8B%E8%AF%95&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:测试</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:%E6%B5%8B%E8%AF%95&amp;rev=1390476865&amp;do=diff</link>
+        <description>阿斯顿</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:burn&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>playground:burn</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:burn&amp;rev=1390476864&amp;do=diff</link>
+        <description>感受：
+Wiki使用起来快捷、易学、易用。
+
+方便做记录，方便随时修改。
+
+楼上所言极是～</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:cpu%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E4%B8%8E%E8%AF%84%E6%B5%8B%E7%BD%91&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>playground:cpu性能对比与评测网</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:cpu%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E4%B8%8E%E8%AF%84%E6%B5%8B%E7%BD%91&amp;rev=1390476864&amp;do=diff</link>
+        <description>土豪咱们来跑个分吧！
+
+网站收录了目前ARM与X86主流的CPU，详细的硬件参数可供参考和对比。
+
+&lt;http://cpuboss.com/&gt;
+
+如搜索: msm8960
+或者对比：i5 3230m与i5 4200U</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:fun&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:fun</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:fun&amp;rev=1390476865&amp;do=diff</link>
+        <description>aaaaaaaa
+bbbbbbbbb
+
+cccccccccccccccccc
+ 项目      本周工作内容      下周工作计划  备注  项目名    版本  本周主要工作描述  完成状态  主要问题及改进        S200  V11  蓝牙拨号DTMF音问题。插耳机重复开关机开关机声音有时会成耳机出来  未完成    继续解bug          切换卡死机问题  未完成              解bug  未完成        S300P  S300P  V03  “解决Miare Classic无法读取的问题，原因在于调试天线匹配的时候，相关策略没有导入产品中；  同时帮助解决对方公司在NFC开发的时候碰到的问题。”  完成    完善camera功能          修改QCN  完成              优化camera  未完成        S100D  S100D    解决8625qcamera与视频播放相关bug  未完成    继续调试15.6寸屏，解bug    C500  C500    “调试LG的15.6寸的屏，已经按照上电时序来调…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:hehe&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:hehe</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:hehe&amp;rev=1390476865&amp;do=diff</link>
+        <description>[b]bold[/b]
+[i]italic[/i]
+[u]underline[/u]
+[s]strike[/s]
+[color=red]red[/color]
+[size=24]size twentyfour[/size]
+[quote]This is a silly placeholder text...[/quote]
+[code]c=a+b[/code]
+[url]&lt;http://nucleuscms.org[/url]&gt;
+[url=&lt;http://nucleuscms.org]Nucleus&gt; CMS [/url]
+[email]someone@example.com[/email]
+[email=someone@example.com]Someone[/email]
+[img]&lt;http://localhost/pluginsdev/skins/default/images/nucleus.gif[/img]&gt;
+New features of version 0.3:
+[quote name=“tlucente”]This is a silly placeholder tex…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:o&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:o</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:o&amp;rev=1390476865&amp;do=diff</link>
+        <description>第五事业部研发部通讯录2013.07.18                研发部      硬件部          冯永君  3487  18621115178  杨玫  3258  13661857893      贺晓巍  3023  18616867171  张龚林    15021285821      项目部      （预留）    （预留）      鲍成  3470  18616668585  崔月红  3426  13512139940      屠炜  3313  13161108896  李伟君    13567939018      伍杨    13636302524  易修雄    13601987896      杨昀霞    13917042100  （预留）    （预留）      测试部      石勇强  3092  13651731263      李群  3435  18916677868  付何洋    13916724675      姜静静    13761293458  张毅    18621572532      张孟孟    15…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:playground&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:playground</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:playground&amp;rev=1390476865&amp;do=diff</link>
+        <description>Wiki是个啥东东呀？怎么用呀？
+我先试试:-)
+看看好用伐？
+
+你站在桥上看风景，看风景的人在楼上看你。
+
+明月装饰了你的窗子，你装饰了别人的梦。
+
+在wiki的陪伴下，有些不起眼的记录，终究会长成另一些人手中的宝。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:sed%E5%91%BD%E4%BB%A4&amp;rev=1392692198&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T03:56:38+01:00</dc:date>
+        <title>playground:sed命令</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:sed%E5%91%BD%E4%BB%A4&amp;rev=1392692198&amp;do=diff</link>
+        <description>sed命令
+
+一个命令替换所有当前目录下的.repo/manifests/.git/config中的字符串
+
+
+sed -i &quot;s-git://192.167.100.232/platform/manifest.git-git@192.167.100.232:platform/manifest.git-&quot; */.repo/manifests/.git/config
+
+
+sed 命令的s后可以跟任意字符代替。所以上面命令也可以写成</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:test&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:test</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:test&amp;rev=1390476865&amp;do=diff</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:test_1&amp;rev=1392690858&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T03:34:18+01:00</dc:date>
+        <title>playground:test_1</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:test_1&amp;rev=1392690858&amp;do=diff</link>
+        <description>程序员的素质
+
+一个程序员应该具备哪些素质？谁是优秀的程序员？
+
+	*   细心和责任心。他们写代码非常细心，基本上不会犯忘记释放内存关闭文件的错误，经常性的检查代码，发现代码中微小错误；提交代码之前，一般会测试几十遍，保证代码尽量不出问题。对代码精益求精，即便是代码没有问题，也要经常重构，提高代码的健壮性和简洁性。
+	*   善于学习和总结，寻找自己的不足。IT领域的技术更新换代太快了，他们会经常读一些计算机经典名著，又时刻关注新技术的发展，对于犯过的错误会牢牢记在心中，写代码经常提醒别犯类似的错误。
+	*   思维严谨。他们写一个函数，总会先检查参数，IF语句总能覆盖所有的条件组合，while不会有加1减1的错误，内存不用的时候，总会及时释放，调用一个函数，经常判断返回值。他们考虑的问题比一般人多，比如在SD卡上写文件，会先判断SD是否已经挂载，是不是可写，是不是已满，调用了write函数会检查写入了字符数，最后自己关闭文件，不使用java语言自动关闭文件的功能。
+	*  良好的耐力。为了跟踪一个BUG，连续几天分析LOG，反复对比不同条件下的LOG。有一种不达目标不罢休的劲头。
+…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:transform&amp;rev=1393898490&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-03-04T03:01:30+01:00</dc:date>
+        <title>playground:transform</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:transform&amp;rev=1393898490&amp;do=diff</link>
+        <description>大哥你玩摇滚。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:we_test&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:we_test</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:we_test&amp;rev=1390476865&amp;do=diff</link>
+        <description>adfadfasdf</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=playground:what&amp;rev=1390476865&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:25+01:00</dc:date>
+        <title>playground:what</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=playground:what&amp;rev=1390476865&amp;do=diff</link>
+        <description>aaaaaaaaaaaaa</description>
+    </item>
+</rdf:RDF>

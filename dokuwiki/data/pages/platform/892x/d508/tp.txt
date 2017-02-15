@@ -1,0 +1,25 @@
+**S3202 Touch Controller**
+
+Overview：
+          2.7V to 3.6V supply voltage 
+          1.62V to 3.6V host interface voltage 
+          1.8V core supply for low power operation 
+          Up to 10-finger detection and simultaneous tracking 
+          Up to 333 kHz sensing frequency 
+          Up to 250 Hz report rate; other rates configurable 
+          Small finger support (down to 4 mm diameter) 
+          Point contact passive stylus input with automatic pen/finger disambiguation 
+          I2C (100/400 kHz)
+          I2C Slave Address 0x20
+          VREG_L19
+          VREG_LVS1
+          GPIO_INT  17 high to low edge
+          GPIO_RST  16
+                
+Power Supply Current:
+{{ linux:8928:d508:current.jpg |}}
+Power-on sequence： 
+{{ linux:8928:d508:sequence.jpg |}}
+Power on reset:
+T_reset = 100ms
+{{ linux:8928:d508:reset.jpg |}}

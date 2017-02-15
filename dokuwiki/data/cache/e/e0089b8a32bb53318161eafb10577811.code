@@ -1,0 +1,11 @@
+<span class="co1">// 常规缩进</span>
+someMethod<span class="br0">&#40;</span><span class="kw4">int</span> anArg, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> anotherArg, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> yetAnotherArg,
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> andStillAnother<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+...
+<span class="br0">&#125;</span>
+<span class="co1">// 为避免太靠右，用8个空格缩进</span>
+<span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">synchronized</span>	horkingLongMethodName<span class="br0">&#40;</span><span class="kw4">int</span> anArg,
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> anotherArg, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> yetAnotherArg,
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> andStillAnother<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+...
+<span class="br0">&#125;</span>

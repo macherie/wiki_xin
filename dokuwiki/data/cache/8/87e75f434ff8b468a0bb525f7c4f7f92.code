@@ -1,0 +1,23 @@
+<span class="kw4">static</span> sensor_lib_t sensor_lib_ptr <span class="sy0">=</span>
+<span class="br0">&#123;</span>
+  .<span class="me1">sensor_slave_info</span> <span class="sy0">=</span>
+  <span class="br0">&#123;</span>
+    .<span class="me1">sensor_name</span> <span class="sy0">=</span> SENSOR_MODEL<span class="sy0">,</span>
+    .<span class="me1">slave_addr</span> <span class="sy0">=</span> <span class="nu12">0x5A</span><span class="sy0">,</span>
+    .<span class="me1">i2c_freq_mode</span> <span class="sy0">=</span> SENSOR_I2C_MODE_FAST<span class="sy0">,</span>
+    .<span class="me1">addr_type</span> <span class="sy0">=</span> CAMERA_I2C_WORD_ADDR<span class="sy0">,</span>
+    .<span class="me1">sensor_id_info</span> <span class="sy0">=</span>
+    <span class="br0">&#123;</span>
+      .<span class="me1">sensor_id_reg_addr</span> <span class="sy0">=</span> <span class="nu12">0x0000</span><span class="sy0">,</span>
+      .<span class="me1">sensor_id</span> <span class="sy0">=</span> <span class="nu12">0x4088</span><span class="sy0">,</span>
+    <span class="br0">&#125;</span><span class="sy0">,</span>
+    .<span class="me1">power_setting_array</span> <span class="sy0">=</span>
+    <span class="br0">&#123;</span>
+      .<span class="me1">power_setting_a</span> <span class="sy0">=</span>
+      <span class="br0">&#123;</span>
+        <span class="br0">&#123;</span>
+          .<span class="me1">seq_type</span> <span class="sy0">=</span> CAMERA_POW_SEQ_GPIO<span class="sy0">,</span>
+          .<span class="me1">seq_val</span> <span class="sy0">=</span> CAMERA_GPIO_STANDBY<span class="sy0">,</span>
+          .<span class="me1">config_val</span> <span class="sy0">=</span> GPIO_OUT_LOW<span class="sy0">,</span>
+          .<span class="me1">delay</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">,</span>
+        <span class="br0">&#125;</span><span class="sy0">,</span>

@@ -1,0 +1,91 @@
+
+<p>
+有未接来电或短信时都会发送notification，以此来驱动LED的亮灭状态，最后都会调用到frameworks/base/services/core/java/com/android/server/notification/NotificationManagerService.java类中的updateLightsLocked方法：
+</p>
+<pre class="code"> // lock on mNotificationList
+  void updateLightsLocked()
+  {
+      // handle notification lights
+      if (mLedNotification == null) {
+          // get next notification, if any
+          int n = mLights.size();
+          if (n &gt; 0) {
+              mLedNotification = mNotificationsByKey.get(mLights.get(n-1));
+          }
+      }
+      // Don&#039;t flash while we are in a call or screen is on
+      if (mLedNotification == null || mInCall) {
+          mNotificationLight.turnOff();
+          mStatusBar.notificationLightOff();
+      } else {
+          final Notification ledno = mLedNotification.sbn.getNotification();
+          int ledARGB = ledno.ledARGB;
+          int ledOnMS = ledno.ledOnMS;
+          int ledOffMS = ledno.ledOffMS;
+          if ((ledno.defaults &amp; Notification.DEFAULT_LIGHTS) != 0) {
+              ledARGB = mDefaultNotificationColor;
+              ledOnMS = mDefaultNotificationLedOn;
+              ledOffMS = mDefaultNotificationLedOff;
+          }
+          if (mNotificationPulseEnabled) {
+              // pulse repeatedly
+              // 注意，此方法即是控制LED灯闪烁
+              mNotificationLight.setFlashing(ledARGB, Light.LIGHT_FLASH_TIMED,
+                      ledOnMS, ledOffMS);
+          }
+          // let SystemUI make an independent decision
+          mStatusBar.notificationLightPulse(ledARGB, ledOnMS, ledOffMS);
+      }
+  }
+  </pre>
+
+<p>
+其中mNotificationLight是frameworks/base/services/core/java/com/android/server/lights/LightsService.java类的内部类。
+</p>
+<pre class="code">      @Override
+      public void setFlashing(int color, int mode, int onMS, int offMS) {
+          synchronized (this) {
+              if (mIsQ) {
+                  color = Color.BLUE;
+                  // 一个消失后取消LED闪烁
+                  mH.removeMessages(1);
+                  mH.sendMessageDelayed(Message.obtain(mH, 1, this), 60 * 60 * 1000);
+                  // 保持CPU唤醒状态，防止CPU睡眠导致LED不再闪烁
+                  mH.removeMessages(2);
+                  mH.sendMessageDelayed(Message.obtain(mH, 2, this), 60);
+              }
+              setLightLocked(color, mode, onMS, offMS, BRIGHTNESS_MODE_USER);
+          }
+      }
+      </pre>
+
+<p>
+调用/frameworks/base/services/core/jni/com_android_server_lights_LightsService.cpp的setLight_native方法
+</p>
+<pre class="code">  static void setLight_native(JNIEnv *env, jobject clazz, jlong ptr, jint light, jint colorARGB, jint flashMode, jint onMS, jint offMS, jint brightnessMode) {
+      Devices* devices = (Devices*)ptr;
+      light_state_t state;
+      if (light &lt; 0 || light &gt;= LIGHT_COUNT || devices-&gt;lights[light] == NULL) {
+          return ;
+      }
+      memset(&amp;state, 0, sizeof(light_state_t));
+      state.color = colorARGB;
+      state.flashMode = flashMode;
+      state.flashOnMS = onMS;
+      state.flashOffMS = offMS;
+      state.brightnessMode = brightnessMode; {
+          ALOGD_IF_SLOW(50, &quot;Excessive delay setting light&quot;);
+          devices-&gt;lights[light]-&gt;set_light(devices-&gt;lights[light], &amp;state);
+      }
+  }</pre>
+
+<p>
+再进入/hardware/qcom/display/liblight/lights.c
+</p>
+<pre class="code">  static void handle_speaker_battery_locked(struct light_device_t* dev) {
+      if (is_lit(&amp;g_battery)) {
+          set_speaker_light_locked(dev, &amp;g_battery);
+      } else {
+          set_speaker_light_locked(dev, &amp;g_notification);
+      }
+  }</pre>

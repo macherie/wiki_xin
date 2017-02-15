@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>Simcom-wiki</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico" />
+       <dc:date>2017-01-17T04:53:30+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8996;sensor;%E9%85%8D%E7%BD%AE?rev=1484619165&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8996;thermal?rev=1484619025&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3A2017-01-16_17_36_02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3Athermal.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/linux;kernel;gpio%E8%AE%BE%E7%BD%AEpwm?rev=1484554232&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8939;sbl1;sbl1%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97-%E9%A2%84%E5%85%85%E7%94%B5?rev=1484550404&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8953;pytimechart?rev=1484286157&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8953;thermal-engine?rev=1484282677&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8953;adb%E6%80%A7%E8%83%BD%E8%B0%83%E8%AF%95?rev=1484282627&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8939;modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85?rev=1484213445&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/android;application;%E5%85%B3%E4%BA%8Eandroid_6.0_theme.nodisplay_%E5%AF%BC%E8%87%B4%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E8%A7%A3%E6%9E%90?rev=1484123322&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/android;application;android_6.0_theme.nodisplay_regression?rev=1484121573&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=playgrond%3Aerror.png&amp;ns=playgrond&amp;rev=1484117432&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/platform;8996;bt_wifi_mac?rev=1484030265&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482309204&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3Agit%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%8A%80%E5%B7%A7.ppt&amp;ns=git&amp;rev=1482304213&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_20_06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_30%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_17_57%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico">
+        <title>Simcom-wiki</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/default/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8996;sensor;%E9%85%8D%E7%BD%AE?rev=1484619165&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-17T03:12:45+01:00</dc:date>
+        <dc:creator>qiancheng</dc:creator>
+        <title>platform:8996:sensor:配置 - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8996;sensor;%E9%85%8D%E7%BD%AE?rev=1484619165&amp;do=diff</link>
+        <description>手动修改机器中config文件
+adb root
+adb remount
+adb shell rm /etc/sensors/sensor_def_qcomdev.conf
+adb push sensor_def_qcomdev.conf /etc/sensors/sensor_def_qcomdev.conf
+adb shell chmod 644 /etc/sensors/sensor_def_qcomdev.conf
+adb shell rm /persist/sensors/sns.reg
+adb shell sync
+adb reboot</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8996;thermal?rev=1484619025&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-17T03:10:25+01:00</dc:date>
+        <dc:creator>qiancheng</dc:creator>
+        <title>platform:8996:thermal - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8996;thermal?rev=1484619025&amp;do=diff</link>
+        <description>温度传感器位置示意图
+
+
+cat /sys/devices/virtual/thermal/thermal_zone7/temp
+625
+62.5摄氏度</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3A2017-01-16_17_36_02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-16T10:50:55+01:00</dc:date>
+        <dc:creator>cheng.qian</dc:creator>
+        <title>platform:8996:2017-01-16_17_36_02屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3A2017-01-16_17_36_02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/platform;8996;2017-01-16_17_36_02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=500&amp;h=360&amp;t=1484560255&amp;amp;tok=997953&quot; alt=&quot;platform:8996:2017-01-16_17_36_02屏幕截图.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3Athermal.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-16T10:50:55+01:00</dc:date>
+        <dc:creator>cheng.qian</dc:creator>
+        <title>platform:8996:thermal.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=platform%3A8996%3Athermal.png&amp;ns=platform%3A8996&amp;rev=1484560255&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/platform;8996;thermal.png?w=500&amp;h=360&amp;t=1484560255&amp;amp;tok=69014c&quot; alt=&quot;platform:8996:thermal.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/linux;kernel;gpio%E8%AE%BE%E7%BD%AEpwm?rev=1484554232&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-16T09:10:32+01:00</dc:date>
+        <dc:creator>qiancheng</dc:creator>
+        <title>linux:kernel:gpio设置pwm - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/linux;kernel;gpio%E8%AE%BE%E7%BD%AEpwm?rev=1484554232&amp;do=diff</link>
+        <description>1. General description
+Generally, Qualcomm will use the PMIC to generate PWM signals. Actually, some GPIOs of MSM8926 can be used to output PWM signals too. These gpios are 12, 16, 17, 33, 34, 49, 50, and 51 in MSM8926. This document will guide you to enable the PWM function of these pins.</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8939;sbl1;sbl1%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97-%E9%A2%84%E5%85%85%E7%94%B5?rev=1484550404&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-16T08:06:44+01:00</dc:date>
+        <dc:creator>xin.qi</dc:creator>
+        <title>platform:8939:sbl1:sbl1功能模块-预充电</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8939;sbl1;sbl1%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97-%E9%A2%84%E5%85%85%E7%94%B5?rev=1484550404&amp;do=diff</link>
+        <description>1. 预充电
+ 在完成基本的初始化工作以后，系统需要检查供电系统，包括Battery及Battery Debug Board是否存在，
+ Charger是否存在及Charger类型等，调用关系如下:
+ sbl1_hw_init_secondary()-&gt;boot_pm_driver_init()-&gt;pm_driver_post_init()-&gt;
+ pm_chg_sbl_charging_init()</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8953;pytimechart?rev=1484286157&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-13T06:42:37+01:00</dc:date>
+        <dc:creator>xin.qi</dc:creator>
+        <title>platform:8953:pytimechart</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8953;pytimechart?rev=1484286157&amp;do=diff</link>
+        <description>pytimechart
+安装:
+sudo apt-get install python-chaco python-setuptools python-lzma lzma
+sudo apt-get install python-dev
+sudo easy_install --find-links http://www.pythonware.com/products/pil/ Imaging
+sudo easy_install pytimechart
+sudo easy_install etsproxy</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8953;thermal-engine?rev=1484282677&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-13T05:44:37+01:00</dc:date>
+        <dc:creator>xin.qi</dc:creator>
+        <title>platform:8953:thermal-engine - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8953;thermal-engine?rev=1484282677&amp;do=diff</link>
+        <description>主要用于监控系统tz温度，电池温度，GPU温度等，通过设定阀值，超过阀值会触发降频和关核动作
+
+1 通过ADB来输出系统thermal的参数
+thermal-engine -o
+2 加载thermal-config文件
+thermal-engine -c /system/etc/thermal-engine-perf.conf</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8953;adb%E6%80%A7%E8%83%BD%E8%B0%83%E8%AF%95?rev=1484282627&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-13T05:43:47+01:00</dc:date>
+        <dc:creator>xin.qi</dc:creator>
+        <title>platform:8953:adb性能调试 - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8953;adb%E6%80%A7%E8%83%BD%E8%B0%83%E8%AF%95?rev=1484282627&amp;do=diff</link>
+        <description>1 检查kernel中的deconfig
+将deconfig中以上这些文件去掉，这些主要用于debug和log，对系统性能有一定的影响。
+CONFIG_PREEMPT_COUNT=y
+CONFIG_PREEMPT_TRACER=y
+CONFIG_SCHED_DEBUG=y
+CONFIG_DEBUG_KMEMLEAK=y
+CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE=400
+CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y
+CONFIG_DEBUG_SPINLOCK=y
+CONFIG_DEBUG_MUTEXES=y
+CONFIG_DEBUG_ATOMIC_SLEEP=y
+CONFIG_DEBUG_STACK_USAGE=y
+CONFIG_DEBUG_LIST=y
+CONFIG_FAULT_INJECTION_DEBUG_FS=y
+CONFIG_LOCKUP_DETECTOR=y
+CONFIG_DEBUG_PAGEALLOC=y
+CONFIG_PAGE_POISONING=y
+CONFIG_SLUB_DEBUG=y…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8939;modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85?rev=1484213445&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-12T10:30:45+01:00</dc:date>
+        <dc:creator>xin.qi</dc:creator>
+        <title>platform:8939:modem编译环境安装 - [破解 ARM 编译器 DS6] </title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8939;modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85?rev=1484213445&amp;do=diff</link>
+        <description>Modem 编译环境安装
+
+组件发布版本属性
+
+下表列出了组件发布版本属性，并提供了每个 non-HLOS 构建模块的编译器、Python、Perl 及 Cygwin 版本信息。
+     组件发布版本                构建源代码所需的工具链</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/android;application;%E5%85%B3%E4%BA%8Eandroid_6.0_theme.nodisplay_%E5%AF%BC%E8%87%B4%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E8%A7%A3%E6%9E%90?rev=1484123322&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-11T09:28:42+01:00</dc:date>
+        <dc:creator>long.chen</dc:creator>
+        <title>android:application:关于android_6.0_theme.nodisplay_导致应用崩溃解析 - OSupdate，IllegalStateException，android6.0,NoDisplay</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/android;application;%E5%85%B3%E4%BA%8Eandroid_6.0_theme.nodisplay_%E5%AF%BC%E8%87%B4%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E8%A7%A3%E6%9E%90?rev=1484123322&amp;do=diff</link>
+        <description>关于android 6.0+ Theme.NoDisplay_导致应用崩溃解析
+
+1. 现象
+ 将S700（Android 5.0）上的OSUpdate（project_dir/vendor/qcom/proprietary/qrdplus/OSUpdate）移植到PSB01（Android6.0）之后编译相应的版本并烧到设备中去
+ 使用OSUpdate执行OTA升级，选择相应的ota升级包之后程序崩溃并抛出：java.lang.IllegalStateException: Activity {com.qualcomm.update/com.qualcomm.update.InstallReceiver} did not call finish() prior to onResume() completing错误信息…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/android;application;android_6.0_theme.nodisplay_regression?rev=1484121573&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-11T08:59:33+01:00</dc:date>
+        <dc:creator>long.chen</dc:creator>
+        <title>android:application:android_6.0_theme.nodisplay_regression - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/android;application;android_6.0_theme.nodisplay_regression?rev=1484121573&amp;do=diff</link>
+        <description>If you have been using Theme.NoDisplay in one or more activities in your app, and you have not tested them on Android 6.0 yet, I recommend that you do so soon. An undocumented regression in Android 6.0 will cause some of those activities to crash upon launch, if your targetSdkVersion is 23 or higher.</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=playgrond%3Aerror.png&amp;ns=playgrond&amp;rev=1484117432&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-11T07:50:32+01:00</dc:date>
+        <dc:creator>long.chen</dc:creator>
+        <title>playgrond:error.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=playgrond%3Aerror.png&amp;ns=playgrond&amp;rev=1484117432&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/playgrond;error.png?w=500&amp;h=312&amp;t=1484117432&amp;amp;tok=8b8933&quot; alt=&quot;playgrond:error.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/platform;8996;bt_wifi_mac?rev=1484030265&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2017-01-10T07:37:45+01:00</dc:date>
+        <dc:creator>qiancheng</dc:creator>
+        <title>platform:8996:bt_wifi_mac</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/platform;8996;bt_wifi_mac?rev=1484030265&amp;do=diff</link>
+        <description>WIFI MAC
+
+地址到 /persist/wlan_mac.bin, 下面是格式, 符合格式就可以了
+
+
+Intf0MacAddress=00037faabb00
+Intf1MacAddress=08037faabbdd
+END
+
+
+80-Y7674-2 文档</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482309204&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T09:33:24+01:00</dc:date>
+        <title>git:2016-12-21_16_37_59屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482309204&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/git;2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=500&amp;h=221&amp;t=1482309204&amp;amp;tok=82843b&quot; alt=&quot;git:2016-12-21_16_37_59屏幕截图.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3Agit%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%8A%80%E5%B7%A7.ppt&amp;ns=git&amp;rev=1482304213&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T08:10:13+01:00</dc:date>
+        <title>git:git使用及技巧.ppt - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3Agit%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%8A%80%E5%B7%A7.ppt&amp;ns=git&amp;rev=1482304213&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_20_06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T07:14:41+01:00</dc:date>
+        <title>git:2016-12-21_14_20_06屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_20_06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/git;2016-12-21_14_20_06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=500&amp;h=111&amp;t=1482300881&amp;amp;tok=824e09&quot; alt=&quot;git:2016-12-21_14_20_06屏幕截图.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_30%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T07:14:41+01:00</dc:date>
+        <title>git:2016-12-21_14_18_30屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_30%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300881&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/git;2016-12-21_14_18_30%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=499&amp;h=369&amp;t=1482300881&amp;amp;tok=7dc1dd&quot; alt=&quot;git:2016-12-21_14_18_30屏幕截图.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_17_57%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T07:14:40+01:00</dc:date>
+        <title>git:2016-12-21_14_17_57屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_17_57%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/git;2016-12-21_14_17_57%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=500&amp;h=385&amp;t=1482300880&amp;amp;tok=8f3504&quot; alt=&quot;git:2016-12-21_14_17_57屏幕截图.png&quot; /&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media">
+        <dc:format>text/html</dc:format>
+        <dc:date>2016-12-21T07:14:40+01:00</dc:date>
+        <title>git:2016-12-21_14_18_49屏幕截图.png - 创建</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php/?image=git%3A2016-12-21_14_18_49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png&amp;ns=git&amp;rev=1482300880&amp;tab_details=history&amp;mediado=diff&amp;do=media</link>
+        <description>&lt;img src=&quot;http://172.21.1.23/dokuwiki/lib/exe/fetch.php/git;2016-12-21_14_18_49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=499&amp;h=44&amp;t=1482300880&amp;amp;tok=86bdbf&quot; alt=&quot;git:2016-12-21_14_18_49屏幕截图.png&quot; /&gt;</description>
+    </item>
+</rdf:RDF>

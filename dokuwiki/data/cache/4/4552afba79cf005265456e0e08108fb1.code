@@ -1,0 +1,12 @@
+<span class="coMULTI">/*onAttach*/</span>
+&nbsp;
+mAdapter <span class="sy0">=</span> <span class="kw1">new</span> ContactTileAdapter<span class="br0">&#40;</span>activity, mAdapterListener,
+                columnCount, mDisplayType<span class="br0">&#41;</span><span class="sy0">;</span>
+mAdapter.<span class="me1">setPhotoLoader</span><span class="br0">&#40;</span>ContactPhotoManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>activity<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<span class="coMULTI">/*onCreateView调用inflateAndSetupView*/</span>
+&nbsp;
+mListView <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a><span class="br0">&#41;</span> listLayout.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">contact_tile_list</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setItemsCanFocus</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mListView.<span class="me1">setAdapter</span><span class="br0">&#40;</span>mAdapter<span class="br0">&#41;</span><span class="sy0">;</span>

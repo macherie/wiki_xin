@@ -1,0 +1,1 @@
+adb shell <span class="kw3">echo</span> c <span class="sy0">&gt;</span> <span class="sy0">/</span>proc<span class="sy0">/</span>sysrq-trigger

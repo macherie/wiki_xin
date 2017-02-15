@@ -1,0 +1,6 @@
+======如何抓取中断唤醒源======
+
+打开log: echo 1 >  /sys/module/msm_show_resume_irq/parameters/debug_mask
+
+抓取log: cat /proc/kmsg >/data/wakeup.txt
+ 

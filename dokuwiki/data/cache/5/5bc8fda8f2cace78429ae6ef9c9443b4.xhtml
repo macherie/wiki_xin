@@ -1,0 +1,158 @@
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">liangjiong.zhou</a> 2013/12/06 02:41</em>
+</p>
+
+<h1 class="sectionedit1" id="android对linux内核的增强">Android对Linux内核的增强</h1>
+<div class="level1">
+
+<p>
+Alarm(硬件时钟)
+</p>
+
+<p>
+Ashmem(匿名内存共享)
+</p>
+
+<p>
+Low Memory Killer(低内存管理)
+</p>
+
+<p>
+Logger(日志设备)
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Android对Linux内核的增强" [72-224] -->
+<h2 class="sectionedit2" id="alarm_硬件时钟">Alarm(硬件时钟)</h2>
+<div class="level2">
+
+<p>
+todo
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Alarm(硬件时钟)" [225-264] -->
+<h2 class="sectionedit3" id="ashmem_匿名内存共享">Ashmem(匿名内存共享)</h2>
+<div class="level2">
+
+<p>
+todo
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Ashmem(匿名内存共享)" [265-310] -->
+<h2 class="sectionedit4" id="low_memory_killer_低内存管理">Low Memory Killer(低内存管理)</h2>
+<div class="level2">
+
+<p>
+今天(2013-11-25)在一台S200机器上看到一段log:
+</p>
+<pre class="code">58780 &lt;4&gt;[152689.665953] [(2013-11-23 21:09:27.230597932 UTC)] [cpuid: 0] select 31758 (d.process.media), adj 0, size 5414, to kill
+58781 &lt;4&gt;[152689.665975] [(2013-11-23 21:09:27.230617932 UTC)] [cpuid: 2] select 32547 (droid.gallery3d), adj 0, size 15583, to kill</pre>
+
+<p>
+一直有这几个log在重复。这是什么东西呢，这就是Android添加在内核里的内存回收的东西。原来这太机器跑过Monkey Test，内存消耗很多，后来又跑了长时间录像，
+跑到了系统开始回收“前台”程序的情况了。
+</p>
+
+<p>
+我们来看看 Android 的 Low Memory Killer。
+</p>
+
+<p>
+PS. 摘点网上的东西。
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Low Memory Killer(低内存管理)" [311-1045] -->
+<h3 class="sectionedit5" id="概要">概要</h3>
+<div class="level3">
+
+<p>
+对于PC来说，内存是至关重要。如果某个程序发生了内存泄漏，那么一般情况下系统就会将其进程Kill掉。Linux中使用一种名称为OOM(Out Of Memory，内存不足)的机制来完成这个任务，该机制会在系统内存不足的情况下，选择一个进程并将其Kill掉。Android则使用了一个新的机制——Low Memory Killer来完成同样的任务。下面首先来看看Low Memory Killer机制的原理以及它是如何选择将被Kill的进程的。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "概要" [1046-1571] -->
+<h3 class="sectionedit6" id="low_memory_killer的原理和机制">1.Low Memory Killer的原理和机制</h3>
+<div class="level3">
+
+<p>
+Low Memory Killer在用户空间中指定了一组内存临界值，当其中的某个值与进程描述中的oom_adj值在同一范围时，该进程将被Kill掉。
+</p>
+
+<p>
+通常，在“/sys/module/lowmemorykiller/parameters/adj”中指定oom_adj的最小值，在“/sys/module/lowmemorykiller/parameters/minfree”中储存空闲页面的数量，所有的值都用一个逗号将其隔开且以升序排列。
+</p>
+
+<p>
+比如：把“0,8”写入到/sys/module/lowmemorykiller/parameters/adj中，把“1024,4096”写入到/sys/module/lowmemory- killer/parameters/minfree中，就表示当一个进程的空闲存储空间下降到4096个页面时，oom_adj值为8或者更大的进程会被Kill掉。同理，当一个进程的空闲存储空间下降到1024个页面时，oom_adj值为0或者更大的进程会被Kill掉。
+</p>
+
+<p>
+我们发现在lowmemorykiller.c(drivers/staging/android/lowmemorykiller.c)中就指定了这样的值，如下所示：
+</p>
+<pre class="code c"><span class="kw4">static</span> <span class="kw4">int</span> lowmem_adj<span class="br0">&#91;</span><span class="nu0">6</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span> 
+        <span class="nu0">0</span><span class="sy0">,</span>  
+        <span class="nu0">1</span><span class="sy0">,</span>  
+        <span class="nu0">6</span><span class="sy0">,</span>  
+        <span class="nu0">12</span><span class="sy0">,</span> 
+<span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="kw4">static</span> <span class="kw4">int</span> lowmem_minfree<span class="br0">&#91;</span><span class="nu0">6</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span> 
+        <span class="nu0">3</span> <span class="sy0">*</span> <span class="nu0">512</span><span class="sy0">,</span>        <span class="coMULTI">/* 6MB */</span>
+        <span class="nu0">2</span> <span class="sy0">*</span> <span class="nu0">1024</span><span class="sy0">,</span>       <span class="coMULTI">/* 8MB */</span>
+        <span class="nu0">4</span> <span class="sy0">*</span> <span class="nu0">1024</span><span class="sy0">,</span>       <span class="coMULTI">/* 16MB */</span>
+        <span class="nu0">16</span> <span class="sy0">*</span> <span class="nu0">1024</span><span class="sy0">,</span>      <span class="coMULTI">/* 64MB */</span>
+<span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+从上面的代码里可以看出，当一个进程的空闲空间下降到3*512个页面时oom_adj值为0或者更大的进程会被Kill掉;
+</p>
+
+<p>
+当一个进程的空闲空间下降到2*1024个页面时oom_adj值为0或者更大的进程会被Kill掉;
+</p>
+
+<p>
+<img src="/dokuwiki/lib/images/smileys/icon_silenced.gif" class="icon" alt=":-x" /><strong>PS.: 其实0表示的是前台激活的进程，这个进程都要杀了还让人活不</strong>
+</p>
+
+<p>
+其实更简明的理解就是满足以下条件的进程将被优先Kill掉：
+</p>
+<pre class="code">    task_struct-&gt;signal_struct-&gt;oom_adj越大的越优先被Kill。
+    占用物理内存最多的那个进程会被优先Kill。</pre>
+
+<p>
+进程描述符中的signal_struct→oom_adj表示当内存短缺时进程被选择并Kill的优先级，取值范围是-17~15。如果是-17，则表示不会被选中，值越大越可能被选中。当某个进程被选中后，内核会发送SIGKILL信号将其Kill掉。
+</p>
+
+<p>
+实际上，Low Memory Killer驱动程序会认为被用于缓存的存储空间都要被释放，但是，如果很大一部分缓存存储空间处于被锁定的状态，那么这将是一个非常严重的错误，并且当正常的oom killer被触发之前，进程是不会被Kill掉的。
+</p>
+
+</div>
+<!-- EDIT6 SECTION "1.Low Memory Killer的原理和机制" [1572-3992] -->
+<h3 class="sectionedit7" id="low_memory_killer的具体实现">2.Low Memory Killer的具体实现</h3>
+<div class="level3">
+
+<p>
+Low Memory Killer驱动的实现位于drivers/staging/android/lowmemorykiller.c
+</p>
+
+<p>
+该驱动的实现非常简单
+</p>
+
+</div>
+<!-- EDIT7 SECTION "2.Low Memory Killer的具体实现" [3993-4152] -->
+<h2 class="sectionedit8" id="logger_日志设备">Logger(日志设备)</h2>
+<div class="level2">
+
+<p>
+todo
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Logger(日志设备)" [4153-] -->

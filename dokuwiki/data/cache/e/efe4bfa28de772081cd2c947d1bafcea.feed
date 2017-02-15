@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:8255:s300</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:52:48+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:%E6%A8%A1%E5%BC%8F%E6%8C%89%E9%94%AE&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:issue_list&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:%E6%A8%A1%E5%BC%8F%E6%8C%89%E9%94%AE&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8255:s300:模式按键</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:%E6%A8%A1%E5%BC%8F%E6%8C%89%E9%94%AE&amp;rev=1390476864&amp;do=diff</link>
+        <description>进入Download和fastboot也和S100一样：
+
+进入Modem download模式的按键：Camera + Scan + Power
+
+进入Fastboot模 式的按键：Camera + Volume Up + Power
+
+进入Recovery模 式的按键：Camera + Volume Down+ Power
+
+电源按键没有的 话，把 图中 黄色的测试点和地短就可以了
+红色： Download
+蓝色： fastboot</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:issue_list&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8255:s300:issue_list</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8255:s300:issue_list&amp;rev=1390476864&amp;do=diff</link>
+        <description></description>
+    </item>
+</rdf:RDF>

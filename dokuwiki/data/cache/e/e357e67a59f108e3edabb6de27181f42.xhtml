@@ -1,0 +1,97 @@
+
+<p>
+[DESCRIPTION]
+</p>
+
+<p>
+WiFi中mac地址没有写正确会遇到很多问题，如mac地址不断变动，nvram warning等。下面对这些问题作详细说明。
+</p>
+
+<p>
+[SOLUTION]
+如何写WIFI MAC地址？
+用META工具修改，如果下图，但写入的MAC地址要合法。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;11.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:11.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;11.png?w=200&amp;tok=f9b530" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+用sn tool修改，如下图1，2，设置，然后点system config。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;12.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:12.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;12.png?w=200&amp;tok=a781a3" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+单击system config，会弹出如下的对话框，并按下图配置。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;13.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:13.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;13.png?w=200&amp;tok=9f1288" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+然后单start按钮。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;14.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:14.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;14.png?w=200&amp;tok=a0c27d" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+用usb连接手机，mac地址写成功后会有下面的提示。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;15.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:15.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;15.png?w=200&amp;tok=c55568" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+什么样的MAC地址是合法的？
+wifi地址第1个字节的低2bit必需为0，这两个有特殊含义。
+比如： 00-12-22-33-44-78(这个是合法的)
+03-12-22-33-44-78(下面这些都是不合法的)
+01-12-22-33-44-78
+02-12-22-33-44-78
+0e-12-22-33-44-78
+MAC地址低2bit有什么特殊含义？ 
+MAC地址的第1个字节的8个BIT从低位到高位分别用BIT1~BIT8表示。
+BIT2：
+0代表 Universal administered 
+1代表 locally administered
+所有的厂商这个BIT都是0。
+BIT1：
+0代表是单播MAC。接收方的MAC与这一帧的目的MAC一样的话，就会接收这一帧；否则会丢掉。
+1代表是多播MAC。接收方会检查自己允许接收的多播MAC列表，如果接收的这一帧的目的MAC在列表中才接收，否则就丢掉。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;16.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:16.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;16.png?w=200&amp;tok=c878fb" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+不写MAC地址会怎么样？
+如果wifi用的是模组，则MAC地址不用写，模组里面有。如果不是模组，不在NVRAM写MAC地址的话，手机会自动生成一个随机的合法的MAC地址。但是这样会有nvram warning（如下图所示）。Mtk也不会拿掉这个warning，因为这样不合规范。
+</p>
+
+<p>
+为什么会有NVRAM WARNING:Err = 0x10？
+原因是没有写合法的MAC地址。这个warning ，是mtk提示您写合法的mac地址。因为不写mac地址，用个随机数代替，这个是不符合规范的。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;6735;17.png?id=platform%3A6735%3Awifi%E5%9C%B0%E5%9D%80%E5%86%99%E5%85%A5%E6%96%B9%E5%BC%8F" class="media" title="platform:6735:17.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;6735;17.png?w=200&amp;tok=9ff4b2" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+MAC地址一样会有什么风险？
+mac地址一样会导致wifi无法正常工作。
+wifi收到的包都是根据mac地址来发的。打个比方就是，当邮递员拿到一封寄给76号的信时，他发现这条街所有门牌号都是76号，这个时候就有问题了。可能这封信就没有发到应该发到的地方。引用到wifi上来就是会出现莫名其妙的断线，死机，等等问题。
+</p>
+
+<p>
+mac地址要申请就是为了管理，让厂家和厂家之间不会出现mac地址不惟一的情况。随机写mac地址的话，不能保证是惟一的，但发生mac地址一样的概率是比较小的，毕竟有6字节。但要注意的是第一字节的最后2bit一定要是0，这两位有特殊含义。
+</p>

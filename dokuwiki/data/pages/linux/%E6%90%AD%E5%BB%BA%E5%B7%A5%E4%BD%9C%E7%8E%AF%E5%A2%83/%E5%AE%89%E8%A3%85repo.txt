@@ -1,0 +1,51 @@
+====== 安装 Repo======
+  - 首先确保在当前用户的主目录下创建一个/bin目录（如果没有的话），然后把它(~/bin)加到PATH环境变量中
+    * <code bash>
+$ mkdir ~/bin
+$ PATH=~/bin:$PATH
+</code>
+    * 也可以将 export PATH=~/bin:$PATH 加到 ~/.bashrc可永久保存PATH环境变量。
+  - 下载 repo 到 ~/bin。下载地址：\\192.167.100.225\share\Tool\repo
+  - 给 repo 添加可执行权限
+    * <code bash>
+$ chmod a+x ~/bin/repo
+</code>
+
+
+====== 小技巧======
+为了后期下载同步代码的简便性，大家可以按一下步骤操作
+  1、在安装完linux系统或从管理员处拿到远程开发机后，生成密钥，命令如下：
+$ ssh keygen
+
+生成的文件默认存放在根目录 .ssh/ 文件夹下，可通过  ls -la .ssh  查看
+
+  2、增加配置文件(config文件本身不存在）
+
+$ vim ~/.ssh/config
+
+添加如下内容：
+    host sim-ssh        # 别名
+        user yourname   # 你的姓名
+        port 29418
+        hostname 172.16.6.72
+        IdentityFile ~/.ssh/id_rsa
+
+     host sim-ssh
+        user yourname
+        port 29418
+        hostname 192.167.100.232
+        IdentityFile ~/.ssh/id_rsa
+保存退出即可
+
+  3、修改repo文件
+  
+$ vim ~/bin/repo
+
+将： REPO_URL='git://android.git.kernel.org/tools/repo.git'
+
+修改为：REPO_URL='git://codeaurora.org/tools/repo.git'
+
+  4、下载代码
+以前：repo init -u git@172.16.6.72:29418/msm8996/platform/manifest.git -b msm8996 --repo-url=git@172.16.6.72:msm8996/tools/repo.git
+
+现在：repo init -u sim-ssh:msm8996/platform/manifest.git -b msm8996

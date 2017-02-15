@@ -1,0 +1,14 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> setupActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ActionBar actionBar <span class="sy0">=</span> getActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        ViewGroup v <span class="sy0">=</span> <span class="br0">&#40;</span>ViewGroup<span class="br0">&#41;</span>LayoutInflater.<span class="me1">from</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span>
+            .<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">conversation_list_actionbar</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setDisplayOptions</span><span class="br0">&#40;</span>ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span>,
+                ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setCustomView</span><span class="br0">&#40;</span>v,
+                <span class="kw1">new</span> ActionBar.<span class="me1">LayoutParams</span><span class="br0">&#40;</span>ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        Gravity.<span class="me1">CENTER_VERTICAL</span> <span class="sy0">|</span> Gravity.<span class="me1">RIGHT</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mUnreadConvCount <span class="sy0">=</span> <span class="br0">&#40;</span>TextView<span class="br0">&#41;</span>v.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">unread_conv_count</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

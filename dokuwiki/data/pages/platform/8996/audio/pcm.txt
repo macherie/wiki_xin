@@ -1,0 +1,99 @@
+=====PCM=====
+====PCM的介绍====
+
+自然界中的声音为连续的震动信号，通常我们采用的是脉冲代码调制编码。即PCM编码。PCM通过抽样、量化、编码三个步骤将连续变化的模拟信号转换为数字编码。
+
+===抽样===
+在音频采集中叫做采样率。 由于声音其实是一种能量波，因此也有频率和振幅的特征。波是无限光滑的，弦线可以看成由无数点组成，由于计算机数字系统是离散系统，因此数字编码过程中，必须对弦线的点进行采样。采样的过程就是抽取某点的频率值，很显然，在一秒中内抽取的点越多，获取得频率信息更丰富，为了复原波形，一次振动中，必须有2个点的采样（高低两点），人耳能够感觉到的最高频率为20kHz，因此要满足人耳的听觉要求，则需要至少需要40kHz的采样率。我们常见的CD，采样率为44.1kHz。
+
+===量化===
+将该频率的能量值并量化，用于表示信号强度。量化电平数为 2的整数次幂，我们常见的CD位16bit的采样大小，即2的16次方。
+
+===编码===
+根据离散数学和连续数学可知：音频编码最多只能做到无限接近，相对自然界的信号，任何数字音频编码方案都是有损的，因为无法完全还原。在计算机应用中，能够达到最高保真水平的就是PCM编码，被广泛用于素材保存及音乐欣赏，CD、DVD以及我们常见的WAV文件中均有应用。因此，PCM约定俗成了无损编码，因为PCM代表了数字音频中最佳的保真水准，PCM也只能做到最大程度的无限接近。我们而习惯性的把MP3列入有损音频编码范畴，是相对PCM编码的。
+
+===pcm到音频格式===
+要算一个PCM音频流的码率是一件很轻松的事情，采样率值×采样大小值×声道数bps。一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。我们常说128K的MP3，对应的WAV的参数，就是这个1411.2 Kbps，这个参数也被称为数据带宽，它和ADSL中的带宽是一个概念。将码率除以8（字节单位）,就可以得到这个WAV的数据速率，即176.4KB/s。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M，这对大部分用户是不可接受的，要降低磁盘占用，只有2种方法，降低采样指标或者压缩。降低指标是不可取的，因此研发了各种压缩方案。由于用途和针对的目标市场不一样，各种音频压缩编码所达到的音质和压缩比都不一样。
+
+===频率与采样率的关系===
+采样率表示了每秒对原始信号采样的次数，我们常见到的音频文件采样率多为44.1KHz，这意味着什么呢？假设我们有2段正弦波信号，分别为20Hz和20KHz，长度均为一秒钟，以对应我们能听到的最低频和最高频，分别对这两段信号进行 40KHz的采样，我们可以得到一个什么样的结果呢？结果是：20Hz的信号每次振动被采样了40K/20=2000次，而20K的信号每次振动只有2次采样。显然，在相同的采样率下，记录低频的信息远比高频的详细。
+
+====安卓系统中的pcm====
+（以下是我总结的，如果有错还请指出）
+
+安卓hal层以上的系统并不对音频进行解码。所以他们直接传递音频都是直接通过pcm格式。
+===安卓pcm的格式===
+安卓pcm支持的采样率主要有44100、22050、11025
+安卓pcm支持的编码制式主要是16bit<del>（也有一说是16bit和8bit的都支持）</del>
+
+订正：
+  根据从MSM8996的codec中看，应该是16bit和24bit的两种格式。附上代码
+ <code c>
+ 701 static int slim0_tx_bit_format_put(struct snd_kcontrol *kcontrol,
+ 702                                    struct snd_ctl_elem_value *ucontrol)
+ 703 {
+ 704         int rc = 0;
+ 705 
+ 706         switch (ucontrol->value.integer.value[0]) {
+ 707         case 1:
+ 708                 slim0_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+ 709                 break;
+ 710         case 0:
+ 711                 slim0_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+ 712                 break;
+ 713         default:
+ 714                 pr_err("%s: invalid value %ld\n", __func__,
+ 715                        ucontrol->value.integer.value[0]);
+ 716                 rc = -EINVAL;
+ 717                 break;
+ 718         }
+ 719 
+ 720         return rc;
+ 721 }
+</code>
+这个大家也可以通过去观察AudioTrack和Flinger 的set函数，set函数的几个参数实际的决定了生成的pcm的格式。
+===pcm与分析音频===
+基于每一层系统直接的交接都是通过pcm，则我们可以通过dump pcm，并分析它从而锁定系统中出错的那一个层。类似于音频分析中独有的log信息。特别对于分析一些非音频效果导致的问题，例如性能问题，可以通过这种方法定位。
+===dump安卓系统中的pcm===
+这个给大家贴出dump AudioTrack 中pcm的方法，hal层和flinger方式类似：
+<code c>
+diff --git a/media/libmedia/AudioTrack.cpp b/media/libmedia/AudioTrack.cpp 
+
+@@ -1861,6 +1862,20 @@ nsecs_t AudioTrack::processAudioBuffer() 
+ audioBuffer.size <<= 1; 
+ } 
+
++ { 
++ int tmpFd; 
++ const uint8_t* p = (uint8_t *)(audioBuffer.i8); 
++ size_t copy = audioBuffer.size; 
++ tmpFd = ::open("/data/misc/audio/dump-audiotrack.pcm", O_WRONLY|O_APPEND|O_CREAT，0777); 
++ if ( tmpFd < 0 ) { 
++ ALOGE("Fail to open dump file"); 
++ } else { 
++ ::write(tmpFd, p, copy); 
++ ::close(tmpFd); 
++ } 
++ } 
++ 
+ size_t releasedFrames = audioBuffer.size / mFrameSizeAF; 
+ audioBuffer.frameCount = releasedFrames; 
+ mRemainingFrames -= releasedFrames;
+</code>
+====分析pcm的工具====
+
+dump下来以后，我们获得了pcm格式的文件。需要有专用的工具进行分析
+===cool edit===
+这个是windows 下的音频分析工具，功能强大，但是有版权问题。
+===audacity===
+这个是linux下的免费工具，对于分析pcm是足够的。
+==安装==
+sudo apt-get install audacity
+==使用==
+audacity->文件->导入->原始数据->pcm
+
+然后根据我们看到的set（）打印的信息初始化pcm。如果不能正确初始化，会导致杂音，或是声音偏快，声音尖锐等问题。一般，采样率44100，编码制式选16。
+
+效果如下
+
+{{:platform:8996:audio:audacity效果屏幕截图.png?200|}}

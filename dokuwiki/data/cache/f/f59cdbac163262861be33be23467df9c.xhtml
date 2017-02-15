@@ -1,0 +1,191 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2013/12/11</em>
+</p>
+
+<h1 class="sectionedit1" id="repo">Repo</h1>
+<div class="level1">
+
+<p>
+Repo是一个用Python语言开发的命令工作 ，可以更文件地进行多版本库的管理。Repo是对Git进行了一定的封装，简化了对多个Git版本库的管理。对于repo管理的任何一个版本库，都需要使用Git命令进行操作。
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Repo" [48-334] -->
+<h2 class="sectionedit2" id="repo的使用过程大致如下">Repo的使用过程大致如下：</h2>
+<div class="level2">
+<ol>
+<li class="level1"><div class="li"> 运行repo init命令，克隆Android的一个清单库。这个清单库是通过XML技术建立的版本库清单。</div>
+</li>
+<li class="level1"><div class="li"> 清单库中的manifest.xml文件，列出了200多个版本库的克隆方式。包括版本库的地址和工作区地址的对应关系，以及分支的对应关系。</div>
+</li>
+<li class="level1"><div class="li"> 运行repo sync命令，开始同步，即分别克隆这200多个版本库到本地的工作区中。</div>
+</li>
+<li class="level1"><div class="li"> 同时对200多个版本库执行切换分支操作，切换到某个分支。</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT2 SECTION "Repo的使用过程大致如下：" [335-870] -->
+<h2 class="sectionedit3" id="repo和清单库的初始化">Repo和清单库的初始化</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> 建立一个工作目录，在工作目录中执行repo init -u &lt;url&gt;，完成repo完整的下载及项目清单版本库(manifest.git)的下载。</div>
+</li>
+<li class="level1"><div class="li"> 命令repo init要完成如下操作：</div>
+</li>
+<li class="level1"><div class="li"> 完成repo这一工作的完整下载，因为在~/bin/下是repo不过是repo的引导程序。</div>
+</li>
+<li class="level1"><div class="li"> 克隆android的清单库manifest.git(地址来自于-u参数)。</div>
+</li>
+<li class="level1"><div class="li"> 克隆的清单库拉于.repo/manifest.git中，本地克隆到.repo/manifests。清单文件.repo/manifest.xml只是符号链接，它指向.repo/manifests/default.xml。</div>
+</li>
+<li class="level1"><div class="li"> 询问用户的姓名和邮件地址，如果和Git默认的用户名、邮件地址不同，则记录在.repo/manifest.git库的config文件中</div>
+</li>
+<li class="level1"><div class="li"> 如果不想用默认的URL地址获取repo，可以在repo init子命令中加–repo-url参数指定repo的版本库地址。</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT3 SECTION "Repo和清单库的初始化" [871-1735] -->
+<h2 class="sectionedit4" id="repo的命令集">Repo的命令集</h2>
+<div class="level2">
+
+<p>
+每一个repo子命令都可以通过下面的命令获得帮助：
+</p>
+<pre class="code">repo help &lt;command&gt;</pre>
+
+</div>
+<!-- EDIT4 SECTION "Repo的命令集" [1736-1853] -->
+<h3 class="sectionedit5" id="repo_init命令">repo init命令</h3>
+<div class="level3">
+
+<p>
+repo init子命令主要完成检出清单版本库(manifest.git)，以及配置Git用户名和邮件地址的工作。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "repo init命令" [1854-2000] -->
+<h3 class="sectionedit6" id="repo_sync命令">repo sync命令</h3>
+<div class="level3">
+
+<p>
+repo sync子命令用于参照清单文件克隆可同步版本库。如果某个项目版本库尚不存在，则执行repo sync命令相当于执行git clone。如果项目版本库已经存在，则相当于执行下面的两个命令：
+</p>
+<ul>
+<li class="level1"><div class="li"> git remote update：相当于对每一个remote源执行fetch操作。</div>
+</li>
+<li class="level1"><div class="li"> git rebase origin/branch：针对当前分支的跟踪分支执行rebase操作。</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT6 SECTION "repo sync命令" [2001-2429] -->
+<h3 class="sectionedit7" id="repo_start命令">repo start命令</h3>
+<div class="level3">
+
+<p>
+repo start子命令实际上是对git checkout -b命令的封装。为指定的项目或所有项目(若使用-all参数)，以清单文件中为项目认定的分支或里程碑为基础，创建特性分支。特性分支的名称由命令的第一个参数指定。
+</p>
+<pre class="code">repo start &lt;newbranchname&gt; [--all | &lt;project&gt;…]</pre>
+
+</div>
+<!-- EDIT7 SECTION "repo start命令" [2430-2777] -->
+<h3 class="sectionedit8" id="repo_status命令">repo status命令</h3>
+<div class="level3">
+
+<p>
+repo status子命令实际上是对git diff-index、git diff-files命令的封装，同时显示暂存区的状态和本地文件修改的状态。
+</p>
+<pre class="code">repo status [&lt;project&gt;…]</pre>
+
+</div>
+<!-- EDIT8 SECTION "repo status命令" [2778-2982] -->
+<h3 class="sectionedit9" id="repo_checkout命令">repo checkout命令</h3>
+<div class="level3">
+
+<p>
+repo checkout子命令实际上是对git checkout命令的封装。检出之前由repo start创建的分支。
+</p>
+<pre class="code">repo checkout &lt;branchname&gt; [&lt;project&gt;…]</pre>
+
+</div>
+<!-- EDIT9 SECTION "repo checkout命令" [2983-3167] -->
+<h3 class="sectionedit10" id="repo_branches命令">repo branches命令</h3>
+<div class="level3">
+
+<p>
+repo branches读取各个项目的分支列表并汇总显示。
+</p>
+<pre class="code">repo branches [&lt;project&gt;…]</pre>
+
+</div>
+<!-- EDIT10 SECTION "repo branches命令" [3168-3293] -->
+<h3 class="sectionedit11" id="repo_upload命令">repo upload命令</h3>
+<div class="level3">
+
+<p>
+repo upload相当于git push，但是又有很大的不同。执行repo upload不是将版本库改动推送到克隆时的远程服务器，而是推送到代码审查服务器(Gerrit)的特殊引用上。代码审核服务器会对推送的提交进行特处理，将新的提交显示为一个待审核的修改集，并进入代码审查流程。只有当审核通过后，才会合并到正式的版本库中。
+</p>
+
+<p>
+用法如下：
+</p>
+<pre class="code">repo upload [--re --cc] [&lt;project&gt;]...</pre>
+
+<p>
+参数：
+</p>
+<pre class="code">-h, --help	显示帮助信息。
+-t		发送本地分支名称到Gerrit代码审核服务器。
+--re=REVIEWERS, --reviewers=REVIEWERS
+                要求由指定的人员进行审核。
+-cc=CC	        同时发送通知到如下邮件地址。</pre>
+
+<p>
+如果发现上传后的代码有问题想重新修改，可以在本地继续修改代码，用git add把修改内容加到暂存区，用git commit –amend修改上一次提交，再用repo upload重新上传修订集。这样上传后不会产生新的提交，而是会在原有的提交中新加一个修订集。
+</p>
+
+</div>
+<!-- EDIT11 SECTION "repo upload命令" [3294-4387] -->
+<h3 class="sectionedit12" id="repo_download命令">repo download命令</h3>
+<div class="level3">
+
+<p>
+repo download命令主要用于代码审核者下载和评估提交的修订。使用repo download命令实际上就是用git fetch获取到对应项目的refs/changes/&lt;changeid&gt;/patchset&gt;引用，并自动切换到对应的引用上。
+</p>
+<pre class="code">repo download {project change [/patchset]}…</pre>
+
+</div>
+<!-- EDIT12 SECTION "repo download命令" [4388-4702] -->
+<h3 class="sectionedit13" id="repo_prune命令">repo prune命令</h3>
+<div class="level3">
+
+<p>
+repo prune子命令实际上是对git branch -d命令封装，该命令用于扫描项目的各个分支，并删除已经合并的分支。
+</p>
+<pre class="code">repo prune [&lt;project&gt;…]</pre>
+
+</div>
+<!-- EDIT13 SECTION "repo prune命令" [4703-4899] -->
+<h3 class="sectionedit14" id="repo_遍历整个项目">repo 遍历整个项目</h3>
+<div class="level3">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">liangjiong.zhou</a> 2013/12/31 03:12</em>
+</p>
+
+<p>
+repo forall 可以用来遍历所有git仓库。
+</p>
+<pre class="code bash">repo forall <span class="re5">-c</span> <span class="kw3">command</span></pre>
+
+<p>
+<strong><span style='color:blue; background-color:lightgrey;'>例：</span></strong>
+</p>
+<pre class="code bash">$ repo forall <span class="re5">-c</span> <span class="kw2">git status</span>      <span class="co0">#等同 repo status</span>
+$ repo forall <span class="re5">-c</span> <span class="kw2">git clean</span> <span class="re5">-dxf</span>  <span class="co0">#清除整个repo</span></pre>
+
+</div>
+<!-- EDIT14 SECTION "repo 遍历整个项目" [4900-] -->

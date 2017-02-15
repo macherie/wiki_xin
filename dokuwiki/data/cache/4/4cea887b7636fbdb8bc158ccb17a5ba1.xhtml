@@ -1,0 +1,27 @@
+
+<p>
+Step 1: You need to configure NV items for USB Dump
+</p>
+
+<p>
+To Enable DLOAD mode for USB Dump
+- NV#905 = 0x0 (ERR_DLOAD) - Error_Fatal_Option : This will force UE go to DLOAD in case of error. if set to 0x1 (ERR_RESET), 
+</p>
+<pre class="code">device would reset when error happens.</pre>
+
+<p>
+- NV#4399 = 0x1 (True) - Hardware Reset Detect : this will enable DLOAD for HW Reset
+</p>
+
+<p>
+Step 2: Once Phone is in download mode go to Programs→QPST→Memory Debug Apps
+</p>
+
+<p>
+Step 3: In Memory Debug Apps, Select ‘Get Regions’ Tab →and then ‘SAVE to’ Tab
+</p>
+
+<p>
+从ramdump分析kernel log:
+执行此命令：strings ebi1_cs0.bin | grep -Ens ”&lt;.&gt;\[.+\]” &gt; dmsg.txt 
+</p>

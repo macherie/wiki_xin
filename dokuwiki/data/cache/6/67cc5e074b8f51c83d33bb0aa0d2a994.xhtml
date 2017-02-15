@@ -1,0 +1,40 @@
+
+<h1 class="sectionedit1" id="安装gitweb">安装gitweb</h1>
+<div class="level1">
+
+</div>
+
+<h4 id="sudo_apt-get_install_apache2">1. sudo apt-get install apache2</h4>
+<div class="level4">
+
+</div>
+
+<h4 id="sudo_apt-get_install_gitweb">2. sudo apt-get install gitweb</h4>
+<div class="level4">
+
+</div>
+
+<h4 id="配置gitweb_由于默认没有css加载_需要把gitweb要用的静态文件链接到documentroot下">3. 配置gitweb，由于默认没有css加载，需要把gitweb要用的静态文件链接到DocumentRoot下：</h4>
+<div class="level4">
+<pre class="code">cd /var/www/，sudo ln –s /usr/share/gitweb/* .</pre>
+
+</div>
+
+<h4 id="修改配置文件_sudo_vim_etc_gitwebconf">4. 修改配置文件，sudo vim /etc/gitweb.conf</h4>
+<div class="level4">
+
+<p>
+将$projectroot修改为git server所在的目录：/home/git
+</p>
+
+</div>
+
+<h4 id="确认信息_ubuntu中默认的web目录是_var_www_默认的cgi目录是_usr_lib_cgi-bin_安装完成gitweb后_gitweb的gitwebcgi会自动放置到该目录下">5. 确认信息：ubuntu中默认的web目录是/var/www，默认的cgi目录是/usr/lib/cgi-bin/，安装完成gitweb后，gitweb的gitweb.cgi会自动放置到该目录下。</h4>
+<div class="level4">
+
+</div>
+
+<h4 id="重启apache2_sudo_etc_initd_apache2_restart_访问httplocalhost_cgi-bin_gitwebcgi">6. 重启apache2，sudo /etc/init.d/apache2 restart。访问http://localhost/cgi-bin/gitweb.cgi。</h4>
+<div class="level4">
+
+</div>

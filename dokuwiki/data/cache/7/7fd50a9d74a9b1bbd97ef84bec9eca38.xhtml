@@ -1,0 +1,51 @@
+
+<p>
+使用Git进行本地提交后，未上传提交，却不小心删除了本地提交或提交所在分支，怎么办？？？？？
+</p>
+
+<p>
+不要紧！！！！
+</p>
+
+<p>
+可以使用git reflog命令来帮助恢复删除的本地提交！
+</p>
+
+<p>
+运行以下命令你就知道怎么用了！<img src="/dokuwiki/lib/images/smileys/icon_cool.gif" class="icon" alt="8-)" />
+</p>
+
+<p>
+1. git stash  清空工作区和暂存区
+</p>
+
+<p>
+2. git pull   同步服务器代码
+</p>
+
+<p>
+3. git commit –allow-empty -m “this is a test”  进行一次空提交
+</p>
+
+<p>
+4. git reset HEAD^ –hard  删除刚才的空提交
+</p>
+
+<p>
+5. git reflog   查看各分支的提交记录
+</p>
+<pre class="code">70cf5fe HEAD@{0}: reset: moving to HEAD^
+28d447f HEAD@{1}: commit: this is a test
+70cf5fe HEAD@{2}: pull: Fast-forward</pre>
+
+<p>
+6. git reset 28d447f –hard  恢复到commit号为28d447f 的提交,亦可使用HEAD@{1}
+</p>
+
+<p>
+7. git log
+</p>
+
+<p>
+看this is a test 提交是不是回来了!！
+</p>

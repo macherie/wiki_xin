@@ -1,0 +1,18 @@
+<span class="kw1">public</span> <span class="kw4">boolean</span> onCreateOptionsMenu<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menu"><span class="kw3">Menu</span></a> menu<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        getMenuInflater<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">menu</span>.<span class="me1">conversation_list_menu</span>, menu<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mDeleteAllItem <span class="sy0">=</span> menu.<span class="me1">findItem</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">action_delete_all</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSearchItem <span class="sy0">=</span> menu.<span class="me1">findItem</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">search</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSearchView <span class="sy0">=</span> <span class="br0">&#40;</span>SearchView<span class="br0">&#41;</span> mSearchItem.<span class="me1">getActionView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mSearchView.<span class="me1">setOnQueryTextListener</span><span class="br0">&#40;</span>mQueryTextListener<span class="br0">&#41;</span><span class="sy0">;</span>
+        mSearchView.<span class="me1">setQueryHint</span><span class="br0">&#40;</span>getString<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">search_hint</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSearchView.<span class="me1">setIconifiedByDefault</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        SearchManager searchManager <span class="sy0">=</span> <span class="br0">&#40;</span>SearchManager<span class="br0">&#41;</span> getSystemService<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">SEARCH_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>searchManager <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            SearchableInfo info <span class="sy0">=</span> searchManager.<span class="me1">getSearchableInfo</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getComponentName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSearchView.<span class="me1">setSearchableInfo</span><span class="br0">&#40;</span>info<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

@@ -1,0 +1,855 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2013/12/10</em>
+</p>
+
+<h1 class="sectionedit1" id="开发代码管理">开发代码管理</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "开发代码管理" [48-80] -->
+<h1 class="sectionedit2" id="freescale平台">Freescale平台</h1>
+<div class="level1">
+
+<p>
+<em>Freescale_4.1.15平台代码</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:Freescale-6ul<span class="sy0">/</span>manifest.git <span class="re5">-b</span> Freescale-6ul_4.1.15 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:Freescale-6ul<span class="sy0">/</span>repo.git</pre>
+
+<p>
+<em>Freescale平台代码</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:Freescale-6ul<span class="sy0">/</span>manifest.git <span class="re5">-b</span> Freescale-6ul <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:Freescale-6ul<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT2 SECTION "Freescale平台" [81-463] -->
+<h1 class="sectionedit3" id="mtk平台">MTK平台</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT3 SECTION "MTK平台" [464-487] -->
+<h3 class="sectionedit4" id="homebox23">HOMEBOX2.3</h3>
+<div class="level3">
+
+<p>
+<em>code base on HOMEBOX2.1</em>
+</p>
+<pre class="code bash">svn:<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>homebox<span class="sy0">/</span>homebox2.3</pre>
+<pre class="code bash">svn:<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>homebox<span class="sy0">/</span>homebox2.1</pre>
+<pre class="code bash">Base code
+svn:<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>homebox<span class="sy0">/</span>CBSDK_141209</pre>
+<hr />
+
+</div>
+<!-- EDIT4 SECTION "HOMEBOX2.3" [488-727] -->
+<h3 class="sectionedit5" id="mt6572_3g">MT6572【3G】</h3>
+<div class="level3">
+
+<p>
+<em>(ALPS.KK1.MP7.V1_SIMCOM72_CWET_KK_KERNEL.tar.gz)</em>
+</p>
+<pre class="code bash">SVN：<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>MT6572<span class="sy0">/</span>ap_base<span class="sy0">/</span>alps</pre>
+<pre class="code bash">SVN:<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>MT6572<span class="sy0">/</span>homebox3</pre>
+<hr />
+
+</div>
+<!-- EDIT5 SECTION "MT6572【3G】" [728-928] -->
+<h3 class="sectionedit6" id="遥控器">遥控器</h3>
+<div class="level3">
+
+<p>
+<em>A9112芯片，keil4环境</em>
+</p>
+<pre class="code bash">SVN:<span class="sy0">//</span>172.19.1.147<span class="sy0">/</span>homebox<span class="sy0">/</span>remote_controler</pre>
+
+</div>
+<!-- EDIT6 SECTION "遥控器" [929-1044] -->
+<h3 class="sectionedit7" id="代码库备份">代码库备份</h3>
+<div class="level3">
+<pre class="code bash"><span class="sy0">//</span>HOMEBOX--homebox2.1<span class="sy0">//</span>           <span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MTK<span class="sy0">/</span>homebox<span class="sy0">/</span>homebox2.1.git <span class="re5">-b</span> homebox2.1
+<span class="sy0">//</span>HOMEBOX--homebox2.3<span class="sy0">//</span>           <span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MTK<span class="sy0">/</span>homebox<span class="sy0">/</span>homebox2.3.git <span class="re5">-b</span> homebox2.3
+<span class="sy0">//</span>HOMEBOX--Base code<span class="sy0">//</span>            <span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MTK<span class="sy0">/</span>homebox2.3.git <span class="re5">-b</span> CBSDK
+<span class="sy0">//</span>遥控器<span class="sy0">//</span>                         <span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MTK<span class="sy0">/</span>homebox<span class="sy0">/</span>remote_controler.git <span class="re5">-b</span> remote_controler
+<span class="sy0">//</span>MT6572--homebox3<span class="sy0">//</span>              <span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MTK<span class="sy0">/</span>MT6572<span class="sy0">/</span>homebox3.git <span class="re5">-b</span> homebox3 </pre>
+
+</div>
+<!-- EDIT7 SECTION "代码库备份" [1045-1593] -->
+<h3 class="sectionedit8" id="cb04">CB04</h3>
+<div class="level3">
+
+<p>
+<em>MT6735组合3代码(5/4/3M)</em>
+<em>6735M/6735P/6735/6753 (FDD/TDD) + (64/32) + (FULL/GMO)</em>/
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MT6735<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MT6735_L <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MT6735<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT8 SECTION "CB04" [1594-1840] -->
+<h3 class="sectionedit9" id="cb04_客户代码">CB04 客户代码</h3>
+<div class="level3">
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MT6735<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MT6735_Cu <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MT6735<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT9 SECTION "CB04 客户代码" [1841-2010] -->
+<h3 class="sectionedit10" id="vr_代码">VR 代码</h3>
+<div class="level3">
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:VR.git <span class="re5">-b</span> master</pre>
+
+</div>
+<!-- EDIT10 SECTION "VR 代码" [2011-2094] -->
+<h3 class="sectionedit11" id="smartpoint_代码">SmartPoint 代码</h3>
+<div class="level3">
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:SmartPoint.git <span class="re5">-b</span> master</pre>
+
+</div>
+<!-- EDIT11 SECTION "SmartPoint 代码" [2095-2192] -->
+<h1 class="sectionedit12" id="高通平台">高通平台</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT12 SECTION "高通平台" [2193-2221] -->
+<h2 class="sectionedit13" id="ap侧代码">AP侧代码</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT13 SECTION "AP侧代码" [2222-2245] -->
+<h3 class="sectionedit14" id="s100">S100</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMLZA414007)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> phs100_414007 \
+<span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT14 SECTION "S100" [2246-2435] -->
+<h3 class="sectionedit15" id="s100_旺旺版本">S100 旺旺版本</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMLZA414007)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> phs100_414007_wang \
+<span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT15 SECTION "S100 旺旺版本" [2436-2643] -->
+<h3 class="sectionedit16" id="s300">S300</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMLZA414007)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> msm8255_414007 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT16 SECTION "S300" [2644-2832] -->
+<h3 class="sectionedit17" id="lsr_titan">LSR titan</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYA2031)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> titan_jb <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT17 SECTION "LSR titan" [2833-3018] -->
+<h3 class="sectionedit18" id="cathy">cathy</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYA2031)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> cathay_jb <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT18 SECTION "cathy" [3019-3201] -->
+<h3 class="sectionedit19" id="titan_apollo">titan &amp; apollo</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYA2035)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> msm8960_jb <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT19 SECTION "titan & apollo" [3202-3394] -->
+<h3 class="sectionedit20" id="s100d_s200_s300p_c500">S100D &amp; S200 &amp; S300P &amp; C500</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 R8625QSOSKQLYA3070.1)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> qrd8625_jb <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT20 SECTION "S100D & S200 & S300P & C500" [3395-3602] -->
+<h3 class="sectionedit21" id="s100_s300_android42">S100 &amp; S300 Android4.2</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMLZA40901040)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> msm8255_jb <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT21 SECTION "S100 & S300 Android4.2" [3603-3807] -->
+<h3 class="sectionedit22" id="k900_开发版本">K900 开发版本</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 R8625QSOSKQLYA3070)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> k900 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT22 SECTION "K900 开发版本" [3808-3997] -->
+<h3 class="sectionedit23" id="k900_客户版本">K900 客户版本</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 R8625QSOSKQLYA3070)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> k900 <span class="re5">-m</span> customer.xml <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT23 SECTION "K900 客户版本" [3998-4203] -->
+<h3 class="sectionedit24" id="d508_android_43">D508 (Android 4.3)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LNX.LA.3.2.1-06840-8&times;26.0)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_JB <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT24 SECTION "D508 (Android 4.3)" [4204-4410] -->
+<h3 class="sectionedit25" id="c580_d508_d801_android_442">C580 &amp; D508  &amp; D801(Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LNX.LA.3.5.3-05420-8&times;26.0)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_KK <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT25 SECTION "C580 & D508  & D801(Android 4.4.2)" [4411-4630] -->
+<h3 class="sectionedit26" id="d508_客户版本_android_442">D508 客户版本 (Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LNX.LA.3.5.3-05420-8&times;26.0)</em>
+<span style='color:red; '><strong>已停用</strong></span>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_KK <span class="re5">-m</span> D508.xml <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT26 SECTION "D508 客户版本 (Android 4.4.2)" [4631-4896] -->
+<h3 class="sectionedit27" id="d801_客户版本_android_442">D801 客户版本 (Android 4.4.2)</h3>
+<div class="level3">
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_KK <span class="re5">-m</span> D801.xml <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT27 SECTION "D801 客户版本 (Android 4.4.2)" [4897-5083] -->
+<h3 class="sectionedit28" id="s55_g55_android_442">S55 &amp; G55 (Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LNX.LA.3.5.3-05120-8&times;26.0)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_KK_S55 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT28 SECTION "S55 & G55 (Android 4.4.2)" [5084-5298] -->
+<h3 class="sectionedit29" id="i501_android_444">I501 (Android 4.4.4)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LNX.LA.3.7.3.1-03910-8939.0)</em><span style='color:red; '><strong>项目已停止</strong></span> <br/>
+
+<span style='color:red; '><strong>(02710&lt;14-09-26&gt;)，(03210&lt;14-11-13&gt;)，(03910&lt;14-11-27&gt;)</strong></span>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8939_KK <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT29 SECTION "I501 (Android 4.4.4)" [5299-5628] -->
+<h3 class="sectionedit30" id="机甲_android_444">机甲(Android 4.4.4)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本LNX.LA.3.7.1-00630-8&times;16.0)</em><span style='color:red; '><strong>已停用</strong></span>
+</p>
+<pre class="code">repo init -u git@192.167.100.232:platform/manifest.git -b QCT8939_KK --repo-url=git@192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT30 SECTION "机甲(Android 4.4.4)" [5629-5861] -->
+<h3 class="sectionedit31" id="基线20主干分支_v5003p_v5003_primo_ocean_l61_umi_s507_android_502">8939 基线2.0主干分支 V5003P&amp;V5003&amp;Primo&amp;Ocean&amp;L61&amp;Umi&amp;S507(Android 5.0.2)</h3>
+<div class="level3">
+
+<p>
+<span style='color:red; '><strong>主干分支</strong></span> <br/>
+
+</p>
+
+<p>
+<em>(高通版本 LNX.LA.BR64.1.1-05010-8&times;16.0)</em><span style='color:red; '><strong>(04610&lt;14-11-20&gt;)，(05010&lt;14-11-26&gt;)，(00610&lt;14-12-13&gt;)，(01010&lt;15-1-4&gt;)</strong></span> <br/>
+
+<em>(高通版本 LA.BR.1.1.2-01310-8&times;16.0) </em><span style='color:red; '><strong>(01310&lt;15-1-29&gt;)，(01610&lt;15-2-11&gt;)，(01910&lt;15-3-11&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@192.167.100.232:platform/manifest.git -b 8939_L --repo-url=git@192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT31 SECTION "8939 基线2.0主干分支 V5003P&V5003&Primo&Ocean&L61&Umi&S507(Android 5.0.2)" [5862-6382] -->
+<h3 class="sectionedit32" id="q39基线20_android_502">Q39基线2.0(Android 5.0.2)</h3>
+<div class="level3">
+
+<p>
+<span style='color:red; '><strong>Q39客户分支</strong></span> <br/>
+
+</p>
+
+<p>
+<em>(高通版本 LNX.LA.BR64.1.1-05010-8&times;16.0)</em><span style='color:red; '><strong>(04610&lt;14-11-20&gt;)，(05010&lt;14-11-26&gt;)，(00610&lt;14-12-13&gt;)，(01010&lt;15-1-4&gt;)</strong></span> <br/>
+
+<em>(高通版本 LA.BR.1.1.2-01310-8&times;16.0) </em><span style='color:red; '><strong>(01310&lt;15-1-29&gt;)，(01610&lt;15-2-11&gt;)，(01910&lt;15-3-11&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@192.167.100.232:platform/manifest.git -b Q39_L --repo-url=git@192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT32 SECTION "Q39基线2.0(Android 5.0.2)" [6383-6853] -->
+<h3 class="sectionedit33" id="基线20_r3_android_511">8939基线2.0 R3 (Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<span style='color:red; '><strong>主干分支</strong></span> <br/>
+
+</p>
+
+<p>
+<em>(高通版本 LA.BR.1.1.3-03110) </em><span style='color:red; '><strong>(03110&lt;15-7-1&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_R3 --repo-url=git@172.16.6.72:tools/repo.git</pre>
+
+</div>
+<!-- EDIT33 SECTION "8939基线2.0 R3 (Android 5.1.1)" [6854-7133] -->
+<h3 class="sectionedit34" id="q39基线20_r3_android_511">Q39基线2.0 R3(Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<span style='color:red; '><strong>Q39客户分支</strong></span> <br/>
+
+</p>
+
+<p>
+<em>(高通版本 LA.BR.1.1.3-03110) </em><span style='color:red; '><strong>(03110&lt;15-7-1&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@192.167.100.232:platform/manifest.git -b Q39_L_R3 --repo-url=git@192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT34 SECTION "Q39基线2.0 R3(Android 5.1.1)" [7134-7416] -->
+<h3 class="sectionedit35" id="基线21_q39_cta_android_511">8939 基线2.1 &amp;&amp; Q39 CTA (Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本LA.BR.1.2.1-00910-8&times;16.0) </em> <span style='color:red; '><strong>(00910&lt;15-2-11&gt;)，(01210&lt;15-3-11&gt;)</strong></span><br/>
+
+<em>(高通版本LA.BR.1.2.4-00310-8×16.0) </em><span style='color:red; '><strong>(00310&lt;15-5-27&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1 --repo-url=git@172.16.6.72:/tools/repo.git</pre>
+
+</div>
+<!-- EDIT35 SECTION "8939 基线2.1 && Q39 CTA (Android 5.1.1)" [7417-7782] -->
+<h3 class="sectionedit36" id="s201_s700_w80_android_511">S201&amp;S700&amp;W80 (Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本LA.BR.1.2.1-00910-8&times;16.0) </em> <span style='color:red; '><strong>(00910&lt;15-2-11&gt;)，(01210&lt;15-3-11&gt;)</strong></span><br/>
+
+<em>(高通版本LA.BR.1.2.4-00310-8×16.0) </em><span style='color:red; '><strong>(00310&lt;15-5-27&gt;)</strong></span><br/>
+
+<em>(高通版本LA.BR.1.2.4-03510-8&times;16.0) </em><span style='color:red; '><strong>(03510&lt;15-11-25&gt;)</strong></span>
+</p>
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1 --repo-url=git@172.16.6.72:/tools/repo.git</pre>
+
+</div>
+<!-- EDIT36 SECTION "S201&S700&W80 (Android 5.1.1)" [7783-8222] -->
+<h3 class="sectionedit37" id="seandroid">SEandroid</h3>
+<div class="level3">
+<pre class="code">repo init -u git@192.167.100.232:platform/manifest.git -b 8625_SEandroid --repo-url=git@192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT37 SECTION "SEandroid" [8223-8371] -->
+<h3 class="sectionedit38" id="juno_liva">Juno &amp;&amp; Liva</h3>
+<div class="level3">
+<pre class="code">repo init -u ssh://youname@172.16.6.11:29418/5xx/platform/manifest.git -b MSM8939_LA_V102016 --repo-url=ssh://youname@172.16.6.11:29418/5xx/repo.git</pre>
+
+</div>
+<!-- EDIT38 SECTION "Juno && Liva" [8372-8560] -->
+<h3 class="sectionedit39" id="s600">S600</h3>
+<div class="level3">
+<pre class="code">repo init -u git@172.16.6.72:S600/platform/manifest.git -b S600 --repo-url=git@172.16.6.72:S600/tools/repo.git</pre>
+
+</div>
+<!-- EDIT39 SECTION "S600" [8561-8703] -->
+<h3 class="sectionedit40" id="kc20">KC20</h3>
+<div class="level3">
+<pre class="code">repo init -u git@172.16.6.72:KC20/platform/manifest.git -b KC20 --repo-url=git@172.16.6.72:KC20/tools/repo.git</pre>
+
+</div>
+<!-- EDIT40 SECTION "KC20" [8704-8846] -->
+<h3 class="sectionedit41" id="w80客户代码">W80客户代码</h3>
+<div class="level3">
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m w80.xml --repo-url=git@172.16.6.72:/tools/repo.git</pre>
+
+</div>
+<!-- EDIT41 SECTION "W80客户代码" [8847-9008] -->
+<h3 class="sectionedit42" id="w80_8039客户代码">W80_8039客户代码</h3>
+<div class="level3">
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m w80_8039.xml --repo-url=git@172.16.6.72:/tools/repo.git</pre>
+
+</div>
+<!-- EDIT42 SECTION "W80_8039客户代码" [9009-9180] -->
+<h3 class="sectionedit43" id="s700客户代码">S700客户代码</h3>
+<div class="level3">
+<pre class="code">repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m s700.xml --repo-url=git@172.16.6.72:/tools/repo.git</pre>
+
+</div>
+<!-- EDIT43 SECTION "S700客户代码" [9181-9346] -->
+<h3 class="sectionedit44" id="cb09_msm8996-la-20_android_601">CB09  &lt;MSM8996-la-2.0 (Android 6.0.1)&gt;</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LA.HB.1.3.2-16800-8&times;96.0  ) </em> <span style='color:red; '><strong>(r01600.1&lt;16-07-27&gt;)</strong></span><br/>
+
+<em>(高通版本 LA.HB.1.3.2-19000-8&times;96.0  ) </em> <span style='color:red; '><strong>(r01650.1&lt;16-08-23&gt;)</strong></span><br/>
+
+<em>(高通版本 LA.HB.1.3.2-19600-8&times;96.0  ) </em> <span style='color:red; '><strong>(r01700.1&lt;16-08-27&gt;)</strong></span><br/>
+
+<em>(高通版本 LA.HB.1.3.2-27800-8&times;96.0  ) </em> <span style='color:red; '><strong>(r01801.1&lt;16-11-04&gt;)</strong></span> <br/>
+
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> msm8996 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git    \\ 主开发分支
+repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8996_C01 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git    \\ 铭源开发分支
+repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8996_C02 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git    \\ 哆哆开发分支
+&nbsp;
+repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8996_C <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git         \\  客户 SDK 分支
+repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:6xx<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8996_LA2.0 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:6xx<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git       \\ 三部 <span class="sy0">&lt;</span> W3代码 <span class="sy0">&gt;</span></pre>
+
+</div>
+<!-- EDIT44 SECTION "CB09  <MSM8996-la-2.0 (Android 6.0.1)>" [9347-10531] -->
+<h3 class="sectionedit45" id="pbs01_msm8953-spf-10_android_601">PBS01 &lt;MSM8953-SPF-1.0 (Android 6.0.1) &gt;</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 LA.UM.5.3-02310-89xx.0 ) </em> <span style='color:red; '><strong>(r01025.2&lt;16-09-07&gt;)</strong></span><br/>
+
+<em>(高通版本 LA.UM.5.3-07010-89xx.0) </em> <span style='color:red; '><strong>(r14000.1&lt;16-11-17&gt;)</strong></span><br/>
+
+<del>
+repo init -u git@172.16.6.72:MSM8953/platform/manifest.git -b MSM8953_1.0 –repo-url=git@172.16.6.72:tools/repo.git
+</del>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MSM8953<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8953_SPF_1.0 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT45 SECTION "PBS01 <MSM8953-SPF-1.0 (Android 6.0.1) >" [10532-11030] -->
+<h2 class="sectionedit46" id="modem侧代码">Modem侧代码</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT46 SECTION "Modem侧代码" [11031-11058] -->
+<h3 class="sectionedit47" id="s1001">S100</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMAZM414007)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:AMSS.git <span class="re5">-b</span> phs100_414007</pre>
+
+</div>
+<!-- EDIT47 SECTION "S100" [11059-11190] -->
+<h3 class="sectionedit48" id="s3001">S300</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMAZM414007)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:AMSS.git <span class="re5">-b</span> s300_414007</pre>
+
+</div>
+<!-- EDIT48 SECTION "S300" [11191-11320] -->
+<h3 class="sectionedit49" id="lsr_titan1">LSR titan</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYD2031)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS.git <span class="re5">-b</span> titan</pre>
+
+</div>
+<!-- EDIT49 SECTION "LSR titan" [11321-11451] -->
+<h3 class="sectionedit50" id="titan_apollo1">titan &amp; apollo</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYD2035)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS.git <span class="re5">-b</span> msm8960_jb</pre>
+
+</div>
+<!-- EDIT50 SECTION "titan & apollo" [11452-11592] -->
+<h3 class="sectionedit51" id="s100d_s200_s300p_k900_c500">S100D &amp; S200 &amp; S300P &amp; K900 &amp; C500</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 R8625QSOSKQLYM3070.5)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:AMSS.git <span class="re5">-b</span> qrd8625_jb</pre>
+
+</div>
+<!-- EDIT51 SECTION "S100D & S200 & S300P & K900 & C500" [11593-11751] -->
+<h3 class="sectionedit52" id="s100_s300_android421">S100 &amp; S300 Android4.2</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M7630AABBQMAZM414012)</em>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:AMSS.git <span class="re5">-b</span> msm8255_414012</pre>
+
+</div>
+<!-- EDIT52 SECTION "S100 & S300 Android4.2" [11752-11902] -->
+<h3 class="sectionedit53" id="d508_android_431">D508 (Android 4.3)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8926AAAAANLYD1130007.1)</em>
+</p>
+
+<p>
+<del>git clone git@192.167.100.232:Non-HLOS.git -b QCT8926_KK_101</del>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS.git <span class="re5">-b</span> QRD8926_JB</pre>
+
+</div>
+<!-- EDIT53 SECTION "D508 (Android 4.3)" [11903-12125] -->
+<h3 class="sectionedit54" id="c580_d508_android_442">C580 &amp; D508 (Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8926AAAAANLYD2136.1) </em> <br/>
+
+<strong><span style='color:red; '>(2135.2&lt;14-09-18&gt;)，(2136.1&lt;14-11-06&gt;)</span></strong>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS.git <span class="re5">-b</span> QRD8926_KK</pre>
+
+</div>
+<!-- EDIT54 SECTION "C580 & D508 (Android 4.4.2)" [12126-12348] -->
+<h3 class="sectionedit55" id="s55_g55_android_4421">S55 &amp; G55 (Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8926AAAAANLYD2132.1) </em> <br/>
+
+<strong><span style='color:red; '>(2132.1&lt;11-07-14&gt;)</span></strong>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS.git <span class="re5">-b</span> QRD8926_KK_S55</pre>
+
+</div>
+<!-- EDIT55 SECTION "S55 & G55 (Android 4.4.2)" [12349-12553] -->
+<h3 class="sectionedit56" id="i501_android_4441">I501 (Android 4.4.4)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8939AAAAANLYD1135.1)</em><span style='color:red; '><strong>项目已停止</strong></span> <br/>
+
+<strong><span style='color:red; '>(1131.1&lt;14-09-26&gt;)，(1132.3&lt;14-10-20&gt;)，(1135.1&lt;14-11-27&gt;)</span></strong>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:Non-HLOS_second.git <span class="re5">-b</span> QRD8939_KK</pre>
+
+</div>
+<!-- EDIT56 SECTION "I501 (Android 4.4.4)" [12554-12835] -->
+<h3 class="sectionedit57" id="android_502">8939 (Android 5.0.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8939AAAAANLYD2037.2)</em> <br/>
+
+<span style='color:red; '><strong>(2025.1&lt;14-11-20&gt;)，(2026.4&lt;14-11-26&gt;)，(2030.1&lt;14-12-13&gt;)，(2031.1&lt;15-1-4&gt;，(2032.1&lt;15-1-13&gt;)，(2034.1&lt;15-1-29&gt;)，(2035.1&lt;15-2-11&gt;)，(2037.2&lt;15-3-11&gt;)</strong></span>
+</p>
+
+<p>
+<del>
+git clone git@192.167.100.232:AMSS_4.4.4.git -b QCT8939_KK
+</del>
+</p>
+<pre class="code">git clone git@192.167.100.232:Non-HLOS_second.git -b 8939_L</pre>
+
+</div>
+<!-- EDIT57 SECTION "8939 (Android 5.0.2)" [12836-13240] -->
+<h3 class="sectionedit58" id="q39_android_502">Q39 (Android 5.0.2)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8939AAAAANLYD2037.2.22973.1.24322.1)</em> <br/>
+
+<span style='color:red; '><strong>(2025.1&lt;14-11-20&gt;)，(2026.4&lt;14-11-26&gt;)，(2030.1&lt;14-12-13&gt;)，(2031.1&lt;15-1-4&gt;，(2032.1&lt;15-1-13&gt;)，(2034.1&lt;15-1-29&gt;)，(2035.1&lt;15-2-11&gt;)，(2037.2&lt;15-3-11&gt;)，(2037.2.22973.1&lt;15-06-24&gt;)</strong></span> <br/>
+
+<span style='color:red; '><strong>(2037.2.22973.1.24322.1&lt;15-07-20&gt;</strong></span>
+</p>
+<pre class="code /">git clone git@192.167.100.232:Non-HLOS_second.git -b Q39_L</pre>
+
+</div>
+<!-- EDIT58 SECTION "Q39 (Android 5.0.2)" [13241-13677] -->
+<h3 class="sectionedit59" id="q39_r3_android_511">Q39 R3(Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8939AAAAANLYD2046.1)</em> <br/>
+
+<span style='color:red; '><strong>(2046.1&lt;15-07-01&gt;)</strong></span>
+</p>
+<pre class="code /">git clone git@192.167.100.232:Non-HLOS_second.git -b Q39_L_R3</pre>
+
+</div>
+<!-- EDIT59 SECTION "Q39 R3(Android 5.1.1)" [13678-13874] -->
+<h3 class="sectionedit60" id="机甲q39_cta_基线21">机甲Q39  CTA 基线2.1</h3>
+<div class="level3">
+
+<p>
+<del>
+git clone git@192.167.100.232:8939L2.1/Non-HLOS.git -b 8939_L_2.1
+</del>
+</p>
+
+</div>
+<!-- EDIT60 SECTION "机甲Q39  CTA 基线2.1" [13875-13990] -->
+<h3 class="sectionedit61" id="基线21_android_511">8939 基线2.1(Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本M8939AAAAANLYD2145B.1.1)</em> <br/>
+
+<span style='color:red; '><strong>(r2121.4&lt;15-2-11&gt;)，(2130.1&lt;15-3-11&gt;)，(2136.1&lt;15-5-27&gt;)，(2145B.1&lt;15-11-25&gt;)</strong></span>
+</p>
+<pre class="code">git clone git@172.16.6.72:Non-HLOS_second.git -b 8939_L_2.1</pre>
+
+</div>
+<!-- EDIT61 SECTION "8939 基线2.1(Android 5.1.1)" [13991-14255] -->
+<h3 class="sectionedit62" id="juno_liva1">Juno &amp;&amp; Liva</h3>
+<div class="level3">
+<pre class="code">git clone git@172.16.6.11:sim-android/5xx/AMSS.git -b MSM8939_LA_V102010</pre>
+
+</div>
+<!-- EDIT62 SECTION "Juno && Liva" [14256-14367] -->
+<h3 class="sectionedit63" id="cb09_msm8996_android_601">CB09 &lt;MSM8996  (Android 6.0.1)&gt;</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本MSM8996.LA.2.0)</em><span style='color:red; '><strong> (r01600.1&lt;16-7-27&gt;)  (r01650.1&lt;16-8-23&gt;)  (r01700.1&lt;16-8-27&gt;)  (r01801.1&lt;16-11-04&gt;) </strong></span>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>Non-HLOS <span class="re5">-b</span> msm8996
+&nbsp;
+<span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:6xx<span class="sy0">/</span>Non-HLOS <span class="re5">-b</span> MSM8996_LA2.0  <span class="br0">&#40;</span>三部<span class="br0">&#41;</span></pre>
+
+</div>
+<!-- EDIT63 SECTION "CB09 <MSM8996  (Android 6.0.1)>" [14368-14694] -->
+<h3 class="sectionedit64" id="pbs01_msm8953_android_601">PBS01 &lt;MSM8953  (Android 6.0.1)&gt;</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本MSM8953.LA.1.0)</em><span style='color:red; '><strong>(r01025.2&lt;16-9-7&gt;)</strong></span> <br/>
+
+<em>(高通版本  Snapdragon_High_Med_2016.SPF.1.0 &lt;MSM8953.LA.1.0&gt;)</em><span style='color:red; '><strong>(r14000.1&lt;16-11-17&gt;)</strong></span><br/>
+
+<del>
+git clone git@172.16.6.72:MSM8953/Non-HLOS -b MSM8953_1.0
+</del>
+</p>
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MSM8953<span class="sy0">/</span>Non-HLOS <span class="re5">-b</span> MSM8953_SPF_1.0</pre>
+
+</div>
+<!-- EDIT64 SECTION "PBS01 <MSM8953  (Android 6.0.1)>" [14695-15083] -->
+<h2 class="sectionedit65" id="qcn库">QCN库</h2>
+<div class="level2">
+<pre class="code bash"><span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:QCN.git    \\ 数据已迁移至新服务器（172.16.6.72）
+<span class="kw2">git clone</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:QCN.git</pre>
+
+</div>
+<!-- EDIT65 SECTION "QCN库" [15084-15250] -->
+<h1 class="sectionedit66" id="客户共享代码管理">客户共享代码管理</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT66 SECTION "客户共享代码管理" [15251-15289] -->
+<h3 class="sectionedit67" id="lsr_titan2">LSR titan</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 M8960AAAAANLYA2031)</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> LSR-titan_jb <span class="re5">-m</span> customer.xml <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT67 SECTION "LSR titan" [15290-15495] -->
+<h3 class="sectionedit68" id="k900">K900</h3>
+<div class="level3">
+
+<p>
+内网地址：
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> git:<span class="sy0">//</span>172.16.6.163<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> k900 <span class="re5">--repo-url</span>=git:<span class="sy0">//</span>172.16.6.163<span class="sy0">/</span>repo.git</pre>
+
+<p>
+外网地址：
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> http:<span class="sy0">//</span>116.247.119.165:<span class="nu0">5140</span><span class="sy0">/</span>git<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">--repo-url</span>=http:<span class="sy0">//</span>116.247.119.165:<span class="nu0">5140</span><span class="sy0">/</span>git<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT68 SECTION "K900" [15496-15804] -->
+<h3 class="sectionedit69" id="s55_android_43">S55 (Android 4.3)</h3>
+<div class="level3">
+
+<p>
+内网地址：
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> git:<span class="sy0">//</span>172.16.6.64<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_JB_INTERNAL <span class="re5">--repo-url</span>=git:<span class="sy0">//</span>172.16.6.64<span class="sy0">/</span>repo.git</pre>
+
+<p>
+外网地址：
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> http:<span class="sy0">//</span>116.247.119.165:<span class="nu0">8877</span><span class="sy0">/</span>git<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_JB <span class="re5">--repo-url</span>=http:<span class="sy0">//</span>116.247.119.165:<span class="nu0">8877</span><span class="sy0">/</span>git<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT69 SECTION "S55 (Android 4.3)" [15805-16153] -->
+<h3 class="sectionedit70" id="s55_g55_android_4422">S55 &amp; G55 (Android 4.4.2)</h3>
+<div class="level3">
+
+<p>
+内网地址：
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> git:<span class="sy0">//</span>172.16.6.64<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QRD8926_KK_INTERNAL <span class="re5">--repo-url</span>=git:<span class="sy0">//</span>172.16.6.64<span class="sy0">/</span>repo.git</pre>
+
+<p>
+外网地址：<strong><span style='color:red; '>(已关闭)</span></strong>  <br/>
+
+<del>
+repo init -u <a href="http://116.247.119.165:8877/git/platform/manifest.git" class="urlextern" title="http://116.247.119.165:8877/git/platform/manifest.git" rel="nofollow">http://116.247.119.165:8877/git/platform/manifest.git</a> -b QRD8926_KK –repo-url=<a href="http://116.247.119.165:8877/git/repo.git" class="urlextern" title="http://116.247.119.165:8877/git/repo.git" rel="nofollow">http://116.247.119.165:8877/git/repo.git</a>
+</del>
+</p>
+
+</div>
+<!-- EDIT70 SECTION "S55 & G55 (Android 4.4.2)" [16154-16542] -->
+<h3 class="sectionedit71" id="s100d_指端">S100D (指端)</h3>
+<div class="level3">
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> s100d <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT71 SECTION "S100D (指端)" [16543-16692] -->
+<h3 class="sectionedit72" id="s300p_新大陆">S300P (新大陆)</h3>
+<div class="level3">
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> s300p <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT72 SECTION "S300P (新大陆)" [16693-16845] -->
+<h1 class="sectionedit73" id="高通原始源码">高通原始源码</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT73 SECTION "高通原始源码" [16846-16879] -->
+<h3 class="sectionedit74" id="qaulcomm_8939_高通源码_android_444">QAULCOMM_8939 高通源码 (Android 4.4.4)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 modem build id: M8939AAAAANLYD1130.1; ap build id: LNX.LA.3.7.3.1-02710-8939.0 )</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QAULCOMM_8939 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT74 SECTION "QAULCOMM_8939 高通源码 (Android 4.4.4)" [16880-17164] -->
+<h3 class="sectionedit75" id="qaulcomm_8939_android_l高通源码_android_500">QAULCOMM_8939 Android L高通源码 (Android 5.0.0)</h3>
+<div class="level3">
+
+<p>
+<em>(高通版本 modem build id: M8939AAAAANLYD2037.2; ap build id: LA.BR.1.1.2-01910-8&times;16.0 )</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> QAULCOMM_Q39_L <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>192.167.100.232:repo.git</pre>
+
+</div>
+<!-- EDIT75 SECTION "QAULCOMM_8939 Android L高通源码 (Android 5.0.0)" [17165-17456] -->
+<h3 class="sectionedit76" id="qaulcomm_8939_android_l高通源码_android_511">QAULCOMM_8939 Android L高通源码 (Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em><strong><span style='color:red; '> (20150311)</span></strong> (modem build id: M8939AAAAANLYD2130.1; ap build id: LNX.LA.3.7.3.1-02710-8939.0 )</em>  <br/>
+
+<em><strong><span style='color:red; '> (20150527)</span></strong> (modem build id: M8939AAAAANLYD2136.1; ap build id: LA.BR.1.2.4-00310-8&times;16.0 )</em>
+</p>
+
+<p>
+<strong><span style='color:red; '>老服务器代码，不做维护</span></strong>
+</p>
+
+<p>
+<del>
+repo init -u git@192.167.100.232:platform/manifest.git -b QAULCOMM_8939_L_2.1 –repo-url=git@192.167.100.232:repo.git
+</del>
+</p>
+
+</div>
+<!-- EDIT76 SECTION "QAULCOMM_8939 Android L高通源码 (Android 5.1.1)" [17457-17954] -->
+<h3 class="sectionedit77" id="qaulcomm_8939_android_l高通源码_android_5111">QAULCOMM_8939 Android L高通源码 (Android 5.1.1)</h3>
+<div class="level3">
+
+<p>
+<em><strong><span style='color:red; '> (20151112)</span></strong> (modem build id: M8939AAAAANLYD2145B.1; ap build id: LA.BR.1.2.4-03510-8&times;16.0 )</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> <span class="nu0">8939</span>_qualcomm_2.1 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT77 SECTION "QAULCOMM_8939 Android L高通源码 (Android 5.1.1)" [17955-18271] -->
+<h3 class="sectionedit78" id="qaulcomm_8996_android_m高通源码_msm8996-la-20_android_601">QAULCOMM_8996 Android M高通源码(msm8996-la-2.0  Android 6.0.1 )</h3>
+<div class="level3">
+
+<p>
+<em><strong><span style='color:red; '> (20160727)</span></strong> (modem build id: MPSS.TH.2.0.1-00437-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-16800-8&times;96.0 )</em>
+</p>
+
+<p>
+<em><strong><span style='color:red; '> (20160823)</span></strong> (modem build id: MPSS.TH.2.0.1-00458-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-19000-8&times;96.0 )</em>
+</p>
+
+<p>
+<em><strong><span style='color:red; '> (20160827)</span></strong> (modem build id: MPSS.TH.2.0.1-00481-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-19600-8&times;96.0 )</em>
+</p>
+
+<p>
+<em><strong><span style='color:red; '> (20161104)</span></strong> (modem build id: MPSS.TH.2.0.1-00532-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-27800-8&times;96.0 )</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8996_Qualcomm <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:msm8996<span class="sy0">/</span>tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT78 SECTION "QAULCOMM_8996 Android M高通源码(msm8996-la-2.0  Android 6.0.1 )" [18272-19038] -->
+<h3 class="sectionedit79" id="qaulcomm_8953_android_m高通源码_msm8953-spf-10_android_601">QAULCOMM_8953 Android M高通源码(msm8953-spf-1.0  Android 6.0.1 )</h3>
+<div class="level3">
+
+<p>
+<em><strong><span style='color:red; '> (20160907)</span></strong> (modem build id:MPSS.TA.2.2.r7-00006-8953_GEN_PACK-1; ap build id: LA.UM.5.3-02310-89xx.0 )</em>
+</p>
+
+<p>
+<em><strong><span style='color:red; '> (201601117)</span></strong> (modem build id:MPSS.TA.2.2.c1-00367-8953_GEN_PACK-1; ap build id: LA.UM.5.3-07010-89xx.0- )</em>
+</p>
+<pre class="code bash">repo init <span class="re5">-u</span> <span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:MSM8953<span class="sy0">/</span>platform<span class="sy0">/</span>manifest.git <span class="re5">-b</span> MSM8953_Qualcomm_1.0 <span class="re5">--repo-url</span>=<span class="kw2">git</span><span class="sy0">@</span>172.16.6.72:tools<span class="sy0">/</span>repo.git</pre>
+
+</div>
+<!-- EDIT79 SECTION "QAULCOMM_8953 Android M高通源码(msm8953-spf-1.0  Android 6.0.1 )" [19039-19527] -->
+<h1 class="sectionedit80" id="版本发布">版本发布</h1>
+<div class="level1">
+
+<p>
+所有项目的发布版本都在：192.167.100.225/release
+</p>
+
+</div>
+<!-- EDIT80 SECTION "版本发布" [19528-] -->

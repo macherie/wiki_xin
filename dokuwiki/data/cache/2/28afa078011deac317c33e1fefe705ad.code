@@ -1,0 +1,110 @@
+    <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> button<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>button.<span class="me1">isEnabled</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">switch</span> <span class="br0">&#40;</span>button.<span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">recordButton</span><span class="sy0">:</span>
+                mRemainingTimeCalculator.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+environment"><span class="kw3">Environment</span></a>.<span class="me1">getExternalStorageState</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">equals</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+environment"><span class="kw3">Environment</span></a>.<span class="me1">MEDIA_MOUNTED</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    mSampleInterrupted <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+                    <span class="co1">// When turn on usb storage, sd card is unavailable.</span>
+                    mErrorUiMessage <span class="sy0">=</span> getResources<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getString</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">sd_card_unavailable</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    updateUi<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mRemainingTimeCalculator.<span class="me1">diskSpaceAvailable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    mSampleInterrupted <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+                    mErrorUiMessage <span class="sy0">=</span> getResources<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getString</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">storage_is_full</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    updateUi<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    stopAudioPlayback<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    AudioManager audioManager <span class="sy0">=</span> <span class="br0">&#40;</span>AudioManager<span class="br0">&#41;</span>getSystemService<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">AUDIO_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="co1">//because of send broadcast to OFF FM is an asynchronous Process</span>
+                    <span class="co1">//so sometimes it need little time,Otherwise startRecordin will be error</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>audioManager.<span class="me1">isFMActive</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        SystemClock.<span class="me1">sleep</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    mRecorder.<span class="me1">removeObsoletedFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_AMR.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_AMR<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">RAW_AMR</span>, <span class="st0">&quot;.amr&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">AMR_NB</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_EVRC.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_AMR<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">QCP</span>, <span class="st0">&quot;.qcp&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">EVRC</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_QCELP.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_AMR<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">QCP</span>, <span class="st0">&quot;.qcp&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">QCELP</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_3GPP.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_3GPP<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">THREE_GPP</span>, <span class="st0">&quot;.3gpp&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">AMR_NB</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_AAC_MP4.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_3GPP<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">THREE_GPP</span>, <span class="st0">&quot;.3gpp&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">AAC</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_AAC_5POINT1_CHANNEL.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="co1">//AAC  6-channel recording</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">true</span> <span class="sy0">==</span> bSSRSupported<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                          mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_3GPP<span class="br0">&#41;</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">setChannels</span><span class="br0">&#40;</span><span class="nu0">6</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">setSamplingRate</span><span class="br0">&#40;</span>SAMPLERATE_MULTI_CH<span class="br0">&#41;</span><span class="sy0">;</span>
+                          mAudioSourceType <span class="sy0">=</span> MediaRecorder.<span class="me1">AudioSource</span>.<span class="me1">MIC</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">THREE_GPP</span>, <span class="st0">&quot;.3gpp&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">AAC</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                          <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalargumentexception"><span class="kw3">IllegalArgumentException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Invalid output file type requested&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>AUDIO_WAVE_6CH_LPCM.<span class="me1">equals</span><span class="br0">&#40;</span>mRequestedType<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="co1">//WAVE LPCM  6-channel recording</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">true</span> <span class="sy0">==</span> bSSRSupported<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                          mRemainingTimeCalculator.<span class="me1">setBitRate</span><span class="br0">&#40;</span>BITRATE_3GPP<span class="br0">&#41;</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">setChannels</span><span class="br0">&#40;</span><span class="nu0">6</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">setSamplingRate</span><span class="br0">&#40;</span>SAMPLERATE_MULTI_CH<span class="br0">&#41;</span><span class="sy0">;</span>
+                          mAudioSourceType <span class="sy0">=</span> MediaRecorder.<span class="me1">AudioSource</span>.<span class="me1">MIC</span><span class="sy0">;</span>
+                          mRecorder.<span class="me1">startRecording</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">WAVE</span>, <span class="st0">&quot;.wav&quot;</span>, <span class="kw1">this</span>, mAudioSourceType, MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">LPCM</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                          <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalargumentexception"><span class="kw3">IllegalArgumentException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Invalid output file type requested&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalargumentexception"><span class="kw3">IllegalArgumentException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Invalid output file type requested&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>mMaxFileSize <span class="sy0">!=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mRemainingTimeCalculator.<span class="me1">setFileSizeLimit</span><span class="br0">&#40;</span>
+                                mRecorder.<span class="me1">sampleFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, mMaxFileSize<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">playButton</span><span class="sy0">:</span>
+                stopAudioPlayback<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mRecorder.<span class="me1">startPlayback</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">stopButton</span><span class="sy0">:</span>
+                mRecorder.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">// Display the tips of stop record</span>
+                mTitle.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mTitle.<span class="me1">setText</span><span class="br0">&#40;</span>getResources<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getString</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">recording_stopped</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mStateLED.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">acceptButton</span><span class="sy0">:</span>
+                mRecorder.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                saveSampleAndExit<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mRecorder.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">discardButton</span><span class="sy0">:</span>
+                mRecorder.<span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">//prompt before exit</span>
+                <span class="co1">//[SIMT-kun.mao-20130705] fix bug 8472 {</span>
+                <span class="coMULTI">/*new AlertDialog.Builder(this)
+                    .setTitle(R.string.app_name)
+                    .setMessage(R.string.file_discard)
+                    .setPositiveButton(R.string.button_ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }
+                    )
+                    .setCancelable(false)
+                    .show(); */</span>
+                updateMessage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                Toast.<span class="me1">makeText</span><span class="br0">&#40;</span><span class="kw1">this</span>,R.<span class="me1">string</span>.<span class="me1">file_discard</span>,Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">//[SIMT-kun.mao-20130705] fix bug 8472 }</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

@@ -1,0 +1,118 @@
+
+<h1 class="sectionedit1" id="添加帐号">添加帐号</h1>
+<div class="level1">
+<ul>
+<li class="level1"><div class="li"> 打开Edit→Account Settings ,选择左下放的 “Account actions”→“Add Mail Account”.</div>
+</li>
+<li class="level1"><div class="li"> 在弹出框中填入帐号密码的信息。</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-05_13_24_01.png" class="media" alt="" />
+</p>
+<ul>
+<li class="level1"><div class="li"> 这个时候选择手动配置，修改如下图</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-05_13_24_28.png" class="media" alt="" />
+</p>
+<ul>
+<li class="level1"><div class="li"> 手动配置完成确定后会有一个警告，选择确定。再打开Edit→Account Settings ，会看到自己添加的帐号。这样就完成了帐号基本配置</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li"> 打开Edit→preferences→Advanced→General→Config Editor→“I&#039;ll be carefull, I promise”修改下面两个值</div>
+</li>
+</ul>
+<pre class="code">mail.identity.default.reply_on_top  把0修改为1  //把自己回复的内容放在引用邮件的前面。
+mail.identity.default.sig_bottom  把true修改为false  //把签名放在回复内容的下面，而不是放在整封邮件的下面。</pre>
+<ul>
+<li class="level1"><div class="li"> 打开Tool→Add-ons,搜索“ReFwdFormatter”和“SmartTemplate4”和“Subject Cleaner”安装，然后重启Thunderbird，如下图</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-03_10_39_07.png?w=950&amp;tok=14888f" class="media" alt="" width="950" />
+</p>
+<ul>
+<li class="level1"><div class="li"> 安装完成后能在Tool→Add-ons→Extensions里面找到刚才安装的那三个插件，如下图</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-06_17_11_53.png" class="media" alt="" />
+</p>
+<ul>
+<li class="level1"><div class="li"> ReFwdFormatter安装好后不用配置，默认配置就能工作。</div>
+</li>
+<li class="level1"><div class="li"> SmartTemplate4需要配置。打开Tool→Add-ons→Extensions→SmartTemplate4→preferences,分别在“Reply”和“Forward”标签页的“Quote header”里面填写如下代码：</div>
+</li>
+</ul>
+<pre class="code html4strict"><span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a>&gt;</span>
+<span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;border:none;border-top:solid #B5C4DF 1.0pt;padding:0cm 0cm 0cm 0cm&quot;</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;MsoNormal&quot;</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">'margin:0cm;margin-bottom:.0001pt;text-align:justify;font-size:9.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;,&quot;宋体&quot;;text-align:left;mso-outline-level:1'</span>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span>发件人：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span> %from%<span class="sc2">&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span>发送时间：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span> %X:=sent% %datelocal%<span class="sc2">&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;</span>
+        [[<span class="sc2">&lt;<a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span>收件人：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span> %to%]][[<span class="sc2">&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;&lt;<a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span>抄送：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span> %cc%]]<span class="sc2">&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span>主题：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/b.html"><span class="kw2">b</span></a>&gt;</span> %subject%<span class="sc2">&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;&lt;<a href="http://december.com/html/4/element/br.html"><span class="kw2">br</span></a><span class="sy0">/</span>&gt;</span>
+    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span></pre>
+<ul>
+<li class="level1"><div class="li"> 按照如下图红框所示勾选相关选项或在去掉选项，修改完成后要重启Thunderbird。</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-05_14_49_09.png?w=1000&amp;tok=c6df37" class="media" alt="" width="1000" />
+</p>
+<ul>
+<li class="level1"><div class="li"> 再打开Tool→Add-ons→Extensions→SmartTemplate4→preferences,分别把“Reply”和”Forward”标签页里面“Replace line breaks with&lt;br&gt;”前面的勾勾上，重启Thunderbird，重启之后再把刚才勾选的Replace line breaks with&lt;br&gt;前面的勾去掉。这地方是这个插件的一个小bug。</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li"> Subject Cleaner需要配置。打开Tool→Add-ons→Extensions→Subject Cleaner→preferences,点击“Add”添加几个规则。如下图</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-06_17_42_18.png" class="media" alt="" />
+</p>
+
+</div>
+<!-- EDIT1 SECTION "添加帐号" [1-2843] -->
+<h1 class="sectionedit2" id="注意">注意</h1>
+<div class="level1">
+
+<p>
+ * 做完来所有操作，发现回复活在转发邮件签名还是放在整个邮件的最下面，请检查下图中设置。
+</p>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;screenshot_from_2015-08-05_17_18_56.png" class="media" alt="" />
+</p>
+
+</div>
+<!-- EDIT2 SECTION "注意" [2844-3079] -->
+<h1 class="sectionedit3" id="设置帐号">设置帐号</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT3 SECTION "设置帐号" [3080-3104] -->
+<h2 class="sectionedit4" id="设置署名">设置署名</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> 再打开Edit→Account Settings，选择自己的帐号，在“Signature Text”中输入自己的署名。可以选择使用html格式化自己的签名。下面是一个html格式签名模板(要修改自己的姓名和电话)。</div>
+</li>
+</ul>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">'font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;,&quot;宋体&quot;;font-size:10.5pt;color:#1f497d;'</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;margin:0px&quot;</span>&gt;</span>Your Name<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;margin:0px&quot;</span>&gt;</span>Shanghai SIMCom Ltd.<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;margin:0px&quot;</span>&gt;</span>TEL: (+86) 21 xxxxxxxx<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;margin:0px&quot;</span>&gt;</span>Address: Building A, SIM Technology Building, No.633, Jinzhong Road, Changning District, Shanghai P.R. China 200335<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span></pre>
+
+</div>
+<!-- EDIT4 SECTION "设置署名" [3105-] -->

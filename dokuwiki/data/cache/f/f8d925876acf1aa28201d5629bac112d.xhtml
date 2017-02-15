@@ -1,0 +1,49 @@
+
+<h1 class="sectionedit1" id="af_tuning_guide">AF tuning Guide</h1>
+<div class="level1">
+
+<p>
+现在把以前AF调试的经验分享一下：
+</p>
+
+<p>
+AF调试前的准备
+</p>
+<pre class="code">AF调试前需要准备该模组的SPEC和sensor ic的datasheet，确定需要调试的马达ic，确认其是否在高通的认证列表中(PVL),
+如果该driver ic已经在PVL中，你可以在CreatPoint中下载该驱动代码，后续调试会比较顺利；
+如果调试的马达ic不在PVL中，那么恭喜你，这次调试可能会比较坎坷，你需要尽快向模组厂那边要到驱动代码，并尽快完成基本驱动的调试</pre>
+
+<p>
+以下是调试AF的主要步骤：
+</p>
+
+<p>
+1 填写高通AF调试的excel表：80-NN841-1
+</p>
+
+<p>
+&lt;1&gt;, 模组的SPEC，用来获取AF的EFL,Pixel size,FNumber
+</p>
+
+<p>
+&lt;2&gt;, sensor datasheet用来查询sensor一些属性
+</p>
+
+<p>
+&lt;3&gt;, AF驱动马达的SPEC，用来参考调试AF
+</p>
+
+<p>
+&lt;4&gt;, 模组厂提供的三姿态数据，用来计算AF驱动斜率(um/DAC)，已经最小启动电流对应的DAC，以及HPF，SSF，SNF对应的DAC code
+</p>
+
+<p>
+2 对照80-NN841文档，完成AF相关的code填写，编译代码，push进手机
+</p>
+
+<p>
+3 用Fullsweep测试AF在各个物距下对应的lens pos，测试AF的稳定性和准确性，回填到code中，重新编译代码，并push进手机，然后再主观测试一下AF的效果，
+如果对焦准确性和稳定性正常，那么AF的初调就已经完成了
+</p>
+
+</div>

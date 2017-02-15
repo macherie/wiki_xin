@@ -1,0 +1,27 @@
+<span class="sy0">&lt;</span>menu xmlns<span class="sy0">:</span>android<span class="sy0">=</span><span class="st0">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="sy0">&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_compose_new&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/new_message&quot;</span>
+        android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@drawable/ic_menu_msg_compose_holo_dark&quot;</span>
+        android<span class="sy0">:</span>showAsAction<span class="sy0">=</span><span class="st0">&quot;always|withText&quot;</span> <span class="sy0">/&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/search&quot;</span>
+          android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/menu_search&quot;</span>
+          android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@drawable/ic_menu_search_holo_dark&quot;</span>
+          android<span class="sy0">:</span>showAsAction<span class="sy0">=</span><span class="st0">&quot;ifRoom|collapseActionView&quot;</span>
+          android<span class="sy0">:</span>actionViewClass<span class="sy0">=</span><span class="st0">&quot;android.widget.SearchView&quot;</span> <span class="sy0">/&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_settings&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/menu_preferences&quot;</span>
+        android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@android:drawable/ic_menu_preferences&quot;</span> <span class="sy0">/&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_delete_all&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/menu_delete_all&quot;</span>
+        android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@drawable/ic_menu_trash_holo_dark&quot;</span> <span class="sy0">/&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;!--</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_cell_broadcasts&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/menu_cell_broadcasts&quot;</span> <span class="sy0">/--&gt;</span>
+&nbsp;
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_debug_dump&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/menu_debug_dump&quot;</span> <span class="sy0">/&gt;</span>
+<span class="sy0">&lt;/</span>menu<span class="sy0">&gt;</span>

@@ -1,0 +1,683 @@
+
+<h1 class="sectionedit1" id="概述">概述</h1>
+<div class="level1">
+
+<p>
+音乐模块主要有4个分类界面，通过Tabhost来实现界面间的切换。
+</p>
+<ul>
+<li class="level1"><div class="li"> TrackBrowserActivity.java                歌曲列表界面</div>
+</li>
+<li class="level1"><div class="li"> PlaylistBrowserActivity.java             播放列表界面</div>
+</li>
+<li class="level1"><div class="li"> AlbumBrowserActivity.java                专辑浏览界面</div>
+</li>
+<li class="level1"><div class="li"> ArtistAlbumBrowserActivity.java          艺术家浏览界面</div>
+</li>
+</ul>
+
+<p>
+其中音乐模块中最重要的两个类如下
+</p>
+<ul>
+<li class="level1"><div class="li"> MediaPlayerbackActivity.java             音乐播放界面</div>
+</li>
+<li class="level1"><div class="li"> MediaPlaybackService.java                音乐播放器服务</div>
+</li>
+</ul>
+
+<p>
+音乐模块中比较重要的两个工具类如下
+</p>
+<ul>
+<li class="level1"><div class="li"> MusicPicker.java                         音乐选择界面，这是给其它应用程序调用的界面。</div>
+</li>
+<li class="level1"><div class="li"> MusicUtils.java                          播放器公共方法类</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT1 SECTION "概述" [1-776] -->
+<h1 class="sectionedit2" id="程序启动">程序启动</h1>
+<div class="level1">
+
+<p>
+音乐模块的程序入口是MusicBrowserActivity.java。在该类中读取Shareprefence中的参数判断进入到音乐模块中的具体某个分类界面中。因此音乐模块具有记录功能，记录上次用户是在哪个界面退出应用的，在下次进入时之间展现用户上次所在的界面。
+</p>
+<pre class="code java">     <span class="kw4">int</span> activeTab <span class="sy0">=</span> MusicUtils.<span class="me1">getIntPref</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="st0">&quot;activetab&quot;</span>, R.<span class="me1">id</span>.<span class="me1">artisttab</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">artisttab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">albumtab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">songtab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">playlisttab</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            activeTab <span class="sy0">=</span> R.<span class="me1">id</span>.<span class="me1">artisttab</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        MusicUtils.<span class="me1">activateTab</span><span class="br0">&#40;</span><span class="kw1">this</span>, activeTab<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<pre class="code java">    <span class="kw1">static</span> <span class="kw4">void</span> activateTab<span class="br0">&#40;</span>Activity a, <span class="kw4">int</span> id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span>Intent.<span class="me1">ACTION_PICK</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">switch</span> <span class="br0">&#40;</span>id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">artisttab</span><span class="sy0">:</span>
+                intent.<span class="me1">setDataAndType</span><span class="br0">&#40;</span>Uri.<span class="me1">EMPTY</span>, <span class="st0">&quot;vnd.android.cursor.dir/artistalbum&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">albumtab</span><span class="sy0">:</span>
+                intent.<span class="me1">setDataAndType</span><span class="br0">&#40;</span>Uri.<span class="me1">EMPTY</span>, <span class="st0">&quot;vnd.android.cursor.dir/album&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">songtab</span><span class="sy0">:</span>
+                intent.<span class="me1">setDataAndType</span><span class="br0">&#40;</span>Uri.<span class="me1">EMPTY</span>, <span class="st0">&quot;vnd.android.cursor.dir/track&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">playlisttab</span><span class="sy0">:</span>
+                intent.<span class="me1">setDataAndType</span><span class="br0">&#40;</span>Uri.<span class="me1">EMPTY</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">CONTENT_TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">default</span><span class="sy0">:</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        intent.<span class="me1">putExtra</span><span class="br0">&#40;</span><span class="st0">&quot;withtabs&quot;</span>, <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        intent.<span class="me1">addFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_ACTIVITY_CLEAR_TOP</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        a.<span class="me1">startActivity</span><span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>
+        a.<span class="me1">finish</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        a.<span class="me1">overridePendingTransition</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT2 SECTION "程序启动" [777-2471] -->
+<h1 class="sectionedit3" id="歌曲列表界面">歌曲列表界面</h1>
+<div class="level1">
+
+<p>
+音乐列表界面的展示是由TrackBrowserActivity.java类来实现的，该类实现了ServiceConnection接口。在onCreate方法中对变量及页面组件进行初始化工作，其中
+</p>
+<pre class="code java">    mToken <span class="sy0">=</span> MusicUtils.<span class="me1">bindToService</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+代码段将TrackBrowserActivity.java这个Activity绑定到MediaPlaybackService.java这个Service上，具体代码如下：
+</p>
+<pre class="code java">     <span class="kw1">public</span> <span class="kw1">static</span> ServiceToken bindToService<span class="br0">&#40;</span>Activity context, ServiceConnection callback<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Activity realActivity <span class="sy0">=</span> context.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>realActivity <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            realActivity <span class="sy0">=</span> context<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        ContextWrapper cw <span class="sy0">=</span> <span class="kw1">new</span> ContextWrapper<span class="br0">&#40;</span>realActivity<span class="br0">&#41;</span><span class="sy0">;</span>
+        cw.<span class="me1">startService</span><span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span>cw, MediaPlaybackService.<span class="kw1">class</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        ServiceBinder sb <span class="sy0">=</span> <span class="kw1">new</span> ServiceBinder<span class="br0">&#40;</span>callback<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>cw.<span class="me1">bindService</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">setClass</span><span class="br0">&#40;</span>cw, MediaPlaybackService.<span class="kw1">class</span><span class="br0">&#41;</span>, sb, <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            sConnectionMap.<span class="me1">put</span><span class="br0">&#40;</span>cw, sb<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw1">new</span> ServiceToken<span class="br0">&#40;</span>cw<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        Log.<span class="me1">e</span><span class="br0">&#40;</span><span class="st0">&quot;Music&quot;</span>, <span class="st0">&quot;Failed to bind to service&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+对bindService返回的IBinder对象处理的类ServiceBinder，其方法实际上仍是调用TrackBrowserActivity类的方法
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">class</span> ServiceBinder <span class="kw1">implements</span> ServiceConnection <span class="br0">&#123;</span>
+        ServiceConnection mCallback<span class="sy0">;</span>
+        ServiceBinder<span class="br0">&#40;</span>ServiceConnection callback<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mCallback <span class="sy0">=</span> callback<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> onServiceConnected<span class="br0">&#40;</span>ComponentName className, android.<span class="me1">os</span>.<span class="me1">IBinder</span> service<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            sService <span class="sy0">=</span> IMediaPlaybackService.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+stub"><span class="kw3">Stub</span></a>.<span class="me1">asInterface</span><span class="br0">&#40;</span>service<span class="br0">&#41;</span><span class="sy0">;</span>
+            initAlbumArtCache<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mCallback <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mCallback.<span class="me1">onServiceConnected</span><span class="br0">&#40;</span>className, service<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> onServiceDisconnected<span class="br0">&#40;</span>ComponentName className<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mCallback <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mCallback.<span class="me1">onServiceDisconnected</span><span class="br0">&#40;</span>className<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            sService <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+ServiceBinder类的onServiceConnected方法实际上是调用TrackBrowserActivity类中的onServiceConnected方法
+</p>
+<pre class="code java">    <span class="kw1">public</span> <span class="kw4">void</span> onServiceConnected<span class="br0">&#40;</span>ComponentName name, IBinder service<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        IntentFilter f <span class="sy0">=</span> <span class="kw1">new</span> IntentFilter<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addAction</span><span class="br0">&#40;</span>Intent.<span class="me1">ACTION_MEDIA_SCANNER_STARTED</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addAction</span><span class="br0">&#40;</span>Intent.<span class="me1">ACTION_MEDIA_SCANNER_FINISHED</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addAction</span><span class="br0">&#40;</span>Intent.<span class="me1">ACTION_MEDIA_UNMOUNTED</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addDataScheme</span><span class="br0">&#40;</span><span class="st0">&quot;file&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        registerReceiver<span class="br0">&#40;</span>mScanListener, f<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mAdapter <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">//Log.i(&quot;@@@&quot;, &quot;starting query&quot;);</span>
+            mAdapter <span class="sy0">=</span> <span class="kw1">new</span> TrackListAdapter<span class="br0">&#40;</span>
+                    getApplication<span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="co1">// need to use application context to avoid leaks</span>
+                    <span class="kw1">this</span>,
+                    mEditMode <span class="sy0">?</span> R.<span class="me1">layout</span>.<span class="me1">edit_track_list_item</span> <span class="sy0">:</span> R.<span class="me1">layout</span>.<span class="me1">track_list_item</span>,
+                    <span class="kw2">null</span>, <span class="co1">// cursor</span>
+                    <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>,
+                    <span class="kw1">new</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>,
+                    <span class="st0">&quot;nowplaying&quot;</span>.<span class="me1">equals</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span>,
+                    mPlaylist <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span>
+                    <span class="sy0">!</span><span class="br0">&#40;</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;podcasts&quot;</span><span class="br0">&#41;</span> <span class="sy0">||</span> mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;recentlyadded&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            setListAdapter<span class="br0">&#40;</span>mAdapter<span class="br0">&#41;</span><span class="sy0">;</span>
+            setTitle<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">working_songs</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            getTrackCursor<span class="br0">&#40;</span>mAdapter.<span class="me1">getQueryHandler</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>, <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            mTrackCursor <span class="sy0">=</span> mAdapter.<span class="me1">getCursor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// If mTrackCursor is null, this can be because it doesn't have</span>
+            <span class="co1">// a cursor yet (because the initial query that sets its cursor</span>
+            <span class="co1">// is still in progress), or because the query failed.</span>
+            <span class="co1">// In order to not flash the error dialog at the user for the</span>
+            <span class="co1">// first case, simply retry the query when the cursor is null.</span>
+            <span class="co1">// Worst case, we end up doing the same query twice.</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mTrackCursor <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                init<span class="br0">&#40;</span>mTrackCursor, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                setTitle<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">working_songs</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                getTrackCursor<span class="br0">&#40;</span>mAdapter.<span class="me1">getQueryHandler</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>, <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mEditMode<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            MusicUtils.<span class="me1">updateNowPlaying</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+其中getTrackCursor(mAdapter.getQueryHandler(), null, true);方法实现对音乐播放列表的刷新与显示操作,该方法中uri是查询链接，mSortOrder是对查询结果排序，where是查询条件，具体的查询动作是由TrackQueryHandler类型的变量queryhandler的doQuery方法来实现的。
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> getTrackCursor<span class="br0">&#40;</span>TrackListAdapter.<span class="me1">TrackQueryHandler</span> queryhandler, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filter,
+            <span class="kw4">boolean</span> async<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>queryhandler <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalargumentexception"><span class="kw3">IllegalArgumentException</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> ret <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        mSortOrder <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">TITLE_KEY</span><span class="sy0">;</span>
+        StringBuilder where <span class="sy0">=</span> <span class="kw1">new</span> StringBuilder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        where.<span class="me1">append</span><span class="br0">&#40;</span>MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">TITLE</span> <span class="sy0">+</span> <span class="st0">&quot; != ''&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mGenre <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Genres</span>.<span class="me1">Members</span>.<span class="me1">getContentUri</span><span class="br0">&#40;</span><span class="st0">&quot;external&quot;</span>,
+                    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mGenre<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            mSortOrder <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Genres</span>.<span class="me1">Members</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="sy0">;</span>
+            ret <span class="sy0">=</span> queryhandler.<span class="me1">doQuery</span><span class="br0">&#40;</span>uri,
+                    mCursorCols, where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>, mSortOrder, async<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>mPlaylist <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;nowplaying&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>MusicUtils.<span class="me1">sService</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    ret <span class="sy0">=</span> <span class="kw1">new</span> NowPlayingCursor<span class="br0">&#40;</span>MusicUtils.<span class="me1">sService</span>, mCursorCols<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>ret.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        finish<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    <span class="co1">// Nothing is playing.</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;podcasts&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span> <span class="sy0">+</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">IS_PODCAST</span> <span class="sy0">+</span> <span class="st0">&quot;=1&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">EXTERNAL_CONTENT_URI</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                ret <span class="sy0">=</span> queryhandler.<span class="me1">doQuery</span><span class="br0">&#40;</span>uri,
+                        mCursorCols, where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>,
+                        MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">DEFAULT_SORT_ORDER</span>, async<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;recentlyadded&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="co1">// do a query for all songs added in the last X weeks</span>
+                Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">EXTERNAL_CONTENT_URI</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw4">int</span> X <span class="sy0">=</span> MusicUtils.<span class="me1">getIntPref</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="st0">&quot;numweeks&quot;</span>, <span class="nu0">2</span><span class="br0">&#41;</span> <span class="sy0">*</span> <span class="br0">&#40;</span><span class="nu0">3600</span> <span class="sy0">*</span> <span class="nu0">24</span> <span class="sy0">*</span> <span class="nu0">7</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span> <span class="sy0">+</span> MediaStore.<span class="me1">MediaColumns</span>.<span class="me1">DATE_ADDED</span> <span class="sy0">+</span> <span class="st0">&quot;&gt;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+system"><span class="kw3">System</span></a>.<span class="me1">currentTimeMillis</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">/</span> <span class="nu0">1000</span> <span class="sy0">-</span> X<span class="br0">&#41;</span><span class="sy0">;</span>
+                ret <span class="sy0">=</span> queryhandler.<span class="me1">doQuery</span><span class="br0">&#40;</span>uri,
+                        mCursorCols, where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>,
+                        MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">DEFAULT_SORT_ORDER</span>, async<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">Members</span>.<span class="me1">getContentUri</span><span class="br0">&#40;</span><span class="st0">&quot;external&quot;</span>,
+                        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+long"><span class="kw3">Long</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                mSortOrder <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">Members</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="sy0">;</span>
+                ret <span class="sy0">=</span> queryhandler.<span class="me1">doQuery</span><span class="br0">&#40;</span>uri, mPlaylistMemberCols,
+                        where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, <span class="kw2">null</span>, mSortOrder, async<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mAlbumId <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span> <span class="sy0">+</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">ALBUM_ID</span> <span class="sy0">+</span> <span class="st0">&quot;=&quot;</span> <span class="sy0">+</span> mAlbumId<span class="br0">&#41;</span><span class="sy0">;</span>
+                mSortOrder <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">TRACK</span> <span class="sy0">+</span> <span class="st0">&quot;, &quot;</span> <span class="sy0">+</span> mSortOrder<span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mArtistId <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span> <span class="sy0">+</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">ARTIST_ID</span> <span class="sy0">+</span> <span class="st0">&quot;=&quot;</span> <span class="sy0">+</span> mArtistId<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span> <span class="sy0">+</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">IS_MUSIC</span> <span class="sy0">+</span> <span class="st0">&quot;=1&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Media</span>.<span class="me1">EXTERNAL_CONTENT_URI</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            ret <span class="sy0">=</span> queryhandler.<span class="me1">doQuery</span><span class="br0">&#40;</span>uri,
+                    mCursorCols, where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> , <span class="kw2">null</span>, mSortOrder, async<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// This special case is for the &quot;nowplaying&quot; cursor, which cannot be handled</span>
+        <span class="co1">// asynchronously using AsyncQueryHandler, so we do some extra initialization here.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>ret <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> async<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            init<span class="br0">&#40;</span>ret, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            setTitle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> ret<span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+TrackQueryHandler类型的变量queryhandler的doQuery方法返回的查询结果是Cursor对象，更新adapter刷新界面显示信息的操作是有init(ret, false);来实现的
+</p>
+<pre class="code java">    <span class="kw1">public</span> <span class="kw4">void</span> init<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> newCursor, <span class="kw4">boolean</span> isLimited<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mAdapter <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mDataAvailable <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mAdapter.<span class="me1">changeCursor</span><span class="br0">&#40;</span>newCursor<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// also sets mTrackCursor</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> status <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+environment"><span class="kw3">Environment</span></a>.<span class="me1">getExternalStorageState</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        ...
+    <span class="br0">&#125;</span></pre>
+
+<p>
+音乐列表显示的TouchInterceptor是继承自ListView的自定义组件，其每个Item被点击后会跳转到音乐播放界面
+</p>
+<pre class="code java">    <span class="kw1">protected</span> <span class="kw4">void</span> onListItemClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a> l, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v, <span class="kw4">int</span> position, <span class="kw4">long</span> id<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>mTrackCursor <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="sy0">||</span> <span class="br0">&#40;</span>mTrackCursor.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// When selecting a track from the queue, just jump there instead of</span>
+        <span class="co1">// reloading the queue. This is both faster, and prevents accidentally</span>
+        <span class="co1">// dropping out of party shuffle.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mTrackCursor <span class="kw1">instanceof</span> NowPlayingCursor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>MusicUtils.<span class="me1">sService</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    MusicUtils.<span class="me1">sService</span>.<span class="me1">setQueuePosition</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">return</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>getSongDuration<span class="br0">&#40;</span>mTrackCursor<span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">1200</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            PlayTask task <span class="sy0">=</span> <span class="kw1">new</span> PlayTask<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            task.<span class="me1">execute</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            MusicUtils.<span class="me1">playAll</span><span class="br0">&#40;</span><span class="kw1">this</span>, mTrackCursor, position<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mEditMode <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;nowplaying&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                MusicUtils.<span class="me1">setPlayListId</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+long"><span class="kw3">Long</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span>mEditMode <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;nowplaying&quot;</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;podcasts&quot;</span><span class="br0">&#41;</span>
+                    <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;recentlyadded&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                MusicUtils.<span class="me1">REAL_PLAYLIST_ID</span> <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+task.execute(position);方法执行的动作主要如下，与 MusicUtils.playAll(this, mTrackCursor, position);方法类似
+</p>
+<pre class="code java">    <span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+void"><span class="kw3">Void</span></a> doInBackground<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>... <span class="me1">params</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw4">int</span> position <span class="sy0">=</span> params<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            MusicUtils.<span class="me1">playAll</span><span class="br0">&#40;</span>mContext, mTrackCursor, position<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span></pre>
+
+<p>
+MusicUtils.playAll方法是具体进入音乐播放页面的功能实现承担者
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw4">void</span> playAll<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw4">long</span> <span class="br0">&#91;</span><span class="br0">&#93;</span> list, <span class="kw4">int</span> position, <span class="kw4">boolean</span> force_shuffle<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      <span class="kw1">try</span><span class="br0">&#123;</span>
+           IVideoTelephony vtInterface <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+           vtInterface <span class="sy0">=</span> IVideoTelephony.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+stub"><span class="kw3">Stub</span></a>.<span class="me1">asInterface</span><span class="br0">&#40;</span>ServiceManager.<span class="me1">checkService</span><span class="br0">&#40;</span><span class="st0">&quot;videophone&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+          <span class="kw1">if</span><span class="br0">&#40;</span>vtInterface <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+             <span class="kw1">if</span> <span class="br0">&#40;</span>vtInterface.<span class="me1">isVtActive</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Toast.<span class="me1">makeText</span><span class="br0">&#40;</span>context, R.<span class="me1">string</span>.<span class="me1">vt_playback_failed</span>, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+         <span class="br0">&#125;</span>
+       <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> e<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+       <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>list.<span class="me1">length</span> <span class="sy0">==</span> <span class="nu0">0</span> <span class="sy0">||</span> sService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span><span class="st0">&quot;MusicUtils&quot;</span>, <span class="st0">&quot;attempt to play empty song list&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Don't try to play empty playlists. Nothing good will come of it.</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> message <span class="sy0">=</span> context.<span class="me1">getString</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">emptyplaylist</span>, list.<span class="me1">length</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            Toast.<span class="me1">makeText</span><span class="br0">&#40;</span>context, message, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>force_shuffle<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                sService.<span class="me1">setShuffleMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">SHUFFLE_NORMAL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">//If the repeat mode is REPEAT_CURRENT, we should change mode to REPEAT_ALL</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>sService.<span class="me1">getRepeatMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> MediaPlaybackService.<span class="me1">REPEAT_CURRENT</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    sService.<span class="me1">setRepeatMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">REPEAT_ALL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPlayAllFromMenu<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                sService.<span class="me1">setShuffleMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">SHUFFLE_NONE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mPlayAllFromMenu <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw4">long</span> curid <span class="sy0">=</span> sService.<span class="me1">getAudioId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> curpos <span class="sy0">=</span> sService.<span class="me1">getQueuePosition</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">!=</span> <span class="sy0">-</span><span class="nu0">1</span> <span class="sy0">&amp;&amp;</span> curpos <span class="sy0">==</span> position <span class="sy0">&amp;&amp;</span> curid <span class="sy0">==</span> list<span class="br0">&#91;</span>position<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="co1">// The selected file is the file that's currently playing;</span>
+                <span class="co1">// figure out if we need to restart with a new playlist,</span>
+                <span class="co1">// or just launch the playback activity.</span>
+                <span class="kw4">long</span> <span class="br0">&#91;</span><span class="br0">&#93;</span> playlist <span class="sy0">=</span> sService.<span class="me1">getQueue</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+arrays"><span class="kw3">Arrays</span></a>.<span class="me1">equals</span><span class="br0">&#40;</span>list, playlist<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// we don't need to set a new list, but we should resume playback if needed</span>
+                    sService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">return</span><span class="sy0">;</span> <span class="co1">// the 'finally' block will still run</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">&lt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                position <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            sService.<span class="me1">open</span><span class="br0">&#40;</span>list, force_shuffle <span class="sy0">?</span> <span class="sy0">-</span><span class="nu0">1</span> <span class="sy0">:</span> position<span class="br0">&#41;</span><span class="sy0">;</span>
+            sService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span> <span class="kw1">finally</span> <span class="br0">&#123;</span>
+            Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="st0">&quot;com.android.music.PLAYBACK_VIEWER&quot;</span><span class="br0">&#41;</span>
+                .<span class="me1">setFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_ACTIVITY_CLEAR_TOP</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            context.<span class="me1">startActivity</span><span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT3 SECTION "歌曲列表界面" [2472-16416] -->
+<h1 class="sectionedit4" id="其余三个界面">其余三个界面</h1>
+<div class="level1">
+
+<p>
+播放列表界面是由PlaylistBrowserActivity来呈现，专辑浏览界面是有AlbumBrowserActivity来呈现，艺术家浏览界面是由ArtistAlbumBrowserActivity来呈现。这三个界面内部功能的实现方式与歌曲列表界面TrackBrowserActivity大体一致，主要的区别就是在执行异步查询时的查询链接或查询参数不同。比如PlaylistBrowserActivity在呈现界面时执行的异步查询操作如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> getPlaylistCursor<span class="br0">&#40;</span>AsyncQueryHandler async, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filterstring<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        StringBuilder where <span class="sy0">=</span> <span class="kw1">new</span> StringBuilder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        where.<span class="me1">append</span><span class="br0">&#40;</span>MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span> <span class="sy0">+</span> <span class="st0">&quot; != ''&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Add in the filtering constraints</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> <span class="br0">&#91;</span><span class="br0">&#93;</span> keywords <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>filterstring <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> <span class="br0">&#91;</span><span class="br0">&#93;</span> searchWords <span class="sy0">=</span> filterstring.<span class="me1">split</span><span class="br0">&#40;</span><span class="st0">&quot; &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            keywords <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span>searchWords.<span class="me1">length</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a> col <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a>.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            col.<span class="me1">setStrength</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a>.<span class="me1">PRIMARY</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> searchWords.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                keywords<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">'%'</span> <span class="sy0">+</span> searchWords<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">+</span> <span class="st0">'%'</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> searchWords.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span>MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span> <span class="sy0">+</span> <span class="st0">&quot; LIKE ?&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> whereclause <span class="sy0">=</span> where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>async <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            async.<span class="me1">startQuery</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">EXTERNAL_CONTENT_URI</span>,
+                    mCols, whereclause, keywords, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> c <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        c <span class="sy0">=</span> MusicUtils.<span class="me1">query</span><span class="br0">&#40;</span><span class="kw1">this</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">EXTERNAL_CONTENT_URI</span>,
+                mCols, whereclause, keywords, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> mergedCursor<span class="br0">&#40;</span>c<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+AlbumBrowserActivity在呈现界面时执行的异步查询操作如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> getAlbumCursor<span class="br0">&#40;</span>AsyncQueryHandler async, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filter<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> cols <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="br0">&#123;</span>
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>._ID,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">ARTIST</span>,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">ALBUM</span>,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">ALBUM_ART</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> ret <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mArtistId <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">Albums</span>.<span class="me1">getContentUri</span><span class="br0">&#40;</span><span class="st0">&quot;external&quot;</span>,
+                    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+long"><span class="kw3">Long</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mArtistId<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>async <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                async.<span class="me1">startQuery</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="kw2">null</span>, uri,
+                        cols, <span class="kw2">null</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                ret <span class="sy0">=</span> MusicUtils.<span class="me1">query</span><span class="br0">&#40;</span><span class="kw1">this</span>, uri,
+                        cols, <span class="kw2">null</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">EXTERNAL_CONTENT_URI</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>async <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                async.<span class="me1">startQuery</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="kw2">null</span>,
+                        uri,
+                        cols, <span class="kw2">null</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                ret <span class="sy0">=</span> MusicUtils.<span class="me1">query</span><span class="br0">&#40;</span><span class="kw1">this</span>, uri,
+                        cols, <span class="kw2">null</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Albums</span>.<span class="me1">DEFAULT_SORT_ORDER</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> ret<span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+ArtistAlbumBrowserActivity在呈现界面时执行的异步查询操作如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> getArtistCursor<span class="br0">&#40;</span>AsyncQueryHandler async, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filter<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> cols <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="br0">&#123;</span>
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>._ID,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">ARTIST</span>,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">NUMBER_OF_ALBUMS</span>,
+                MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">NUMBER_OF_TRACKS</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+        Uri uri <span class="sy0">=</span> MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">EXTERNAL_CONTENT_URI</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            uri <span class="sy0">=</span> uri.<span class="me1">buildUpon</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">appendQueryParameter</span><span class="br0">&#40;</span><span class="st0">&quot;filter&quot;</span>, Uri.<span class="me1">encode</span><span class="br0">&#40;</span>filter<span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> ret <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>async <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            async.<span class="me1">startQuery</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="kw2">null</span>, uri,
+                    cols, <span class="kw2">null</span> , <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">ARTIST_KEY</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            ret <span class="sy0">=</span> MusicUtils.<span class="me1">query</span><span class="br0">&#40;</span><span class="kw1">this</span>, uri,
+                    cols, <span class="kw2">null</span> , <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Artists</span>.<span class="me1">ARTIST_KEY</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> ret<span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT4 SECTION "其余三个界面" [16417-21062] -->
+<h1 class="sectionedit5" id="音乐播放界面">音乐播放界面</h1>
+<div class="level1">
+
+<p>
+音乐播放界面主要是由MediaPlaybackActivity来呈现。该Activity的onCreate方法主要是初始化页面组件，在onStart方法中绑定MediaPlaybackService类,ServiceConnection类型的变量osc的onServiceConnected方法得以执行，从而初始化mService。
+</p>
+<pre class="code java">    <span class="kw1">public</span> <span class="kw4">void</span> onStart<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span>.<span class="me1">onStart</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        paused <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        mToken <span class="sy0">=</span> MusicUtils.<span class="me1">bindToService</span><span class="br0">&#40;</span><span class="kw1">this</span>, osc<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mToken <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// something went wrong</span>
+            mHandler.<span class="me1">sendEmptyMessage</span><span class="br0">&#40;</span>QUIT<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        IntentFilter f <span class="sy0">=</span> <span class="kw1">new</span> IntentFilter<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addAction</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">PLAYSTATE_CHANGED</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        f.<span class="me1">addAction</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">META_CHANGED</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        registerReceiver<span class="br0">&#40;</span>mStatusListener, <span class="kw1">new</span> IntentFilter<span class="br0">&#40;</span>f<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        IntentFilter s <span class="sy0">=</span> <span class="kw1">new</span> IntentFilter<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        s.<span class="me1">addAction</span><span class="br0">&#40;</span>Intent.<span class="me1">ACTION_SCREEN_ON</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        s.<span class="me1">addAction</span><span class="br0">&#40;</span>Intent.<span class="me1">ACTION_SCREEN_OFF</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        registerReceiver<span class="br0">&#40;</span>mScreenTimeoutListener, <span class="kw1">new</span> IntentFilter<span class="br0">&#40;</span>s<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        updateTrackInfo<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">long</span> next <span class="sy0">=</span> refreshNow<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        queueNextRefresh<span class="br0">&#40;</span>next<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+<pre class="code java">    <span class="kw1">private</span> ServiceConnection osc <span class="sy0">=</span> <span class="kw1">new</span> ServiceConnection<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">public</span> <span class="kw4">void</span> onServiceConnected<span class="br0">&#40;</span>ComponentName classname, IBinder obj<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mService <span class="sy0">=</span> IMediaPlaybackService.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+stub"><span class="kw3">Stub</span></a>.<span class="me1">asInterface</span><span class="br0">&#40;</span>obj<span class="br0">&#41;</span><span class="sy0">;</span>
+                startPlayback<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    <span class="co1">// Assume something is playing when the service says it is,</span>
+                    <span class="co1">// but also if the audio ID is valid but the service is paused.</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>mService.<span class="me1">getAudioId</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;=</span> <span class="nu0">0</span> <span class="sy0">||</span> mService.<span class="me1">isPlaying</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">||</span>
+                            mService.<span class="me1">getPath</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="co1">// something is playing now, we're done</span>
+                        mRepeatButton.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mShuffleButton.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mQueueButton.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        setRepeatButtonImage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        setShuffleButtonImage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        setPauseButtonImage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="kw1">return</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#125;</span>
+                <span class="co1">// Service is dead or not playing anything. If we got here as part</span>
+                <span class="co1">// of a &quot;play this file&quot; Intent, exit. Otherwise go to the Music</span>
+                <span class="co1">// app start screen.</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>getIntent<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span>Intent.<span class="me1">ACTION_MAIN</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    intent.<span class="me1">setFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_ACTIVITY_NEW_TASK</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    intent.<span class="me1">setClass</span><span class="br0">&#40;</span>MediaPlaybackActivity.<span class="kw1">this</span>, MusicBrowserActivity.<span class="kw1">class</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    startActivity<span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                finish<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">public</span> <span class="kw4">void</span> onServiceDisconnected<span class="br0">&#40;</span>ComponentName classname<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mService <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+在onServiceConnected方法中初始化mService之后，执行startPlayback();方法，即开始根据传递过来的参数开始播放音乐。
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> startPlayback<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>mService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        Intent intent <span class="sy0">=</span> getIntent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filename <span class="sy0">=</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        Uri uri <span class="sy0">=</span> intent.<span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>uri <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// If this is a file:// URI, just use the path directly instead</span>
+            <span class="co1">// of going through the open-from-filedescriptor codepath.</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> scheme <span class="sy0">=</span> uri.<span class="me1">getScheme</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="st0">&quot;file&quot;</span>.<span class="me1">equals</span><span class="br0">&#40;</span>scheme<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                filename <span class="sy0">=</span> uri.<span class="me1">getPath</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                filename <span class="sy0">=</span> uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                mService.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mService.<span class="me1">openFile</span><span class="br0">&#40;</span>filename<span class="br0">&#41;</span><span class="sy0">;</span>
+                mService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                setIntent<span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span><span class="st0">&quot;MediaPlaybackActivity&quot;</span>, <span class="st0">&quot;couldn't start playback: &quot;</span> <span class="sy0">+</span> ex<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        updateTrackInfo<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">long</span> next <span class="sy0">=</span> refreshNow<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        queueNextRefresh<span class="br0">&#40;</span>next<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+在音乐播放界面可以选择上一首，下一首，开始或者暂停，选择上一首的代码如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span> mPrevListener <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                <span class="kw4">int</span> shuffle <span class="sy0">=</span> mService.<span class="me1">getShuffleMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw4">int</span> histSize <span class="sy0">=</span> mService.<span class="me1">getHistSize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mService.<span class="me1">position</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&lt;</span> <span class="nu0">2000</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>shuffle <span class="sy0">==</span> MediaPlaybackService.<span class="me1">SHUFFLE_NORMAL</span><span class="br0">&#41;</span><span class="sy0">&amp;&amp;</span><span class="br0">&#40;</span>histSize <span class="sy0">==</span> <span class="nu0">0</span> <span class="sy0">||</span> histSize <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mService.<span class="me1">seek</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                        mService.<span class="me1">prev</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    mService.<span class="me1">seek</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    mService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+选择下一首的代码如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span> mNextListener <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                mService.<span class="me1">next</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+选择开始或暂停的代码如下
+</p>
+<pre class="code java">    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span> mPauseListener <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnClickListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            doPauseResume<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> doPauseResume<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span>mService <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mService.<span class="me1">isPlaying</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    mService.<span class="me1">pause</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    mService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                refreshNow<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                setPauseButtonImage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+开始或暂停按键在不同状态下有不同的显示效果，setPauseButtonImage();方法负责完成该功能。
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> setPauseButtonImage<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mService <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> mService.<span class="me1">isPlaying</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mPauseButton.<span class="me1">setImageResource</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">drawable</span>.<span class="me1">ic_media_pause</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                mPauseButton.<span class="me1">setImageResource</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">drawable</span>.<span class="me1">ic_media_play</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT5 SECTION "音乐播放界面" [21063-] -->

@@ -1,0 +1,6 @@
+someMethod<span class="br0">&#40;</span>longExpression1, longExpression2, longExpression3,
+        longExpression4, longExpression5<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+var <span class="sy0">=</span> someMethod1<span class="br0">&#40;</span>longExpression1,
+                      someMethod2<span class="br0">&#40;</span>longExpression2,
+                                    longExpression3<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>

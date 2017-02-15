@@ -1,0 +1,88 @@
+
+
+=====高通平台:=====
+固定帧率
+<code>
+vi hardware/qcom/camera/QCamera2/HAL/QCamera2HWICallbacks.cpp +2155
+adb shell setprop persist.debug.sf.showfps 1
+adb logcat | grep Frames
+(min_fps)
+
+qiancheng@BU5-SERVER04:~/2.1_msm8939_q39_s201/hardware/qcom/camera$ git diff .
+diff --git a/QCamera2/HAL/QCameraParameters.cpp b/QCamera2/HAL/QCameraParameters.cpp
+index 61d38f7..92a09da 100644
+--- a/QCamera2/HAL/QCameraParameters.cpp
++++ b/QCamera2/HAL/QCameraParameters.cpp
+@@ -1923,8 +1923,8 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
+                 max_fps = 0;
+                 break;
+         }
+-        m_hfrFpsRange.video_min_fps = (float)min_fps;
+-        m_hfrFpsRange.video_max_fps = (float)max_fps;
++        m_hfrFpsRange.video_min_fps = 60000.0;//(float)min_fps;
++        m_hfrFpsRange.video_max_fps = 60000.0;//(float)max_fps;
+
+setprop persist.debug.set.fixedfps 28 (preview fps)
+echo -n 'file xx.c +p' > /sys/kernel/debug/dynamic_debug/control
+</code>
+具体文件hardware/qcom/camera/QCamera2/HAL/QCameraParameters.cpp，代码如下：
+<code c>
+/*===========================================================================
+ * FUNCTION   : setPreviewFpsRanges
+ *
+ * DESCRIPTION: set preview FPS ranges
+ *
+ * PARAMETERS :
+ *   @minFPS  : min FPS value
+ *   @maxFPS  : max FPS value
+ *
+ * RETURN     : int32_t type of status
+ *              NO_ERROR  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
+        int max_fps, int vid_min_fps,int vid_max_fps)
+{
+    char str[32];
+    char value[PROPERTY_VALUE_MAX];
+    int fixedFpsValue;
+    /*This property get value should be the fps that user needs*/
+    property_get("persist.debug.set.fixedfps", value, "0");
+    fixedFpsValue = atoi(value);
+</code>
+注意：修改帧率需要小于默认帧率，否则会出现丢帧现象。这种方式修改会重启有效，除非重新烧写版本。
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+打开默认的小波降噪
+QCamera2/HAL/QCameraParameters.cpp
+<code>
+	int32_t QCameraParameters::setWaveletDenoise(const QCameraParameters& params)	3939
+	3940	{	{	3940
+	3941	    const char *str = params.get(KEY_QC_DENOISE);	    const char *str = params.get(KEY_QC_DENOISE);	3941
+	3942	    const char *prev_str = get(KEY_QC_DENOISE);	    const char *prev_str = get(KEY_QC_DENOISE);	3942
+	3943	    if (str != NULL) {	    if (str != NULL) {	3943
+	3944	        if (prev_str == NULL ||	        if (prev_str == NULL ||	3944
+	3945	            strcmp(str, prev_str) != 0) {	            strcmp(str, prev_str) != 0) {	3945
+M	3946	            return setWaveletDenoise(str);	            //return setWaveletDenoise(str);	3946
+	3947	        }	        }	3947
+	3948	    }	    }	3948
+M	3949	    return NO_ERROR;	    return setWaveletDenoise(DENOISE_ON);//return NO_ERROR;	3949
+	3950	}	}
+
+</code>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+=====MTK平台:=====
+
+固定帧率
+
+
+看录像帧率
+<code>
+adb shell setprop service.adb.root 1 
+adb shell setprop persist.debug.sf.showfps 1
+adb logcat | grep Frames
+</code>
+
+

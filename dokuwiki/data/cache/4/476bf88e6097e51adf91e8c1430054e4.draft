@@ -1,0 +1,6 @@
+a:6:{s:2:"id";s:26:"platform:8996:dts反编译";s:6:"prefix";s:0:"";s:4:"text";s:231:"<code>
+$cd out/target/product/msm8996/obj/KERNEL_OBJ
+
+反编译生成ABC.dts
+out/target/product/msm8996/obj/KERNEL_OBJ$ ./scripts/dtc/dtc -I dtb -O dts -o ABC.dts ./arch/arm64/boot/dts/qcom/msm8996-v3.0-pmi8994-qrd.dtb
+</code>";s:6:"suffix";s:0:"";s:4:"date";i:0;s:6:"client";s:9:"qiancheng";}

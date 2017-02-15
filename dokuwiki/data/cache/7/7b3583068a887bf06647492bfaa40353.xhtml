@@ -1,0 +1,37 @@
+
+<h1 class="sectionedit1" id="s200机器反复重启_需要拔电池之后才能恢复">S200机器反复重启（需要拔电池之后才能恢复）</h1>
+<div class="level1">
+
+<p>
+<strong>现象:</strong>
+</p>
+<pre class="code">kernel起来后会出现Oops,而且这个Oops不是固定的，每次都可能不同。接着机器就重启了，就这样不断的重启。</pre>
+
+<p>
+<strong>原因:</strong>
+</p>
+<pre class="code">8625Q平台使用NCP6335D这颗DC-DC Buck来提供CPU的Core电压，某些情况下这个IC会进入错误的状态，它的输出已经不是一系列的方波了，而是连续不变的。
+在这种状态下，即使机器重启也不能恢复正常，除非彻底断电。
+由于这颗IC的状态异常，也就导致了CPU的Core的电压异常，kernel就会出现随机的Panic，从而导致机器重启。</pre>
+
+<p>
+<strong>解决方案:</strong>
+</p>
+<pre class="code">在oemsbl中重新初始化ncp6335d的寄存器，设置输出电压值。</pre>
+<pre class="code c">ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x02</span><span class="sy0">,</span> <span class="nu12">0xff</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x10</span><span class="sy0">,</span> <span class="nu12">0xd0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x11</span><span class="sy0">,</span> <span class="nu12">0xd0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x12</span><span class="sy0">,</span> <span class="nu12">0x00</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x13</span><span class="sy0">,</span> <span class="nu12">0x01</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">//0x01 19</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x14</span><span class="sy0">,</span> <span class="nu12">0x1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x15</span><span class="sy0">,</span> <span class="nu12">0x80</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span><span class="nu12">0x16</span><span class="sy0">,</span> <span class="nu12">0x62</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">//0x62 0x63</span>
+udelay<span class="br0">&#40;</span><span class="nu0">5000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ncp6335d_write<span class="br0">&#40;</span>NCP6335D_REG_PROG_VSEL0<span class="sy0">,</span> vsel_value <span class="sy0">|</span> <span class="nu12">0x80</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+<strong>Patch:</strong>
+<a href="/dokuwiki/lib/exe/fetch.php/linux;8625q;patch-for-ncp6335d-mess-issue.zip" class="media mediafile mf_zip" title="linux:8625q:patch-for-ncp6335d-mess-issue.zip (4.5 KB)">patch-for-ncp6335d-mess-issue.zip</a>
+</p>
+
+</div>

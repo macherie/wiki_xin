@@ -1,0 +1,13 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1405478891;s:8:"modified";i:1451900485;}s:7:"creator";s:8:"shuo.liu";s:4:"user";s:8:"shuo.liu";s:11:"last_change";a:7:{s:4:"date";i:1451900485;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"C";s:2:"id";s:28:"platform:892x:partition-name";s:4:"user";s:6:"yi.hao";s:3:"sum";s:89:"Page moved from linux:服务器管理:892x:partition-name to platform:892x:partition-name";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:569:"8926平台有那么多分区，如何知道每个分区是放什么的呢？
+答案：
+
+$cd /dev/block/platform/msm_sdcc.1/by-name
+$ll
+
+你就会看到：
+
+lrwxrwxrwx root     root              1970-01-01 14:14 DDR -> /dev/block/mmcblk0p5
+lrwxrwxrwx root     root              1970-01-01 14:14 aboot -> /dev/block/mmcblk0p6
+lrwxrwxrwx root     root              1970-01-01 14:14 abootbak -> /dev/block/mmcblk0p7
+lrwxrwxrwx root     root              1970-01-01 14:14 boot -> /dev/block/mmcblk0p10
+lrwxrwxrwx root     root              1970-01-01 14:14 cache -> /dev/…";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}s:11:"contributor";a:2:{s:9:"qiancheng";s:9:"qiancheng";s:6:"yi.hao";N;}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:28:"platform:892x:partition-name";i:1451899811;s:41:"linux:服务器管理:892x:partition-name";i:1451900485;s:44:"platform:服务器管理:892x:partition-name";i:1451900419;}}}s:10:"persistent";a:6:{s:4:"date";a:2:{s:7:"created";i:1405478891;s:8:"modified";i:1451900485;}s:7:"creator";s:8:"shuo.liu";s:4:"user";s:8:"shuo.liu";s:11:"last_change";a:7:{s:4:"date";i:1451900485;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"C";s:2:"id";s:28:"platform:892x:partition-name";s:4:"user";s:6:"yi.hao";s:3:"sum";s:89:"Page moved from linux:服务器管理:892x:partition-name to platform:892x:partition-name";s:5:"extra";s:0:"";}s:11:"contributor";a:2:{s:9:"qiancheng";s:9:"qiancheng";s:6:"yi.hao";N;}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:28:"platform:892x:partition-name";i:1451899811;s:41:"linux:服务器管理:892x:partition-name";i:1451900485;s:44:"platform:服务器管理:892x:partition-name";i:1451900419;}}}}

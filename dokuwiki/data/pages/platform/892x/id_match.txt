@@ -1,0 +1,40 @@
+====== 8926/8928平台各种ID匹配 ======
+
+8926/8928 平台我们可以看到有好多个ID，那这些ID是干嘛用的呢,有是怎么来匹配的呢？
+
+===== LK涉及到的几个ID =====
+LK中我们可以看到一个叫 board_data（platform/msm_shared/include/board.h）的结构体：
+
+<code c>
+struct board_pmic_data {
+        uint32_t pmic_type;
+        uint32_t pmic_version;
+};
+
+struct board_data {
+        uint32_t platform;
+        uint32_t platform_version;
+        uint32_t platform_hw;
+        uint32_t platform_subtype;
+        uint32_t target;
+        uint32_t baseband;
+        struct board_pmic_data pmic_info[MAX_PMIC_DEVICES];
+};
+</code>
+
+  * platform: platform_id, 224
+  * platform_version:
+  * platform_hw:
+  * platform_subtype:
+  * target:
+  * baseband:
+  * pmic_type:
+  * pmic_version:
+
+
+
+
+
+
+
+

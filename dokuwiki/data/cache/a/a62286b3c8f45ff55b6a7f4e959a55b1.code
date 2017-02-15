@@ -1,0 +1,12 @@
+<span class="kw1">public</span> <span class="kw4">void</span> startCameraPreview<span class="br0">&#40;</span>SurfaceTexture st<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">try</span> <span class="br0">&#123;</span>
+        mCamera <span class="sy0">=</span> Camera.<span class="me1">open</span><span class="br0">&#40;</span>mCameraId<span class="br0">&#41;</span><span class="sy0">;</span>
+        Parameters parameters <span class="sy0">=</span> mCamera.<span class="me1">getParameters</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        parameters.<span class="me1">setPreviewSize</span><span class="br0">&#40;</span>mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span>
+        mCamera.<span class="me1">setParameters</span><span class="br0">&#40;</span>parameters<span class="br0">&#41;</span><span class="sy0">;</span>
+        mCamera.<span class="me1">setPreviewTexture</span><span class="br0">&#40;</span>st<span class="br0">&#41;</span><span class="sy0">;</span>
+        mCamera.<span class="me1">startPreview</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        e.<span class="me1">printStackTrace</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

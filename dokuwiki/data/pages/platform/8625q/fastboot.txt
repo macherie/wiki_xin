@@ -1,0 +1,21 @@
+===========MSM8625Q: Use fastboot to flash image============
+
+===Modem side===
+<code>
+fastboot flash cfgdata qcsblhd_cfgdata.mbn 
+fastboot flash qcsbl qcsbl.mbn 
+fastboot flash oemsbl oemsbl_fsb.mbn 
+fastboot flash modem fat.bin
+</code>
+
+===AP side===
+<code>
+fastboot flash aboot emmc_appsboot_fsb.mbn
+fastboot flash boot boot.img
+fastboot flash recovery recovery.img
+fastboot flash persist persist.img
+fastboot flash system system.img
+fastboot flash userdata userdata.img
+</code>
+
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:892x:d508</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T11:02:30+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:%E8%BF%9Bfastboot%E5%92%8Cdownload&amp;rev=1393401938&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:build&amp;rev=1393209693&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;rev=1393383326&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:pd&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:platform_architecture&amp;rev=1394162084&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:schedule&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:tp&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:%E8%BF%9Bfastboot%E5%92%8Cdownload&amp;rev=1393401938&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-26T09:05:38+01:00</dc:date>
+        <title>platform:892x:d508:进fastboot和download</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:%E8%BF%9Bfastboot%E5%92%8Cdownload&amp;rev=1393401938&amp;do=diff</link>
+        <description>进fastboot模式
+
+按住”音量-“然后开机
+
+图中红色部分
+
+
+
+进download模式
+
+按住“音量-”和“音量+”然后开机
+
+图中蓝色部分
+
+
+
+烧挂无法用音量组合键进download模式后强制进download
+
+短接jtag口左边第2pin和右边第1pin(耳机接口朝自己)</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:build&amp;rev=1393209693&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-24T03:41:33+01:00</dc:date>
+        <title>platform:892x:d508:build</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:build&amp;rev=1393209693&amp;do=diff</link>
+        <description>搭建环境
+
+Modem 编译环境安装
+
+设置环境变量
+  @echo off
+  REM ======================================================
+  rem Sets path for RVDS210, GNU and PERL
+  
+  set ROOT_DRIVE=C:
+  set APPS_DIR=Apps
+  set APPS_PATH=%ROOT_DRIVE%\%APPS_DIR%
+  set UTILROOT=%ROOT_DRIVE%
+  set GNUPATH=%UTILROOT%\cygwin\bin
+  set CRMPERL=C:\Perl\bin
+  set PERLPATH=C:\Perl\bin
+  set PYTHON_PATH=C:\Python26
+  set ARMTOOLS=ARMCT501
+  set ARMROOT=%APPS_PATH%\ARMCT5.01\94
+  set ARMCC5BIN=%ARMROOT%\bin
+  set ARMCC5INC=%ARMROOT%\include
+ …</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;rev=1393383326&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-26T03:55:26+01:00</dc:date>
+        <title>platform:892x:d508:modem编译环境安装</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;rev=1393383326&amp;do=diff</link>
+        <description>--- 尹姝 2014/01/09
+
+组件发布版本属性
+
+下表列出了组件发布版本属性，并提供了每个 non-HLOS 构建模块的编译器、Python、Perl 及 Cygwin 版本信息。
+     组件发布版本                构建源代码所需的工具链                Python 版本              Perl 版本                   Cygwin            构建主机     MPSS(AZM)          Hexagon 5.0.13，RVDS2.2 仅适用于 Linux 构建  Python 2.6.2      Perl 5.8.x 仅适用于 Linux 构建  仅适用于 Windows 构建  Linux, Windows  ADSP(AZL)          Hexagon 5.0.10                            Python 2.6.2                    --              仅适用于 Windows 构建  Linux, Windows …</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:pd&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:892x:d508:pd</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:pd&amp;rev=1390476864&amp;do=diff</link>
+        <description>产品型号  研发型号：D508  上市时间  2014年6月30日  外观尺寸  主PCBA 72*50*1.0mm  产品重量（含电池）  待定  产品定位  中高端LTE智能机  硬件规格       硬件平台  MSM8928(四核1.6G)   网络类型/频段  GSM:  850/900/1800/1900（GSM850，GSM1900可 以不做性能要求，功能保留）    TD-SCDMA: B34  B39     WCDMA: B1   （B5）      CDMA2000： BC0         LTE-TDD: B38 B39 B40 B41支持分集接收 (B41可选)    LTE-FDD:  TBD”   内存  16GB（EMMC）+ 2GB（DDR3）(兼容32GB + 2GB）   显示屏幕  5.5英寸1920*1080，全视角 阳光可视，接口兼容HD屏   屏幕背光  支持CABC   触控屏  电容多点触摸，戴手套/水下可用   电磁手写  支持   主摄像头  1300万 自动对焦，支持闪光灯 支持零延时拍照   副摄像头  500万  ，兼容20…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:platform_architecture&amp;rev=1394162084&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-03-07T04:14:44+01:00</dc:date>
+        <title>platform:892x:d508:platform_architecture</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:platform_architecture&amp;rev=1394162084&amp;do=diff</link>
+        <description>这是内核DTS文件的包含关系(从右上角开始遍历)</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:schedule&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:892x:d508:schedule</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:schedule&amp;rev=1390476864&amp;do=diff</link>
+        <description>2013年12月  2014年1月  2014年2月  2014年3月  2014年4月  2014年5月  2014年6月  ID、堆叠 定版  12-20              正式立项  12-23              ME、HW开始设计  12-23              CNC壳料评估天线、声腔    1-10            EVT PCB发出    1-22            EVT SMT      2-16          手模装机      2-17          开模评审      2-24          结构投模        3-3        EVT 装机        3-17        P1 PCB发出        3-21        T1壳料OK        3-28        DVT SMT          4-2      DVT 装机1          4-10      DVT 装机2          4-21      量产PCB发出          4-25      关键物料第二…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:tp&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:892x:d508:tp</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:892x:d508:tp&amp;rev=1390476864&amp;do=diff</link>
+        <description>S3202 Touch Controller
+
+Overview：
+        2.7V to 3.6V supply voltage 
+        1.62V to 3.6V host interface voltage 
+        1.8V core supply for low power operation 
+        Up to 10-finger detection and simultaneous tracking 
+        Up to 333 kHz sensing frequency 
+        Up to 250 Hz report rate; other rates configurable 
+        Small finger support (down to 4 mm diameter) 
+        Point contact passive stylus input with automatic pen/finger disambiguation 
+        I2C (100/400 kHz)
+      …</description>
+    </item>
+</rdf:RDF>

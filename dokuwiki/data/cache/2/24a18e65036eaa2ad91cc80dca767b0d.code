@@ -1,0 +1,28 @@
+LCONF_VERSION = <span class="st0">&quot;6&quot;</span>
+&nbsp;
+BBPATH = <span class="st0">&quot;<span class="es3">${TOPDIR}</span>&quot;</span>
+BSPDIR := <span class="st0">&quot;<span class="es3">${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}</span>&quot;</span>
+&nbsp;
+BBFILES ?= <span class="st0">&quot;&quot;</span>
+BBLAYERS = <span class="st0">&quot; <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/poky/meta <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/poky/meta-yocto <span class="es1">\
+</span>  <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-oe <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-multimedia <span class="es1">\
+</span>  <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/meta-fsl-arm <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/meta-fsl-arm-extra <span class="es1">\
+</span>  <span class="es3">${BSPDIR}</span>/sources/meta-fsl-demos <span class="es1">\
+</span>&quot;</span>
+<span class="co0">##Freescale Yocto Release layer</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-fsl-bsp-release/imx/meta-bsp &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-fsl-bsp-release/imx/meta-sdk &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-browser &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-gnome &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-networking &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-python &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-ruby &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-openembedded/meta-filesystems &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-qt5 &quot;</span>
+BBLAYERS += <span class="st0">&quot; <span class="es3">${BSPDIR}</span>/sources/meta-elmo &quot;</span>

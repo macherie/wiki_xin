@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! android:driver</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:49:16+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:driver:android_for_kernel&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:driver:audio&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:driver:android_for_kernel&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:driver:android_for_kernel</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:driver:android_for_kernel&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- liangjiong.zhou 2013/12/06 02:41
+
+Alarm(硬件时钟)
+
+Ashmem(匿名内存共享)
+
+Low Memory Killer(低内存管理)
+
+Logger(日志设备)
+
+Alarm(硬件时钟)
+
+todo
+
+Ashmem(匿名内存共享)
+
+todo
+
+Low Memory Killer(低内存管理)
+
+今天(2013-11-25)在一台S200机器上看到一段log:</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:driver:audio&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:driver:audio</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:driver:audio&amp;rev=1390476864&amp;do=diff</link>
+        <description>音频相关零碎知识点
+
+	*  硬件拓扑图
+
+
+
+	*  硬件接口数据流向图
+
+
+
+	*  软件接口数据流向图
+
+
+
+	*  播放音频（Audio Playback）大致步骤
+1、Framework 调用 OpenMAX IL 把比特流（未解码的二进制）传给 aDSP。
+2、aDSP把接收到的比特流（未解码的二进制）解码成PCM然后回传给OpenMAX IL（Framework）。
+3、Framework通过AudioFlinger把PCM传递到audio的HAL层，audio HAL再把PCM传递到kernel。
+4、PCM的kernel driver再把PCM回传给aDSP。
+5、aDSP最后把PCM传递给D/A codec转换成模拟信号输出到speaker。
+
+	*  接听电话（Voice Call RX Path）大致步骤…</description>
+    </item>
+</rdf:RDF>

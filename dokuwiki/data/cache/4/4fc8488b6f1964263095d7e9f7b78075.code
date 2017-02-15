@@ -1,0 +1,17 @@
+<span class="kw1">if</span> <span class="br0">&#40;</span>condition<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>condition<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>condition<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>condition<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span><span class="br0">&#123;</span>
+    statements<span class="sy0">;</span>
+<span class="br0">&#125;</span>

@@ -1,0 +1,31 @@
+    <span class="kw1">protected</span> <span class="kw4">void</span> onListItemClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a> l, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v, <span class="kw4">int</span> position, <span class="kw4">long</span> id<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>mTrackCursor <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="sy0">||</span> <span class="br0">&#40;</span>mTrackCursor.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// When selecting a track from the queue, just jump there instead of</span>
+        <span class="co1">// reloading the queue. This is both faster, and prevents accidentally</span>
+        <span class="co1">// dropping out of party shuffle.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mTrackCursor <span class="kw1">instanceof</span> NowPlayingCursor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>MusicUtils.<span class="me1">sService</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    MusicUtils.<span class="me1">sService</span>.<span class="me1">setQueuePosition</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">return</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>getSongDuration<span class="br0">&#40;</span>mTrackCursor<span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">1200</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            PlayTask task <span class="sy0">=</span> <span class="kw1">new</span> PlayTask<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            task.<span class="me1">execute</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            MusicUtils.<span class="me1">playAll</span><span class="br0">&#40;</span><span class="kw1">this</span>, mTrackCursor, position<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mEditMode <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;nowplaying&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                MusicUtils.<span class="me1">setPlayListId</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+long"><span class="kw3">Long</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span>mEditMode <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;nowplaying&quot;</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;podcasts&quot;</span><span class="br0">&#41;</span>
+                    <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mPlaylist.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;recentlyadded&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                MusicUtils.<span class="me1">REAL_PLAYLIST_ID</span> <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>mPlaylist<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

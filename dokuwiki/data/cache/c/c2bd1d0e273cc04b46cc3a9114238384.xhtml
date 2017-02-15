@@ -1,0 +1,210 @@
+
+<h2 class="sectionedit1" id="pcm">PCM</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT1 SECTION "PCM" [1-14] -->
+<h3 class="sectionedit2" id="pcm的介绍">PCM的介绍</h3>
+<div class="level3">
+
+<p>
+自然界中的声音为连续的震动信号，通常我们采用的是脉冲代码调制编码。即PCM编码。PCM通过抽样、量化、编码三个步骤将连续变化的模拟信号转换为数字编码。
+</p>
+
+</div>
+<!-- EDIT2 SECTION "PCM的介绍" [15-251] -->
+<h4 class="sectionedit3" id="抽样">抽样</h4>
+<div class="level4">
+
+<p>
+在音频采集中叫做采样率。 由于声音其实是一种能量波，因此也有频率和振幅的特征。波是无限光滑的，弦线可以看成由无数点组成，由于计算机数字系统是离散系统，因此数字编码过程中，必须对弦线的点进行采样。采样的过程就是抽取某点的频率值，很显然，在一秒中内抽取的点越多，获取得频率信息更丰富，为了复原波形，一次振动中，必须有2个点的采样（高低两点），人耳能够感觉到的最高频率为20kHz，因此要满足人耳的听觉要求，则需要至少需要40kHz的采样率。我们常见的CD，采样率为44.1kHz。
+</p>
+
+</div>
+<!-- EDIT3 SECTION "抽样" [252-938] -->
+<h4 class="sectionedit4" id="量化">量化</h4>
+<div class="level4">
+
+<p>
+将该频率的能量值并量化，用于表示信号强度。量化电平数为 2的整数次幂，我们常见的CD位16bit的采样大小，即2的16次方。
+</p>
+
+</div>
+<!-- EDIT4 SECTION "量化" [939-1115] -->
+<h4 class="sectionedit5" id="编码">编码</h4>
+<div class="level4">
+
+<p>
+根据离散数学和连续数学可知：音频编码最多只能做到无限接近，相对自然界的信号，任何数字音频编码方案都是有损的，因为无法完全还原。在计算机应用中，能够达到最高保真水平的就是PCM编码，被广泛用于素材保存及音乐欣赏，CD、DVD以及我们常见的WAV文件中均有应用。因此，PCM约定俗成了无损编码，因为PCM代表了数字音频中最佳的保真水准，PCM也只能做到最大程度的无限接近。我们而习惯性的把MP3列入有损音频编码范畴，是相对PCM编码的。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "编码" [1116-1726] -->
+<h4 class="sectionedit6" id="pcm到音频格式">pcm到音频格式</h4>
+<div class="level4">
+
+<p>
+要算一个PCM音频流的码率是一件很轻松的事情，采样率值×采样大小值×声道数bps。一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。我们常说128K的MP3，对应的WAV的参数，就是这个1411.2 Kbps，这个参数也被称为数据带宽，它和ADSL中的带宽是一个概念。将码率除以8（字节单位）,就可以得到这个WAV的数据速率，即176.4KB/s。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M，这对大部分用户是不可接受的，要降低磁盘占用，只有2种方法，降低采样指标或者压缩。降低指标是不可取的，因此研发了各种压缩方案。由于用途和针对的目标市场不一样，各种音频压缩编码所达到的音质和压缩比都不一样。
+</p>
+
+</div>
+<!-- EDIT6 SECTION "pcm到音频格式" [1727-2707] -->
+<h4 class="sectionedit7" id="频率与采样率的关系">频率与采样率的关系</h4>
+<div class="level4">
+
+<p>
+采样率表示了每秒对原始信号采样的次数，我们常见到的音频文件采样率多为44.1KHz，这意味着什么呢？假设我们有2段正弦波信号，分别为20Hz和20KHz，长度均为一秒钟，以对应我们能听到的最低频和最高频，分别对这两段信号进行 40KHz的采样，我们可以得到一个什么样的结果呢？结果是：20Hz的信号每次振动被采样了40K/20=2000次，而20K的信号每次振动只有2次采样。显然，在相同的采样率下，记录低频的信息远比高频的详细。
+</p>
+
+</div>
+<!-- EDIT7 SECTION "频率与采样率的关系" [2708-3304] -->
+<h3 class="sectionedit8" id="安卓系统中的pcm">安卓系统中的pcm</h3>
+<div class="level3">
+
+<p>
+（以下是我总结的，如果有错还请指出）
+</p>
+
+<p>
+安卓hal层以上的系统并不对音频进行解码。所以他们直接传递音频都是直接通过pcm格式。
+</p>
+
+</div>
+<!-- EDIT8 SECTION "安卓系统中的pcm" [3305-3508] -->
+<h4 class="sectionedit9" id="安卓pcm的格式">安卓pcm的格式</h4>
+<div class="level4">
+
+<p>
+安卓pcm支持的采样率主要有44100、22050、11025
+安卓pcm支持的编码制式主要是16bit<del>（也有一说是16bit和8bit的都支持）</del>
+</p>
+
+<p>
+订正：
+</p>
+<pre class="code">根据从MSM8996的codec中看，应该是16bit和24bit的两种格式。附上代码</pre>
+<pre class="code c"> <span class="nu0">701</span> <span class="kw4">static</span> <span class="kw4">int</span> slim0_tx_bit_format_put<span class="br0">&#40;</span><span class="kw4">struct</span> snd_kcontrol <span class="sy0">*</span>kcontrol<span class="sy0">,</span>
+ <span class="nu0">702</span>                                    <span class="kw4">struct</span> snd_ctl_elem_value <span class="sy0">*</span>ucontrol<span class="br0">&#41;</span>
+ <span class="nu0">703</span> <span class="br0">&#123;</span>
+ <span class="nu0">704</span>         <span class="kw4">int</span> rc <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+ <span class="nu0">705</span> 
+ <span class="nu0">706</span>         <span class="kw1">switch</span> <span class="br0">&#40;</span>ucontrol<span class="sy0">-&gt;</span>value.<span class="me1">integer</span>.<span class="me1">value</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+ <span class="nu0">707</span>         <span class="kw1">case</span> <span class="nu0">1</span><span class="sy0">:</span>
+ <span class="nu0">708</span>                 slim0_tx_bit_format <span class="sy0">=</span> SNDRV_PCM_FORMAT_S24_LE<span class="sy0">;</span>
+ <span class="nu0">709</span>                 <span class="kw2">break</span><span class="sy0">;</span>
+ <span class="nu0">710</span>         <span class="kw1">case</span> <span class="nu0">0</span><span class="sy0">:</span>
+ <span class="nu0">711</span>                 slim0_tx_bit_format <span class="sy0">=</span> SNDRV_PCM_FORMAT_S16_LE<span class="sy0">;</span>
+ <span class="nu0">712</span>                 <span class="kw2">break</span><span class="sy0">;</span>
+ <span class="nu0">713</span>         <span class="kw1">default</span><span class="sy0">:</span>
+ <span class="nu0">714</span>                 pr_err<span class="br0">&#40;</span><span class="st0">&quot;%s: invalid value %ld<span class="es1">\n</span>&quot;</span><span class="sy0">,</span> __func__<span class="sy0">,</span>
+ <span class="nu0">715</span>                        ucontrol<span class="sy0">-&gt;</span>value.<span class="me1">integer</span>.<span class="me1">value</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ <span class="nu0">716</span>                 rc <span class="sy0">=</span> <span class="sy0">-</span>EINVAL<span class="sy0">;</span>
+ <span class="nu0">717</span>                 <span class="kw2">break</span><span class="sy0">;</span>
+ <span class="nu0">718</span>         <span class="br0">&#125;</span>
+ <span class="nu0">719</span> 
+ <span class="nu0">720</span>         <span class="kw1">return</span> rc<span class="sy0">;</span>
+ <span class="nu0">721</span> <span class="br0">&#125;</span></pre>
+
+<p>
+这个大家也可以通过去观察AudioTrack和Flinger 的set函数，set函数的几个参数实际的决定了生成的pcm的格式。
+</p>
+
+</div>
+<!-- EDIT9 SECTION "安卓pcm的格式" [3509-4690] -->
+<h4 class="sectionedit10" id="pcm与分析音频">pcm与分析音频</h4>
+<div class="level4">
+
+<p>
+基于每一层系统直接的交接都是通过pcm，则我们可以通过dump pcm，并分析它从而锁定系统中出错的那一个层。类似于音频分析中独有的log信息。特别对于分析一些非音频效果导致的问题，例如性能问题，可以通过这种方法定位。
+</p>
+
+</div>
+<!-- EDIT10 SECTION "pcm与分析音频" [4691-5015] -->
+<h4 class="sectionedit11" id="dump安卓系统中的pcm">dump安卓系统中的pcm</h4>
+<div class="level4">
+
+<p>
+这个给大家贴出dump AudioTrack 中pcm的方法，hal层和flinger方式类似：
+</p>
+<pre class="code c">diff <span class="sy0">--</span>git a<span class="sy0">/</span>media<span class="sy0">/</span>libmedia<span class="sy0">/</span>AudioTrack.<span class="me1">cpp</span> b<span class="sy0">/</span>media<span class="sy0">/</span>libmedia<span class="sy0">/</span>AudioTrack.<span class="me1">cpp</span> 
+&nbsp;
+@@ <span class="sy0">-</span><span class="nu0">1861</span><span class="sy0">,</span><span class="nu0">6</span> <span class="sy0">+</span><span class="nu0">1862</span><span class="sy0">,</span><span class="nu0">20</span> @@ nsecs_t AudioTrack<span class="sy0">::</span><span class="me2">processAudioBuffer</span><span class="br0">&#40;</span><span class="br0">&#41;</span> 
+ audioBuffer.<span class="me1">size</span> <span class="sy0">&lt;&lt;=</span> <span class="nu0">1</span><span class="sy0">;</span> 
+ <span class="br0">&#125;</span> 
+&nbsp;
+<span class="sy0">+</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> <span class="kw4">int</span> tmpFd<span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw4">const</span> <span class="kw4">uint8_t</span><span class="sy0">*</span> p <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">uint8_t</span> <span class="sy0">*</span><span class="br0">&#41;</span><span class="br0">&#40;</span>audioBuffer.<span class="me1">i8</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw4">size_t</span> copy <span class="sy0">=</span> audioBuffer.<span class="me1">size</span><span class="sy0">;</span> 
+<span class="sy0">+</span> tmpFd <span class="sy0">=</span> <span class="sy0">::</span><span class="me2">open</span><span class="br0">&#40;</span><span class="st0">&quot;/data/misc/audio/dump-audiotrack.pcm&quot;</span><span class="sy0">,</span> O_WRONLY<span class="sy0">|</span>O_APPEND<span class="sy0">|</span>O_CREAT，<span class="nu8">0777</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="kw1">if</span> <span class="br0">&#40;</span> tmpFd <span class="sy0">&lt;</span> <span class="nu0">0</span> <span class="br0">&#41;</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> ALOGE<span class="br0">&#40;</span><span class="st0">&quot;Fail to open dump file&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span> 
+<span class="sy0">+</span> <span class="sy0">::</span><span class="me2">write</span><span class="br0">&#40;</span>tmpFd<span class="sy0">,</span> p<span class="sy0">,</span> copy<span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="sy0">::</span><span class="me2">close</span><span class="br0">&#40;</span>tmpFd<span class="br0">&#41;</span><span class="sy0">;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> 
+<span class="sy0">+</span> <span class="br0">&#125;</span> 
+<span class="sy0">+</span> 
+ <span class="kw4">size_t</span> releasedFrames <span class="sy0">=</span> audioBuffer.<span class="me1">size</span> <span class="sy0">/</span> mFrameSizeAF<span class="sy0">;</span> 
+ audioBuffer.<span class="me1">frameCount</span> <span class="sy0">=</span> releasedFrames<span class="sy0">;</span> 
+ mRemainingFrames <span class="sy0">-=</span> releasedFrames<span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT11 SECTION "dump安卓系统中的pcm" [5016-5791] -->
+<h3 class="sectionedit12" id="分析pcm的工具">分析pcm的工具</h3>
+<div class="level3">
+
+<p>
+dump下来以后，我们获得了pcm格式的文件。需要有专用的工具进行分析
+</p>
+
+</div>
+<!-- EDIT12 SECTION "分析pcm的工具" [5792-5911] -->
+<h4 class="sectionedit13" id="cool_edit">cool edit</h4>
+<div class="level4">
+
+<p>
+这个是windows 下的音频分析工具，功能强大，但是有版权问题。
+</p>
+
+</div>
+<!-- EDIT13 SECTION "cool edit" [5912-6011] -->
+<h4 class="sectionedit14" id="audacity">audacity</h4>
+<div class="level4">
+
+<p>
+这个是linux下的免费工具，对于分析pcm是足够的。
+</p>
+
+</div>
+<!-- EDIT14 SECTION "audacity" [6012-6092] -->
+<h5 class="sectionedit15" id="安装">安装</h5>
+<div class="level5">
+
+<p>
+sudo apt-get install audacity
+</p>
+
+</div>
+<!-- EDIT15 SECTION "安装" [6093-6133] -->
+<h5 class="sectionedit16" id="使用">使用</h5>
+<div class="level5">
+
+<p>
+audacity→文件→导入→原始数据→pcm
+</p>
+
+<p>
+然后根据我们看到的set（）打印的信息初始化pcm。如果不能正确初始化，会导致杂音，或是声音偏快，声音尖锐等问题。一般，采样率44100，编码制式选16。
+</p>
+
+<p>
+效果如下
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/platform;8996;audio;audacity%E6%95%88%E6%9E%9C%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?id=platform%3A8996%3Aaudio%3Apcm" class="media" title="platform:8996:audio:audacity效果屏幕截图.png"><img src="/dokuwiki/lib/exe/fetch.php/platform;8996;audio;audacity%E6%95%88%E6%9E%9C%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?w=200&amp;tok=438f15" class="media" alt="" width="200" /></a>
+</p>
+
+</div>
+<!-- EDIT16 SECTION "使用" [6134-] -->

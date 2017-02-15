@@ -1,0 +1,68 @@
+
+<p>
+<strong> Installation </strong>
+</p>
+<pre class="code">This is an example for Ubuntu 14.04. </pre>
+
+<p>
+<strong>1 Install Ubuntu Server 14.04</strong>
+<strong>2 Update &amp; Upgrade Ubuntu.</strong>
+</p>
+<pre class="code">sudo apt-get update &amp;&amp; sudo apt-get upgrade</pre>
+
+<p>
+<strong>3 Install Apache2 and PHP.</strong>
+</p>
+<pre class="code">sudo apt-get install apache2 libapache2-mod-php5</pre>
+
+<p>
+<strong>4 Enable Apache Rewrite module.</strong>
+</p>
+<pre class="code">sudo a2enmod rewrite</pre>
+
+<p>
+<strong>5 Download and uncompress the latest stable release.</strong>
+</p>
+<pre class="code">cd /var/www
+sudo wget https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+sudo tar xvf dokuwiki-stable.tgz
+sudo mv dokuwiki-*/ dokuwiki</pre>
+
+<p>
+<strong>6 Change permissions.</strong>
+</p>
+<pre class="code">sudo chown -R www-data:www-data /var/www/dokuwiki</pre>
+
+<p>
+<strong>7 Change document root in Apache to point to /var/www/dokuwiki</strong>
+</p>
+<pre class="code">sudo nano /etc/apache2/sites-enabled/000*.conf
+a: Replace
+DocumentRoot /var/www/html
+with
+DocumentRoot /var/www/dokuwiki</pre>
+
+<p>
+<strong>8  Change AllowOverrides setting in Apache2 to use .htaccess files for security.</strong>
+</p>
+<pre class="code">sudo nano /etc/apache2/apache2.conf</pre>
+
+<p>
+<strong>9 Restart Apache2 service.</strong>
+</p>
+<pre class="code">sudo service apache2 restart</pre>
+
+<p>
+<strong>10 Visit <a href="http://IP-address-of-your-server/install.php" class="urlextern" title="http://IP-address-of-your-server/install.php" rel="nofollow">http://IP-address-of-your-server/install.php</a> to initially configure your DokuWiki.</strong>
+<strong>11 Delete the install.php file after finished installing.</strong>
+</p>
+<pre class="code">sudo rm /var/www/dokuwiki/install.php</pre>
+
+<p>
+<strong>12 Needed for sending email (e.g. user registration): install sendmail program, e.g. postfix </strong>
+</p>
+<pre class="code">sudo apt-get install postfix</pre>
+
+<p>
+<strong>13  Enjoy your own DokuWiki server.</strong>
+</p>

@@ -1,0 +1,48 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> initRecipientsEditor<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>isRecipientsEditorVisible<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        ContactList recipients <span class="sy0">=</span> getRecipients<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        ViewStub stub <span class="sy0">=</span> <span class="br0">&#40;</span>ViewStub<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor_stub</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>stub <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> stubView <span class="sy0">=</span> stub.<span class="me1">inflate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span> stubView.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker <span class="sy0">=</span> <span class="br0">&#40;</span>ImageButton<span class="br0">&#41;</span> stubView.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_picker</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            mRecipientsEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsEditor.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker <span class="sy0">=</span> <span class="br0">&#40;</span>ImageButton<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_picker</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mRecipientsPicker.<span class="me1">setOnClickListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setAdapter</span><span class="br0">&#40;</span><span class="kw1">new</span> ChipsRecipientAdapter<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">populate</span><span class="br0">&#40;</span>recipients<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnCreateContextMenuListener</span><span class="br0">&#40;</span>mRecipientsMenuCreateListener<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">addTextChangedListener</span><span class="br0">&#40;</span>mRecipientsWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnSelectChipRunnable</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mRecipientsEditor.<span class="me1">getRecipientCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// if we're in extract mode then don't request focus</span>
+                    <span class="kw1">final</span> InputMethodManager inputManager <span class="sy0">=</span> <span class="br0">&#40;</span>InputMethodManager<span class="br0">&#41;</span>
+                        getSystemService<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">INPUT_METHOD_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>inputManager <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">||</span> <span class="sy0">!</span>inputManager.<span class="me1">isFullscreenMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mTextEditor.<span class="me1">requestFocus</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnFocusChangeListener</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnFocusChangeListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> onFocusChange<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v, <span class="kw4">boolean</span> hasFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>hasFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    RecipientsEditor editor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span> v<span class="sy0">;</span>
+                    ContactList contacts <span class="sy0">=</span> editor.<span class="me1">constructContactsFromInput</span><span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    updateTitle<span class="br0">&#40;</span>contacts<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        PhoneNumberFormatter.<span class="me1">setPhoneNumberFormattingTextWatcher</span><span class="br0">&#40;</span><span class="kw1">this</span>, mRecipientsEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mTopPanel.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

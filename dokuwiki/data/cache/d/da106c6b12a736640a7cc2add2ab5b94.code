@@ -1,0 +1,20 @@
+<span class="kw1">public</span> <span class="kw4">void</span> startMediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">try</span> <span class="br0">&#123;</span>
+        mMr <span class="sy0">=</span> <span class="kw1">new</span> MediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mCamera.<span class="me1">unlock</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMr.<span class="me1">setCamera</span><span class="br0">&#40;</span>mCamera<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 设置Camera进行绑定将摄像头数据进行编码，视频文件封装</span>
+        mMr.<span class="me1">setVideoSource</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">VideoSource</span>.<span class="me1">CAMERA</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 视频来源</span>
+        mMr.<span class="me1">setAudioSource</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">AudioSource</span>.<span class="me1">CAMCORDER</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 音频来源</span>
+        mMr.<span class="me1">setOutputFormat</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">MPEG_4</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 视频格式</span>
+        mMr.<span class="me1">setAudioEncoder</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">AudioEncoder</span>.<span class="me1">AAC</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 音频编码</span>
+        mMr.<span class="me1">setVideoEncoder</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">VideoEncoder</span>.<span class="me1">H264</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 视频硬编码</span>
+        mMr.<span class="me1">setVideoSize</span><span class="br0">&#40;</span>mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 视频高宽</span>
+        mMr.<span class="me1">setVideoFrameRate</span><span class="br0">&#40;</span>RECODER_FRAMERATE<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 帧率</span>
+        mMr.<span class="me1">setVideoEncodingBitRate</span><span class="br0">&#40;</span>RECODER_BITRATE<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 比特率，码率</span>
+        mMr.<span class="me1">setOutputFile</span><span class="br0">&#40;</span>mVideoFilename<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 文件输出位置</span>
+        mMr.<span class="me1">prepare</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMr.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        e.<span class="me1">printStackTrace</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

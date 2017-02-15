@@ -1,0 +1,37 @@
+
+<p>
+问题描述：
+</p>
+<pre class="code">  产线测试时，CIT测试，PCB测试会将测试结果写入NV中便于后面的工序查询。
+  在界面测试完成后程序自动完成写入步骤。但一般会立即断电测试下一块主板或整机。导致测试结果写入NV中但实际并为真正保存。</pre>
+
+<p>
+修改方法：
+</p>
+<pre class="code">  在写入NV成功后立即对EFS文件进行同步。</pre>
+
+<p>
+源码：
+</p>
+
+<p>
+<strong>qmi_voice_cm_if.c</strong>
+</p>
+<pre class="code C">      nv_status <span class="sy0">=</span> <span class="br0">&#40;</span>nv_stat_enum_type<span class="br0">&#41;</span> dcc_put_nv_item<span class="br0">&#40;</span>NV_FACTORY_DATA_3_I<span class="sy0">,</span> <span class="br0">&#40;</span>nv_item_type <span class="sy0">*</span><span class="br0">&#41;</span> <span class="sy0">&amp;</span>nv_item<span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="kw1">if</span> <span class="br0">&#40;</span> nv_status <span class="sy0">!=</span> NV_DONE_S <span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        set_config_resp.<span class="me1">error</span> <span class="sy0">=</span> QMI_ERR_INTERNAL<span class="sy0">;</span>
+        set_config_resp.<span class="me1">factory_data_3_outcome</span> <span class="sy0">=</span> QMI_VOICE_CM_IF_SET_MODEM_FAILURE<span class="sy0">;</span>
+        QMI_MSG_ERROR<span class="br0">&#40;</span><span class="st0">&quot;%s&quot;</span><span class="sy0">,</span> <span class="st0">&quot; Write factory_data_3 to NV failed.<span class="es1">\n</span>&quot;</span> <span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+      <span class="kw1">else</span>
+      <span class="br0">&#123;</span>
+        <span class="coMULTI">/*同步开始*/</span>
+        <span class="kw4">int</span> res<span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+        res <span class="sy0">=</span> efs_sync<span class="br0">&#40;</span><span class="st0">&quot;/&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        MSG_HIGH<span class="br0">&#40;</span><span class="st0">&quot;sync factory_data_3, res = %d&quot;</span><span class="sy0">,</span> res<span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="coMULTI">/*同步结束*/</span>
+&nbsp;
+        set_config_resp.<span class="me1">factory_data_3_outcome</span> <span class="sy0">=</span> QMI_VOICE_CM_IF_SET_MODEM_SUCCESS<span class="sy0">;</span>
+      <span class="br0">&#125;</span></pre>

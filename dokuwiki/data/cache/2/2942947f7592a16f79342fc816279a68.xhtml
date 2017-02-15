@@ -1,0 +1,31 @@
+
+<h1 class="sectionedit1" id="msm892xuse_fastboot_to_flash_image">MSM892X: Use fastboot to flash image</h1>
+<div class="level1">
+
+</div>
+
+<h4 id="modem_side">Modem side</h4>
+<div class="level4">
+<pre class="code">sudo fastboot flash modem NON-HLOS.bin
+sudo fastboot flash sbl1 sbl1.mbn
+sudo fastboot flash rpm rpm.mbn
+sudo fastboot flash tz tz.mbn</pre>
+
+</div>
+
+<h4 id="ap_side">AP side</h4>
+<div class="level4">
+<pre class="code">sudo fastboot flash aboot emmc_appsboot.mbn
+sudo fastboot flash boot boot.img
+sudo fastboot flash system system.img
+sudo fastboot flash userdata userdata.img
+sudo fastboot flash persist persist.img
+sudo fastboot flash recovery recovery.img</pre>
+
+</div>
+
+<h4 id="如果systemimg太大_可用如下命令烧录">如果system.img太大，可用如下命令烧录：</h4>
+<div class="level4">
+<pre class="code">sudo fastboot -S 512M flash system system.img</pre>
+
+</div>

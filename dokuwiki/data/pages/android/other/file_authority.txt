@@ -1,0 +1,63 @@
+====== 提高sdcard 权限 ======
+Android 4.0 以后对 sdcard 的写入权限更严格了。
+我们可以通过一下步骤来获取高权限。
+
+  * 把 persist.sampling_profiler 属性设置为 1
+  <code bash> setprop persist.sampling_profiler 1 </code>
+
+  * 在setting里重新挂载SD卡，或者重启一下机器。
+
+  * 提高 storage 的权限
+  <code bash>
+  adb shell
+  mount -o remount,rw / /
+  chmod 777 storage
+  </code>
+  
+
+这样/mnt/sdcard的权限就提高到最大了。
+
+
+;-) 少年，享受吧！
+
+
+
+**PS.**
+==== 假象 ====
+
+把 persist.sampling_profiler 属性设置为 1 ，重新挂载SD卡后进/mnt 看到 sdcard 的权限已经是最大了，但是还有出现权限问题。
+<code>
+lrwxrwxrwx root     root              2013-10-31 07:19 sdcard -> /storage/sdcard0
+</code>
+这就是前面为什么要改/storage目录权限的原因了。因为/mnt/sdcard 只是个链接，是链接到 /storage上的。
+
+
+
+
+==== 源码 ====
+相关代码可参考 system/vold/Fat.cpp
+<code c++>
+char value[PROPERTY_VALUE_MAX];
+property_get("persist.sampling_profiler", value, "");
+if (value[0] == '1') {
+    SLOGW("The SD card is world-writable because the"
+        " 'persist.sampling_profiler' system property is set to '1'.");
+    permMask = 0;
+} 
+</code>
+
+
+
+====== Linux 下挂载 MTP ======
+
+
+<code bash>
+sudo apt-get install mtp-tools mtpfs
+sudo service udev restart
+sudo mkdir /media/mtp
+sudo chmod a+rwx /media/mtp
+sudo adduser YOURUSERNAME fuse
+</code>
+
+
+

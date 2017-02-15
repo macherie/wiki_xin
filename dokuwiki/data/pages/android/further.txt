@@ -1,0 +1,16 @@
+====== Further ======
+
+===== Adb and Fastboot permission =====
+ --- //[[yunqi.miao@sim.com|苗运齐]] 2013/12/16 09:38//LOL
+
+[[android:other:adb_fastboot_permission|Adb and Fastboot permission]]
+
+===== Fastboot flash image =====
+ --- //[[yunqi.miao@sim.com|苗运齐]] 2013/12/16 09:38//:-P
+
+[[platform:8625q:fastboot|MSM8625Q: Use fastboot to flash image]]
+
+===== Ubuntu Auto mount NTFS =====
+ --- //[[yunqi.miao@sim.com|苗运齐]] 2013/12/16 09:32//8-)
+
+[[android:other:ubuntu_auto_mount_ntfs|Ubuntu Auto Mount NTFS]]

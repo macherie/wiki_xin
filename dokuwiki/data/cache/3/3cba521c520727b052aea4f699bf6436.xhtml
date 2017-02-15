@@ -1,0 +1,20 @@
+
+<h2 class="sectionedit1" id="打开stk功能">打开STK功能</h2>
+<div class="level2">
+
+<p>
+把 NV item 65683 设置成 2 就能使能STK。
+</p>
+
+<p>
+高通的解释：
+</p>
+
+<p>
+On Android platforms which use QMI,  NV 65683 needs to be set as below.
+NV item 65683 = 2 (QMI CAT Mode = Android) This NV item is added recently in QXDM and hence old versions of QXDM don’t show this NV and hence if this NV item is not visible you will have to install later versions of QXDM.
+When NV is set in above way, Qmi knows that it should forward proactive commands from GSTK to Android  and hence STK would work.
+If NV is not set properly you may similar to below message in QMI log when there is proactive command from GSTK.
+</p>
+
+</div>

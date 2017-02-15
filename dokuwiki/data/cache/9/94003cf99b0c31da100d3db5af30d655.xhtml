@@ -1,0 +1,52 @@
+
+<p>
+擦除8939的QCN
+</p>
+
+<p>
+方式一，按分区名擦除：
+</p>
+<pre class="code">adb reboot-bootloader
+fastboot erase modemst1
+fastboot erase modemst2
+fastboot reboot</pre>
+
+<p>
+方式二，按对应分区表mmcblock擦除：
+</p>
+<pre class="code">adb shell dd if=/dev/zero of=/dev/block/mmcblk0p13
+adb shell dd if=/dev/zero of=/dev/block/mmcblk0p14
+adb reboot</pre>
+
+<p>
+PS: 分区表文件
+</p>
+<pre class="code">Non-HLOS/common/build/partition.xml
+
+  1         &lt;partition label=&quot;modem&quot; size_in_kb=&quot;65536&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;NON-HLOS.bin&quot;/&gt;
+  2         &lt;partition label=&quot;sbl1&quot; size_in_kb=&quot;512&quot; type=&quot;DEA0BA2C-CBDD-4805-B4F9-F428251C3E98&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;sbl1.mbn&quot;/&gt;
+  3         &lt;partition label=&quot;sbl1bak&quot; size_in_kb=&quot;512&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;sbl1.mbn&quot;/&gt;
+  4         &lt;partition label=&quot;aboot&quot; size_in_kb=&quot;1024&quot; type=&quot;400FFDCD-22E0-47E7-9A23-F16ED9382388&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;emmc_appsboot.mbn&quot;/&gt;
+  5         &lt;partition label=&quot;abootbak&quot; size_in_kb=&quot;1024&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;emmc_appsboot.mbn&quot;/&gt;
+  6         &lt;partition label=&quot;rpm&quot; size_in_kb=&quot;512&quot; type=&quot;098DF793-D712-413D-9D4E-89D711772228&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;rpm.mbn&quot;/&gt;
+  7         &lt;partition label=&quot;rpmbak&quot; size_in_kb=&quot;512&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;rpm.mbn&quot;/&gt;
+  8         &lt;partition label=&quot;tz&quot; size_in_kb=&quot;512&quot; type=&quot;A053AA7F-40B8-4B1C-BA08-2F68AC71A4F4&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;tz.mbn&quot;/&gt;
+  9         &lt;partition label=&quot;tzbak&quot; size_in_kb=&quot;512&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;tz.mbn&quot;/&gt;
+ 10     &lt;partition label=&quot;hyp&quot; size_in_kb=&quot;512&quot; type=&quot;E1A6A689-0C8D-4CC6-B4E8-55A4320FBD8A&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;hyp.mbn&quot;/&gt;
+ 11         &lt;partition label=&quot;hypbak&quot; size_in_kb=&quot;512&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;hyp.mbn&quot;/&gt;
+ 12     &lt;partition label=&quot;pad&quot; size_in_kb=&quot;1024&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 13         &lt;partition label=&quot;modemst1&quot; size_in_kb=&quot;1536&quot; type=&quot;EBBEADAF-22C9-E33B-8F5D-0E81686A68CB&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 14         &lt;partition label=&quot;modemst2&quot; size_in_kb=&quot;1536&quot; type=&quot;0A288B1F-22C9-E33B-8F5D-0E81686A68CB&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 15         &lt;partition label=&quot;misc&quot; size_in_kb=&quot;1024&quot; type=&quot;20117f86-E985-4357-B9EE-374BC1D8487D&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot; /&gt;
+ 16         &lt;partition label=&quot;fsc&quot; size_in_kb=&quot;1&quot; type=&quot;57B90A16-22C9-E33B-8F5D-0E81686A68CB&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 17         &lt;partition label=&quot;ssd&quot; size_in_kb=&quot;8&quot; type=&quot;2C86E742-745E-4FDD-BFD8-B6A7AC638772&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 18         &lt;partition label=&quot;splash&quot; size_in_kb=&quot;10240&quot; type=&quot;20117f86-E985-4357-B9EE-374BC1D8487D&quot; bootable=&quot;false&quot; readonly=&quot;false&quot; filename=&quot;&quot;/&gt;
+ 19         &lt;partition label=&quot;DDR&quot; size_in_kb=&quot;32&quot; type=&quot;20A0C19C-286A-42FA-9CE7-F64C3226A794&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; /&gt;
+ 20         &lt;partition label=&quot;fsg&quot; size_in_kb=&quot;1536&quot; type=&quot;638FF8E2-22C9-E33B-8F5D-0E81686A68CB&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;&quot;/&gt;
+ 21         &lt;partition label=&quot;sec&quot; size_in_kb=&quot;16&quot; type=&quot;303E6AC3-AF15-4C54-9E9B-D9A8FBECF401&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;sec.dat&quot;/&gt;
+ 22         &lt;partition label=&quot;boot&quot; size_in_kb=&quot;16384&quot; type=&quot;20117f86-E985-4357-B9EE-374BC1D8487D&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;boot.img&quot;/&gt;
+ 23         &lt;partition label=&quot;system&quot; size_in_kb=&quot;819200&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;system.img&quot; sparse=&quot;true&quot;/&gt;
+ 24         &lt;partition label=&quot;persist&quot; size_in_kb=&quot;32768&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;persist.img&quot; sparse=&quot;true&quot;/&gt;
+ 25         &lt;partition label=&quot;cache&quot; size_in_kb=&quot;131072&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;cache.img&quot; sparse=&quot;true&quot;/&gt;
+ 26         &lt;partition label=&quot;recovery&quot; size_in_kb=&quot;16384&quot; type=&quot;20117f86-E985-4357-B9EE-374BC1D8487D&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;recovery.img&quot;/&gt;
+ 27         &lt;partition label=&quot;userdata&quot; size_in_kb=&quot;2918232&quot; type=&quot;EBD0A0A2-B9E5-4433-87C0-68B6B72699C7&quot; bootable=&quot;false&quot; readonly=&quot;true&quot; filename=&quot;userdata.img&quot; sparse=&quot;true&quot;/&gt;</pre>

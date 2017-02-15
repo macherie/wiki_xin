@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! git</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:39:29+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:basic_use&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:diff&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:gerrit%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8%E6%B5%81%E7%A8%8B&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:git_install_use&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:gitignore&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:rebase&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:reflog&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=git:repo&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:basic_use&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:basic_use</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:basic_use&amp;rev=1390476864&amp;do=diff</link>
+        <description>清除git以外文件
+
+
+git clean -fxd
+
+
+查看某段时刻的log
+
+
+git log --until=2013-11-23  #表示查看2013年11月23日以前的log
+git log --since=&quot;2 days ago&quot; --until=&quot;10 hour ago&quot; #就表示你希望查找两天前到十小时前的log
+git log --until=1.minute.ago # 一分钟之前的所有 log
+git log --since=1.day.ago #一天之内的log
+git log --since=1.hour.ago #一个小时之内的 log
+git log --since=1.month.ago --until=2.weeks.ago #一个月之前到半个月之前的log
+git log --since=2013.08.01 --until=2013-09-07 #某个时间段的 log…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:diff&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:diff</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:diff&amp;rev=1390476864&amp;do=diff</link>
+        <description>Git diff: 
+工作区和暂存区比较。
+
+Git diff --cached: 
+暂存区和HEAD比较。
+
+Git diff HEAD: 
+工作区和HEAD比较。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:gerrit%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8%E6%B5%81%E7%A8%8B&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:gerrit代码审核流程</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:gerrit%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8%E6%B5%81%E7%A8%8B&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2013/12/11</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:git基本操作</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2013/12/11
+
+git init
+
+ 创建版本库 
+
+
+$ git init
+
+
+git add
+
+ 将文件添加到版本库暂存区 
+
+
+$ git add welcom.txt
+
+
+git commit
+
+ 提交到本地版本库 
+
+
+$ git commit -m &quot;注释&quot;
+
+
+git clone
+
+ 克隆远程版本库 
+
+
+$ git clone git://192.167.100.232/AMSS.git</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:git安装配置</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:git%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2013/12/11
+
+安装 git，gitk
+
+在 Ubuntu 上，可以用 apt-get 安装
+
+网络连接正常的情况下：
+
+
+$ sudo apt-get install git-core gitk git-gui
+
+
+不能上网，有.deb安装包的，请执行：
+
+
+$ sudo dpkg -i XXXX.deb
+
+
+在Windows上，可以安装msysGit
+
+\\192.167.100.225\linux_server_share\tool\Git\Git-1.7.6-preview20110708.exeGit</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:git_install_use&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:git_install_use</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:git_install_use&amp;rev=1390476864&amp;do=diff</link>
+        <description>客户端安装 Git
+
+安装 git，gitk
+
+网络连接正常的情况下：
+
+
+$ sudo apt-get install git-core gitk git-gui
+
+
+不能上网，有.deb安装包的，请执行：
+
+
+$ sudo dpkg -i XXXX.deb
+
+
+初次运行 Git 前的配置
+
+ 配置用户信息</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:gitignore&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:gitignore</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:gitignore&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2013/12/11
+
+.gitignore 文件
+
+有些文件无需纳入Git版本库，也不希望它们总出现未跟踪文件列表。通常都是些自动生成的文件，像是日志或者编译过程中创建的等等。可以创建一个名为.gitignore的文件，列出要忽略的文件模式。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:rebase&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:rebase</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:rebase&amp;rev=1390476864&amp;do=diff</link>
+        <description>当本地commit一个提交和远端服务器中的代码有冲突(别人也改了相同的文件)时可以在pull 中加 --rebase。加上 rebase 的意思是：
+
+
+git pull --rebase
+
+
+	*  把本地 repo. 从上次 pull 之后的变更暂存起來
+	*  恢复到上次 pull 时的状态
+	*  合并远端的变更到本地
+	*  最后再合并刚刚暂存下來的本地变更</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:reflog&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:reflog</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:reflog&amp;rev=1390476864&amp;do=diff</link>
+        <description>使用Git进行本地提交后，未上传提交，却不小心删除了本地提交或提交所在分支，怎么办？？？？？
+
+不要紧！！！！
+
+可以使用git reflog命令来帮助恢复删除的本地提交！
+
+运行以下命令你就知道怎么用了！8-)</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=git:repo&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>git:repo</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=git:repo&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2013/12/11
+
+Repo是一个用Python语言开发的命令工作 ，可以更文件地进行多版本库的管理。Repo是对Git进行了一定的封装，简化了对多个Git版本库的管理。对于repo管理的任何一个版本库，都需要使用Git命令进行操作。</description>
+    </item>
+</rdf:RDF>

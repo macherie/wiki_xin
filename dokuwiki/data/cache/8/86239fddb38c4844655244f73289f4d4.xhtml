@@ -1,0 +1,37 @@
+
+<p>
+linear数据偏移问题
+</p>
+
+<p>
+问题描述：linear某个轴（平放时Z轴）的数据会有0.1m/s/s以上的偏差。
+</p>
+
+<p>
+linear数据是根据两个三轴数据计算得到：gravity和accel
+</p>
+
+<p>
+代码位置：hardware/invensense/invensense_titan/mlsdk/
+主要函数：inv_get_linear_accel(ldata);
+</p>
+
+<p>
+相关LOG如下：
+</p>
+<pre class="code">                                                                      linear, accel,   gravity
+I/titan   (  592): inv_get_linear_accel,x: 34,      -2681,   -2715, data:34,0
+I/titan   (  592): inv_get_linear_accel,y:142,     1494,    1352, data:142,0
+I/titan   (  592): inv_get_linear_accel,z:1105,    66570,  65465, data:1105,0
+
+I/titan   (  592): inv_get_linear_accel,x:-172,     -2885,   -2713, data:-172,0
+I/titan   (  592): inv_get_linear_accel,y:-1,         1370,     1371, data:-1,0
+I/titan   (  592): inv_get_linear_accel,z:1109,    66574,   65465, data:1109,0
+
+I/titan   (  592): inv_get_linear_accel,x:-184,     -2905,     -2721, data:-184,0
+I/titan   (  592): inv_get_linear_accel,y:-234,     1139,       1373, data:-234,0
+I/titan   (  592): inv_get_linear_accel,z:1110,     66575,    65465, data:1110,0</pre>
+
+<p>
+通过LOG可以看出z轴值偏大，在1000以上，这个值直接引起0.17m/s/s以上的偏差。
+</p>

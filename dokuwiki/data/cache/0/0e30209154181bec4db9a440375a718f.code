@@ -1,0 +1,8 @@
+     <span class="kw4">int</span> activeTab <span class="sy0">=</span> MusicUtils.<span class="me1">getIntPref</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="st0">&quot;activetab&quot;</span>, R.<span class="me1">id</span>.<span class="me1">artisttab</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">artisttab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">albumtab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">songtab</span>
+                <span class="sy0">&amp;&amp;</span> activeTab <span class="sy0">!=</span> R.<span class="me1">id</span>.<span class="me1">playlisttab</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            activeTab <span class="sy0">=</span> R.<span class="me1">id</span>.<span class="me1">artisttab</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        MusicUtils.<span class="me1">activateTab</span><span class="br0">&#40;</span><span class="kw1">this</span>, activeTab<span class="br0">&#41;</span><span class="sy0">;</span>

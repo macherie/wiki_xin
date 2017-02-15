@@ -1,0 +1,7 @@
+a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1436262258;s:8:"modified";i:1436262306;}s:7:"creator";s:9:"qiancheng";s:4:"user";s:9:"qiancheng";s:11:"last_change";a:7:{s:4:"date";i:1436262306;s:2:"ip";s:12:"172.21.10.47";s:4:"type";s:1:"E";s:2:"id";s:31:"tool:cisco_ap_air-sap1602e-c-k9";s:4:"user";s:9:"qiancheng";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:9:"qiancheng";s:9:"qiancheng";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:260:"如何连接Cisco AIR-SAP1602E-C-K9（以下简称AP）
+
+1.将AP的 ETHERNET 口用网线连接任意路由器的LAN口；
+
+2.登录路由器查看AP的IP地址（比如是192.168.1.12）；
+
+3.打开浏览器输入192.168.1.12联接，显示出登录窗口，";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1436262258;s:8:"modified";i:1436262306;}s:7:"creator";s:9:"qiancheng";s:4:"user";s:9:"qiancheng";s:11:"last_change";a:7:{s:4:"date";i:1436262306;s:2:"ip";s:12:"172.21.10.47";s:4:"type";s:1:"E";s:2:"id";s:31:"tool:cisco_ap_air-sap1602e-c-k9";s:4:"user";s:9:"qiancheng";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:9:"qiancheng";s:9:"qiancheng";}}}

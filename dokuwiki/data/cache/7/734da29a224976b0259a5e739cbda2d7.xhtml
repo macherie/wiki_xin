@@ -1,0 +1,43 @@
+
+<h1 class="sectionedit1" id="安装openssh的服务器端">安装openssh的服务器端</h1>
+<div class="level1">
+
+</div>
+
+<h4 id="安装openssh">1. 安装openssh</h4>
+<div class="level4">
+<pre class="code">sudo apt-get install openssh-server</pre>
+
+</div>
+
+<h4 id="修改ssh的配置文件">2. 修改ssh的配置文件</h4>
+<div class="level4">
+
+<p>
+配置文件为/etc/ssh/sshd_config。将配置文件按如下内容修改：
+</p>
+<pre class="code">PermitRootLogin no			#禁止root用户登录
+ServerKeyBits 1024			#将serverkey强度改为1024比特</pre>
+
+</div>
+
+<h4 id="修改了ssh的配置文件后_必须要重启ssh服务_配置才能生效">3. 修改了ssh的配置文件后，必须要重启ssh服务，配置才能生效</h4>
+<div class="level4">
+
+<p>
+打开终端，执行sudo /etc/init.d/ssh restart命令，返回ok，重启ssh成功。
+</p>
+
+<p>
+如果sudo /etc/init.d/ssh restart 不成功。
+</p>
+
+<p>
+可以尝试执行 sudo service ssh restart
+</p>
+
+<p>
+openssh和ssh 都是ssh服务，在/etc/ssh 目录中你可以看到其中有ssh_config 和 sshd_config(指的是openssh) 两个配置文件。sshd_config第一行，就说明用的是22端口
+</p>
+
+</div>

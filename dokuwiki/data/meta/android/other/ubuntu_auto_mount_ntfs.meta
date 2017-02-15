@@ -1,0 +1,13 @@
+a:2:{s:7:"current";a:7:{s:4:"date";a:2:{s:7:"created";i:1390478357;s:8:"modified";i:1390476864;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:5:"title";s:22:"Ubuntu Auto Mount NTFS";s:11:"description";a:2:{s:15:"tableofcontents";a:2:{i:0;a:4:{s:3:"hid";s:10:"check_uuid";s:5:"title";s:10:"check UUID";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:16:"update_etc_fstab";s:5:"title";s:17:"update /etc/fstab";s:4:"type";s:2:"ul";s:5:"level";i:1;}}s:8:"abstract";s:259:"Ubuntu Auto Mount NTFS
+
+ --- 苗运齐 2013/12/16 09:30=)
+
+check UUID
+
+tiger@tiger:~$ sudo blkid 
+
+/dev/sda1: UUID=“8886-CCB9” TYPE=“vfat”
+
+/dev/sda5: UUID=“59817072B42D78C4” TYPE=“ntfs”
+
+/dev/sda6: UUID=“928a7b56-04b2-40cf-bd6f-20149cb20946";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:3:{s:4:"date";a:1:{s:7:"created";i:1390478357;}s:4:"user";s:0:"";s:7:"creator";s:0:"";}}

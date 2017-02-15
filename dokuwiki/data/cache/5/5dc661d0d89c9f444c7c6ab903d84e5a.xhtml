@@ -1,0 +1,178 @@
+
+<p>
+基本文本格式
+</p>
+
+<p>
+<span style='color:blue; '><strong>DokuWiki支持 粗体， 斜体， 下划线 以及 等宽体 等格式。</strong></span>当然，您也可以 混合使用 所有这些格式。
+</p>
+<pre class="code">DokuWiki支持 **粗体**， //斜体//， __下划线__ and &#039;&#039;等宽体&#039;&#039; 等格式。</pre>
+<pre class="code">当然，您也可以 **__//&#039;&#039;混合使用&#039;&#039;//__** 所有这些格式。</pre>
+
+<p>
+<span style='color:blue; '><strong>可以使用 下标 和 上标。</strong></span>
+</p>
+<pre class="code">可以使用 &lt;sub&gt;下标&lt;/sub&gt; 和 &lt;sup&gt;上标&lt;/sup&gt;。</pre>
+
+<p>
+您也可以使用 删除线 标记某些信息。
+</p>
+<pre class="code">您也可以使用 &lt;del&gt;删除线&lt;/del&gt; 标记某些信息。</pre>
+
+<p>
+<span style='color:blue; '><strong>段落 是由空行所建立的。</strong></span>如果您想 强制建立新行 而不建立段落，您可以使用两个连续的反斜杠+空格或是回车作为标记。请看样例：
+</p>
+
+<p>
+这是一些有着换行标记的文字。
+请注意 反斜杠只在回车符之前
+或者在
+一个空格之前的时候才有效。 \\而这样就并不起作用。
+</p>
+<pre class="code">这是一些有着换行标记的文字。\\ 请注意
+反斜杠只在回车符之前\\
+或者在\\ 一个空格之前的时候才有效。 \\而这样就并不起作用。</pre>
+
+<p>
+请只在必须的时候才使用强制的换行标记。
+链接
+</p>
+
+<p>
+DokuWiki支持多种形式的链接。
+<span style='color:blue; '><strong>外部链接</strong></span>
+</p>
+
+<p>
+外部链接会被自动地识别： <a href="http://www.google.com" class="urlextern" title="http://www.google.com"  rel="nofollow">http://www.google.com</a> 或者简单地写作 <a href="http://www.google.com" class="urlextern" title="http://www.google.com"  rel="nofollow">www.google.com</a> - 当然您也可以为链接设置名字： 链接到google. 类似这样的电子邮件地址： andi@splitbrain.org 也可以被识别。
+</p>
+<pre class="code">DokuWiki支持多种形式的链接。外部链接会被自动地识别：
+http://www.google.com 或者简单地写作 www.google.com
+- 当然您也可以为链接设置名字： [[http://www.google.com|链接到google]]。
+类似这样的电子邮件地址： &lt;andi@splitbrain.org&gt; 也可以被识别。</pre>
+
+<p>
+<span style='color:blue; '><strong>内部链接</strong></span>
+</p>
+
+<p>
+内部链接可以用方括号创建。您可以只给出链接的地址：wiki:pagename，也可以附加上链接的名字：我的链接。Wiki的页面名字将会被自动地识别为小写字母，并且不允许使用特殊字符。
+</p>
+<pre class="code">内部链接可以用方括号创建。您可以只给出链接的地址：[[pagename]]，
+也可以附加上链接的名字：[[pagename|我的链接]]。
+Wiki的页面名字将会被自动地识别为小写字母，并且不允许使用特殊字符。</pre>
+
+<p>
+<span style='color:blue; '><strong>您可以通过在页面名中使用冒号的方式来使用 命名空间。</strong></span>
+</p>
+<pre class="code">您可以通过在页面名中使用冒号的方式来使用 [[wiki:namespaces|命名空间]]。</pre>
+
+<p>
+如果您需要关于命名空间(namespaces)的更详细的信息，请参见 wiki:namespaces。
+</p>
+
+<p>
+<span style='color:blue; '><strong>您也可以链接到一个网页内部的某一节，只需要将该节书签的名称以一个#号分隔加在网页的地址后面即可。</strong></span>
+</p>
+
+<p>
+这是一个连向 <a href="/dokuwiki/doku.php/syntax#internal" class="wikilink2" title="syntax" rel="nofollow">本节</a> 的链接。
+</p>
+<pre class="code">这是一个连向 [[syntax#internal|本节]] 的链接。</pre>
+
+<p>
+注：
+</p>
+<pre class="code">  到 已存在页面 的链接和到 未存在页面 的链接，其外观是不同的。
+  默认情况下，DokuWiki不使用 CamelCase 来自动建立链接，（CamelCase类似于PmWiki中的WikiWord）。但是也可以在 设置文件 中启用它。 Hint: If DokuWiki is a link, then it&#039;s enabled.
+  当一节的标题改变时，该节的书签也会改变，因此，请不要太依靠网页内的链接。</pre>
+
+<p>
+<span style='color:blue; '><strong>Wiki间链接</strong></span>
+</p>
+
+<p>
+DokuWiki支持 Wiki间链接 ，即到其他wiki的链接。例如，这是一个到Wikipedia上关于Wiki的一个页面的的链接： Wiki
+</p>
+
+<p>
+DokuWiki支持 <a href="/dokuwiki/doku.php/interwiki" class="wikilink2" title="interwiki" rel="nofollow">Wiki间链接</a> ，即到其他wiki的链接。
+例如，这是一个到Wikipedia上关于Wiki的一个页面的的链接： <a href="https://en.wikipedia.org/wiki/Wiki" class="interwiki iw_wp" title="https://en.wikipedia.org/wiki/Wiki">Wiki</a>
+</p>
+<pre class="code">DokuWiki支持 [[interwiki|Wiki间链接]] ，即到其他wiki的链接。
+例如，这是一个到Wikipedia上关于Wiki的一个页面的的链接： [[wp&gt;Wiki]] </pre>
+
+<p>
+<span style='color:blue; '><strong>Windows共享文件夹</strong></span>
+</p>
+
+<p>
+Windows共享文件夹，例如 this 也可以被识别。请注意，这只在内部 局域网 等环境中才可能被成功访问。
+</p>
+
+<p>
+Windows共享文件夹，例如 <a href="file://///server/share" class="windows" title="\\server\share">this</a> 也可以被识别。
+</p>
+<pre class="code">Windows共享文件夹，例如 [[\\server\share|this]] 也可以被识别。</pre>
+
+<p>
+注：
+</p>
+<pre class="code">  出于安全原因，只有在微软IE浏览器上才能够直接访问Windows共享文件夹。</pre>
+
+<p>
+<span style='color:blue; '><strong>图像链接</strong></span>
+</p>
+
+<p>
+您也可以用图像来作为一个内部或者外部的链接，只需同时使用链接和图像的语法，如下所示：
+</p>
+
+<p>
+<a href="http://www.php.net" class="media" title="http://www.php.net"  rel="nofollow"><img src="/dokuwiki/lib/exe/fetch.php/wiki;dokuwiki-128.png" class="media" alt="" /></a>
+</p>
+<pre class="code">[[http://www.php.net|{{wiki:dokuwiki-128.png}}]]</pre>
+
+<p>
+<a href="http://www.php.net" class="urlextern" title="http://www.php.net"  rel="nofollow">http://www.php.net</a>
+</p>
+<pre class="code">http://www.php.net</pre>
+
+<p>
+请注意：在链接名中使用语法，只有显示图像的语法会被识别，请不要使用其它语法。
+</p>
+
+<p>
+<span style='color:blue; '><strong>脚注</strong></span>
+</p>
+
+<p>
+您可以使用两个连续小括号来添加脚注<sup><a href="#fn__1" id="fnt__1" class="fn_top">1)</a></sup>。
+</p>
+<pre class="code">您可以使用两个连续小括号来添加脚注((看这里，这是一个脚注))。</pre>
+
+<p>
+<span style='color:blue; '><strong>标题段落</strong></span>
+</p>
+
+<p>
+您可以使用最多达5层的标题来使您的页面更富结构性。如果您使用了三个以上的标题，那么DokuWiki会自动在页面上生成一个名为“本页目录”的标题列表。当然，您也可以关闭这项特性，只需在编辑时在页面里加入  字样即可。<br/>
+
+H3标题 <br/>
+
+H4标题 <br/>
+
+H5标题 <br/>
+
+</p>
+<pre class="code">==== H3标题 ====
+=== H4标题 ===
+== H5标题 ==</pre>
+
+<p>
+您可以通过连续的4个以上“-”号来创建一条水平分割线： 
+</p>
+<div class="footnotes">
+<div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
+看这里，这是一个脚注</div>
+</div>

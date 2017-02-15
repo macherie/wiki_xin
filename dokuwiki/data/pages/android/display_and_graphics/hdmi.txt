@@ -1,0 +1,22 @@
+
+
+<code>
+kernel/include/uapi/video/msm_hdmi_modes.h里有一些的配置信息
+打开调试信息
+kernel/include/linux/mdss_io_util.h
+#define DEBUG 1
+
+查看当前HDMI支持的分辨率
+adb shell cat /sys/class/graphics/fb1/modes
+
+动态更改支持的分辨率, 改后重新插拔
+adb shell setprop hw.hdmi.resolution 3
+
+
+查显示HDMI信息display信息
+adb shell dumpsys SurfaceFlinger
+
+HDMI支持的分辨率
+adb shell cat /sys/class/graphics/fb1/modes
+
+</code>

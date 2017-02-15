@@ -1,0 +1,138 @@
+
+<h1 class="sectionedit1" id="调试cdma_evdo过程中遇到的问题">调试CDMA/EVDO过程中遇到的问题</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "调试CDMA/EVDO过程中遇到的问题" [1-54] -->
+<h2 class="sectionedit2" id="插入电信卡_可以注册网络_但不能拨打电话">1,插入电信卡，可以注册网络，但不能拨打电话</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT2 SECTION "1,插入电信卡，可以注册网络，但不能拨打电话" [55-128] -->
+<h3 class="sectionedit3" id="详细描述_插入电信卡_手机可以找到网络_信号条有显示_但是一拨打电话就会马上断掉_拨打112正常">详细描述：插入电信卡，手机可以找到网络，信号条有显示，但是一拨打电话就会马上断掉（拨打112正常）</h3>
+<div class="level3">
+
+<p>
+跟设置里面的CDMA订阅设定有关，需要把这一项设置为RUIM/SIM。代码里面默认会设置成为NV,从而导致这个问题的出现。
+</p>
+
+<p>
+AP修改代码，把这项设定默认设置为RUIM/SIM就可以解决这个问题。
+</p>
+
+<p>
+这项设定其实影响的是NV855，对于CDMA网络需要设置为0。
+</p>
+
+</div>
+<!-- EDIT3 SECTION "详细描述：插入电信卡，手机可以找到网络，信号条有显示，但是一拨打电话就会马上断掉（拨打112正常）" [129-599] -->
+<h2 class="sectionedit4" id="手机无法注册上1x和evdo网络">2,手机无法注册上1X和EVDO网络</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "2,手机无法注册上1X和EVDO网络" [600-649] -->
+<h3 class="sectionedit5" id="详细描述_无论是选择cdma还是evdo网络_手机都无法注册上数据业务_电话可以正常拨打">详细描述：无论是选择CDMA还是EVDO网络，手机都无法注册上数据业务，电话可以正常拨打</h3>
+<div class="level3">
+
+<p>
+测试过程中发现如果手机使用QPST service programming的PPPconfig配置激活APN（用户名：ctnet@mycdma.cn 密码：:vnet.mobi）之后
+</p>
+
+<p>
+数据业务就可以正常使用（其实PPPConfig就是去写NV910和906这两个NV）。猜测是APN设置有问题，提case问高通后获知需要把NV67291激活
+</p>
+
+<p>
+并设置成0，CMDA的机器才能正常上网.
+</p>
+
+<p>
+最后在高通网站上找到下面这段话,解释了前面的现象：
+</p>
+
+<p>
+NV 67291 configured to 1, then the credentials is read from modem, NV 910( NV_PPP_USER_ID_I) and NV 906(NV_PPP_PASSWORD_I) should be configured.
+</p>
+
+<p>
+If NV 67291 configured to 0, the credentials is read from client, user name and password should be picked up from AP or TE side.
+</p>
+
+<p>
+By default the modem will consider NV value to be TRUE if it is not configured.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "详细描述：无论是选择CDMA还是EVDO网络，手机都无法注册上数据业务，电话可以正常拨打" [650-1579] -->
+<h2 class="sectionedit6" id="手机支持cdma网络需要设置的nv">3,手机支持CDMA网络需要设置的NV</h2>
+<div class="level2">
+
+<p>
+高通推荐的CDMA手机的NV配置，大家可以参考一下,在C580上验证，其实也就NV855和NV67291需要修改。
+</p>
+<pre class="code bash">NV settings:
+NV6 = <span class="nu0">9</span> <span class="br0">&#40;</span>Mobile CAI Rev<span class="br0">&#41;</span>
+NV10 = <span class="nu0">4</span> <span class="br0">&#40;</span>automatic<span class="br0">&#41;</span>
+NV562 = <span class="nu0">1</span> <span class="br0">&#40;</span>hybrid on<span class="br0">&#41;</span>
+NV850 = <span class="nu0">2</span> <span class="br0">&#40;</span>CS+PS<span class="br0">&#41;</span>
+NV855 = <span class="nu0">0</span> <span class="br0">&#40;</span>Card mode<span class="br0">&#41;</span>
+NV1896 = <span class="nu0">1</span> <span class="br0">&#40;</span>IPV6<span class="br0">&#41;</span>     <span class="sy0">//</span>感觉这个可能不需要吧
+NV4964 = <span class="nu0">4</span> <span class="br0">&#40;</span>HDRSCP Force AT Config<span class="br0">&#41;</span>
+NV6862 = <span class="nu0">1</span> <span class="br0">&#40;</span>UICC mode<span class="br0">&#41;</span>
+<span class="re2">NV67291</span>= <span class="nu0">0</span></pre>
+
+</div>
+<!-- EDIT6 SECTION "3,手机支持CDMA网络需要设置的NV" [1580-2026] -->
+<h2 class="sectionedit7" id="来电自动接听">4,来电自动接听</h2>
+<div class="level2">
+
+<p>
+自动接听是跟高通的NV74有关，需要把这个NV配置成不自动接听。
+</p>
+
+<p>
+高通Solution 00003857有相关的信息。
+</p>
+
+</div>
+<!-- EDIT7 SECTION "4,来电自动接听" [2027-2190] -->
+<h2 class="sectionedit8" id="切换成cdma_only模式_电话呼不进来">5,切换成CDMA only模式，电话呼不进来</h2>
+<div class="level2">
+
+<p>
+经过Debug发现是跟特定的SIM卡有关，需要把改SIM卡开通并激活多方通话和呼叫等待这两个功能，开通了之后，网络端会认为是CS优先从而让电话先进来。
+</p>
+
+<p>
+经过试验激活呼叫等待功能之后，该卡可以正常接收电话。
+</p>
+
+</div>
+<!-- EDIT8 SECTION "5,切换成CDMA only模式，电话呼不进来" [2191-2530] -->
+<h2 class="sectionedit9" id="更新卡的prl">6,更新卡的PRL</h2>
+<div class="level2">
+
+<p>
+发送PRL（不区分大小写）到10659165。PRL服务器下行6条短信（可能是中文也可能是英文，中文为：1/6处理中的PRL更新，2/6处理中的PRL更新，
+</p>
+
+<p>
+3/6处理中的PRL更新，PRL更新成功；英文为：PRL Update in Progress 1/6，PRL Update in Progress 2/6，PRL Update in Progress 3/6，
+</p>
+
+<p>
+PRL Update Successful）。只有收到最后一条短信才证明 PRL更新成功。如果没有收到最后一条短信，请间隔一段时间重试。
+</p>
+
+</div>
+<!-- EDIT9 SECTION "6,更新卡的PRL" [2531-3043] -->
+<h2 class="sectionedit10" id="激活呼叫等待功能">7,激活呼叫等待功能</h2>
+<div class="level2">
+
+<p>
+找运营商开通呼叫等待功能之后，还需要通过以下方式激活，否则该功能是不会起作用的。
+拨打*74号码，接通后会提示呼叫等待功能已激活。
+</p>
+
+</div>
+<!-- EDIT10 SECTION "7,激活呼叫等待功能" [3044-] -->

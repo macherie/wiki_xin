@@ -1,0 +1,30 @@
+<span class="co2">#include &lt;utils/RefBase.h&gt;</span>
+<span class="co2">#include &lt;binder/IInterface.h&gt;</span>
+<span class="co2">#include &lt;binder/Parcel.h&gt;</span>
+<span class="co2">#include &quot;IPluginControler.h&quot;</span>
+&nbsp;
+using namespace android<span class="sy0">;</span>
+using android<span class="sy0">::</span><span class="me2">sp</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">enum</span> <span class="br0">&#123;</span>
+    IS_PLUGIN_ENABLE <span class="sy0">=</span> IBinder<span class="sy0">::</span><span class="me2">FIRST_CALL_TRANSACTION</span><span class="sy0">,</span>
+    SET_PLUGIN_ENABLE<span class="sy0">,</span>
+    SET_PLUGIN_CONTROLER<span class="sy0">,</span>
+    REMOVE_PLUGIN_CONTROLER<span class="sy0">,</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+class IDataSourceService <span class="sy0">:</span> public IInterface
+<span class="br0">&#123;</span>
+public<span class="sy0">:</span>
+    DECLARE_META_INTERFACE<span class="br0">&#40;</span>DataSourceService<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    virtual bool isPluginEnable<span class="br0">&#40;</span><span class="kw4">void</span><span class="br0">&#41;</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    virtual <span class="kw4">void</span> setPluginEnable<span class="br0">&#40;</span>bool enable<span class="br0">&#41;</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    virtual <span class="kw4">void</span> setPluginControler<span class="br0">&#40;</span>sp<span class="sy0">&lt;</span>IPluginControler<span class="sy0">&gt;</span> <span class="sy0">*</span>controler<span class="br0">&#41;</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    virtual <span class="kw4">void</span> removePluginControler<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+class BnDataSourceService <span class="sy0">:</span> public BnInterface<span class="sy0">&lt;</span>IDataSourceService<span class="sy0">&gt;</span>
+<span class="br0">&#123;</span>
+    virtual status_t onTransact<span class="br0">&#40;</span><span class="kw4">uint32_t</span> code<span class="sy0">,</span> <span class="kw4">const</span> Parcel<span class="sy0">&amp;</span> data<span class="sy0">,</span> Parcel<span class="sy0">*</span> reply<span class="sy0">,</span> <span class="kw4">uint32_t</span> flags <span class="sy0">=</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>

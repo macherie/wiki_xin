@@ -1,0 +1,50 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2014/01/09//
+====== Windows 编译环境安装 - Cygwin ======
+
+因为 Qualcomm 的 Modem 编译需要 GCC 和 GNU make 工具，所有我们需要安装Cygwin。
+
+安装包地址：[[\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset|]]
+
+**<color teal>1. </color>**解压 cygwin.rar 到 D:\QUALCOMM_RVCT2.2_Toolset\cygwin。
+
+**<color teal>2. </color>**打开 D:\QUALCOMM_RVCT2.2_Toolset\cygwin 文件夹，运行 setup.exe。
+
+{{linux:modem:cygwin1.png}}
+
+**<color teal>3. </color>**选择“Install from Local Directory”。
+
+{{linux:modem:cygwin2.png}}
+
+**<color teal>4. </color>**指定安装路径为“C:\cygwin”。在“Install For”在选择所有用户。
+
+{{linux:modem:cygwin3.png}}
+
+**<color teal>5. </color>**指定源文件为“D:\QUALCOMM_RVCT2.2_Toolset\cygwin”。
+
+{{linux:modem:cygwin4.png}}
+
+**<color teal>6. </color>**如果安装过程中弹出警告窗口，点“确定”忽略此消息。
+
+{{linux:modem:cygwin5.png}}
+
+**<color teal>7. </color>**选择所要安装的包。
+
+  * 首先点”Devel”和”Interpreters”展开树形结构（**<color green>绿色</color>**圈）。
+  * 然后在”New”一列中点bison, flex, gcc, make和perl包（**<color red>红色</color>**圈）。
+  * 最后点“下一步”继续安装，Cygwin安装程序会选择相关的包进行安装（例如gcc-core）。
+
+^Before| {{linux:modem:cygwin6.png}}          | 
+^After | {{linux:modem:cygwin7.png}}          | 
+
+
+**<color teal>8. </color>**点“完成”结束安装过程。
+
+{{linux:modem:cygwin8.png}}
+
+**<color teal>9. </color>**配置系统环境变量。
+
+{{linux:modem:cygwin9.png}}
+
+**<color teal>10. </color>**在Path中加入路径“C:\cygwin\bin”。
+
+{{linux:modem:cygwin10.png}}

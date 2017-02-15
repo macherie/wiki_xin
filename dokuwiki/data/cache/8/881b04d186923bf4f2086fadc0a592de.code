@@ -1,0 +1,1 @@
+.<span class="sy0">/</span>scripts<span class="sy0">/</span>dtc<span class="sy0">/</span>dtc <span class="re5">-I</span> dtb <span class="re5">-O</span> dts <span class="re5">-o</span> ABC.dts arch<span class="sy0">/</span>arm<span class="sy0">/</span>boot<span class="sy0">/</span>ABC.dtb

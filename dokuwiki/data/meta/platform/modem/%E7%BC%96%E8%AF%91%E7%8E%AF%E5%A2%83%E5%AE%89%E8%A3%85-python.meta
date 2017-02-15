@@ -1,0 +1,19 @@
+a:2:{s:7:"current";a:10:{s:4:"date";a:2:{s:7:"created";i:1390478358;s:8:"modified";i:1451900481;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"contributor";a:1:{s:6:"yi.hao";N;}s:11:"last_change";a:7:{s:4:"date";i:1452245720;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"E";s:2:"id";s:40:"platform:modem:编译环境安装-python";s:4:"user";N;s:3:"sum";s:41:"Links adapted because of a move operation";s:5:"extra";s:0:"";}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:40:"platform:modem:编译环境安装-python";i:1451899807;s:53:"linux:服务器管理:modem:编译环境安装-python";i:1451900481;s:56:"platform:服务器管理:modem:编译环境安装-python";i:1451900416;}}s:5:"title";s:35:"Windows 编译环境安装 - Python";s:11:"description";a:2:{s:15:"tableofcontents";a:2:{i:0;a:4:{s:3:"hid";s:17:"安装_python_262";s:5:"title";s:19:"安装 Python 2.6.2";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:17:"安装_python_266";s:5:"title";s:19:"安装 Python 2.6.6";s:4:"type";s:2:"ul";s:5:"level";i:1;}}s:8:"abstract";s:328:"--- 尹姝 2014/01/09
+
+Windows 编译环境安装 - Python
+
+Qualcomm 的 Modem 编译需要的工具。
+
+安装 Python 2.6.2
+
+安装包地址：<\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset>
+
+打开 QUALCOMM_RVCT2.2_Toolset 文件夹，运行 python-2.6.msi。
+
+
+
+指定安装路径为“”。
+
+
+
+点“Next”。";}s:8:"relation";a:3:{s:5:"media";a:6:{s:23:"linux:modem:python1.png";b:1;s:23:"linux:modem:python2.png";b:1;s:23:"linux:modem:python3.png";b:1;s:23:"linux:modem:python4.png";b:1;s:23:"linux:modem:python5.png";b:1;s:23:"linux:modem:python6.png";b:1;}s:10:"references";a:1:{s:40:"platform:modem:编译环境安装-python";b:1;}s:10:"firstimage";s:23:"linux:modem:python1.png";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}}s:10:"persistent";a:6:{s:4:"date";a:2:{s:7:"created";i:1390478358;s:8:"modified";i:1451900481;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"contributor";a:1:{s:6:"yi.hao";N;}s:11:"last_change";a:7:{s:4:"date";i:1452245720;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"E";s:2:"id";s:40:"platform:modem:编译环境安装-python";s:4:"user";N;s:3:"sum";s:41:"Links adapted because of a move operation";s:5:"extra";s:0:"";}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:40:"platform:modem:编译环境安装-python";i:1451899807;s:53:"linux:服务器管理:modem:编译环境安装-python";i:1451900481;s:56:"platform:服务器管理:modem:编译环境安装-python";i:1451900416;}}}}

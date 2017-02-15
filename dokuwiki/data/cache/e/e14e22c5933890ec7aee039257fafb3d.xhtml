@@ -1,0 +1,106 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2014/01/09</em>
+</p>
+
+<h1 class="sectionedit1" id="windows_编译环境安装_-_cygwin">Windows 编译环境安装 - Cygwin</h1>
+<div class="level1">
+
+<p>
+因为 Qualcomm 的 Modem 编译需要 GCC 和 GNU make 工具，所有我们需要安装Cygwin。
+</p>
+
+<p>
+安装包地址：<a href="file://///192.167.100.225/share/Tool/ARM/DQUALCOMM_RVCT2.2_Toolset" class="windows" title="\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset">\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset</a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>解压 cygwin.rar 到 D:\QUALCOMM_RVCT2.2_Toolset\cygwin。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>打开 D:\QUALCOMM_RVCT2.2_Toolset\cygwin 文件夹，运行 setup.exe。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin1.png" class="media" title="linux:modem:cygwin1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>选择“Install from Local Directory”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin2.png" class="media" title="linux:modem:cygwin2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>指定安装路径为“C:\cygwin”。在“Install For”在选择所有用户。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin3.png" class="media" title="linux:modem:cygwin3.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin3.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>5. </span></strong>指定源文件为“D:\QUALCOMM_RVCT2.2_Toolset\cygwin”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin4.png" class="media" title="linux:modem:cygwin4.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin4.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>6. </span></strong>如果安装过程中弹出警告窗口，点“确定”忽略此消息。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin5.png" class="media" title="linux:modem:cygwin5.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin5.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>7. </span></strong>选择所要安装的包。
+</p>
+<ul>
+<li class="level1"><div class="li"> 首先点”Devel”和”Interpreters”展开树形结构（<strong><span style='color:green; '>绿色</span></strong>圈）。</div>
+</li>
+<li class="level1"><div class="li"> 然后在”New”一列中点bison, flex, gcc, make和perl包（<strong><span style='color:red; '>红色</span></strong>圈）。</div>
+</li>
+<li class="level1"><div class="li"> 最后点“下一步”继续安装，Cygwin安装程序会选择相关的包进行安装（例如gcc-core）。</div>
+</li>
+</ul>
+<div class="table sectionedit2"><table class="inline">
+	<tr class="row0">
+		<th class="col0">Before</th><td class="col1 leftalign"> <a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin6.png" class="media" title="linux:modem:cygwin6.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin6.png" class="media" alt="" /></a>          </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">After </th><td class="col1 leftalign"> <a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin7.png" class="media" title="linux:modem:cygwin7.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin7.png" class="media" alt="" /></a>          </td>
+	</tr>
+</table></div>
+<!-- EDIT2 TABLE [1385-1482] -->
+<p>
+<strong><span style='color:teal; '>8. </span></strong>点“完成”结束安装过程。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin8.png" class="media" title="linux:modem:cygwin8.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin8.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>9. </span></strong>配置系统环境变量。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin9.png" class="media" title="linux:modem:cygwin9.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin9.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>10. </span></strong>在Path中加入路径“C:\cygwin\bin”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3Amodem%3A%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;media=linux:modem:cygwin10.png" class="media" title="linux:modem:cygwin10.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:modem:cygwin10.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Windows 编译环境安装 - Cygwin" [48-] -->

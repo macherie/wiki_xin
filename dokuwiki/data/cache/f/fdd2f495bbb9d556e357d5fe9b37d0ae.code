@@ -1,0 +1,39 @@
+<span class="co1">// New class members</span>
+<span class="co3">/** Store our model data in a float buffer. */</span>
+<span class="kw1">private</span> <span class="kw1">final</span> FloatBuffer mTriangle1Vertices<span class="sy0">;</span>
+<span class="kw1">private</span> <span class="kw1">final</span> FloatBuffer mTriangle2Vertices<span class="sy0">;</span>
+<span class="kw1">private</span> <span class="kw1">final</span> FloatBuffer mTriangle3Vertices<span class="sy0">;</span>
+&nbsp;
+<span class="co3">/** How many bytes per float. */</span>
+<span class="kw1">private</span> <span class="kw1">final</span> <span class="kw4">int</span> mBytesPerFloat <span class="sy0">=</span> <span class="nu0">4</span><span class="sy0">;</span>
+&nbsp;
+<span class="co3">/**
+ * Initialize the model data.
+ */</span>
+<span class="kw1">public</span> LessonOneRenderer<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// This triangle is red, green, and blue.</span>
+    <span class="kw1">final</span> <span class="kw4">float</span><span class="br0">&#91;</span><span class="br0">&#93;</span> triangle1VerticesData <span class="sy0">=</span> <span class="br0">&#123;</span>
+            <span class="co1">// X, Y, Z,</span>
+            <span class="co1">// R, G, B, A</span>
+            <span class="sy0">-</span>0.5f, <span class="sy0">-</span>0.25f, 0.0f,
+            1.0f, 0.0f, 0.0f, 1.0f,
+&nbsp;
+            0.5f, <span class="sy0">-</span>0.25f, 0.0f,
+            0.0f, 0.0f, 1.0f, 1.0f,
+&nbsp;
+            0.0f, 0.559016994f, 0.0f,
+            0.0f, 1.0f, 0.0f, 1.0f<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+    ...
+&nbsp;
+    <span class="co1">// Initialize the buffers.</span>
+    mTriangle1Vertices <span class="sy0">=</span> ByteBuffer.<span class="me1">allocateDirect</span><span class="br0">&#40;</span>triangle1VerticesData.<span class="me1">length</span> <span class="sy0">*</span> mBytesPerFloat<span class="br0">&#41;</span>
+    .<span class="me1">order</span><span class="br0">&#40;</span>ByteOrder.<span class="me1">nativeOrder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">asFloatBuffer</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    ...
+&nbsp;
+    <span class="me1">mTriangle1Vertices</span>.<span class="me1">put</span><span class="br0">&#40;</span>triangle1VerticesData<span class="br0">&#41;</span>.<span class="me1">position</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    ...
+<span class="br0">&#125;</span>

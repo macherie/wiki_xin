@@ -1,0 +1,63 @@
+
+<h1 class="sectionedit1" id="qpst烧录说明">QPST烧录说明</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "QPST烧录说明" [1-29] -->
+<h2 class="sectionedit2" id="一安装qpst后_选择emmc_software_download工具">一.安装QPST后，选择eMMC Software Download工具</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/playground;8625q;%E6%9C%AA%E5%91%BD%E5%90%8D.jpg?id=platform%3A8625q%3Adownload_doc" class="media" title="playground:8625q:未命名.jpg"><img src="/dokuwiki/lib/exe/fetch.php/playground;8625q;%E6%9C%AA%E5%91%BD%E5%90%8D.jpg" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT2 SECTION "一.安装QPST后，选择eMMC Software Download工具" [30-131] -->
+<h2 class="sectionedit3" id="二_空的emmc_未烧录过版本_先下载bootloader_如果是版本升级_请直接跳过此步骤">二．空的EMMC（未烧录过版本），先下载bootloader： （如果是版本升级，请直接跳过此步骤）</h2>
+<div class="level2">
+
+<p>
+测试机连接USB线，COM xx Phone in Download Mode端口出现，表明设备已经连接好了。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/playground;8625q;boot.jpg?id=platform%3A8625q%3Adownload_doc" class="media" title="playground:8625q:boot.jpg"><img src="/dokuwiki/lib/exe/fetch.php/playground;8625q;boot.jpg" class="media" alt="" /></a>
+</p>
+<ol>
+<li class="level1"><div class="li"> 1只有Program Boot Loaders 打勾，其他勾掉。</div>
+</li>
+<li class="level1"><div class="li"> 2Flash Programmer file name 分别填写：MPRG8X25Q.hex，8X25Q_msimage.mbn。</div>
+</li>
+<li class="level1"><div class="li"> 3Search path 2, 选择要下载文件的路径。</div>
+</li>
+<li class="level1"><div class="li"> 4点击Download按钮，大约要一分钟</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT3 SECTION "二．空的EMMC（未烧录过版本），先下载bootloader： （如果是版本升级，请直接跳过此步骤）" [132-641] -->
+<h2 class="sectionedit4" id="三烧录其他image">三.烧录其他image</h2>
+<div class="level2">
+
+<p>
+如果 COM xx Phone in Download Mode 端口出现，表明设备已经连接好了，处在Download Mode；如果不在Download Mode ，点击Switch device to DLOAD…
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/playground;8625q;image.jpg?id=platform%3A8625q%3Adownload_doc" class="media" title="playground:8625q:image.jpg"><img src="/dokuwiki/lib/exe/fetch.php/playground;8625q;image.jpg" class="media" alt="" /></a>
+</p>
+<ol>
+<li class="level1"><div class="li"> 1Program Boot Loaders勾掉，Program MMC device 打勾。</div>
+</li>
+<li class="level1"><div class="li"> 2会出现Qualcomm MMC… usb mass storage的设备，必须选中这一行。</div>
+</li>
+<li class="level1"><div class="li"> 3Load XML def.. 选择 rawprogram0.xml，Load patch def … 选择patch0.xml。</div>
+</li>
+</ol>
+
+<p>
+点Download，开始下载，出现write complete 后，下载完毕，按reset键3至5秒重启设备。
+</p>
+
+</div>
+<!-- EDIT4 SECTION "三.烧录其他image" [642-] -->

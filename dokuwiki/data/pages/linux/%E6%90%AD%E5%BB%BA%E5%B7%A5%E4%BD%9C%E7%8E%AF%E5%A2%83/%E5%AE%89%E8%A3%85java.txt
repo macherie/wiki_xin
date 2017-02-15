@@ -1,0 +1,23 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2013/12/10//
+====== 安装 Java 6 ======
+
+  - 从服务器下载 Linux 64位 jdk 到本地。下载地址：\\192.167.100.225\share\Tool\JAVA\jdk-6u34-linux-x64.bin
+  - 给安装文件添加执行权限
+    * <code bash>$ chmod +x jdk-6u34-linux-x64.bin</code>
+  - 安装 jdk
+    * <code bash>
+$ mkdir -p /opt/jdk6
+$ cp ./jdk-6u34-linux-x64.bin /opt/jdk6
+$ cd /opt/jdk6
+$ ./jdk-6u34-linux-x64.bin
+</code>
+  - 修改环境变量
+    * <code bash>
+$ sudo vim /etc/environment
+</code>
+    * PATH 中加入 /opt/jdk6/jdk1.6.0_34/bin，新建 JAVA_HOME 和 CLASSPATH，例：
+    * <code bash>
+PATH="/opt/jdk6/jdk1.6.0_34/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+JAVA_HOME=/opt/jdk6/jdk1.6.0_34
+CLASSPATH=.:/opt/jdk6/jdk1.6.0_34/lib
+</code>

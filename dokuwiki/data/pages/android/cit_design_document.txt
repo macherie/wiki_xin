@@ -1,0 +1,31 @@
+--- //[[kemeng.yang@sim.com|杨克猛]] 2014/2/17//
+=====CIT设计框架=====
+CIT是一个工厂测试软件，测试手机的各个功能，比如测试SIM卡、SD卡读写、Camera、Mic等等。经过我的改造和设计，它变得简单、可靠、扩展性强和可复用性高，下面讲讲它的设计架构。
+
+{{:android:cit_desing.jpg?700|}}
+
+上图是CIT的框架图，TestActivity是所有测试类的基类，它负责“成功”、“失败”按钮的显示以及测试结果的提示。SIM卡、SD卡、Speaker等类均继承TestActivity，负责具体的测试工作。
+CITTestHelper是一个辅助类，它负责读取配置表，根据不同的项目生成测试链表，发起相应的Activity, 并能够自动判定当前是自动测试还是单项测试，并将结果写入NV。
+配置表是一个XML文件，每一个项目对应一个配置表。它规定该项目测试哪些项功能，它的设计也很简单。
+   示例1：
+        <FunctionItem
+            name="SDCard"
+            auto="true"
+            packageName="com.android.sim.testitem.SDCardTest">
+        </FunctionItem>
+该项表明测试一个具体功能---SD卡，name决定界面上显示的名称，auto为true，表明它需要测试，否则将不会测试，packageName指定该Activity所在的路径，CITTestHelper将根据这些信息发起这个Activity,
+  示例2：
+        <FunctionItem
+            name="PCBA Auto test"
+            auto="true"
+            packageName="PCB|NORMAL" >
+        </FunctionItem>
+这个例子跟上个不同，它的packageName不是一个路径，它表明当前要进行PCB自动测试，它是一个普通测试，不包括sensor测试。CITTestHelper将发起一连串的Activity，测试完毕结果写入NV。
+   
+采用配置表，使得CIT变得非常灵活，根据不同的项目测试不同的功能，代码简单且复用性高，扩展也容易，而且不同项目的CIT互不干扰，互不影响。
+CITMain是CIT的入口类，初始化的时候通过CITTestHelper载入测试链表。用户点击，CITTestHelper解析，发起PCB或整机测试Activity, PCB和整机测试一样载入相应的测试链表，解析事件，发起具体的Activity进行测试。
+
+如果要增加一项新的功能测试，应该怎么做呢？只需要编写具体的Activity和添加相应的资源文件，AndroidManifest中注册，配置表中添加它就可以了。
+如果要增加一个新项目的CIT测试，需要增加一个配置表，设计好各个测试项的顺序和路径就可以，如果有的测试项的Activity没有，需要重新设计它。
+
+一个软件的简单性、可靠性、扩展性实际上是由你的设计框架决定的。如果设计得好，它会变得简单、可靠，易扩展，反之它会让人痛苦不堪。设计一个软件总会有许多方法和框架可用，但只有一种是最合适的，《设计模式》和《重构》提供了许多方法，但是编程中最重要的是一颗责任心，精益求精的态度才能设计出一个优秀的软件！

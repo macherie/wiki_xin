@@ -1,0 +1,55 @@
+
+<h1 class="sectionedit1" id="x11vnc_让windows可以远程管理ubuntu桌面">X11VNC：让Windows可以远程管理Ubuntu桌面</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "X11VNC：让Windows可以远程管理Ubuntu桌面" [1-65] -->
+<h2 class="sectionedit2" id="ubuntu下vnc_server安装过程">Ubuntu下VNC Server安装过程</h2>
+<div class="level2">
+
+<p>
+<strong>首先在Ubuntu机器中安装x11vnc：</strong>
+</p>
+<pre class="code bash"><span class="kw2">sudo</span> <span class="kw2">apt-get install</span> x11vnc</pre>
+
+<p>
+<strong>然后设置VNC的连接密码：</strong>
+</p>
+<pre class="code bash"><span class="kw2">sudo</span> x11vnc <span class="re5">-storepasswd</span></pre>
+
+<p>
+上面的命令会提示输入密码，然后将密码加密以后保存在~/.vnc/passwd文件。
+</p>
+
+<p>
+<strong>启动VNC Server：</strong>
+</p>
+<pre class="code bash">x11vnc <span class="re5">-forever</span> <span class="re5">-shared</span> <span class="re5">-rfbauth</span> ~<span class="sy0">/</span>.vnc<span class="sy0">/</span><span class="kw2">passwd</span></pre>
+
+<p>
+<strong>也可以将VNC Server设置成随系统启动后自动在后台启动：</strong>
+</p>
+
+<p>
+<strong>将密码文件复制到/etc目录：</strong>
+</p>
+<pre class="code bash"><span class="kw2">sudo</span> x11vnc <span class="re5">-storepasswd</span> <span class="kw1">in</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass
+<span class="kw2">sudo</span> <span class="kw2">cp</span> ~<span class="sy0">/</span>.vnc<span class="sy0">/</span><span class="kw2">passwd</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass</pre>
+
+<p>
+<strong>创建/etc/init/x11vnc.conf文件，将下面的内容复制进去：</strong>
+</p>
+<dl class="file">
+<dt><a href="/dokuwiki/doku.php?do=export_code&amp;id=ubuntu:vnc&amp;codeblock=4" title="下载片段" class="mediafile mf_conf">x11vnc.conf</a></dt>
+<dd><pre class="code file bash">start on login-session-start
+script
+x11vnc <span class="re5">-display</span> :<span class="nu0">0</span> <span class="re5">-auth</span> <span class="sy0">/</span>var<span class="sy0">/</span>run<span class="sy0">/</span>lightdm<span class="sy0">/</span>root<span class="sy0">/</span>:<span class="nu0">0</span> <span class="re5">-forever</span> <span class="re5">-bg</span> <span class="re5">-o</span> <span class="sy0">/</span>var<span class="sy0">/</span>log<span class="sy0">/</span>x11vnc.log <span class="re5">-rfbauth</span> <span class="sy0">/</span>etc<span class="sy0">/</span>x11vnc.pass <span class="re5">-rfbport</span> <span class="nu0">5900</span>
+end script</pre>
+</dd></dl>
+
+<p>
+<strong>重启电脑，等重启好了以后，到Windows下就可以连接了。</strong>
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Ubuntu下VNC Server安装过程" [66-] -->

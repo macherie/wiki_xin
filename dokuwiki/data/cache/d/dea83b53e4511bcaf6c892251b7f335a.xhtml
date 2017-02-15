@@ -1,0 +1,139 @@
+
+<h1 class="sectionedit1" id="how_to_configure_external_pa_for_lineout_output_on_8926_kk">How to configure external PA for Lineout output on 8926 KK</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "How to configure external PA for Lineout output on 8926 KK" [1-74] -->
+<h2 class="sectionedit2" id="for_the_models_use_wcd9306_such_asd508">1.For the models use WCD9306,such as: d508</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT2 SECTION "1.For the models use WCD9306,such as: d508" [75-129] -->
+<h3 class="sectionedit3" id="we_need_to_pull_up_down_gpio_to_enable_disable_external_pa">1.1 We need to pull up/down gpio to enable/disable external PA.</h3>
+<div class="level3">
+
+<p>
+in kernel/arch/arm/boot/dts/d508.dtsi
+</p>
+<pre class="code">      sound {
+     +        qcom,model = &quot;msm8226-tapan-snd-card&quot;;             //configure audio path  
+              qcom,audio-routing =
+                      &quot;RX_BIAS&quot;, &quot;MCLK&quot;,
+                      &quot;LDO_H&quot;, &quot;MCLK&quot;,
+                      &quot;SPK_OUT&quot;, &quot;MCLK&quot;,
+                      &quot;SPK_OUT&quot;, &quot;EXT_VDD_SPKR&quot;,
+     +                &quot;Lineout_1 amp&quot;, &quot;LINEOUT1&quot;,               //configure Lineout audio path
+     +                &quot;Lineout_2 amp&quot;, &quot;LINEOUT2&quot;,
+                      &quot;AMIC1&quot;, &quot;MIC BIAS1 External&quot;,
+                      &quot;MIC BIAS1 External&quot;, &quot;Handset Mic&quot;,
+                      &quot;AMIC2&quot;, &quot;MIC BIAS2 External&quot;,
+                      &quot;MIC BIAS2 External&quot;, &quot;Headset Mic&quot;,
+                      &quot;AMIC3&quot;, &quot;MIC BIAS1 External&quot;,
+                      &quot;MIC BIAS1 External&quot;, &quot;Analog Mic3&quot;,
+                      &quot;AMIC4&quot;, &quot;MIC BIAS3 External&quot;,
+                      &quot;MIC BIAS3 External&quot;, &quot;Analog Mic4&quot;;</pre>
+<pre class="code">       +      qcom,cdc-lineout-spkr-gpios = &lt;&amp;msmgpio 69 0&gt;;  //configure right gpio number in dts
+              qcom,cdc-mclk-gpios = &lt;&amp;pm8226_gpios 1 0&gt;;
+              qcom,cdc-vdd-spkr-gpios = &lt;&amp;pm8226_gpios 2 0&gt;;
+              //qcom,cdc-us-euro-gpios = &lt;&amp;msmgpio 69 0&gt;;
+      };
+      </pre>
+
+</div>
+<!-- EDIT3 SECTION "1.1 We need to pull up/down gpio to enable/disable external PA." [130-1486] -->
+<h3 class="sectionedit4" id="change_ucm_file">1.2 Change UCM file.</h3>
+<div class="level3">
+
+<p>
+In device/qcom/d508/mixer_paths.xml       
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php?media=linux:892x:508_1.png" class="media" title="linux:892x:508_1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:892x:508_1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php?media=linux:892x:508_2.png" class="media" title="linux:892x:508_2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:892x:508_2.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT4 SECTION "1.2 Change UCM file." [1487-1633] -->
+<h2 class="sectionedit5" id="for_the_models_use_wcd9302_such_asd801">2.For the models use WCD9302,such as: d801</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT5 SECTION "2.For the models use WCD9302,such as: d801" [1634-1688] -->
+<h3 class="sectionedit6" id="we_need_to_pull_up_down_gpio_to_enable_disable_external_pa1">2.1 We need to pull up/down gpio to enable/disable external PA.</h3>
+<div class="level3">
+
+<p>
+in kernel/arch/arm/boot/dts/d801.dtsi
+</p>
+<pre class="code">      sound-9302 {
+     +        qcom,model = &quot;msm8226-tapan9302-snd-card&quot;;          //configure audio path
+              qcom,audio-routing =
+                      &quot;RX_BIAS&quot;, &quot;MCLK&quot;,
+                      &quot;LDO_H&quot;, &quot;MCLK&quot;,
+                      &quot;SPK_OUT&quot;, &quot;MCLK&quot;,
+                      &quot;SPK_OUT&quot;, &quot;EXT_VDD_SPKR&quot;,
+    +                 &quot;Lineout_1 amp&quot;, &quot;LINEOUT1&quot;,                //configure Lineout audio path
+    +                 &quot;Lineout_2 amp&quot;, &quot;LINEOUT2&quot;,                //configure Lineout audio path
+                      &quot;AMIC1&quot;, &quot;MIC BIAS1 Internal1&quot;,
+                      &quot;MIC BIAS1 Internal1&quot;, &quot;Handset Mic&quot;,
+                      &quot;AMIC2&quot;, &quot;MIC BIAS2 External&quot;,
+                      &quot;MIC BIAS2 External&quot;, &quot;Headset Mic&quot;,
+                      &quot;AMIC3&quot;, &quot;MIC BIAS1 External&quot;,
+                      &quot;MIC BIAS1 External&quot;, &quot;Analog Mic3&quot;,
+                      &quot;AMIC4&quot;, &quot;MIC BIAS3 External&quot;,
+                      &quot;MIC BIAS3 External&quot;, &quot;Analog Mic4&quot;;
+   +          qcom,cdc-lineout-spkr-gpios = &lt;&amp;msmgpio 69 0&gt;;    //configure right gpio number in dts
+              /delete-property/ qcom,prim-auxpcm-gpio-clk;
+              /delete-property/ qcom,prim-auxpcm-gpio-dout;
+      /*      /delete-property/ qcom,cdc-vdd-spkr-gpios;*/
+      };
+      </pre>
+
+</div>
+<!-- EDIT6 SECTION "2.1 We need to pull up/down gpio to enable/disable external PA." [1689-3101] -->
+<h3 class="sectionedit7" id="change_ucm_file1">2.2 Change UCM file.</h3>
+<div class="level3">
+
+<p>
+In device/qcom/d801/mixer_paths.xml        
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php?media=linux:892x:801_1.png" class="media" title="linux:892x:801_1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:892x:801_1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php?media=linux:892x:801_2.png" class="media" title="linux:892x:801_2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:892x:801_2.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "2.2 Change UCM file." [3102-3246] -->
+<h2 class="sectionedit8" id="if_it_can_not_work_please_catch_logcat_and_kernel_log_and_check_it_with_qcom">3. If it can not work , please catch logcat and kernel log , and check it with qcom.</h2>
+<div class="level2">
+
+<p>
+please enable log mask in audio_hw.c, platform.c
+</p>
+
+<p>
+#define LOG_NDEBUG 0
+#define LOG_NDDEBUG 0
+</p>
+
+<p>
+kmsg,  catch it after run below commands:
+</p>
+<pre class="code"> adb root
+ adb remount
+ adb shell
+ #mount -t debugfs debugfs /sys/kernel/debug/
+ #echo -n &quot;file soc-dapm.c +p&quot; &gt; /sys/kernel/debug/dynamic_debug/control
+ #echo -n &quot;file msm8226.c +p&quot; &gt; /sys/kernel/debug/dynamic_debug/control
+ #echo -n &quot;file msm-pcm-routing-v2.c +p&quot; &gt; /sys/kernel/debug/dynamic_debug/control</pre>
+
+</div>
+<!-- EDIT8 SECTION "3. If it can not work , please catch logcat and kernel log , and check it with qcom." [3247-] -->

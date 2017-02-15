@@ -1,0 +1,22 @@
+<span class="co1">// Create the fragments and add as children of the view pager.</span>
+<span class="co1">// The pager adapter will only change the visibility; it'll never create/destroy</span>
+<span class="co1">// fragments.</span>
+<span class="co1">// However, if it's after screen rotation, the fragments have been re-created by</span>
+<span class="co1">// the fragment manager, so first see if there're already the target fragments</span>
+<span class="co1">// existing.</span>
+mFavoritesFragment <span class="sy0">=</span> <span class="br0">&#40;</span>ContactTileListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>FAVORITE_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+mAllFragment <span class="sy0">=</span> <span class="br0">&#40;</span>DefaultContactBrowseListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>ALL_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+mGroupsFragment <span class="sy0">=</span> <span class="br0">&#40;</span>GroupBrowseListFragment<span class="br0">&#41;</span>
+        fragmentManager.<span class="me1">findFragmentByTag</span><span class="br0">&#40;</span>GROUPS_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>mFavoritesFragment <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    mFavoritesFragment <span class="sy0">=</span> <span class="kw1">new</span> ContactTileListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mAllFragment <span class="sy0">=</span> <span class="kw1">new</span> DefaultContactBrowseListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mGroupsFragment <span class="sy0">=</span> <span class="kw1">new</span> GroupBrowseListFragment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mFavoritesFragment, FAVORITE_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mAllFragment, ALL_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+    transaction.<span class="me1">add</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">tab_pager</span>, mGroupsFragment, GROUPS_TAG<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

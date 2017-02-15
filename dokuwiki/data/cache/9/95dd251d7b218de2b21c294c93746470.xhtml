@@ -1,0 +1,506 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2014/01/09</em>
+</p>
+
+<h1 class="sectionedit1" id="modem_编译环境安装">Modem 编译环境安装</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Modem 编译环境安装" [48-84] -->
+<h2 class="sectionedit2" id="组件发布版本属性">组件发布版本属性</h2>
+<div class="level2">
+
+<p>
+下表列出了组件发布版本属性，并提供了每个 non-HLOS 构建模块的编译器、Python、Perl 及 Cygwin 版本信息。
+</p>
+<div class="table sectionedit3"><table class="inline">
+	<tr class="row0">
+		<th class="col0 centeralign">     组件发布版本    </th><th class="col1 centeralign">            构建源代码所需的工具链            </th><th class="col2 centeralign">    Python 版本    </th><th class="col3 centeralign">          Perl 版本            </th><th class="col4 centeralign">       Cygwin        </th><th class="col5 centeralign">    构建主机    </th>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> MPSS(AZM)         </td><td class="col1"> Hexagon 5.0.13，RVDS2.2 仅适用于 Linux 构建 </td><td class="col2 leftalign"> Python 2.6.2     </td><td class="col3"> Perl 5.8.x 仅适用于 Linux 构建 </td><td class="col4"> 仅适用于 Windows 构建 </td><td class="col5"> Linux, Windows </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> ADSP(AZL)         </td><td class="col1 leftalign"> Hexagon 5.0.10                           </td><td class="col2 leftalign"> Python 2.6.2     </td><td class="col3 centeralign">               –             </td><td class="col4"> 仅适用于 Windows 构建 </td><td class="col5"> Linux, Windows </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Boot loaders(AZB) </td><td class="col1 leftalign"> ARM 编译工具 5.01 update 3(build 94)      </td><td class="col2 leftalign"> Python 2.6.2     </td><td class="col3 centeralign">               –             </td><td class="col4"> 仅适用于 Windows 构建 </td><td class="col5 leftalign"> Windows        </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0 leftalign"> RPM(AZR)          </td><td class="col1 leftalign"> ARM 编译工具 5.01 update 3(build 94)      </td><td class="col2 leftalign"> Python 2.6.2     </td><td class="col3 centeralign">               –             </td><td class="col4"> 仅适用于 Windows 构建 </td><td class="col5 leftalign"> Windows        </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0 leftalign"> TZ(AZT)           </td><td class="col1 leftalign"> ARM 编译工具 5.01 update 3(build 94)      </td><td class="col2 leftalign"> Python 2.6.2     </td><td class="col3 centeralign">               –             </td><td class="col4"> 仅适用于 Windows 构建 </td><td class="col5 leftalign"> Windows        </td>
+	</tr>
+</table></div>
+<!-- EDIT3 TABLE [259-1288] -->
+</div>
+<!-- EDIT2 SECTION "组件发布版本属性" [85-1289] -->
+<h2 class="sectionedit4" id="windows_下_modem_编译环境安装">Windows 下 Modem 编译环境安装</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "Windows 下 Modem 编译环境安装" [1290-1338] -->
+<h3 class="sectionedit5" id="安装_arm_编译器_ds5">安装 ARM 编译器 DS5</h3>
+<div class="level3">
+
+<p>
+<strong>安装包地址：</strong><a href="file://///192.167.100.225/share/Tool/ARM/DS5/5.01bld94" class="windows" title="\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94">\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94</a>
+</p>
+
+<p>
+<strong>安装步骤：</strong>
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>复制 DS500-PA-00002-r5p0-05rel0.zip 到本地。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>解压 DS500-PA-00002-r5p0-05rel0.zip，打开 Installer 文件夹，运行 setup.exe。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm1.png" class="media" title="linux:8928:arm1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>勾选 “I accept the terms in the License Agreement” 并点 “Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm2.png" class="media" title="linux:8928:arm2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>指定安装路径为“<span style='color:red; '>C:\Apps\ARMCT5.01\94</span>”，并点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm3.png" class="media" title="linux:8928:arm3.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm3.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>5. </span></strong>点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm4.png" class="media" title="linux:8928:arm4.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm4.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>6. </span></strong>点“Install”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm5.png" class="media" title="linux:8928:arm5.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm5.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>7. </span></strong>点“Finish”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:arm6.png" class="media" title="linux:8928:arm6.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:arm6.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>8. </span></strong>安装完成。
+</p>
+<hr />
+
+</div>
+<!-- EDIT5 SECTION "安装 ARM 编译器 DS5" [1339-2229] -->
+<h3 class="sectionedit6" id="破解_arm_编译器_ds5">破解 ARM 编译器 DS5</h3>
+<div class="level3">
+
+<p>
+<strong>破解包地址：</strong><a href="file://///192.167.100.225/share/Tool/ARM/DS5/5.01bld94/ARMCT_Crack" class="windows" title="\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94\ARMCT_Crack">\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94\ARMCT_Crack</a>
+</p>
+
+<p>
+<strong>破解步骤：</strong>
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>解压 crack.rar 到 D:\ARMCT_Crack\crack。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>复制 D:\ARMCT_Crack\crack\ 下的所有文件（fromelf.exe，armlink.exe，armcc.exe，armasm.exe）到 C:\Apps\ARMCT5.01\94\bin 下，覆盖所有已存在的文件。
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>解压 flexlm.rar 到 D:\ARMCT_Crack\flexlm。
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>在 C:\Apps\ARMCT5.01\94 下新建文件夹 Licenses 。
+</p>
+
+<p>
+<strong><span style='color:teal; '>5. </span></strong>复制 D:\ARMCT_Crack\flexlm 下 license.dat 文件到 C:\Apps\ARMCT5.01\94\Licenses 下。
+</p>
+<hr />
+
+</div>
+<!-- EDIT6 SECTION "破解 ARM 编译器 DS5" [2230-2932] -->
+<h3 class="sectionedit7" id="安装_qualcomm_编译器_hexagon">安装 Qualcomm 编译器 Hexagon</h3>
+<div class="level3">
+
+<p>
+<strong>安装包地址：</strong>
+</p>
+
+<p>
+需用账户登陆，该工具受高通限制，所以没有放到共享服务器。
+</p>
+
+<p>
+<strong>Hexagon 5.0.10：</strong>\\192.167.100.225\work\Qualcomm\Hexagon\Windows Tools\Hexagon5010
+</p>
+
+<p>
+<strong>Hexagon 6.2.08：</strong>\\192.167.100.225\work\Qualcomm\Hexagon\Windows Tools\Hexagon6208
+</p>
+
+<p>
+<strong>安装步骤：</strong>
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>复制安装包地址下所有文件到本地。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>把对应版本目录下 quic-5.0-*.tar.bz2、win32_profiler_plugins.tar.bz2、win32_ra_plugins.tar.bz2 复制到 C:\Documents and Settings\Administrator 下。
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>解压 zip 包，运行 Install_HEXAGON_Tools_windows_*.exe 进行安装。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows1.png" class="media" title="linux:8928:hexagon5010-windows1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>安装路径用默认路径，点“Next”。
+</p>
+
+<p>
+<span style='color:red; '>服务器上安装路径改为“/pkg/Qualcomm/”</span>
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows2.png" class="media" title="linux:8928:hexagon5010-windows2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>5. </span></strong>选择“Offline Install”，并点“Install”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows3.png" class="media" title="linux:8928:hexagon5010-windows3.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows3.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>6. </span></strong>不用选择”Open Brower…“这个选项，点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows4.png" class="media" title="linux:8928:hexagon5010-windows4.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows4.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>7. </span></strong>点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows5.png" class="media" title="linux:8928:hexagon5010-windows5.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows5.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>8. </span></strong>安装程序默认会扫描查找 quic-5.0-*-hexagon-i686-mingw32.tar.bz2 文件，但是扫描完成后并没有显示此文件，所以要手动选择此文件。点“Choose…”选择 quic-5.0-*-hexagon-i686-mingw32.tar.bz2 文件，选择文件后点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows6.png" class="media" title="linux:8928:hexagon5010-windows6.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows6.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>9. </span></strong>不用选择”Open Brower…“这个选项，点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows7.png" class="media" title="linux:8928:hexagon5010-windows7.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows7.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>10. </span></strong>点“Next”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows8.png" class="media" title="linux:8928:hexagon5010-windows8.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows8.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>11. </span></strong>安装程序默认会到 C:\Documents and Settings\Administrator 下扫描查找 win32_profiler_plugins.tar.bz2 文件，扫到后选择此文件，如果没有扫到请点“Choose Other…”手动选择 win32_profiler_plugins.tar.bz2 文件，选择文件后点“Next”安装。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows9.png" class="media" title="linux:8928:hexagon5010-windows9.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows9.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>12. </span></strong>安装程序默认会到 C:\Documents and Settings\Administrator 下扫描查找 win32_ra_plugins.tar.bz2 文件，扫到后选择此文件，如果没有扫到请点“Choose Other…”手动选择 win32_ra_plugins.tar.bz2 文件，选择文件后点“Next”安装。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows10.png" class="media" title="linux:8928:hexagon5010-windows10.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows10.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>13. </span></strong>点“Install”
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows11.png" class="media" title="linux:8928:hexagon5010-windows11.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows11.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>14. </span></strong>在弹出对话框中选“No, thanks. I will add these myself”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows12.png" class="media" title="linux:8928:hexagon5010-windows12.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows12.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>15. </span></strong>安装完成，点“Done”。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Amodem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85&amp;media=linux:8928:hexagon5010-windows13.png" class="media" title="linux:8928:hexagon5010-windows13.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:8928:hexagon5010-windows13.png" class="media" alt="" /></a>
+</p>
+<hr />
+
+</div>
+<!-- EDIT7 SECTION "安装 Qualcomm 编译器 Hexagon" [2933-5815] -->
+<h3 class="sectionedit8" id="安装_cygwin">安装 Cygwin</h3>
+<div class="level3">
+
+<p>
+<a href="/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin" class="wikilink1" title="platform:modem:编译环境安装-cygwin">Windows 编译环境安装 - Cygwin</a>
+</p>
+<hr />
+
+</div>
+<!-- EDIT8 SECTION "安装 Cygwin" [5816-5927] -->
+<h3 class="sectionedit9" id="安装_activeperl">安装 ActivePerl</h3>
+<div class="level3">
+
+<p>
+<a href="/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-activeperl" class="wikilink1" title="platform:modem:编译环境安装-activeperl">Windows 编译环境安装 - ActivePerl</a>
+</p>
+<hr />
+
+</div>
+<!-- EDIT9 SECTION "安装 ActivePerl" [5928-6051] -->
+<h3 class="sectionedit10" id="安装_python">安装 Python</h3>
+<div class="level3">
+
+<p>
+<a href="/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-python" class="wikilink1" title="platform:modem:编译环境安装-python">Windows 编译环境安装 - Python</a>
+</p>
+
+</div>
+<!-- EDIT10 SECTION "安装 Python" [6052-6155] -->
+<h2 class="sectionedit11" id="linux_下_modem_编译环境安装">Linux 下 Modem 编译环境安装</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT11 SECTION "Linux 下 Modem 编译环境安装" [6156-6201] -->
+<h3 class="sectionedit12" id="安装_qualcomm_编译器_hexagon1">安装 Qualcomm 编译器 Hexagon</h3>
+<div class="level3">
+
+<p>
+<strong>安装包地址：</strong>
+</p>
+
+<p>
+需用账户登陆，该工具受高通限制，所以没有放到共享服务器。
+</p>
+
+<p>
+<strong>Hexagon 5.0.10：</strong>\\192.167.100.225\work\Qualcomm\Hexagon\Linux Tools\Hexagon5010
+</p>
+
+<p>
+<strong>Hexagon 6.2.08：</strong>\\192.167.100.225\work\Qualcomm\Hexagon\Linux Tools\Hexagon6208
+</p>
+
+</div>
+
+<h4 id="图形界面下安装方法">图形界面下安装方法</h4>
+<div class="level4">
+
+<p>
+<strong>安装步骤：</strong>
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>复制安装包地址下所有文件到本地。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>把对应版本目录下 ​quic-5.0-*.tar.bz2、lnx64_profiler_plugins.tar.bz2、lnx64_ra_plugins.tar.bz2 复制到 HOME 下。
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>解压 zip 包，在终端中给 Install_HEXAGON_Tools_linux_*.bin 文件执行权限：chmod a+x Install_HEXAGON_Tools_linux_*.bin。运行 Install_HEXAGON_Tools_linux_*.bin 进行安装：./​Install_HEXAGON_Tools_linux_*.bin。
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>其他步骤同 Windows 下安装方法：<span class="curid"><a href="/dokuwiki/doku.php?id=platform:892x:modem%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85#安装_qualcomm_编译器_hexagon" class="wikilink1" title="platform:892x:modem编译环境安装">安装 Qualcomm 编译器 Hexagon</a></span>
+</p>
+
+</div>
+
+<h4 id="命令行底下安装方法">命令行底下安装方法</h4>
+<div class="level4">
+
+<p>
+复制安装包地址下 Hexagon 5.0.13 所有文件到本地.
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>解压：
+</p>
+<pre class="code">  unzip -x 72-NB910-12.zip</pre>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>更改权限
+</p>
+<pre class="code">  cd 72-NB910-12_5.0.13
+  chmod a+x Install_HEXAGON_Tools_linux_5.0.13.bin</pre>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>安装：
+</p>
+<pre class="code">  ./Install_HEXAGON_Tools_linux_5.0.13.bin</pre>
+
+<p>
+一路回车，在遇到选择下载安装还是离线安装时，选2 离线安装：
+</p>
+<pre class="code">     
+    -&gt;1- Download and Install (Recommended)
+      2- Offline Install
+  ENTER THE NUMBER FOR YOUR CHOICE, OR PRESS &lt;ENTER&gt; TO ACCEPT THE DEFAULT:: 2</pre>
+
+<p>
+两个回车后，会询问3个包的位置，默认为HOME下的Downloads，此处输入3个tar包所在的位置后回车。
+</p>
+
+<p>
+再回车进行安装。
+</p>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>安装成功后回车退出安装。
+</p>
+
+<p>
+<strong>注：</strong>
+</p>
+
+<p>
+如果安装后提示有error，请自行安装3个tar包：
+</p>
+<pre class="code">  tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 lnx64_profiler_plugins.tar.bz2
+  tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 lnx64_ra_plugins.tar.bz2
+  tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 quic-5.0-432-hexagon-i686-pc-linux-gnu.tar.bz2
+  xxxx是你的home目录(如果前面步骤3都是一路回车的话)，只要是HEXAGON_Tools/5.0.13的路径就对了。</pre>
+
+<p>
+OK call it a day!
+</p>
+<hr />
+
+</div>
+<!-- EDIT12 SECTION "安装 Qualcomm 编译器 Hexagon" [6202-8568] -->
+<h3 class="sectionedit13" id="安装_rvds22">安装 RVDS2.2</h3>
+<div class="level3">
+
+<p>
+<a href="/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-rvds2.2#linux_下_modem_编译环境安装_-_rvds22" class="wikilink1" title="platform:modem:编译环境安装-rvds2.2">编译环境安装 - RVDS2.2</a>
+</p>
+<hr />
+
+</div>
+<!-- EDIT13 SECTION "安装 RVDS2.2" [8569-8718] -->
+<h3 class="sectionedit14" id="编译问题">编译问题</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="编译问题_can_t_locate_xml_parserpm_in_inc">编译问题：Can&#039;t locate XML/Parser.pm in @INC</h4>
+<div class="level4">
+
+<p>
+<strong>解决方法：</strong>
+</p>
+
+<p>
+安装包地址：smb://192.167.100.225/share/Tool/Perl
+</p>
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>复制并解决 expat-2.1.0.tar.gz 和 XML-Parser-2.41.tar.gz 到本地。
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>在终端中切换目录到 expat-2.1.0。
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>运行如下命令：
+</p>
+<pre class="code bash">$ .<span class="sy0">/</span>configure
+$ <span class="kw2">make</span>
+$ <span class="kw2">sudo</span> <span class="kw2">make</span> <span class="kw2">install</span></pre>
+
+<p>
+<strong><span style='color:teal; '>4. </span></strong>在终端中切换目录到 XML-Parser-2.41。
+</p>
+
+<p>
+<strong><span style='color:teal; '>5. </span></strong>运行如下命令：
+</p>
+<pre class="code bash">$ <span class="kw2">perl</span> Makefile.PL
+$ <span class="kw2">make</span>
+$ <span class="kw2">make</span> <span class="kw3">test</span>
+$ <span class="kw2">sudo</span> <span class="kw2">make</span> <span class="kw2">install</span></pre>
+
+</div>
+
+<h4 id="编译问题_environmenterrorno_module_named_md5">编译问题：EnvironmentError: No module named _md5</h4>
+<div class="level4">
+
+<p>
+<strong>解决方法：</strong>
+拷贝下面两个库到目录： /lib/i386-linux-gnu/
+</p>
+
+<p>
+libcrypto.so.0.9.8 和 libssl.so.0.9.8
+</p>
+
+<p>
+文件地址：
+</p>
+<pre class="code bash">smb:<span class="sy0">//</span>192.167.100.225<span class="sy0">/</span>share<span class="sy0">/</span>Tool<span class="sy0">/</span>Ubuntu<span class="sy0">/</span>ubuntu14.04编译_md5问题<span class="sy0">/</span></pre>
+
+</div>
+<!-- EDIT14 SECTION "编译问题" [8719-] -->

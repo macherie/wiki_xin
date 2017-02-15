@@ -1,0 +1,95 @@
+
+<h3 class="sectionedit1" id="html显示计时器">HTML显示计时器</h3>
+<div class="level3">
+
+<p>
+
+<div id="test" style="color:green; font-size:30pt; margin:auto; text-align:center"></div>
+<script>
+var a = document.getElementById("test");
+function startTimer() {
+    setTimeout("startTimer()", 10);
+    msec += 10;
+    if(msec >= 1000) {
+        msec = 0;
+        sec +=1;
+    }
+    if(sec >= 60) {
+        sec = 0;
+        min += 1;
+    }
+    a.innerHTML = o(min) + ":" + o(sec) + ":" + t(msec);
+}
+function o(arg) {
+    return arg >= 10 ? arg : "0" + arg;
+}
+function t(arg) {
+    if(arg >= 100) return arg;
+    if(arg >= 10) return "0" + arg;
+    return "00" + arg;
+}
+var min, sec, msec;
+min = sec = msec = 0;
+a.innerHTML = "00:00:000";
+startTimer();
+</script>
+
+<br/>
+<strong>HTML计时器源码</strong>
+</p>
+<pre class="code javascript"><span class="sy0">&lt;</span>html<span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;test&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;color:green; font-size:30pt; margin:auto; text-align:center&quot;</span><span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+<span class="kw1">var</span> a <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;test&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">function</span> startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    setTimeout<span class="br0">&#40;</span><span class="st0">&quot;startTimer()&quot;</span><span class="sy0">,</span> <span class="nu0">10</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    msec <span class="sy0">+=</span> <span class="nu0">10</span><span class="sy0">;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>msec <span class="sy0">&gt;=</span> <span class="nu0">1000</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        msec <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+        sec <span class="sy0">+=</span><span class="nu0">1</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>sec <span class="sy0">&gt;=</span> <span class="nu0">60</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        sec <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+        min <span class="sy0">+=</span> <span class="nu0">1</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    a.<span class="me1">innerHTML</span> <span class="sy0">=</span> o<span class="br0">&#40;</span>min<span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot;:&quot;</span> <span class="sy0">+</span> o<span class="br0">&#40;</span>sec<span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot;:&quot;</span> <span class="sy0">+</span> t<span class="br0">&#40;</span>msec<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">function</span> o<span class="br0">&#40;</span>arg<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> arg <span class="sy0">&gt;=</span> <span class="nu0">10</span> <span class="sy0">?</span> arg <span class="sy0">:</span> <span class="st0">&quot;0&quot;</span> <span class="sy0">+</span> arg<span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">function</span> t<span class="br0">&#40;</span>arg<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>arg <span class="sy0">&gt;=</span> <span class="nu0">100</span><span class="br0">&#41;</span> <span class="kw1">return</span> arg<span class="sy0">;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>arg <span class="sy0">&gt;=</span> <span class="nu0">10</span><span class="br0">&#41;</span> <span class="kw1">return</span> <span class="st0">&quot;0&quot;</span> <span class="sy0">+</span> arg<span class="sy0">;</span>
+    <span class="kw1">return</span> <span class="st0">&quot;00&quot;</span> <span class="sy0">+</span> arg<span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">var</span> min<span class="sy0">,</span> sec<span class="sy0">,</span> msec<span class="sy0">;</span>
+min <span class="sy0">=</span> sec <span class="sy0">=</span> msec <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+a.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">&quot;00:00:000&quot;</span><span class="sy0">;</span>
+startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>html<span class="sy0">&gt;</span></pre>
+
+<p>
+<br/>
+
+<br/>
+
+</p>
+<dl class="file">
+<dt><a href="/dokuwiki/doku.php/playgroud;test?do=export_code&amp;codeblock=1" title="下载片段" class="mediafile mf_java">myexample.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.android.sim</span><span class="sy0">;</span>                                                                                                                                       
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">class</span> CommonDrive <span class="br0">&#123;</span>
+    <span class="kw1">static</span> <span class="br0">&#123;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+system"><span class="kw3">System</span></a>.<span class="me1">loadLibrary</span><span class="br0">&#40;</span><span class="st0">&quot;CommonDrive&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <span class="kw4">int</span> getVoltage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> getCapacity<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <span class="kw4">int</span> changeUsbDriver<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> value<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <span class="kw4">int</span> getUsbDriver<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <span class="kw4">int</span> openMic<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">native</span> <span class="kw4">int</span> closeMic<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+</div>

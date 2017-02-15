@@ -1,0 +1,2 @@
+$ repo forall <span class="re5">-c</span> <span class="kw2">git status</span>      <span class="co0">#等同 repo status</span>
+$ repo forall <span class="re5">-c</span> <span class="kw2">git clean</span> <span class="re5">-dxf</span>  <span class="co0">#清除整个repo</span>

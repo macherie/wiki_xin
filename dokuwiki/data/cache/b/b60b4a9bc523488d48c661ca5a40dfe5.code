@@ -1,0 +1,9 @@
+getPermission() const
+{
+    Mutex::Autolock _l(mLockMtx);
+    // 
+    MY_LOGD(&quot;mDeviceCnt(%d), mbRecord(%d), mbAvailable(%d), mbStereo(%d), 0:fps(%d); 1:fps(%d)&quot;,
+            mDeviceCnt, mbRecord, mbAvailable, mbStereo, getFrameRate(0), getFrameRate(1));
+    //return !mbRecord &amp;&amp; mbAvailable &amp;&amp; !mbStereo;
+    return mbAvailable &amp;&amp; !mbStereo;
+}

@@ -1,0 +1,12 @@
+1.新建java project(是新建java project而不是新建android project)
+
+{{:android:抓图1.png?200|}}
+
+2.输入项目名
+
+3.把Use default location前的勾点掉，点击Location后面的Browse...按钮，选择同步代码根目录，点击确定按钮
+
+{{:android:抓图2.png?200|}}
+
+4.其他默认，然后点击next,最后点击finish
+

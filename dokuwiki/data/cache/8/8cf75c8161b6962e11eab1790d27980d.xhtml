@@ -1,0 +1,67 @@
+
+<h1 class="sectionedit1" id="git_repo_常见错误">Git &amp; Repo 常见错误</h1>
+<div class="level1">
+
+<p>
+ — <em><a href="mailto:&#x79;&#x75;&#x68;&#x75;&#x61;&#x2e;&#x77;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x79;&#x75;&#x68;&#x75;&#x61;&#x2e;&#x77;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">yuhua.wang</a> 2016/12/21 15:25</em>
+</p>
+<ul>
+<li class="level1"><div class="li"> 1、git clone 代码时报错，错误如下：</div>
+</li>
+</ul>
+<pre class="code">Unable to negotiate with 172.16.6.72: no matching key exchange methodfound. Their offer: diffie-hellman-group1-sha1</pre>
+
+<p>
+解决方法：产生这种错误的原因主要是因为OpenSSH 7.0 and greater 认证方式不匹配,因此只需在本地创建config文件，添加相关内容即可。具体操作如下：
+</p>
+<pre class="code"> $ vim .ssh/config
+ 添加内容如下：
+ Host 172.16.6.72
+    KexAlgorithms +diffie-hellman-group1-sha1</pre>
+<ul>
+<li class="level1"><div class="li"> 2、git clone 或者 repo init 时出现locate setting failed错误，具体如下：</div>
+</li>
+</ul>
+<pre class="code">Per 1;waring:Setting local failed
+Per 1:warning:Please check that your local settings
+......
+Per 1:waring:Falling back to the standard local(“c”)</pre>
+
+<p>
+解决方法：出现该错误主要是因为全局变量设置与语言设置不兼容所致。解决方法如下：在根目录下执行：
+</p>
+<pre class="code"> $ export LANG=en_US:zh_CN.UTF-8</pre>
+
+<p>
+或者在 .bashrc文件中添加 上面两句命令后，重启 .bashrc即可。
+</p>
+<ul>
+<li class="level1"><div class="li"> 3、repo sync时出现 a new version of repo available…错误</div>
+</li>
+</ul>
+
+<p>
+解决方法：删除掉android代码目录下的 .repoconfig文件夹即可
+</p>
+<ul>
+<li class="level1"><div class="li"> 4、git push 代码时 Push不成功（invalid committer)</div>
+</li>
+</ul>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/git;2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png?id=git%3Agit_repo%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF" class="media" title="git:2016-12-21_16_37_59屏幕截图.png"><img src="/dokuwiki/lib/exe/fetch.php/git;2016-12-21_16_37_59%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" class="media" alt="" /></a>
+</p>
+
+<p>
+解决方法：
+</p>
+<pre class="code bash">更新<span class="kw2">git</span> user.mail ,并重提交
+重配置邮箱（需与gerrit注册的邮箱一致 <span class="br0">&#41;</span>
+<span class="kw2">git config</span> <span class="re5">--global</span> user.email  yourname<span class="sy0">@</span>sim.com
+撤消提交但保留本地修改
+<span class="kw2">git reset</span> –q <span class="sy0">&lt;</span>commit_id<span class="sy0">&gt;</span> 本次提交之前的commit_id
+再次添加并提交
+<span class="kw2">git add</span> fill <span class="sy0">&amp;</span> <span class="kw2">git commit</span> 
+<span class="kw2">git</span>  push origin HEAD:refs<span class="sy0">/</span>for<span class="sy0">/</span>…</pre>
+
+</div>

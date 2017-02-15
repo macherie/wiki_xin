@@ -1,0 +1,364 @@
+
+<p>
+该流程基于S100D 源码分析，以程序启动和常用操作为主要引导线。水平有限，如有错误，请及时更正。
+</p>
+
+<h1 class="sectionedit1" id="程序启动">程序启动</h1>
+<div class="level1">
+
+<p>
+phone部分对应到系统进程中的“com.android.phone”，系统启动时默认启动。该应用的application文件“PhoneApp”中定义了许多关键的对象，并初始化了这些对象。后面会逐渐解释这些对象。
+</p>
+<pre class="code java"><span class="co1">// A few important fields we expose to the rest of the package</span>
+<span class="co1">// directly (rather than thru set/get methods) for efficiency.</span>
+Phone phone<span class="sy0">;</span>
+CallController callController<span class="sy0">;</span>
+InCallUiState inCallUiState<span class="sy0">;</span>
+CallerInfoCache callerInfoCache<span class="sy0">;</span>
+CallNotifier notifier<span class="sy0">;</span>
+NotificationMgr notificationMgr<span class="sy0">;</span>
+Ringer ringer<span class="sy0">;</span>
+BluetoothHandsfree mBtHandsfree<span class="sy0">;</span>
+PhoneInterfaceManager phoneMgr<span class="sy0">;</span>
+CallManager mCM<span class="sy0">;</span>
+...</pre>
+<pre class="code java"><span class="co1">// Initialize the telephony framework</span>
+PhoneFactory.<span class="me1">makeDefaultPhones</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Get the default phone</span>
+phone <span class="sy0">=</span> PhoneFactory.<span class="me1">getDefaultPhone</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Start TelephonyDebugService After the default phone is created.</span>
+Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="kw1">this</span>, TelephonyDebugService.<span class="kw1">class</span><span class="br0">&#41;</span><span class="sy0">;</span>
+startService<span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+mCM <span class="sy0">=</span> CallManager.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mCM.<span class="me1">registerPhone</span><span class="br0">&#40;</span>phone<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Create the NotificationMgr singleton, which is used to display</span>
+<span class="co1">// status bar icons and control other status bar behavior.</span>
+notificationMgr <span class="sy0">=</span> NotificationMgr.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+phoneMgr <span class="sy0">=</span> PhoneInterfaceManager.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span>, phone<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+mHandler.<span class="me1">sendEmptyMessage</span><span class="br0">&#40;</span>EVENT_START_SIP_SERVICE<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+...
+&nbsp;
+<span class="me1">mReceiver</span> <span class="sy0">=</span> <span class="kw1">new</span> PhoneAppBroadcastReceiver<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mMediaButtonReceiver <span class="sy0">=</span> <span class="kw1">new</span> MediaButtonBroadcastReceiver<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+...
+&nbsp;
+<span class="co1">// Create the CallController singleton, which is the interface</span>
+<span class="co1">// to the telephony layer for user-initiated telephony functionality</span>
+<span class="co1">// (like making outgoing calls.)</span>
+callController <span class="sy0">=</span> CallController.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// ...and also the InCallUiState instance, used by the CallController to</span>
+<span class="co1">// keep track of some &quot;persistent state&quot; of the in-call UI.</span>
+inCallUiState <span class="sy0">=</span> InCallUiState.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Create the CallerInfoCache singleton, which remembers custom ring tone and</span>
+<span class="co1">// send-to-voicemail settings.</span>
+<span class="co1">//</span>
+<span class="co1">// The asynchronous caching will start just after this call.</span>
+callerInfoCache <span class="sy0">=</span> CallerInfoCache.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Create the CallNotifer singleton, which handles</span>
+<span class="co1">// asynchronous events from the telephony layer (like</span>
+<span class="co1">// launching the incoming-call UI when an incoming call comes</span>
+<span class="co1">// in.)</span>
+notifier <span class="sy0">=</span> CallNotifier.<span class="me1">init</span><span class="br0">&#40;</span><span class="kw1">this</span>, phone, ringer, mBtHandsfree, <span class="kw1">new</span> CallLogAsync<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// register for ICC status</span>
+IccCard sim <span class="sy0">=</span> phone.<span class="me1">getIccCard</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>sim <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>VDBG<span class="br0">&#41;</span> Log.<span class="me1">v</span><span class="br0">&#40;</span>LOG_TAG, <span class="st0">&quot;register for ICC status&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    sim.<span class="me1">registerForPersoLocked</span><span class="br0">&#40;</span>mHandler, EVENT_PERSO_LOCKED, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT1 SECTION "程序启动" [137-2652] -->
+<h2 class="sectionedit2" id="打电话">打电话</h2>
+<div class="level2">
+
+<p>
+打电话的入口从OutgoingCallBroadcaster类开始，该类继承与Activity，接受CALL 、 CALL_PRIVILEGED 和 CALL_EMERGENCY 的intent的action。
+</p>
+<ul>
+<li class="level1"><div class="li"> CALL 代表普通的拨号</div>
+</li>
+<li class="level1"><div class="li"> CALL_PRIVILEGED 代表来自通讯录、蓝牙、语音等的拨号</div>
+</li>
+<li class="level1"><div class="li"> CALL_EMERGENCY 意味着紧急拨号，如120、119等</div>
+</li>
+</ul>
+
+<p>
+该类在接到需要打电话的通知以后，会有一系列的判断来最终确定该次呼叫的类型，同时CALL_PRIVILEGED最终也会被确认为CALL/CALL_EMERGENCY。
+</p>
+<pre class="code java"><span class="coMULTI">/* Change CALL_PRIVILEGED into CALL or CALL_EMERGENCY as needed. */</span>
+<span class="co1">// TODO: This code is redundant with some code in InCallScreen: refactor.</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>Intent.<span class="me1">ACTION_CALL_PRIVILEGED</span>.<span class="me1">equals</span><span class="br0">&#40;</span>action<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">// We're handling a CALL_PRIVILEGED intent, so we know this request came</span>
+    <span class="co1">// from a trusted source (like the built-in dialer.)  So even a number</span>
+    <span class="co1">// that's *potentially* an emergency number can safely be promoted to</span>
+    <span class="co1">// CALL_EMERGENCY (since we *should* allow you to dial &quot;91112345&quot; from</span>
+    <span class="co1">// the dialer if you really want to.)</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>isPotentialEmergencyNumber<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;ACTION_CALL_PRIVILEGED is used while the number is a potential&quot;</span>
+                <span class="sy0">+</span> <span class="st0">&quot; emergency number. Use ACTION_CALL_EMERGENCY as an action instead.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        action <span class="sy0">=</span> Intent.<span class="me1">ACTION_CALL_EMERGENCY</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        action <span class="sy0">=</span> Intent.<span class="me1">ACTION_CALL</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> Log.<span class="me1">v</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot; - updating action from CALL_PRIVILEGED to &quot;</span> <span class="sy0">+</span> action<span class="br0">&#41;</span><span class="sy0">;</span>
+    intent.<span class="me1">setAction</span><span class="br0">&#40;</span>action<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+如果最终判断是紧急呼叫则直接调用callcontrol的placeCall(intent)播出电话
+</p>
+<pre class="code java"><span class="co1">// Initiate the outgoing call, and simultaneously launch the</span>
+<span class="co1">// InCallScreen to display the in-call UI:</span>
+PhoneApp.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">callController</span>.<span class="me1">placeCall</span><span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+这里比较有意思的一点是这里并没有返回，而是按照普通呼叫一样的继续执行。后面会讲到它最终是怎么处理的。
+</p>
+
+<p>
+在普通呼叫的状态下，它会发出一个ACTION_NEW_OUTGOING_CALL广播，让别的程序可以接受这条广播并可以打断这次通话。如果没有被打断的话，这个广播最终会回到该类的子类OutgoingCallReceiver的实例中。
+</p>
+<pre class="code java">Intent broadcastIntent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span>Intent.<span class="me1">ACTION_NEW_OUTGOING_CALL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>number <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>Intent.<span class="me1">EXTRA_PHONE_NUMBER</span>, number<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+PhoneUtils.<span class="me1">checkAndCopyPhoneProviderExtras</span><span class="br0">&#40;</span>intent, broadcastIntent<span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>EXTRA_ALREADY_CALLED, callNow<span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>EXTRA_ORIGINAL_URI, uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>SUBSCRIPTION_KEY, mSubscription<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// Need to raise foreground in-call UI as soon as possible while allowing 3rd party app</span>
+<span class="co1">// to intercept the outgoing call.</span>
+broadcastIntent.<span class="me1">addFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_RECEIVER_FOREGROUND</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> Log.<span class="me1">v</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot; - Broadcasting intent: &quot;</span> <span class="sy0">+</span> broadcastIntent <span class="sy0">+</span> <span class="st0">&quot;.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Set a timer so that we can prepare for unexpected delay introduced by the broadcast.</span>
+<span class="co1">// If it takes too much time, the timer will show &quot;waiting&quot; spinner.</span>
+<span class="co1">// This message will be removed when OutgoingCallReceiver#onReceive() is called before the</span>
+<span class="co1">// timeout.</span>
+mHandler.<span class="me1">sendEmptyMessageDelayed</span><span class="br0">&#40;</span>EVENT_OUTGOING_CALL_TIMEOUT,
+        OUTGOING_CALL_TIMEOUT_THRESHOLD<span class="br0">&#41;</span><span class="sy0">;</span>
+sendOrderedBroadcast<span class="br0">&#40;</span>broadcastIntent, PERMISSION, <span class="kw1">new</span> OutgoingCallReceiver<span class="br0">&#40;</span><span class="br0">&#41;</span>,
+        <span class="kw2">null</span>,  <span class="co1">// scheduler</span>
+        Activity.<span class="me1">RESULT_OK</span>,  <span class="co1">// initialCode</span>
+        number,  <span class="co1">// initialData: ini</span></pre>
+
+<p>
+在OutgoingCallReceiver的处理中我们发现她首先就做了是否已经有通话在进行的判断，从而解决了上面“紧急呼叫”没有返回的问题。
+</p>
+
+<p>
+紧接着OutgoingCallReceiver将请求传递到SipCallOptionHandler，SipCallOptionHandler 里面主要是判断选择这次呼叫的类型（不同与上面的类型，这次是SIP or PSTN）并最终在setResultAndFinish中向callController发起通话请求
+</p>
+<pre class="code java"><span class="co1">// Woo hoo -- it's finally OK to initiate the outgoing call!</span>
+PhoneApp.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">callController</span>.<span class="me1">placeCall</span><span class="br0">&#40;</span>mIntent<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+placeCall发起通话，并在该方法的末尾打开通话过程中显示的页面 InCallScreen Activity
+</p>
+<pre class="code java"><span class="kw1">if</span><span class="br0">&#40;</span>mApp <span class="kw1">instanceof</span> MSimPhoneApp<span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="br0">&#40;</span><span class="br0">&#40;</span>MSimPhoneApp<span class="br0">&#41;</span>mApp<span class="br0">&#41;</span>.<span class="me1">displayCallScreen</span><span class="br0">&#40;</span>intent.<span class="me1">getIntExtra</span><span class="br0">&#40;</span>MSimConstants.<span class="me1">SUBSCRIPTION_KEY</span>, mApp.<span class="me1">getDefaultSubscription</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+      mApp.<span class="me1">displayCallScreen</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+该界面的视图主要参考InCallTouchUi，并且已将事件传递到InCallScreen 中处理
+</p>
+<pre class="code java"><span class="co3">/**
+ * Handles button clicks from the InCallTouchUi widget.
+ */</span>
+<span class="coMULTI">/* package */</span> <span class="kw4">void</span> handleOnscreenButtonClick<span class="br0">&#40;</span><span class="kw4">int</span> id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    log<span class="br0">&#40;</span><span class="st0">&quot;handleOnscreenButtonClick(id &quot;</span> <span class="sy0">+</span> id <span class="sy0">+</span> <span class="st0">&quot;)...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">switch</span> <span class="br0">&#40;</span>id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// Actions while an incoming call is ringing:</span>
+        <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">incomingCallAnswer</span><span class="sy0">:</span>
+            internalAnswerCall<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+        ...
+        <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">manageConferenceButton</span><span class="sy0">:</span>
+            <span class="co1">// Show the Manage Conference panel.</span>
+            setInCallScreenMode<span class="br0">&#40;</span>InCallScreenMode.<span class="me1">MANAGE_CONFERENCE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            requestUpdateScreen<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">default</span><span class="sy0">:</span>
+            Log.<span class="me1">w</span><span class="br0">&#40;</span>LOG_TAG, <span class="st0">&quot;handleOnscreenButtonClick: unexpected ID &quot;</span> <span class="sy0">+</span> id<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+     <span class="co1">// Clicking any onscreen UI element counts as explicit &quot;user activity&quot;.</span>
+    mApp.<span class="me1">pokeUserActivity</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co3">/**...*/</span>
+    updateInCallTouchUi<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT2 SECTION "打电话" [2653-7920] -->
+<h2 class="sectionedit3" id="来电">来电</h2>
+<div class="level2">
+
+<p>
+来电的入口需要从CallNotifier（在PhoneApp里有看=到他的初始化）这个类讲起，这个类的主要职责是监听通话状态的改变和来自telephony层的事件（如来电），并且触发相应的UI变化。在该类的构造函数中可以看到它将自己作为监听注册给telephony监听了许多事件。
+</p>
+<pre class="code java"><span class="kw1">private</span> <span class="kw4">void</span> registerForNotifications<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    mCM.<span class="me1">registerForNewRingingConnection</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_NEW_RINGING_CONNECTION, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForPreciseCallStateChanged</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_STATE_CHANGED, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForDisconnect</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_DISCONNECT, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForUnknownConnection</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_UNKNOWN_CONNECTION_APPEARED, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForIncomingRing</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_INCOMING_RING, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForCdmaOtaStatusChange</span><span class="br0">&#40;</span><span class="kw1">this</span>, EVENT_OTA_PROVISION_CHANGE, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForCallWaiting</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_CDMA_CALL_WAITING, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForDisplayInfo</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_STATE_DISPLAYINFO, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForSignalInfo</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_STATE_SIGNALINFO, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForInCallVoicePrivacyOn</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_ENHANCED_VP_ON, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForInCallVoicePrivacyOff</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_ENHANCED_VP_OFF, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForRingbackTone</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_RINGBACK_TONE, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForResendIncallMute</span><span class="br0">&#40;</span><span class="kw1">this</span>, PHONE_RESEND_MUTE, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mCM.<span class="me1">registerForSuppServiceNotification</span><span class="br0">&#40;</span><span class="kw1">this</span>, SUPP_SERVICE_NOTIFY, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+来电的过程中，telephony层的RIL.java类有一个RILReceiver类继承于Runnable代表了一个线程。该线程接收来自c库RIL的消息（如incoming），调用processResponse进行处理，后者将根据Response的类型，调用processSolicited 和processUnsolicited，然后辗转调用到CallNotifier的handler。
+</p>
+
+<p>
+RIL: (Radio Interface Layer between Android telephony services (android.telephony) and the radio hardware)是介于android telephony 和 Radio 硬件层的接口层，包含两个部分：RIL守护进程和RIL供应商，RIL守护进程与telephony服务交互并往RIL供应商分发”solicited commands”，RIL供应商是Radio的特定实现并分发”unsolicited commands”事件到RIL守护进程。（参考Wikipedia）
+</p>
+<pre class="code java">@Override
+<span class="kw1">public</span> <span class="kw4">void</span> handleMessage<span class="br0">&#40;</span>Message msg<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">switch</span> <span class="br0">&#40;</span>msg.<span class="me1">what</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">case</span> RINGER_WAIT_FOR_QUERY<span class="sy0">:</span>
+             <span class="kw4">int</span> subscription <span class="sy0">=</span> mCM.<span class="me1">getRingingPhone</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getSubscription</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+             mRinger.<span class="me1">ring</span><span class="br0">&#40;</span>subscription<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">case</span> PHONE_NEW_RINGING_CONNECTION<span class="sy0">:</span>
+             log<span class="br0">&#40;</span><span class="st0">&quot;RINGING... (new)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+             onNewRingingConnection<span class="br0">&#40;</span><span class="br0">&#40;</span>AsyncResult<span class="br0">&#41;</span> msg.<span class="me1">obj</span><span class="br0">&#41;</span><span class="sy0">;</span>
+             mSilentRingerRequested <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">case</span> PHONE_INCOMING_RING<span class="sy0">:</span>
+            <span class="co1">// repeat the ring when requested by the RIL, and when the user has NOT</span>
+            <span class="co1">// specifically requested silence.</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>msg.<span class="me1">obj</span> <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>AsyncResult<span class="br0">&#41;</span> msg.<span class="me1">obj</span><span class="br0">&#41;</span>.<span class="me1">result</span> <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                PhoneBase pb <span class="sy0">=</span>  <span class="br0">&#40;</span>PhoneBase<span class="br0">&#41;</span><span class="br0">&#40;</span><span class="br0">&#40;</span>AsyncResult<span class="br0">&#41;</span>msg.<span class="me1">obj</span><span class="br0">&#41;</span>.<span class="me1">result</span><span class="sy0">;</span>
+&nbsp;
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>pb.<span class="me1">getState</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> Phone.<span class="me1">State</span>.<span class="me1">RINGING</span><span class="br0">&#41;</span>
+                        <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span>mSilentRingerRequested <span class="sy0">==</span> <span class="kw2">false</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;RINGING... (PHONE_INCOMING_RING event)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    sendEmptyMessageDelayed<span class="br0">&#40;</span>RINGER_WAIT_FOR_QUERY, RINGTONE_QUERY_WAIT_TIME<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;RING before NEW_RING, skipping&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">case</span> PHONE_STATE_CHANGED<span class="sy0">:</span>
+            onPhoneStateChanged<span class="br0">&#40;</span><span class="br0">&#40;</span>AsyncResult<span class="br0">&#41;</span> msg.<span class="me1">obj</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">case</span> PHONE_DISCONNECT<span class="sy0">:</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;DISCONNECT&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            onDisconnect<span class="br0">&#40;</span><span class="br0">&#40;</span>AsyncResult<span class="br0">&#41;</span> msg.<span class="me1">obj</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+        ...
+&nbsp;
+        <span class="kw1">default</span><span class="sy0">:</span>
+            <span class="co1">// super.handleMessage(msg);</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+这么多的状态那个才是来电第一个首先触发的状态呢，我第一眼看到了PHONE_INCOMING_RING。决定跟踪下去，判断是否静音，到了RINGER_WAIT_FOR_QUERY然后调用mRinger.ring(subscription)，进入方法。<img src="/dokuwiki/lib/images/smileys/icon_fun.gif" class="icon" alt="^_^" />，开始震动了。
+</p>
+<pre class="code">if (shouldVibrate(subscription) &amp;&amp; mVibratorThread == null) {
+    mContinueVibrating = true;
+    mVibratorThread = new VibratorThread();
+    if (DBG) log(&quot;- starting vibrator...&quot;);
+    mVibratorThread.start();
+}</pre>
+
+<p>
+然后处理PLAY_RING_ONCE响铃，然后、然后没了，一滴汗。。。<br/>
+没有了，界面没有启动，所以回去再找。PHONE_NEW_RINGING_CONNECTION、PHONE_STATE_CHANGED都蛮像的，决定先看PHONE_STATE_CHANGED。因为如果是它的话，一定会转到PHONE_NEW_RINGING_CONNECTION。跳转到onPhoneStateChanged((AsyncResult) msg.obj)。<br/>
+不过很遗憾，从注释可以看到该方法不处理新的来电和断开连接。（注释真是好,赞一个！！！）
+</p>
+<pre class="code java"><span class="co3">/**
+ * Updates the phone UI in response to phone state changes.
+ *
+ * Watch out: certain state changes are actually handled by their own
+ * specific methods:
+ *   - see onNewRingingConnection() for new incoming calls
+ *   - see onDisconnect() for calls being hung up or disconnected
+ */</span>
+<span class="kw1">private</span> <span class="kw4">void</span> onPhoneStateChanged<span class="br0">&#40;</span>AsyncResult r<span class="br0">&#41;</span> <span class="br0">&#123;</span></pre>
+
+<p>
+既然来了，就呆一会再走吧。首先看它支持的状态。
+</p>
+<ul>
+<li class="level1"><div class="li"> IDLE 代表处于空闲状态</div>
+</li>
+<li class="level1"><div class="li"> RINGING 正在通话状态</div>
+</li>
+<li class="level1"><div class="li"> OFFHOOK 相当于电话的没挂好的状态</div>
+</li>
+</ul>
+
+<p>
+研究了一下这个方法的内容，感觉跟UI关系不是很大，处理的都是声音播放器、近距离传感器、屏幕锁定等的状态。
+</p>
+
+<p>
+接下来跟踪PHONE_NEW_RINGING_CONNECTION的处理，进入onNewRingingConnection（）方法，该方法先进行一些过滤，在某些情况下（比如正在视频通话）直接挂断该次通话请求。此外还看到这样一句,在源码中经常会看到类似的语句，以增强代码的健壮性。
+</p>
+<pre class="code java"><span class="kw1">if</span> <span class="br0">&#40;</span>c <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    Log.<span class="me1">w</span><span class="br0">&#40;</span>LOG_TAG, <span class="st0">&quot;CallNotifier.onNewRingingConnection(): null connection!&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// Should never happen, but if it does just bail out and do nothing.</span>
+    <span class="kw1">return</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+然后再经过获取callerinfo，进入该处理流程的最后步骤onCustomRingQueryComplete()。这个方法里主要做了两件事情：响铃和显示来电界面。补充一句，在获取callerinfo超时的情况也直接跳到该方法。
+</p>
+<pre class="code java"><span class="co1">// Ring, either with the queried ringtone or default one.</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>VDBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;RINGING... (onCustomRingQueryComplete)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw4">int</span> subscription <span class="sy0">=</span> mCM.<span class="me1">getRingingPhone</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getSubscription</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+mRinger.<span class="me1">ring</span><span class="br0">&#40;</span>subscription<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// ...and display the incoming call to the user:</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;- showing incoming call (custom ring query complete)...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+showIncomingCall<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+继续跟踪到updateInCallNotification(boolean allowFullScreenIntent)，从这个方法可以看出它是通过发通知的方式来告诉用户，然后通过设置fullScreenIntent为true直接启动InCallScreen。
+</p>
+<pre class="code java"><span class="co1">// Ok, we actually want to launch the incoming call</span>
+<span class="co1">// UI at this point (in addition to simply posting a notification</span>
+<span class="co1">// to the status bar).  Setting fullScreenIntent will cause</span>
+<span class="co1">// the InCallScreen to be launched immediately *unless* the</span>
+<span class="co1">// current foreground activity is marked as &quot;immersive&quot;.</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;- Setting fullScreenIntent: &quot;</span> <span class="sy0">+</span> inCallPendingIntent<span class="br0">&#41;</span><span class="sy0">;</span>
+builder.<span class="me1">setFullScreenIntent</span><span class="br0">&#40;</span>inCallPendingIntent, <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+至此来电过程已经基本结束。但是细心的你有没有发现有两个地方（PHONE_INCOMING_RING、PHONE_NEW_RINGING_CONNECTION）都有机会调用了mRinger.ring(subscription)这个方法，这是怎么回事，这还是不能判断那个会先行调用。于是本人决定使用debug模式。<br/>
+通过调试可以发现，先行接受到的事件是PHONE_INCOMING_RING，但是这是的状态不是处于RINGING，所以直接忽略掉了。然后才会接受到PHONE_NEW_RINGING_CONNECTION的事件。而此后还会接受到PHONE_INCOMING_RING事件，同样会执行mRinger.ring(subscription)，不过这道是很像android源码的风格，以增强产品的适应性。
+</p>
+
+</div>
+<!-- EDIT3 SECTION "来电" [7921-] -->

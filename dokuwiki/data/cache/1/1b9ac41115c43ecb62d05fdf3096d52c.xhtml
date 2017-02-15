@@ -1,0 +1,116 @@
+
+<p>
+— <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2014/9/9</em>
+</p>
+
+<h1 class="sectionedit1" id="gitolite_gerrit服务器搭建">Gitolite+Gerrit服务器搭建</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Gitolite+Gerrit服务器搭建" [45-89] -->
+<h2 class="sectionedit2" id="安装ubuntu系统">1、 安装ubuntu系统</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT2 SECTION "1、 安装ubuntu系统" [90-124] -->
+<h2 class="sectionedit3" id="安装x11vnc远程管理">2、 安装x11vnc远程管理</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85x11vnc%E8%BF%9C%E7%A8%8B%E7%AE%A1%E7%90%86" class="wikilink1" title="linux:服务器管理:安装x11vnc远程管理">安装 x11vnc 远程管理</a>
+</p>
+
+</div>
+<!-- EDIT3 SECTION "2、 安装x11vnc远程管理" [125-243] -->
+<h2 class="sectionedit4" id="安装openssh服务器端">3、 安装openssh服务器端</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85openssh%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF" class="wikilink1" title="linux:服务器管理:安装openssh的服务器端">安装 openssh 服务器端</a>
+</p>
+
+</div>
+<!-- EDIT4 SECTION "3、 安装openssh服务器端" [244-368] -->
+<h2 class="sectionedit5" id="安装gitolite">4、 安装gitolite</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85gitolite" class="wikilink1" title="linux:服务器管理:安装gitolite">安装 gitolite</a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "4、 安装gitolite" [369-456] -->
+<h2 class="sectionedit6" id="安装git_daemon_可选">5、 安装git daemon（可选）</h2>
+<div class="level2">
+
+<p>
+1. 安装 git daemon
+</p>
+<pre class="code">sudo apt-get install git-daemon-run</pre>
+
+<p>
+2. 安装好git-daemon后, 需要修改配置文件 /etc/sv/git-daemon/run
+</p>
+
+<p>
+将
+</p>
+<pre class="code">#!/bin/sh
+exec 2&gt;&amp;1
+echo &#039;git-daemon starting.&#039;
+exec chpst -ugitdaemon \
+  &quot;$(git --exec-path)&quot;/git-daemon --verbose --reuseaddr \
+    --base-path=/var/cache /var/cache/git</pre>
+
+<p>
+修改为：
+</p>
+<pre class="code">#!/bin/sh
+exec 2&gt;&amp;1
+echo &#039;git-daemon starting.&#039;
+exec chpst -ugitdaemon:git \
+  &quot;$(git --exec-path)&quot;/git-daemon --verbose --reuseaddr \
+    --base-path=/home/git/repositories /home/git/repositories</pre>
+
+<p>
+3. 修改后重启git-daemon
+</p>
+<pre class="code">sudo sv down git-daemon
+sudo sv up git-daemon</pre>
+
+<p>
+4. 修改gitolite.conf文件，允许git-daemon的访问
+</p>
+<pre class="code">repo    testing
+      RW+     =   @all
+      R       =   daemon</pre>
+
+</div>
+<!-- EDIT6 SECTION "5、 安装git daemon（可选）" [457-1295] -->
+<h2 class="sectionedit7" id="安装gitweb">6、 安装gitweb</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85gitweb" class="wikilink1" title="linux:服务器管理:安装gitweb">安装 gitweb</a>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "6、 安装gitweb" [1296-1377] -->
+<h2 class="sectionedit8" id="安装java">7、 安装java</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83:%E5%AE%89%E8%A3%85java" class="wikilink1" title="linux:搭建工作环境:安装java">安装 Java 6</a>
+</p>
+
+</div>
+<!-- EDIT8 SECTION "7、 安装java" [1378-1458] -->
+<h2 class="sectionedit9" id="安装gerrit">8、 安装gerrit</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=linux:%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86:%E5%AE%89%E8%A3%85gerrit" class="wikilink1" title="linux:服务器管理:安装gerrit">安装 gerrit</a>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "8、 安装gerrit" [1459-] -->

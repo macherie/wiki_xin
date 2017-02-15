@@ -1,0 +1,10 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1459418236;s:8:"modified";i:1459421427;}s:7:"creator";s:9:"蔡思健";s:4:"user";s:10:"sijian.cai";s:11:"last_change";a:7:{s:4:"date";i:1459421427;s:2:"ip";s:12:"172.19.1.205";s:4:"type";s:1:"E";s:2:"id";s:52:"linux:搭建工作环境:freescale编译环境安装";s:4:"user";s:10:"sijian.cai";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"sijian.cai";s:9:"蔡思健";}s:5:"title";s:40:"FreeScale 编译时需要安装的工具";s:11:"description";a:2:{s:15:"tableofcontents";a:2:{i:0;a:4:{s:3:"hid";s:40:"freescale_编译时需要安装的工具";s:5:"title";s:40:"FreeScale 编译时需要安装的工具";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:22:"freescale_编译命令";s:5:"title";s:22:"FreeScale 编译命令";s:4:"type";s:2:"ul";s:5:"level";i:1;}}s:8:"abstract";s:531:"FreeScale 编译时需要安装的工具
+
+1. sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev
+
+2. sudo apt-get install libsdl1.2-dev xterm sed cvs subversion coreutils texi2html docbook-utils python-pysqlite2 help2man make gcc g++ desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl lzop asciidoc
+
+3. Ubuntu 12.04  系统
+   $ sudo apt-get install uboot-mkimage
+4. Ubuntu 14.04  系统 
+   $ sudo apt-get install u-boo…";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1459418236;s:8:"modified";i:1459421427;}s:7:"creator";s:9:"蔡思健";s:4:"user";s:10:"sijian.cai";s:11:"last_change";a:7:{s:4:"date";i:1459421427;s:2:"ip";s:12:"172.19.1.205";s:4:"type";s:1:"E";s:2:"id";s:52:"linux:搭建工作环境:freescale编译环境安装";s:4:"user";s:10:"sijian.cai";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"sijian.cai";s:9:"蔡思健";}}}

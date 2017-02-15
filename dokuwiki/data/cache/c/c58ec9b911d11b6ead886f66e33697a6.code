@@ -1,0 +1,28 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> launchMultiplePhonePicker<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="st0">&quot;com.android.contacts.action.MULTI_PICK&quot;</span>,Contacts.<span class="me1">CONTENT_URI</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> exsitNumbers <span class="sy0">=</span> mRecipientsEditor.<span class="me1">getExsitNumbers</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>exsitNumbers<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            intent.<span class="me1">putExtra</span><span class="br0">&#40;</span>Intents.<span class="me1">EXTRA_PHONE_URIS</span>, exsitNumbers<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// We have to wait for the constructing complete.</span>
+        <span class="coMULTI">/*ContactList contacts = mRecipientsEditor.constructContactsFromInput(true);
+        int recipientsCount = 0;
+        int urisCount = 0;
+        Uri[] uris = new Uri[contacts.size()];
+        urisCount = 0;
+        for (Contact contact : contacts) {
+            if (Contact.CONTACT_METHOD_TYPE_PHONE == contact.getContactMethodType()) {
+                    uris[urisCount++] = contact.getPhoneUri();
+            }
+        }
+        if (urisCount &gt; 0) {
+            intent.putExtra(Intents.EXTRA_PHONE_URIS, uris);
+        }*/</span>
+        <span class="co1">// Catch the ActivityNotFound exception when Contack app is disabled.</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mIsPickingContact <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+            startActivityForResult<span class="br0">&#40;</span>intent, REQUEST_CODE_PICK<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span>ActivityNotFoundException ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Toast.<span class="me1">makeText</span><span class="br0">&#40;</span><span class="kw1">this</span>, R.<span class="me1">string</span>.<span class="me1">contact_app_not_found</span>, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

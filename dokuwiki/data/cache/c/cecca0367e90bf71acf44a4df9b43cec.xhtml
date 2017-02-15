@@ -1,0 +1,119 @@
+
+<h1 class="sectionedit1" id="安装openjdk-7">安装openjdk-7</h1>
+<div class="level1">
+
+<p>
+The master branch of Android in the Android Open Source Project (AOSP) requires Java 7. On Ubuntu, use OpenJDK.
+</p>
+
+<p>
+Java 7: For the latest version of Android
+</p>
+
+<p>
+进入/usr/lib/，创建jvm目录 
+</p>
+
+<p>
+$ sudo apt-get update
+$ sudo apt-get install openjdk-7-jdk
+</p>
+
+<p>
+Optionally, update the default Java version by running:
+</p>
+
+<p>
+$ sudo update-alternatives –config java
+</p>
+
+<p>
+$ sudo update-alternatives –config javac
+</p>
+
+<p>
+openjdk1.7无法和以前jdk1.6兼容，所以在/etc/profile里配置openjdk环境变量<br/>
+
+<span style='color:red; '>注意：若代码中已添加“lunch项目后修改jdk环境变量”功能后，以下不用配置</span>
+</p>
+
+<p>
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+</p>
+
+<p>
+export JRE_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
+</p>
+
+<p>
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+</p>
+
+<p>
+export CLASSPATH=$CLASSPATH:.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib   
+</p>
+
+</div>
+<!-- EDIT1 SECTION "安装openjdk-7" [1-865] -->
+<h1 class="sectionedit2" id="安装openjdk-8">安装openjdk-8</h1>
+<div class="level1">
+
+<p>
+<strong><a href="/dokuwiki/doku.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;how_to_install_openjdk_8_in_ubuntu_14.04_12.04_lts" class="wikilink2" title="linux:搭建工作环境:how_to_install_openjdk_8_in_ubuntu_14.04_12.04_lts" rel="nofollow">How to Install OpenJDK 8 in Ubuntu 14.04 &amp; 12.04 LTS</a> <a href="http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/" class="urlextern" title="http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/"  rel="nofollow">http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/</a></strong>
+</p>
+
+<p>
+OpenJDK Java 8 has been made into official Ubuntu repositories for 14.10 Utopic and higher. For Ubuntu 14.04, Ubuntu 12.04, and Linux Mint 17 users here’s how to install it from PPA.
+</p>
+
+<p>
+OpenJDK 8 was released in March 2014. It’s available in Ubuntu Software Center for Ubuntu 14.10 and Ubuntu 15.04. Someone has reported in launchpad asking for packaging openjdk-8 in Ubuntu 14.04, but no luck so far.
+</p>
+
+<p>
+As a workaround, you can install OpenJDK 8 from a PPA repository:
+</p>
+
+<p>
+1. 
+</p>
+<pre class="code">sudo add-apt-repository ppa:openjdk-r/ppa</pre>
+
+<p>
+2. 
+</p>
+<pre class="code">sudo apt-get update 
+
+sudo apt-get install openjdk-8-jdk</pre>
+
+<p>
+3. 
+</p>
+<pre class="code">sudo update-alternatives --config java</pre>
+
+<p>
+Type in a number to select a Java version.
+</p>
+
+<p>
+set default java version
+</p>
+
+<p>
+And set default Java Compiler by running:
+</p>
+<pre class="code">sudo update-alternatives --config javac</pre>
+
+<p>
+4. Finally check out current Java version by running:
+</p>
+<pre class="code">java -version
+
+It outputs something like this:
+
+openjdk version &quot;1.8.0_01-internal&quot;
+OpenJDK Runtime Environment (build 1.8.0_01-internal-b04)
+OpenJDK 64-Bit Server VM (build 25.40-b08, mixed mode)</pre>
+
+</div>
+<!-- EDIT2 SECTION "安装openjdk-8" [866-] -->

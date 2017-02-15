@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:8625q:s200</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:53:24+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E5%85%85%E7%94%B5%E5%92%8C%E7%94%B5%E6%B1%A0%E9%A9%B1%E5%8A%A8%E7%AE%80%E4%BB%8B&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E6%8C%89%E9%94%AE%E6%A8%A1%E5%BC%8F&amp;rev=1392961065&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:pd&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:version&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E5%85%85%E7%94%B5%E5%92%8C%E7%94%B5%E6%B1%A0%E9%A9%B1%E5%8A%A8%E7%AE%80%E4%BB%8B&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:s200:充电和电池驱动简介</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E5%85%85%E7%94%B5%E5%92%8C%E7%94%B5%E6%B1%A0%E9%A9%B1%E5%8A%A8%E7%AE%80%E4%BB%8B&amp;rev=1390476864&amp;do=diff</link>
+        <description>席芳清   2013-11-25
+
+一，Modem侧主要代码文件：
+
+1，充电：电池电压小于开机电压（一般为3400mV）时,调用osbl层：
+
+oemsbl_usb_chg_fast.c
+
+hsu_chg_boot.c
+  void oemsbl_usb_chg_init(void)
+  {
+      err = (hsu_chg_boot_err_type) hsu_chg_boot(&amp;param);
+  }
+2，充电：设备开机后，流程在AMSS层;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E6%8C%89%E9%94%AE%E6%A8%A1%E5%BC%8F&amp;rev=1392961065&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T06:37:45+01:00</dc:date>
+        <title>platform:8625q:s200:按键模式</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:%E6%8C%89%E9%94%AE%E6%A8%A1%E5%BC%8F&amp;rev=1392961065&amp;do=diff</link>
+        <description>进入fastboot模式：音量+</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:pd&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:s200:pd</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:pd&amp;rev=1390476864&amp;do=diff</link>
+        <description>项目名称：	S200	
+Kick off：	2013年3月30日	
+类型：		整机 	
+销售地区：	中国大陆	
+	
+基本产品信息	
+		
+CPU		高通8625Q 1.2G	
+软件		Android 4.1.2
+MEMORY		4GB INAND+8Gb LPDDR2	
+尺寸		长度：     宽度：     厚度：	
+重量		250g左右	
+颜色		多款/TBD	
+显示		LCM		5&quot; HD TFT LCD	
+		TP		5&quot; G+F 电容屏	
+摄像头		前摄像头	2Mpix	
+		主摄像头	5Mpix	
+按键		触摸按键	menu、返回键	有按键灯
+		主按键	home	有按键灯
+		侧按键	开/关机按键，条码扫描键两个，音量调节按键两个，reset按键	
+
+指示灯（数量和定义）		1个双色 LED（状态指示：红色-充电中；绿色-充电完成；红色闪烁-充电错误）	
+接口（数量和定义）		Micro USB  1个  不支持OTG，支持USB充电	USB充电500Mha
+				MICRO SD(SDHC) 1个，最大外接存储卡容量32G	
+				SIM CARD 1个 	
+			…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:version&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:s200:version</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s200:version&amp;rev=1390476864&amp;do=diff</link>
+        <description>时间：        2013/12/4
+客户:         mquestsy
+升级包:       http://pan.baidu.com/s/1qwEhl
+修改内容：    扫描接口新需求相关
+
+ 软件版本  送测时间  Modem侧版本  版本描述  8PBA01S100B01V01  2013.9.12      8PBA01S100B01V02  2013.9.29      8PBA01S100B01V03  2013.10.11      8PBA01S100B01V04  2013.10.22      8PBA01S100B01V05  2013.10.29      8PBA01S100B01V06  2013.10.31      8PBA01S100B01V07  2013.11.01      8PBA01S100B01V08  2013.11.06      8PBA01S100B01V09  2013.11.15      8PBA01S100B01V10  2013.11.21      8PBA01S100B01V11  2013.11.22  …</description>
+    </item>
+</rdf:RDF>

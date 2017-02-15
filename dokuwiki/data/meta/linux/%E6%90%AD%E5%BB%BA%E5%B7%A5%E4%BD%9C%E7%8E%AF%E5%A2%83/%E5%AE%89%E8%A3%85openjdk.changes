@@ -1,0 +1,19 @@
+1417427640	172.21.2.103	C	platform:8939:install_openjdk	jiawei.li	创建	
+1417427780	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417427921	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417427984	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417427998	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417430086	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417780323	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1417780440	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1418346964	172.21.2.103	E	platform:8939:install_openjdk	jiawei.li		
+1418886640	172.21.1.71	C	ubuntu:install_openjdk	yi.hao	Page moved from platform:8939:install_openjdk to ubuntu:install_openjdk	
+1418886703	172.21.1.71	E	ubuntu:install_openjdk	yi.hao		
+1418886730	172.21.1.71	C	安装openjdk:install_openjdk	yi.hao	Page moved from ubuntu:install_openjdk to 安装openjdk:install_openjdk	
+1418886799	172.21.1.71	C	ubuntu:安装openjdk	yi.hao	Page moved and renamed from 安装openjdk:install_openjdk to ubuntu:安装openjdk	
+1418887768	172.21.1.71	C	linux:安装openjdk	yi.hao	Page moved from ubuntu:安装openjdk to linux:安装openjdk	
+1418887898	172.21.1.71	C	linux:搭建工作环境:安装openjdk	yi.hao	Page moved from linux:安装openjdk to linux:搭建工作环境:安装openjdk	
+1448267532	172.21.2.67	E	linux:搭建工作环境:安装openjdk	kun.mao		
+1451900262	172.21.2.114	C	platform:搭建工作环境:安装openjdk	yi.hao	Page moved from linux:搭建工作环境:安装openjdk to platform:搭建工作环境:安装openjdk	
+1451900414	172.21.2.114	C	linux:搭建工作环境:安装openjdk	yi.hao	Page moved from platform:搭建工作环境:安装openjdk to linux:搭建工作环境:安装openjdk	
+1480916481	172.21.1.195	E	linux:搭建工作环境:安装openjdk	qiancheng		

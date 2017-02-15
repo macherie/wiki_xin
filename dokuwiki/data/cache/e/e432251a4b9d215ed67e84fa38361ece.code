@@ -1,0 +1,12 @@
+<span class="kw1">class</span> Sample <span class="kw1">extends</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> <span class="br0">&#123;</span>
+    <span class="kw4">int</span> ivar1<span class="sy0">;</span>
+    <span class="kw4">int</span> ivar2<span class="sy0">;</span>
+&nbsp;
+    Sample<span class="br0">&#40;</span><span class="kw4">int</span> i,	<span class="kw4">int</span> j<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ivar1 <span class="sy0">=</span> i<span class="sy0">;</span>
+        ivar2 <span class="sy0">=</span> j<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw4">int</span> emptyMethod<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>
+    ...
+<span class="br0">&#125;</span>

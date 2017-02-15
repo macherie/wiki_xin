@@ -1,0 +1,57 @@
+1.首先查看userdata总大小
+<code>
+root@d508:/ # cat /proc/partitions                                             
+major minor  #blocks  name
+
+ 179        0    7634944 mmcblk0
+ 179        1      65536 mmcblk0p1
+ 179        2        256 mmcblk0p2
+ 179        3        256 mmcblk0p3
+ 179        4         32 mmcblk0p4
+ 179        5         32 mmcblk0p5
+ 179        6        512 mmcblk0p6
+ 179        7        512 mmcblk0p7
+ 179        8        500 mmcblk0p8
+ 179        9        500 mmcblk0p9
+ 179       10      16384 mmcblk0p10
+ 179       11        500 mmcblk0p11
+ 179       12        500 mmcblk0p12
+ 179       13       1024 mmcblk0p13
+ 179       14       1536 mmcblk0p14
+ 179       15       1536 mmcblk0p15
+ 179       16     819200 mmcblk0p16
+ 179       17      32768 mmcblk0p17
+ 179       18     131072 mmcblk0p18
+ 179       19      16384 mmcblk0p19
+ 179       20       1024 mmcblk0p20
+ 179       21       1536 mmcblk0p21
+ 179       22          1 mmcblk0p22
+ 179       23          8 mmcblk0p23
+ 179       24      10240 mmcblk0p24
+ 179       25    5930991 mmcblk0p25
+ 179       32        512 mmcblk0rpmb
+</code>
+取小于5930991 mmcblk0p25的值(5872026 * 1024 = 6012954624)
+
+2. AP侧修改
+<code>
+device/qcom/d508/BoardConfig.mk
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 6012954624
+</code>
+
+3. CP侧修改
+<code>
+Non-HLOS/common/build/d508.xml
+<partition label="userdata" size_in_kb="5872026" type="EBD0A0A2-B9E5-4433-87C0-68B6B72699C7"       bootable="false" readonly="true" filename="userdata.img" sparse="true"/>
+</code>
+
+另.UFS:
+<code>Non-HLOS/common/config/ufs/partition.xml
+</code>
+
+附：查看分区：
+[[platform:892x:partition-name]]
+<code>
+lrwxrwxrwx root     root              1970-01-01 14:14 userdata -> /dev/block/mmcblk0p25
+</code>
+

@@ -1,0 +1,62 @@
+======Android添加pppoe拨号功能======
+
+在android下有自带拨号用的pppd,位于/system/bin下，另外还需要移植pppoe.
+===== 1.pppoe的移植 =====
+用开源的rp-pppoe来编译生成pppoe client端执行程序。
+附件是rp-pppoe-3.10代码。{{:android:rp-pppoe-3.10.tar.gz|}}
+
+把代码解压放在extern/下面，编写Android.mk，见附件：{{:android:android_mk.doc|}}
+编译后生成system/xbin/pppoe，push到机器内，adb push pppoe /system/xbin/pppoe
+
+===== 2.kernel侧添加pppoe支持 =====
+CONFIG_PPP=y
+
+CONFIG_PPP_ASYNC=y
+
+CONFIG_PPP_SYNC_TTY=y
+
+CONFIG_PPP_DEFLATE=y
+
+CONFIG_PPP_BSDCOMP=y
+
+CONFIG_PPPOE=y
+
+CONFIG_N_HDLC=y
+
+CONFIG_UNIX98_PTYS=y
+
+编译生成boot.img，烧录进机器。
+
+===== 3.拨号验证  =====
+
+测试环境：由于s200没有RJ45接口，我家里的测试环境如下：
+1.家里网口端用网线接我的无线路由器的LAN口，注意是LAN口，不是WAN口！这样的目的是想让s200和无线路由器以及pppoe server端在一个局域网环境，使得pppoe server端可以接收pppoe拨号时的包。
+2.s200连接无线路由器。
+
+测试命令：
+#adb shell
+#/system/bin/pppd pty "/system/xbin/pppoe -p /etc/ppp/pid.pppoe -I wlan0 -T 80 -U -m 1412 -D /system/pppoe112.txt" noipdefault noauth default-asyncmap nodefaultroute hide-password nodetach usepeerdns mtu 1492 mru 1492 noaccomp nodeflate nopcomp novj novjccomp user slB207 password slB207
+
+注意上面的两个slB207就是拨号用的用户名和密码。
+调用上面的命令后，如果拨号成功，可以通过netcfg看到ppp0已经UP等相关信息。
+#netcfg
+PPP0 UP xxxxxx XXX
+
+此时尝试ping百度的ip
+#ping 202.108.22.5
+发现ping不通
+
+调用下面命令添加路由
+#route add -net 0.0.0.0 netmask 0.0.0.0 dev ppp0
+再ping发现可以ping通了。
+
+#ping www.baidu.com
+发现不通，肯定dns有问题
+
+设置dns
+#setprop net.dns1 10.127.127.1
+再ping，可以ping通
+#ping www.baidu.com
+
+结束。
+

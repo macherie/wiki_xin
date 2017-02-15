@@ -1,0 +1,23 @@
+    <span class="sc3"><span class="re1">&lt;activity</span> <span class="re0">android:name</span>=<span class="st0">&quot;.ui.ConversationList&quot;</span></span>
+<span class="sc3">                  <span class="re0">android:label</span>=<span class="st0">&quot;@string/app_label&quot;</span></span>
+<span class="sc3">                  <span class="re0">android:configChanges</span>=<span class="st0">&quot;orientation|screenSize|keyboardHidden&quot;</span></span>
+<span class="sc3">                  <span class="re0">android:theme</span>=<span class="st0">&quot;@style/MmsHoloTheme&quot;</span></span>
+<span class="sc3">                  <span class="re0">android:uiOptions</span>=<span class="st0">&quot;splitActionBarWhenNarrow&quot;</span></span>
+<span class="sc3">                  <span class="re0">android:launchMode</span>=<span class="st0">&quot;singleTop&quot;</span><span class="re2">&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;intent-filter<span class="re2">&gt;</span></span></span>
+                <span class="sc3"><span class="re1">&lt;action</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.action.MAIN&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;category</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;category</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.category.DEFAULT&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;category</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.category.APP_MESSAGING&quot;</span> <span class="re2">/&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;/intent-filter<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;intent-filter<span class="re2">&gt;</span></span></span>
+                <span class="sc3"><span class="re1">&lt;action</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.action.MAIN&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;category</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.category.DEFAULT&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;data</span> <span class="re0">android:mimeType</span>=<span class="st0">&quot;vnd.android.cursor.dir/mms&quot;</span> <span class="re2">/&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;/intent-filter<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;intent-filter<span class="re2">&gt;</span></span></span>
+                <span class="sc3"><span class="re1">&lt;action</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.action.MAIN&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;category</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.intent.category.DEFAULT&quot;</span> <span class="re2">/&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;data</span> <span class="re0">android:mimeType</span>=<span class="st0">&quot;vnd.android-dir/mms-sms&quot;</span> <span class="re2">/&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;/intent-filter<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/activity<span class="re2">&gt;</span></span></span>

@@ -1,0 +1,33 @@
+boolean gmm_valid_mt_detach_request_message
+<span class="br0">&#40;</span>
+  mm_cmd_type                 <span class="sy0">*</span>message<span class="sy0">,</span>
+  gmm_mt_detach_request_msg_T <span class="sy0">*</span>detach_request_msg
+<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+....
+<span class="co1">// [SIMT-pengpeng-20130415] added to reattach even NW not required, begin</span>
+  <span class="kw4">static</span> <span class="kw4">uint8</span>  reattach_count <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="co1">// [SIMT-pengpeng-20130415] added to reattach even NW not required, end</span>
+....
+&nbsp;
+<span class="co1">// [SIMT-pengpeng-20130415] added to reattach even NW not required, begin</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>FALSE <span class="sy0">==</span> gmm_anite_gcf_flag<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span>GMM_REATTACH_NOT_REQUIRED <span class="sy0">==</span> detach_request_msg<span class="sy0">-&gt;</span>detach_type<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span><span class="nu0">3</span> <span class="sy0">&gt;</span> reattach_count<span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      MSG_HIGH_DS<span class="br0">&#40;</span> MM_SUB<span class="sy0">,</span> <span class="st0">&quot;=MM= gmm_valid_mt_detach_request_message, detach_type = %d, gmm_state = %d, reattach_count = %d&quot;</span><span class="sy0">,</span> detach_request_msg<span class="sy0">-&gt;</span>detach_type<span class="sy0">,</span> gmm_state<span class="sy0">,</span> reattach_count <span class="br0">&#41;</span><span class="sy0">;</span>
+      detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">=</span> GMM_REATTACH_REQUIRED<span class="sy0">;</span>
+      reattach_count<span class="sy0">++;</span>
+    <span class="br0">&#125;</span>
+<span class="co1">// [SIMT-pengpeng-20130415] added to reattach even NW not required, end</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_REATTACH_REQUIRED<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+        <span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_REATTACH_NOT_REQUIRED<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+        <span class="br0">&#40;</span>detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">!=</span> GMM_MT_IMSI_DETACH<span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="coMULTI">/* ----------------------------------------------------------
+      ** All other values are interpreted as re-attach not required
+      ** by this version of the protocol (24.008 Table 10.5.138)
+      ** ---------------------------------------------------------- */</span>
+      detach_request_msg<span class="sy0">-&gt;</span>detach_type <span class="sy0">=</span> GMM_REATTACH_NOT_REQUIRED<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+....
+<span class="br0">&#125;</span>

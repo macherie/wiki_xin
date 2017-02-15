@@ -1,0 +1,15 @@
+     <span class="kw1">public</span> <span class="kw1">static</span> ServiceToken bindToService<span class="br0">&#40;</span>Activity context, ServiceConnection callback<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Activity realActivity <span class="sy0">=</span> context.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>realActivity <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            realActivity <span class="sy0">=</span> context<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        ContextWrapper cw <span class="sy0">=</span> <span class="kw1">new</span> ContextWrapper<span class="br0">&#40;</span>realActivity<span class="br0">&#41;</span><span class="sy0">;</span>
+        cw.<span class="me1">startService</span><span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span>cw, MediaPlaybackService.<span class="kw1">class</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        ServiceBinder sb <span class="sy0">=</span> <span class="kw1">new</span> ServiceBinder<span class="br0">&#40;</span>callback<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>cw.<span class="me1">bindService</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">setClass</span><span class="br0">&#40;</span>cw, MediaPlaybackService.<span class="kw1">class</span><span class="br0">&#41;</span>, sb, <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            sConnectionMap.<span class="me1">put</span><span class="br0">&#40;</span>cw, sb<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw1">new</span> ServiceToken<span class="br0">&#40;</span>cw<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        Log.<span class="me1">e</span><span class="br0">&#40;</span><span class="st0">&quot;Music&quot;</span>, <span class="st0">&quot;Failed to bind to service&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

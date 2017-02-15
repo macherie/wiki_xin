@@ -1,0 +1,15 @@
+1. 关机充电电流小于开机充电电流：
+
+原因：关机充电CPU没有进入省电模式，CPU消耗了部分电流；
+
+解决：在关机充电时降频。
+
+修改rootdir/etc/init.qcom.usb.rc
+<code>
+on charger
+    setprop sys.usb.config mass_storage
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+</code>

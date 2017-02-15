@@ -1,0 +1,38 @@
+======安装git daemon======
+
+=====1. 创建git账户=====
+sudo useradd –m git：创建一个名为git的账户
+
+sudo passwd git：运行此命令后，可设置git账户的密码
+
+=====2. 安装 git daemon=====
+<code>
+sudo apt-get install git-daemon-run
+</code>
+
+=====3. 安装好git-daemon后, 需要修改配置文件 /etc/sv/git-daemon/run=====
+
+将
+<code>
+#!/bin/sh
+exec 2>&1
+echo 'git-daemon starting.'
+exec chpst -ugitdaemon \
+  "$(git --exec-path)"/git-daemon --verbose --reuseaddr \
+    --base-path=/var/cache /var/cache/git
+</code>
+修改为：
+<code>
+#!/bin/sh
+exec 2>&1
+echo 'git-daemon starting.'
+exec chpst -ugitdaemon:git \
+  "$(git --exec-path)"/git-daemon --verbose --enable=receive-pack --export-all --reuseaddr \
+    --base-path=/home/git /home/git
+</code>
+
+=====4. 修改后重启git-daemon=====
+<code>
+sudo sv down git-daemon
+sudo sv up git-daemon
+</code>

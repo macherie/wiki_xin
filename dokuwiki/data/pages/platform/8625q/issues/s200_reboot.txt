@@ -1,0 +1,31 @@
+====== S200机器反复重启（需要拔电池之后才能恢复） ======
+**现象:**
+<code>
+kernel起来后会出现Oops,而且这个Oops不是固定的，每次都可能不同。接着机器就重启了，就这样不断的重启。
+</code>
+
+**原因:**
+<code>
+8625Q平台使用NCP6335D这颗DC-DC Buck来提供CPU的Core电压，某些情况下这个IC会进入错误的状态，它的输出已经不是一系列的方波了，而是连续不变的。
+在这种状态下，即使机器重启也不能恢复正常，除非彻底断电。
+由于这颗IC的状态异常，也就导致了CPU的Core的电压异常，kernel就会出现随机的Panic，从而导致机器重启。
+</code>
+
+**解决方案:**
+<code>
+在oemsbl中重新初始化ncp6335d的寄存器，设置输出电压值。
+</code>
+<code c>
+ncp6335d_write(0x02, 0xff);
+ncp6335d_write(0x10, 0xd0);
+ncp6335d_write(0x11, 0xd0);
+ncp6335d_write(0x12, 0x00);
+ncp6335d_write(0x13, 0x01);//0x01 19
+ncp6335d_write(0x14, 0x1);
+ncp6335d_write(0x15, 0x80);
+ncp6335d_write(0x16, 0x62);//0x62 0x63
+udelay(5000);
+ncp6335d_write(NCP6335D_REG_PROG_VSEL0, vsel_value | 0x80);
+</code>
+**Patch:**
+{{linux:8625q:patch-for-ncp6335d-mess-issue.zip|}}

@@ -1,0 +1,80 @@
+
+<h1 class="sectionedit1" id="提高sdcard_权限">提高sdcard 权限</h1>
+<div class="level1">
+
+<p>
+Android 4.0 以后对 sdcard 的写入权限更严格了。
+我们可以通过一下步骤来获取高权限。
+</p>
+<ul>
+<li class="level1"><div class="li"> 把 persist.sampling_profiler 属性设置为 1</div>
+</li>
+</ul>
+<pre class="code bash"> setprop persist.sampling_profiler <span class="nu0">1</span> </pre>
+<ul>
+<li class="level1"><div class="li"> 在setting里重新挂载SD卡，或者重启一下机器。</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li"> 提高 storage 的权限</div>
+</li>
+</ul>
+<pre class="code bash">  adb shell
+  <span class="kw2">mount</span> <span class="re5">-o</span> remount,rw <span class="sy0">/</span> <span class="sy0">/</span>
+  <span class="kw2">chmod</span> <span class="nu0">777</span> storage
+&nbsp;</pre>
+
+<p>
+这样/mnt/sdcard的权限就提高到最大了。
+</p>
+
+<p>
+<img src="/dokuwiki/lib/images/smileys/icon_wink.gif" class="icon" alt=";-)" /> 少年，享受吧！
+</p>
+
+<p>
+<strong>PS.</strong>
+</p>
+
+</div>
+<!-- EDIT1 SECTION "提高sdcard 权限" [1-529] -->
+<h3 class="sectionedit2" id="假象">假象</h3>
+<div class="level3">
+
+<p>
+把 persist.sampling_profiler 属性设置为 1 ，重新挂载SD卡后进/mnt 看到 sdcard 的权限已经是最大了，但是还有出现权限问题。
+</p>
+<pre class="code">lrwxrwxrwx root     root              2013-10-31 07:19 sdcard -&gt; /storage/sdcard0</pre>
+
+<p>
+这就是前面为什么要改/storage目录权限的原因了。因为/mnt/sdcard 只是个链接，是链接到 /storage上的。
+</p>
+
+</div>
+<!-- EDIT2 SECTION "假象" [530-937] -->
+<h3 class="sectionedit3" id="源码">源码</h3>
+<div class="level3">
+
+<p>
+相关代码可参考 system/vold/Fat.cpp
+</p>
+<pre class="code c++"><span class="kw4">char</span> value<span class="br0">&#91;</span>PROPERTY_VALUE_MAX<span class="br0">&#93;</span><span class="sy0">;</span>
+property_get<span class="br0">&#40;</span><span class="st0">&quot;persist.sampling_profiler&quot;</span><span class="sy0">,</span> value<span class="sy0">,</span> <span class="st0">&quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>value<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">==</span> <span class="st0">'1'</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    SLOGW<span class="br0">&#40;</span><span class="st0">&quot;The SD card is world-writable because the&quot;</span>
+        <span class="st0">&quot; 'persist.sampling_profiler' system property is set to '1'.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    permMask <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> </pre>
+
+</div>
+<!-- EDIT3 SECTION "源码" [938-1274] -->
+<h1 class="sectionedit4" id="linux_下挂载_mtp">Linux 下挂载 MTP</h1>
+<div class="level1">
+<pre class="code bash"><span class="kw2">sudo</span> <span class="kw2">apt-get install</span> mtp-tools mtpfs
+<span class="kw2">sudo</span> service udev restart
+<span class="kw2">sudo</span> <span class="kw2">mkdir</span> <span class="sy0">/</span>media<span class="sy0">/</span>mtp
+<span class="kw2">sudo</span> <span class="kw2">chmod</span> a+rwx <span class="sy0">/</span>media<span class="sy0">/</span>mtp
+<span class="kw2">sudo</span> adduser YOURUSERNAME fuse</pre>
+
+</div>
+<!-- EDIT4 SECTION "Linux 下挂载 MTP" [1275-] -->

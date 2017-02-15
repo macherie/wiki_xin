@@ -1,0 +1,10 @@
+java -version
+程序 'java' 已包含在下列软件包中：
+<code>
+ * default-jre
+ * gcj-4.8-jre-headless
+ * openjdk-7-jre-headless
+ * gcj-4.6-jre-headless
+ * openjdk-6-jre-headless
+</code>
+请尝试：sudo apt-get install <选定的软件包>

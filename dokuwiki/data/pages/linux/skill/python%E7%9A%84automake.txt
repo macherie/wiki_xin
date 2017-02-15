@@ -1,0 +1,19 @@
+刚学Python时写的一个菜鸟小工程。
+
+功能说明：自动从服务器上下载项目代码然后进行编译。
+
+实现：
+
+  - CompileModule编译模块
+  - DeployModule发布模块
+  - ExceptionModule异常处理模块
+  - LogModule日志模块
+  - OptionModule配置模块
+
+使用方法：
+
+  - 先进入tool，运行mkoption.py,生成option.xml
+  - 进入DeployModule,运行dm.py，配置邮箱
+  - 返回上一层，运行python main.py
+
+{{:python:automake.zip|}}

@@ -1,0 +1,23 @@
+Intent broadcastIntent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span>Intent.<span class="me1">ACTION_NEW_OUTGOING_CALL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>number <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>Intent.<span class="me1">EXTRA_PHONE_NUMBER</span>, number<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+PhoneUtils.<span class="me1">checkAndCopyPhoneProviderExtras</span><span class="br0">&#40;</span>intent, broadcastIntent<span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>EXTRA_ALREADY_CALLED, callNow<span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>EXTRA_ORIGINAL_URI, uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+broadcastIntent.<span class="me1">putExtra</span><span class="br0">&#40;</span>SUBSCRIPTION_KEY, mSubscription<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// Need to raise foreground in-call UI as soon as possible while allowing 3rd party app</span>
+<span class="co1">// to intercept the outgoing call.</span>
+broadcastIntent.<span class="me1">addFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_RECEIVER_FOREGROUND</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> Log.<span class="me1">v</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot; - Broadcasting intent: &quot;</span> <span class="sy0">+</span> broadcastIntent <span class="sy0">+</span> <span class="st0">&quot;.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Set a timer so that we can prepare for unexpected delay introduced by the broadcast.</span>
+<span class="co1">// If it takes too much time, the timer will show &quot;waiting&quot; spinner.</span>
+<span class="co1">// This message will be removed when OutgoingCallReceiver#onReceive() is called before the</span>
+<span class="co1">// timeout.</span>
+mHandler.<span class="me1">sendEmptyMessageDelayed</span><span class="br0">&#40;</span>EVENT_OUTGOING_CALL_TIMEOUT,
+        OUTGOING_CALL_TIMEOUT_THRESHOLD<span class="br0">&#41;</span><span class="sy0">;</span>
+sendOrderedBroadcast<span class="br0">&#40;</span>broadcastIntent, PERMISSION, <span class="kw1">new</span> OutgoingCallReceiver<span class="br0">&#40;</span><span class="br0">&#41;</span>,
+        <span class="kw2">null</span>,  <span class="co1">// scheduler</span>
+        Activity.<span class="me1">RESULT_OK</span>,  <span class="co1">// initialCode</span>
+        number,  <span class="co1">// initialData: ini</span>

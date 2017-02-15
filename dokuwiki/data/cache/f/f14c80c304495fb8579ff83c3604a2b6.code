@@ -1,0 +1,23 @@
+<span class="co0">#</span>
+<span class="co0"># This file was derived from the 'Hello World!' example recipe in the</span>
+<span class="co0"># Yocto Project Development Manual.</span>
+<span class="co0">#</span>
+&nbsp;
+DESCRIPTION = <span class="st0">&quot;Simple helloworld application&quot;</span>
+SECTION = <span class="st0">&quot;examples&quot;</span>
+LICENSE = <span class="st0">&quot;MIT&quot;</span>
+LIC_FILES_CHKSUM = <span class="st0">&quot;file://<span class="es3">${COMMON_LICENSE_DIR}</span>/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302&quot;</span>
+PR = <span class="st0">&quot;r0&quot;</span>
+&nbsp;
+SRC_URI = <span class="st0">&quot;file://helloworld.c&quot;</span>
+&nbsp;
+S = <span class="st0">&quot;<span class="es3">${WORKDIR}</span>&quot;</span>
+&nbsp;
+do_compile<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+             <span class="co1">${CC}</span> helloworld.c <span class="re5">-o</span> helloworld
+<span class="br0">&#125;</span>
+&nbsp;
+do_install<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+             <span class="kw2">install</span> <span class="re5">-d</span> <span class="co1">${D}</span><span class="co1">${bindir}</span>
+             <span class="kw2">install</span> <span class="re5">-m</span> 0755 helloworld <span class="co1">${D}</span><span class="co1">${bindir}</span>
+<span class="br0">&#125;</span>

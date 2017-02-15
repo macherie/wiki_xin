@@ -1,0 +1,51 @@
+Qfil 下载CB09代码
+====== 进入download模式======
+
+adb reboot edl或[[platform:8996:按键模式|短接download的焊点]]。
+====== 下载工具 ======
+
+下载工具只能在Windows系统使用：
+[[smb://192.167.100.225/share/Tool/QPST/QPST.WIN.2.7 Installer-00448.3.zip]]
+
+参考文档(QCN备份,QFIL用法,命令行烧录/删除LUN0~5方法)
+
+Qualcomm Flash Image Loader (QFIL) User Guide 80-NN120-1 H 
+
+
+====== 下载步骤 ======
+
+1、打开QFIL界面如下：
+----
+{{:platform:8996:1.png}}
+----
+2、选择Configuration->FireHose Configuration：
+----
+{{:platform:8996:2.png}}
+----
+3、Device Typ 选择UFS，勾选Provision，然后OK：
+----
+{{:platform:8996:3.png}}
+----
+4、在QFIL界面，选择软件包中的文件如下(XML根据Flash的类型选择)：
+----
+{{:platform:8996:4.png}}
+----
+5、选择provision下载,下载完成如下，图片提示的错误暂时不知道原因,应该不影响下一步代码升级：
+----
+{{:platform:8996:5.png}}
+----
+6、**手机重新断电上电一下，再次进入Download模式。**QFIL再次进入Configuration->FireHose Configuration 并且**取消勾选Provision**，选择OK：
+----
+{{:platform:8996:6.png}}
+----
+7、Select Programer选择和上次一样，XML有选择如下图，全选所有XML,rawprogram0.xml~rawprogram5.xml：
+----
+{{:platform:8996:7.png}}
+----
+8、再次选择path0.xml~path5.xml,如下图：
+----
+{{:platform:8996:8.png}}
+----
+9、最终显示如下，选择Download下载，下载成功如下：
+----
+{{:platform:8996:9.png}}

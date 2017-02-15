@@ -1,0 +1,35 @@
+====== Gerrit 使用规范 ======
+
+===== 代码提交要求 =====
+  - 一个Commit对应一个修改点（除非是在项目初始阶段或是升级BSP时）。
+  - 不要随便修改文件的属性。Windows 修改过的文件属性会变成755，上传代码时请注意修改成文件的原属性，可以用git whatchanged 来查看自己commit修改的文件。
+  - 缩进格式跟原文件保持一致。
+  - 不要修改跟提交内容无关的代码。
+
+===== Git commit 注释要求=====
+  - 设置GIT使用vim来编辑commit，请不要使用-m参数 (git config –global core.editor vim)。
+  - 注释内容应用英文写。
+  - 如果代码是针对某个项目的改动，要以 项目名称+:+空格 开头，例如 D508: Add software navigator bar。 
+  - 首行粗略写下修改是什么内容，请注意不用太长。
+  - 空一行之后详细写修改了什么，为什么要这么修改，如果是跟bug相关，请写上bug号。
+例：
+<code>
+S100D: Cofigure GPIO31 and GPIO33 to INPUT PULL UP.
+
+OEMSBL would check VOL+ and VOL- to enter download mode,
+becase we only checked the low status, so we need set these two
+GPIO to input pull up, otherwise, we can't get right status.
+fix bug xxxx
+</code>
+
+===== 上传代码者 =====
+  - 修改代码，**验证后**提交到 Gerrit 上。
+  - 代码提交后登陆 Gerrit，**自己检查代码**（重点看缩进格式跟原文件是否一致；去掉红色空格部分；修改内容是否正确；命名是否有意义；注释内容是否符合要求等）。
+  - 自己检查没问题后，点 “Review”按钮，在“Verified”中 ＋1，在“Code Review”中 +1，并点“Publish Comments”。
+  - 在”Reviewer”栏中，加审核者。
+  - 如果代码审核没有通过，请重复步骤1，2，3。
+
+===== 审核者 =====
+  - 收到邮件通知后登陆 Gerrit，审核代码。
+  - 如果审核通过，点 “Review”按钮，在“Verified”中 ＋1，在“Code Review”中 +2，并点“Publish Comments”。
+  - 如果代码审核没有通过，点 “Review”按钮，在“Code Review”中 -2，写好评论后，点“Publish Comments”。

@@ -1,0 +1,6 @@
+<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+button"><span class="kw3">Button</span></a> btn <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+button"><span class="kw3">Button</span></a><span class="br0">&#40;</span>context<span class="br0">&#41;</span><span class="sy0">;</span>
+LayoutParams lp <span class="sy0">=</span> <span class="kw1">new</span>
+        LayoutParams<span class="br0">&#40;</span>LayoutParams.<span class="me1">FILL_PARENT</span>,LayoutParams.<span class="me1">FILL_PARENT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+lp.<span class="me1">setMargins</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+btn.<span class="me1">setTextSize</span><span class="br0">&#40;</span><span class="nu0">12</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+btn.<span class="me1">setPadding</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>

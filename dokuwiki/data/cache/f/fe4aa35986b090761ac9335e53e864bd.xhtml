@@ -1,0 +1,41 @@
+
+<h1 class="sectionedit1" id="音频参数文件">音频参数文件</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "音频参数文件" [1-35] -->
+<h2 class="sectionedit2" id="acdb_file在代码里位置">acdb file在代码里位置:</h2>
+<div class="level2">
+
+<p>
+cd vendor/qcom/proprietary/mm-audio/audcal/family-b/acdbdata/8226/
+</p>
+
+</div>
+<!-- EDIT2 SECTION "acdb file在代码里位置:" [36-146] -->
+<h2 class="sectionedit3" id="acdb_file在手机里位置">acdb file在手机里位置:</h2>
+<div class="level2">
+
+<p>
+#adb shell
+</p>
+
+<p>
+#/etc/acdbdata
+</p>
+
+</div>
+<!-- EDIT3 SECTION "acdb file在手机里位置:" [147-218] -->
+<h2 class="sectionedit4" id="用以下命令可以把文件导入手机里">用以下命令可以把文件导入手机里：</h2>
+<div class="level2">
+
+<p>
+adb shell setprop service.adb.root 1
+</p>
+
+<p>
+adb remount &amp;&amp; adb push Bluetooth_cal.acdb /etc/acdbdata/MTP/MTP_Bluetooth_cal.acdb &amp;&amp; adb push General_cal.acdb /etc/acdbdata/MTP/MTP_General_cal.acdb &amp;&amp; adb push Global_cal.acdb /etc/acdbdata/MTP/MTP_Global_cal.acdb &amp;&amp; adb push Handset_cal.acdb /etc/acdbdata/MTP/MTP_Handset_cal.acdb &amp;&amp; adb push Hdmi_cal.acdb /etc/acdbdata/MTP/MTP_Hdmi_cal.acdb &amp;&amp; adb push Headset_cal.acdb /etc/acdbdata/MTP/MTP_Headset_cal.acdb &amp;&amp; adb push Speaker_cal.acdb /etc/acdbdata/MTP/MTP_Speaker_cal.acdb &amp;&amp; adb push Bluetooth_cal.acdb /etc/acdbdata/QRD/QRD_Bluetooth_cal.acdb &amp;&amp; adb push General_cal.acdb /etc/acdbdata/QRD/QRD_General_cal.acdb &amp;&amp; adb push Global_cal.acdb /etc/acdbdata/QRD/QRD_Global_cal.acdb &amp;&amp; adb push Handset_cal.acdb /etc/acdbdata/QRD/QRD_Handset_cal.acdb &amp;&amp; adb push Hdmi_cal.acdb /etc/acdbdata/QRD/QRD_Hdmi_cal.acdb &amp;&amp; adb push Headset_cal.acdb /etc/acdbdata/QRD/QRD_Headset_cal.acdb &amp;&amp; adb push Speaker_cal.acdb /etc/acdbdata/QRD/QRD_Speaker_cal.acdb &amp;&amp; adb reboot
+</p>
+
+</div>
+<!-- EDIT4 SECTION "用以下命令可以把文件导入手机里：" [219-] -->

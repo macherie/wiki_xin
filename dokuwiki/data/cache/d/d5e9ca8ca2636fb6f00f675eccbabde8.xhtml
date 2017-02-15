@@ -1,0 +1,83 @@
+
+<h2 class="sectionedit1" id="d508切换成双卡dsda版本修改方法">D508切换成双卡DSDA版本修改方法</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT1 SECTION "D508切换成双卡DSDA版本修改方法" [1-53] -->
+<h2 class="sectionedit2" id="ap修改">AP修改:</h2>
+<div class="level2">
+
+<p>
+adb shell setprop persist.radio.multisim.config dsda
+</p>
+
+</div>
+<!-- EDIT2 SECTION "AP修改:" [54-128] -->
+<h2 class="sectionedit3" id="nv修改">NV修改:</h2>
+<div class="level2">
+
+<p>
+NV 70266 to DSDA
+</p>
+
+<p>
+NV 6876 → dual_Standby_pref to 5
+</p>
+
+<p>
+NV 6907 to 1
+</p>
+
+<p>
+NV 67256 to 0
+</p>
+
+<p>
+NV 70210 hw_config.UIM[1].DISABLE_UIM to FALSE
+</p>
+
+</div>
+<!-- EDIT3 SECTION "NV修改:" [129-280] -->
+<h2 class="sectionedit4" id="d508切换成单卡ss版本修改方法">D508切换成单卡SS版本修改方法</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "D508切换成单卡SS版本修改方法" [281-331] -->
+<h2 class="sectionedit5" id="ap修改1">AP修改:</h2>
+<div class="level2">
+
+<p>
+delete如下property
+</p>
+
+<p>
+adb shell setprop persist.radio.multisim.config xxxx
+</p>
+
+</div>
+<!-- EDIT5 SECTION "AP修改:" [332-428] -->
+<h2 class="sectionedit6" id="nv修改1">NV修改:</h2>
+<div class="level2">
+
+<p>
+NV04398 →1
+</p>
+
+<p>
+NV6876 → 0 0 0 0 0x05
+</p>
+
+<p>
+NV6907 → 0 
+</p>
+
+<p>
+NV70266 → 0 
+</p>
+
+<p>
+NV70210 hw_config.UIM[1].DISABLE_UIM to TRUE
+</p>
+
+</div>
+<!-- EDIT6 SECTION "NV修改:" [429-] -->

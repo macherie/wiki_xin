@@ -1,0 +1,85 @@
+====HTML显示计时器====
+<html>
+<div id="test" style="color:green; font-size:30pt; margin:auto; text-align:center"></div>
+<script>
+var a = document.getElementById("test");
+function startTimer() {
+    setTimeout("startTimer()", 10);
+    msec += 10;
+    if(msec >= 1000) {
+        msec = 0;
+        sec +=1;
+    }
+    if(sec >= 60) {
+        sec = 0;
+        min += 1;
+    }
+    a.innerHTML = o(min) + ":" + o(sec) + ":" + t(msec);
+}
+function o(arg) {
+    return arg >= 10 ? arg : "0" + arg;
+}
+function t(arg) {
+    if(arg >= 100) return arg;
+    if(arg >= 10) return "0" + arg;
+    return "00" + arg;
+}
+var min, sec, msec;
+min = sec = msec = 0;
+a.innerHTML = "00:00:000";
+startTimer();
+</script>
+</html>
+\\ **HTML计时器源码**
+<code javascript>
+<html>
+<div id="test" style="color:green; font-size:30pt; margin:auto; text-align:center"></div>
+<script>
+var a = document.getElementById("test");
+function startTimer() {
+    setTimeout("startTimer()", 10);
+    msec += 10;
+    if(msec >= 1000) {
+        msec = 0;
+        sec +=1;
+    }
+    if(sec >= 60) {
+        sec = 0;
+        min += 1;
+    }
+    a.innerHTML = o(min) + ":" + o(sec) + ":" + t(msec);
+}
+function o(arg) {
+    return arg >= 10 ? arg : "0" + arg;
+}
+function t(arg) {
+    if(arg >= 100) return arg;
+    if(arg >= 10) return "0" + arg;
+    return "00" + arg;
+}
+var min, sec, msec;
+min = sec = msec = 0;
+a.innerHTML = "00:00:000";
+startTimer();
+</script>
+</html>
+</code>
+
+\\
+\\
+<file java myexample.java>
+
+package com.android.sim;                                                                                                                                       
+ 
+public class CommonDrive {
+    static {
+        System.loadLibrary("CommonDrive");
+    }
+    public native int getVoltage();
+    public native String getCapacity();
+    public native int changeUsbDriver(String value);
+    public native int getUsbDriver();
+    public native int openMic();
+    public native int closeMic();
+}
+</file>

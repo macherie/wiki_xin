@@ -1,0 +1,4 @@
+**1 使用adb命令来控制设备进入飞行模式**
+  adb shell input keyevent 82
+  adb shell am start -a android.settings.AIRPLANE_MODE_SETTINGS
+  adb shell input keyevent 19 & adb shell input keyevent 23

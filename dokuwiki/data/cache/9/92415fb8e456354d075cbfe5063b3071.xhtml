@@ -1,0 +1,14 @@
+
+<p>
+sed命令
+</p>
+
+<p>
+一个命令替换所有当前目录下的.repo/manifests/.git/config中的字符串
+</p>
+<pre class="code">sed -i &quot;s-git://192.167.100.232/platform/manifest.git-git@192.167.100.232:platform/manifest.git-&quot; */.repo/manifests/.git/config</pre>
+
+<p>
+sed 命令的s后可以跟任意字符代替。所以上面命令也可以写成
+</p>
+<pre class="code">sed -i &quot;s+git://192.167.100.232/platform/manifest.git+git@192.167.100.232:platform/manifest.git+&quot; */.repo/manifests/.git/config</pre>

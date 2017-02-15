@@ -1,0 +1,23 @@
+<span class="co1">//New class members</span>
+<span class="co3">/** This will be used to pass in the transformation matrix. */</span>
+<span class="kw1">private</span> <span class="kw4">int</span> mMVPMatrixHandle<span class="sy0">;</span>
+&nbsp;
+<span class="co3">/** This will be used to pass in model position information. */</span>
+<span class="kw1">private</span> <span class="kw4">int</span> mPositionHandle<span class="sy0">;</span>
+&nbsp;
+<span class="co3">/** This will be used to pass in model color information. */</span>
+<span class="kw1">private</span> <span class="kw4">int</span> mColorHandle<span class="sy0">;</span>
+&nbsp;
+@Override
+<span class="kw1">public</span> <span class="kw4">void</span> onSurfaceCreated<span class="br0">&#40;</span>GL10 glUnused, EGLConfig config<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    ...
+&nbsp;
+    <span class="co1">// Set program handles. These will later be used to pass in values to the program.</span>
+    mMVPMatrixHandle <span class="sy0">=</span> GLES20.<span class="me1">glGetUniformLocation</span><span class="br0">&#40;</span>programHandle, <span class="st0">&quot;u_MVPMatrix&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mPositionHandle <span class="sy0">=</span> GLES20.<span class="me1">glGetAttribLocation</span><span class="br0">&#40;</span>programHandle, <span class="st0">&quot;a_Position&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    mColorHandle <span class="sy0">=</span> GLES20.<span class="me1">glGetAttribLocation</span><span class="br0">&#40;</span>programHandle, <span class="st0">&quot;a_Color&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Tell OpenGL to use this program when rendering.</span>
+    GLES20.<span class="me1">glUseProgram</span><span class="br0">&#40;</span>programHandle<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

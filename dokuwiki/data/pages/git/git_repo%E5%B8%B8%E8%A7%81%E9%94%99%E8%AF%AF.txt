@@ -1,0 +1,50 @@
+====== Git & Repo 常见错误 =======
+ --- //[[yuhua.wang@sim.com|yuhua.wang]] 2016/12/21 15:25//
+
+  * 1、git clone 代码时报错，错误如下：
+  
+<code>
+Unable to negotiate with 172.16.6.72: no matching key exchange methodfound. Their offer: diffie-hellman-group1-sha1
+</code>
+解决方法：产生这种错误的原因主要是因为OpenSSH 7.0 and greater 认证方式不匹配,因此只需在本地创建config文件，添加相关内容即可。具体操作如下：
+<code>
+ $ vim .ssh/config
+ 添加内容如下：
+ Host 172.16.6.72
+    KexAlgorithms +diffie-hellman-group1-sha1
+</code>
+
+  * 2、git clone 或者 repo init 时出现locate setting failed错误，具体如下：
+<code>
+Per 1;waring:Setting local failed
+Per 1:warning:Please check that your local settings
+......
+Per 1:waring:Falling back to the standard local(“c”)
+</code>
+
+解决方法：出现该错误主要是因为全局变量设置与语言设置不兼容所致。解决方法如下：在根目录下执行：
+<code>
+ $ export LANG=en_US:zh_CN.UTF-8
+</code>
+
+或者在 .bashrc文件中添加 上面两句命令后，重启 .bashrc即可。
+
+  * 3、repo sync时出现 a new version of repo available…错误
+解决方法：删除掉android代码目录下的 .repoconfig文件夹即可
+
+  * 4、git push 代码时 Push不成功（invalid committer)
+{{:git:2016-12-21_16_37_59屏幕截图.png|}}
+
+解决方法：
+<code bash>
+更新git user.mail ,并重提交
+重配置邮箱（需与gerrit注册的邮箱一致 )
+git config --global user.email  yourname@sim.com
+撤消提交但保留本地修改
+git reset –q <commit_id> 本次提交之前的commit_id
+再次添加并提交
+git add fill & git commit 
+git  push origin HEAD:refs/for/…
+</code>
+
+

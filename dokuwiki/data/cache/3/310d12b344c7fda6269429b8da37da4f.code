@@ -1,0 +1,19 @@
+<span class="kw4">static</span> <span class="kw4">int</span>
+efs_unlink_helper <span class="br0">&#40;</span><span class="kw4">struct</span> nameidata <span class="sy0">*</span>ndp<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw4">struct</span> fs_vnode <span class="sy0">*</span>dvp <span class="sy0">=</span> ndp<span class="sy0">-&gt;</span>dvp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_vnode <span class="sy0">*</span>vp <span class="sy0">=</span> ndp<span class="sy0">-&gt;</span>vp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span>dmp <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span><span class="br0">&#41;</span> dvp<span class="sy0">-&gt;</span>mp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span>mp <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span><span class="br0">&#41;</span> vp<span class="sy0">-&gt;</span>mp<span class="sy0">;</span>
+  <span class="kw4">int</span> result<span class="sy0">;</span>
+&nbsp;
+  XACT_CHECK <span class="br0">&#40;</span>mp<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>S_ISLNK <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>mode<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>S_ISITM <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>mode<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ASSERT <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>p.<span class="me1">inode</span>.<span class="me1">nlink</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    vp<span class="sy0">-&gt;</span>p.<span class="me1">inode</span>.<span class="me1">nlink</span><span class="sy0">--;</span>
+    vp<span class="sy0">-&gt;</span>dirty <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+  ……
+&nbsp;
+  <span class="kw1">return</span> result<span class="sy0">;</span>
+<span class="br0">&#125;</span>

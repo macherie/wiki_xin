@@ -1,0 +1,4 @@
+===========MSM892X: adb shell 获取 root 权限===========
+<code>
+adb shell setprop service.adb.root 1
+</code>

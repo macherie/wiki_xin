@@ -1,0 +1,92 @@
+
+<h4 class="sectionedit1" id="编译">1.编译:</h4>
+<div class="level4">
+<pre class="code">source cbsdk_build.sh make -j4</pre>
+
+<p>
+添加的代码路径:
+</p>
+<pre class="code">CBSDK_141209_for_can/vendor/simcom/CBSDK/</pre>
+
+<p>
+客户APK替换的位置
+</p>
+<pre class="code">HomeBox.apk  HomeBoxInstaller.apk
+CBSDK_141209_for_can/vendor/simcom/CBSDK/packages/thirdparty/msm8610_CBSDK/</pre>
+
+<p>
+代码生成
+</p>
+<pre class="code">CBSDK_141209_for_can/target_files/</pre>
+
+<p>
+下载工具SaharaFirehouseDL, config  -  密码1  -  load,然后改路径, 填写9008的端口号(com号), 出来直接点下载
+</p>
+<pre class="code">smb://192.167.100.225/share/项目分类/homebox/SaharaFirehouseDL</pre>
+
+<p>
+SVN拉下来的2.1或者2.3 CBSDK直接拷贝进下面的目录:
+</p>
+<pre class="code">vendor/simcom/</pre>
+
+</div>
+<!-- EDIT1 SECTION "1.编译:" [1-667] -->
+<h4 class="sectionedit2" id="搭建编译环境">2.搭建编译环境:</h4>
+<div class="level4">
+<pre class="code">Environment Building
+2.1. Install Ubuntu
+Install Ubuntu 12.04 LTS 64bits on your computer.
+2.2. Install necessary packages
+$ sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev
+libc6-dev lib32ncurses5-dev ia32-libs x11proto-core-dev libx11-dev lib32readline-gplv2-dev
+lib32z-dev libgl1-mesa-dev g++-multilib mingw32 tofrodos python-markdown libxml2-utils
+xsltproc
+2.3. Make bash as the default shell
+sudo dpkg-reconfigure dash
+sudo rm /bin/sh
+sudo ln -s /bin/bash /bin/sh
+2.4. Install JDK
+Mothed 1
+sudo add-apt-repository &quot;deb http://archive.canonical.com/ lucid partner&quot;
+sudo apt-get update
+sudo apt-get install sun-java6-jdk
+Mothed 2
+2.4.1 Download Java SE 1.6.0 Update 45
+Download the jdk-6u45-linux-x64.bin file that version is Java SE 1.6.0 Update 45 from
+http://www.oracle.com.
+2.4.2 Enter the file directory
+2.4.3 Changes the file mode
+Chmod a+x jdk-6u45-linux-x64.bin
+2.4.4 Run the programe to unpack
+./jdk-6u45-linux-x64.bin
+2.4.5 Create directory and copy
+mkdir -p /usr/lib/jvm/
+sudo mv jdk1.6.0_45 /usr/lib/jvm/
+2.4.6 Set environment variables
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.6.0_45/bin/javac 1
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.6.0_45/bin/java 1
+sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.6.0_45/bin/javaws 1
+vi ~/.bashrc
+Add following codes:
+4export PATH=$PATH:/usr/lib/jvm/jdk1.6.0_45/bin/
+2.4.7 Check the JDK version
+$java -version
+Make sure it displays as follow.
+java version &quot;1.6.0_45&quot;
+Java(TM) SE Runtime Environment (build 1.6.0_45-b06)
+There is another method to install JDK.Skip if JDK is already.
+sudo add-apt-repository &quot;deb http://archive.canonical.com/ lucid partner&quot;
+sudo apt-get update
+sudo apt-get install sun-java6-jdk
+Caution: If OpenJDK has been installed, remove it.</pre>
+
+</div>
+<!-- EDIT2 SECTION "2.搭建编译环境:" [668-2561] -->
+<h4 class="sectionedit3" id="服务器">3.服务器</h4>
+<div class="level4">
+<pre class="code">172.19.2.76
+用户名xtqt
+密码  空格</pre>
+
+</div>
+<!-- EDIT3 SECTION "3.服务器" [2562-] -->

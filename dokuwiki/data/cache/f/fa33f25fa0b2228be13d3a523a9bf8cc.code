@@ -1,0 +1,35 @@
+<span class="co1">// New class definitions</span>
+ <span class="co3">/**
+ * Store the view matrix. This can be thought of as our camera. This matrix transforms world space to eye space;
+ * it positions things relative to our eye.
+ */</span>
+<span class="kw1">private</span> <span class="kw4">float</span><span class="br0">&#91;</span><span class="br0">&#93;</span> mViewMatrix <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">float</span><span class="br0">&#91;</span><span class="nu0">16</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+@Override
+<span class="kw1">public</span> <span class="kw4">void</span> onSurfaceCreated<span class="br0">&#40;</span>GL10 glUnused, EGLConfig config<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// Set the background clear color to gray.</span>
+    GLES20.<span class="me1">glClearColor</span><span class="br0">&#40;</span>0.5f, 0.5f, 0.5f, 0.5f<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Position the eye behind the origin.</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> eyeX <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> eyeY <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> eyeZ <span class="sy0">=</span> 1.5f<span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// We are looking toward the distance</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> lookX <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> lookY <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> lookZ <span class="sy0">=</span> <span class="sy0">-</span>5.0f<span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Set our up vector. This is where our head would be pointing were we holding the camera.</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> upX <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> upY <span class="sy0">=</span> 1.0f<span class="sy0">;</span>
+    <span class="kw1">final</span> <span class="kw4">float</span> upZ <span class="sy0">=</span> 0.0f<span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Set the view matrix. This matrix can be said to represent the camera position.</span>
+    <span class="co1">// NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and</span>
+    <span class="co1">// view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.</span>
+    Matrix.<span class="me1">setLookAtM</span><span class="br0">&#40;</span>mViewMatrix, <span class="nu0">0</span>, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    ...
+｝

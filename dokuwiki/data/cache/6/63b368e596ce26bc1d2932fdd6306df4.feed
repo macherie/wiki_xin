@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! android:other</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:49:36+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:adb_fastboot_permission&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:android_am&amp;rev=1393322070&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:debug_skill&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:file_authority&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:how_to_make_otapackage&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:summary&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=android:other:ubuntu_auto_mount_ntfs&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:adb_fastboot_permission&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:adb_fastboot_permission</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:adb_fastboot_permission&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 苗运齐 2013/12/16 09:35m(
+
+-rwxr-xr-x 1 root root 739 Sep  4 17:28 /etc/udev/rules.d/51-android.rules
+
+SUBSYSTEM==“usb”, ATTR{idVendor}==“18d1”, ATTR{idProduct}==“d00d”, MODE=“0666”, OWNER=“tiger”
+
+SUBSYSTEM==“usb”, ATTR{idVendor}==“05c6”, ATTR{idProduct}==“9025”, MODE=“0666”, OWNER=“tiger”</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:android_am&amp;rev=1393322070&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-25T10:54:30+01:00</dc:date>
+        <title>android:other:android_am</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:android_am&amp;rev=1393322070&amp;do=diff</link>
+        <description>am 命令播放音乐
+
+
+am start -n com.android.music/com.android.music.MediaPlaybackActivity -d /mnt/sdcard/test.mp3</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:debug_skill&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:debug_skill</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:debug_skill&amp;rev=1390476864&amp;do=diff</link>
+        <description>Android查看wakelocks占用:
+
+用串口抓cat /proc/wakelocks,然后用下面命令过滤
+
+
+cat wakelocks.cap | awk '{print $1 &quot; &quot; $5}' | grep -v &quot; 0&quot; | grep -v active
+
+ (过滤出第5位不是0不是列名的行)
+
+Make crach 进入 Download mode
+
+
+echo c &gt; /proc/sysrq-trigger</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:file_authority&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:file_authority</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:file_authority&amp;rev=1390476864&amp;do=diff</link>
+        <description>Android 4.0 以后对 sdcard 的写入权限更严格了。
+我们可以通过一下步骤来获取高权限。
+
+	*  把 persist.sampling_profiler 属性设置为 1
+
+ setprop persist.sampling_profiler 1 
+
+	*  在setting里重新挂载SD卡，或者重启一下机器。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:how_to_make_otapackage&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:how_to_make_otapackage</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:how_to_make_otapackage&amp;rev=1390476864&amp;do=diff</link>
+        <description>基于C500项目的OTA升级包制作
+
+客户需求：拿到update.zip升级包，可以自己定制，比如修改logo，加入系统应用等。
+
+我的思考过程：熟悉recovery升级模式的知道，这个update.zip是经过签名的，如果解压原生update.zip，修改完成后，直接打包升级是不能通过验证，所以需要进行签名，度娘会告诉你。命令是:</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:summary&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:summary</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:summary&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 苗运齐 2013/12/16 09:36:-x
+
+1、配置邮箱
+邮箱服务器
+mail.sim.com or www.sim.com
+
+2、在共享服务器上，拉取Ubuntu安装包
+地址：
+192.167.100.225
+
+文件路径：
+share/Tool/Ubuntu/ubuntu-12.10-desktop-amd64.iso
+
+3、在Windows系统下 硬盘安装Ubuntu，因我们的开发环境是ubuntu
+可参考
+&lt;http://wenku.baidu.com/link?url=H_wqJekLza6vY3H70-6li4AQakqywsnVXdKYvExi7yaxwKXUDv6xvBr_ukPp8X9LeVxZgMZcjcJRgIDQg6_8X2HI2MB8RBYnNQxw9jtSJ4i&gt;</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=android:other:ubuntu_auto_mount_ntfs&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>android:other:ubuntu_auto_mount_ntfs</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=android:other:ubuntu_auto_mount_ntfs&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 苗运齐 2013/12/16 09:30=)
+
+check UUID
+
+tiger@tiger:~$ sudo blkid 
+
+/dev/sda1: UUID=“8886-CCB9” TYPE=“vfat”
+
+/dev/sda5: UUID=“59817072B42D78C4” TYPE=“ntfs”
+
+/dev/sda6: UUID=“928a7b56-04b2-40cf-bd6f-20149cb20946” TYPE=“ext4”</description>
+    </item>
+</rdf:RDF>

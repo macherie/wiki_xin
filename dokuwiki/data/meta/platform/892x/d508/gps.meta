@@ -1,0 +1,14 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1408957141;s:8:"modified";i:1451900487;}s:7:"creator";s:11:"guihua.feng";s:4:"user";s:11:"guihua.feng";s:11:"last_change";a:7:{s:4:"date";i:1451900487;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"C";s:2:"id";s:22:"platform:892x:d508:gps";s:4:"user";s:6:"yi.hao";s:3:"sum";s:77:"Page moved from linux:服务器管理:892x:d508:gps to platform:892x:d508:gps";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:917:"添加GPS模块SKG10D
+
+一、添加kernel代码
+  加宏定义CONFIG_GPS_MODULE_SKG10D
+  添加文件：kernel/driver/misc/gps_skg10d.c中，主要是控制GPIO，给模块上电，上电后就可以工作。
+  
+二、添加HAL层代码
+ 1) 在hardware/qcom/gps/loc_api/libloc_api_50001/gps.c中
+ 添加GPS接口，并兼容高通内置的GPS。
+ 用属性：hw.gps.type来判断是是内置GPS还是外置GPS。0是内置，1是外置，属性值的设置见下面三。
+ 2）hardware/qcom/gps/loc_api/libloc_api_50001/hitown_beidou.c
+ 是GPS接口函数的实现。若打开GPS，就会启动一个线程，监听串口，串口每隔1秒会发一次数据，数据格式遵循NMEA协议。
+ 修改代码使其支持三种模式切换，分别是：0代表gps跟beidou模式；1代表beidou模式； 2代表gps模式。
+ 这个模式在设置菜单里控制，模式设置后会写属性值persist.sys.gps.mode,H…";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}s:11:"contributor";a:2:{s:11:"guihua.feng";s:11:"guihua.feng";s:6:"yi.hao";N;}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:22:"platform:892x:d508:gps";i:1451899813;s:35:"linux:服务器管理:892x:d508:gps";i:1451900487;s:38:"platform:服务器管理:892x:d508:gps";i:1451900422;}}}s:10:"persistent";a:6:{s:4:"date";a:2:{s:7:"created";i:1408957141;s:8:"modified";i:1451900487;}s:7:"creator";s:11:"guihua.feng";s:4:"user";s:11:"guihua.feng";s:11:"last_change";a:7:{s:4:"date";i:1451900487;s:2:"ip";s:12:"172.21.2.114";s:4:"type";s:1:"C";s:2:"id";s:22:"platform:892x:d508:gps";s:4:"user";s:6:"yi.hao";s:3:"sum";s:77:"Page moved from linux:服务器管理:892x:d508:gps to platform:892x:d508:gps";s:5:"extra";s:0:"";}s:11:"contributor";a:2:{s:11:"guihua.feng";s:11:"guihua.feng";s:6:"yi.hao";N;}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:22:"platform:892x:d508:gps";i:1451899813;s:35:"linux:服务器管理:892x:d508:gps";i:1451900487;s:38:"platform:服务器管理:892x:d508:gps";i:1451900422;}}}}

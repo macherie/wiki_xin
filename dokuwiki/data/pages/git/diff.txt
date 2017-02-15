@@ -1,0 +1,11 @@
+====== Git diff ======
+**Git diff: **
+工作区和暂存区比较。
+
+**Git diff --cached: **
+暂存区和HEAD比较。
+
+**Git diff HEAD: **
+工作区和HEAD比较。
+
+{{git:git-diff.png}}

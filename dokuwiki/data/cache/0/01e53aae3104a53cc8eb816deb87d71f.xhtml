@@ -1,0 +1,302 @@
+
+<p>
+====== WCD9306 Codec volume can be controlled from mixer_paths.xml and tinymix command.
+</p>
+<div class="level1">
+
+</div>
+
+<h2 class="sectionedit1" id="wcd_codec_digital_gain_settings">1) WCD codec digital Gain settings</h2>
+<div class="level2">
+
+<p>
+“RXn Digital Volume”  (CDC_RXn_VOL_CTL_B2_CTL n= [1 -4])
+</p>
+
+<p>
+“DECn Volume”  (CDC_TXn_VOL_CTL_GAIN n= [1 -4])
+</p>
+
+<p>
+ “IIRn INPx Volume” (CDC_IIRn_GAIN_Bx_CTL n= [1 -2] x=[1-4])
+</p>
+
+<p>
+These GAIN can be set from MIN 0 to MAX 124 as “value”. Step size of 1dB.  “0” means -84dB, “84” means 0dB, and “124” means +40dB.
+</p>
+
+<p>
+For example,
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“DEC1 Volume” value=“84” /&gt;
+</p>
+
+<p>
+Possible “value” range MIN : 0 (-84dB) MAX : 124 (0 dB) Step size : 1 (1dB)
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “DEC1 Volume” value
+</p>
+
+<p>
+value = 84  means  0dB
+</p>
+
+<p>
+value = 0    means -84dB
+</p>
+
+<p>
+value =124  means  +40dB
+</p>
+
+</div>
+<!-- EDIT1 SECTION "1) WCD codec digital Gain settings" [98-789] -->
+<h2 class="sectionedit2" id="wcd_codec_analog_gain_settings">2) WCD codec analog Gain settings,</h2>
+<div class="level2">
+
+<p>
+“ADCn Volume” (TX_n_EN n=[1,2])
+</p>
+
+<p>
+ “LINEOUTn Volum” (RX_LINE_n_GAIN n= [1-2])
+</p>
+
+<p>
+“HPHL Volume” (RX_HPH_L_GAIN)
+</p>
+
+<p>
+“HPHR Volume” (RX_HPH_R_GAIN)
+</p>
+
+<p>
+“EAR PA Gain” (RX_EAR_GAIN)
+</p>
+
+<p>
+“SPK DRV Volume” (SPKR_DRV_GAIN)
+</p>
+
+<p>
+For analog Gain settings, please refer to “80-NC836-2 WCD9306 Audio Codec
+</p>
+
+<p>
+Software Interface for OEMs” document for the register value to reflect the proper GAIN steps.
+</p>
+
+</div>
+<!-- EDIT2 SECTION "2) WCD codec analog Gain settings," [790-1250] -->
+<h3 class="sectionedit3" id="a_adc_volume">a. ADC Volume</h3>
+<div class="level3">
+<pre class="code"> “ADCn Volume” (TX_n_EN n=[1,2])   Min Gain : 0 dB, Max Gain : +28.5dB step size : 1.5dB</pre>
+
+<p>
+ Ex: 
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“ADC1 Volume” value=“19” /&gt;
+</p>
+
+<p>
+Possible “value” range MIN : 0 (0dB) MAX : 19 (+28.5 dB) Step size : 1 (1.5dB)
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “ADC1 Volume” value
+</p>
+
+<p>
+value = 0  means  0dB
+</p>
+
+<p>
+value = 19    means +28.5 dB
+</p>
+
+</div>
+<!-- EDIT3 SECTION "a. ADC Volume" [1251-1668] -->
+<h3 class="sectionedit4" id="b_lineout_volume">b. LINEOUT Volume</h3>
+<div class="level3">
+
+<p>
+ “LINEOUTn Volum” (RX_LINE_n_GAIN n= [1-2]) Min Gain : -30 dB, Max Gain : +0 dB step size : 1.5dB
+</p>
+
+<p>
+ Ex: 
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“LINEOUT1 Volume” value=“20” /&gt;
+</p>
+
+<p>
+Possible “value” range MIN : 0 (-30dB) MAX : 20 (0 dB) Step size : 1 (1.5dB)
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “LINEOUT1 Volume” value
+</p>
+
+<p>
+value = 0  means  -30dB
+</p>
+
+<p>
+value = 20    means +0 dB
+</p>
+
+</div>
+<!-- EDIT4 SECTION "b. LINEOUT Volume" [1669-2099] -->
+<h3 class="sectionedit5" id="c_headphone_volume">c. HeadPhone Volume</h3>
+<div class="level3">
+
+<p>
+“HPHL Volume” (RX_HPH_L_GAIN),  and “HPHR Volume” (RX_HPH_R_GAIN) Min Gain : -30 dB, Max Gain : +0 dB step size : 1.5dB
+</p>
+
+<p>
+Min Gain : -30 dB, Max Gain : +0 dB step size : 1.5dB
+</p>
+
+<p>
+ Ex: 
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“HPHL Volume” value=“20” /&gt;
+</p>
+
+<p>
+Possible “value” range MIN : 0 (-30dB) MAX : 20 (0 dB) Step size : 1 (1.5dB)
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “HPHL Volume” value
+</p>
+
+<p>
+value = 0  means  -30 dB
+</p>
+
+<p>
+value = 20    means +0 dB
+</p>
+
+</div>
+<!-- EDIT5 SECTION "c. HeadPhone Volume" [2100-2606] -->
+<h3 class="sectionedit6" id="d_ear_pa_volume">d. EAR PA Volume</h3>
+<div class="level3">
+<pre class="code">“EAR PA Gain” (RX_EAR_GAIN)  Min Gain : 0 dB, Max Gain : 6dB step size : 1.5dB</pre>
+
+<p>
+ Ex: 
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“EAR PA Gain” value=“POS_6_DB” /&gt;
+</p>
+
+<p>
+Possilble “value” are POS_6_DB, POS_4P5_DB, POS_3_DB, POS_1P5_DB, POS_0_DB
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “EAR PA Gain”  value
+</p>
+
+<p>
+value = POS_6_DB  means  6dB
+</p>
+
+<p>
+value = POS_0_DB   means 0 dB
+</p>
+
+</div>
+<!-- EDIT6 SECTION "d. EAR PA Volume" [2607-3023] -->
+<h3 class="sectionedit7" id="espeaker_drive_volume">e.Speaker Drive Volume</h3>
+<div class="level3">
+<pre class="code">“SPK DRV Volume” (SPKR_DRV_GAIN)  Min Gain : 0 dB, Max Gain : +28.5dB step size : 1.5dB</pre>
+
+<p>
+ Ex: 
+</p>
+
+<p>
+mixer_paths.xml volume setting
+</p>
+
+<p>
+&lt;ctl name=“SPK DRV Volume” value=“POS_12_DB” /&gt;
+</p>
+
+<p>
+Possilble “value” are POS_12_DB, POS_10P5_DB, POS_9_DB, POS_7P5_DB,  POS_6_DB, POS_4P5_DB, POS_3_DB, POS_1P5_DB, POS_0_DB
+</p>
+
+<p>
+tinymix Volume Command
+</p>
+
+<p>
+tinymix “SPK DRV Volume” value
+</p>
+
+<p>
+value = POS_6_DB  means  6dB
+</p>
+
+<p>
+value = POS_0_DB   means 0 dB
+</p>
+
+</div>
+<!-- EDIT7 SECTION "e.Speaker Drive Volume" [3024-] -->

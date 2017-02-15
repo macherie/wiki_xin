@@ -1,0 +1,39 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> createReplacementChip<span class="br0">&#40;</span><span class="kw4">int</span> tokenStart, <span class="kw4">int</span> tokenEnd, Editable editable<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>alreadyHasChip<span class="br0">&#40;</span>tokenStart, tokenEnd<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// There is already a chip present at this location.</span>
+            <span class="co1">// Don't recreate it.</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> token <span class="sy0">=</span> editable.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">substring</span><span class="br0">&#40;</span>tokenStart, tokenEnd<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">int</span> commitCharIndex <span class="sy0">=</span> token.<span class="me1">trim</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">lastIndexOf</span><span class="br0">&#40;</span>COMMIT_CHAR_COMMA<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>commitCharIndex <span class="sy0">==</span> token.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            token <span class="sy0">=</span> token.<span class="me1">substring</span><span class="br0">&#40;</span><span class="nu0">0</span>, token.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        RecipientEntry entry <span class="sy0">=</span> createTokenizedEntry<span class="br0">&#40;</span>token<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>entry <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> destText <span class="sy0">=</span> createAddressText<span class="br0">&#40;</span>entry<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Always leave a blank space at the end of a chip.</span>
+            <span class="kw4">int</span> textLength <span class="sy0">=</span> destText.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="sy0">;</span>
+            SpannableString chipText <span class="sy0">=</span> <span class="kw1">new</span> SpannableString<span class="br0">&#40;</span>destText<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> end <span class="sy0">=</span> getSelectionEnd<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> start <span class="sy0">=</span> mTokenizer <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">?</span> mTokenizer.<span class="me1">findTokenStart</span><span class="br0">&#40;</span>getText<span class="br0">&#40;</span><span class="br0">&#41;</span>, end<span class="br0">&#41;</span> <span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">;</span>
+            RecipientChip chip <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mNoChips<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    chip <span class="sy0">=</span> constructChipSpan<span class="br0">&#40;</span>entry, start, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    chipText.<span class="me1">setSpan</span><span class="br0">&#40;</span>chip, <span class="nu0">0</span>, textLength, Spanned.<span class="me1">SPAN_EXCLUSIVE_EXCLUSIVE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+nullpointerexception"><span class="kw3">NullPointerException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">e</span><span class="br0">&#40;</span>TAG, e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, e<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            editable.<span class="me1">replace</span><span class="br0">&#40;</span>tokenStart, tokenEnd, chipText<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Add this chip to the list of entries &quot;to replace&quot;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>chip <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mTemporaryRecipients <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    mTemporaryRecipients <span class="sy0">=</span> <span class="kw1">new</span> ArrayList<span class="sy0">&lt;</span>RecipientChip<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                chip.<span class="me1">setOriginalText</span><span class="br0">&#40;</span>chipText.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mTemporaryRecipients.<span class="me1">add</span><span class="br0">&#40;</span>chip<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

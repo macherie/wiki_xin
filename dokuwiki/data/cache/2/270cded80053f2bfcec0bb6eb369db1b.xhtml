@@ -1,0 +1,89 @@
+
+<h1 class="sectionedit1" id="安卓代码按键调试">安卓代码按键调试</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "安卓代码按键调试" [1-40] -->
+<h3 class="sectionedit2" id="按键驱动原理">1.按键驱动原理</h3>
+<div class="level3">
+
+<p>
+Linux驱动层中，通常把按键输入驱动设计为输入子系统框架中。输入子系统通常由驱动层、输入子系统核心、事件处理层三部分组成。当实体按键被按下时，Linux驱动层的接收到按键输入中断，进行识别，获取对应的按键扫描码scanKeycode，输入子系统将该扫描码通过事件方式上报至用户空间。在用户空间中，设备驱动都是以文件形式体现出来，即在/dev/input中的具体设备文件，安卓系统中通过线程不断读取该设备文件判断是否有键值上报。
+</p>
+
+<p>
+然后将上报的键值进行处理，将驱动定义的按键扫描码scanKeycode根据按键布局文件Generic.kl 和qwerty.kl映射成按键码标签KeyCodeLabel。
+</p>
+<pre class="code">       1. 所有按键的扫描码定义在kernel/include/uapi/linuxinput.h文件中
+       2.  这里的Generic.kl 是安卓系统中默认按键布局文件，该文件为linux驱动层及安卓按键定义的连接，将驱动层中的扫描码转换为安卓系统中的按键定义。
+            默认优先级没有qwerty.kl高，如果相应键值在qwerty.kl没有找到，会再去Generic.kl里查找，所以Generic.kl不建议修改。
+            </pre>
+
+</div>
+<!-- EDIT2 SECTION "1.按键驱动原理" [41-1291] -->
+<h3 class="sectionedit3" id="按键驱动修改">2.按键驱动修改</h3>
+<div class="level3">
+<pre class="code">       按键驱动有两种，一个为矩阵键盘驱动，路径为： kernel\drivers\input\keyboard\matrix_keypad.c
+        一个为GPIO接口的键盘驱动，路径为： kernel\drivers\input\keyboard\gpio_keys.c </pre>
+
+<p>
+按键驱动一般不需要修改，底层会直接去调用相关驱动，需要将按键相关的物理实体信息添加到设备树上，以方便软件进行匹配调用。
+设备树按键相应路径：kernel/arch/arm/boot/dts/qcom/msm8996-cdp.dtsi
+</p>
+<pre class="code c">        gen<span class="sy0">-</span>vkeys <span class="br0">&#123;</span>                                                                                                                   
+                compatible <span class="sy0">=</span> <span class="st0">&quot;qcom,gen-vkeys&quot;</span><span class="sy0">;</span>
+                label <span class="sy0">=</span> <span class="st0">&quot;synaptics_dsx&quot;</span><span class="sy0">;</span>
+                qcom<span class="sy0">,</span>disp<span class="sy0">-</span>maxx <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1599</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>disp<span class="sy0">-</span>maxy <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">2559</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>panel<span class="sy0">-</span>maxx <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1599</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>panel<span class="sy0">-</span>maxy <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">2703</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>key<span class="sy0">-</span>codes <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">158</span> <span class="nu0">139</span> <span class="nu0">102</span> <span class="nu0">217</span><span class="sy0">&gt;;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+        gpio_keys <span class="br0">&#123;</span>
+                compatible <span class="sy0">=</span> <span class="st0">&quot;gpio-keys&quot;</span><span class="sy0">;</span>
+                input<span class="sy0">-</span>name <span class="sy0">=</span> <span class="st0">&quot;gpio-keys&quot;</span><span class="sy0">;</span>
+                vol_up <span class="br0">&#123;</span>
+                        label <span class="sy0">=</span> <span class="st0">&quot;volume_up&quot;</span><span class="sy0">;</span>
+                        gpios <span class="sy0">=</span> <span class="sy0">&lt;&amp;</span>pm8994_gpios <span class="nu0">2</span> <span class="nu12">0x1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>input<span class="sy0">-</span>type <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>code <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">115</span><span class="sy0">&gt;;</span>
+                        gpio<span class="sy0">-</span>key<span class="sy0">,</span>wakeup<span class="sy0">;</span>
+                        debounce<span class="sy0">-</span>interval <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">15</span><span class="sy0">&gt;;</span>
+                <span class="br0">&#125;</span><span class="sy0">;</span>
+                camera_on <span class="br0">&#123;</span>
+                        label <span class="sy0">=</span> <span class="st0">&quot;camera_on&quot;</span><span class="sy0">;</span>
+                        gpios <span class="sy0">=</span> <span class="sy0">&lt;&amp;</span>pm8994_gpios <span class="nu0">5</span> <span class="nu12">0x1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>input<span class="sy0">-</span>type <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>code <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">212</span><span class="sy0">&gt;;</span>
+                        gpio<span class="sy0">-</span>key<span class="sy0">,</span>wakeup<span class="sy0">;</span>
+                        debounce<span class="sy0">-</span>interval <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">15</span><span class="sy0">&gt;;</span>
+                <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+其中gen-vkeys代表虚拟按键，gpio_keys代表实体按键。主要修改项为gpio管脚（gpios）和上报值（linux,code）。
+然后将上报键值加到device\qcom\cb09\gpio-keys.kl中增加键盘扫描码对应的键盘码
+键盘码是Android系统收到底层驱动提交的扫描码后，向App发送的键盘码，比如本例
+</p>
+<pre class="code c">key <span class="nu0">115</span>   VOLUME_UP
+key <span class="nu0">114</span>   VOLUME_DOWN
+key <span class="nu0">102</span>   HOME
+key <span class="nu0">528</span>   FOCUS
+key <span class="nu0">103</span>   DPAD_UP
+key <span class="nu0">105</span>   DPAD_LEFT
+key <span class="nu0">106</span>   DPAD_RIGHT
+key <span class="nu0">108</span>   DPAD_DOWN
+key <span class="nu0">136</span>   DPAD_UP
+key <span class="nu0">158</span>   BACK
+key <span class="nu0">232</span>   DPAD_CENTER
+key <span class="nu0">212</span>   CAMERA
+&nbsp;</pre>
+
+<p>
+扫描码对应给App的键盘码是DPAD_CENTER.
+DPAD_CENTER对应的值在framework/base/data/keyboard/Generic.kl里面有相关定义。
+同时会在frameworks\base\core\java\android\view\KeyEvent.java有进行上报。
+ — <em><a href="mailto:&#x6a;&#x69;&#x6e;&#x78;&#x69;&#x6e;&#x2e;&#x6c;&#x69;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6a;&#x69;&#x6e;&#x78;&#x69;&#x6e;&#x2e;&#x6c;&#x69;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">jinxin.liu</a> 2016/10/31 11:55</em>
+</p>
+
+</div>
+<!-- EDIT3 SECTION "2.按键驱动修改" [1292-] -->

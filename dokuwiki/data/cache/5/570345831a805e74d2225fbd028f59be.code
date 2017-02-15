@@ -1,0 +1,27 @@
+<span class="co1">// Load in the vertex shader.</span>
+<span class="kw4">int</span> vertexShaderHandle <span class="sy0">=</span> GLES20.<span class="me1">glCreateShader</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_VERTEX_SHADER</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>vertexShaderHandle <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// Pass in the shader source.</span>
+    GLES20.<span class="me1">glShaderSource</span><span class="br0">&#40;</span>vertexShaderHandle, vertexShader<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Compile the shader.</span>
+    GLES20.<span class="me1">glCompileShader</span><span class="br0">&#40;</span>vertexShaderHandle<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Get the compilation status.</span>
+    <span class="kw1">final</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="br0">&#93;</span> compileStatus <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+    GLES20.<span class="me1">glGetShaderiv</span><span class="br0">&#40;</span>vertexShaderHandle, GLES20.<span class="me1">GL_COMPILE_STATUS</span>, compileStatus, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// If the compilation failed, delete the shader.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>compileStatus<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        GLES20.<span class="me1">glDeleteShader</span><span class="br0">&#40;</span>vertexShaderHandle<span class="br0">&#41;</span><span class="sy0">;</span>
+        vertexShaderHandle <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>vertexShaderHandle <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;Error creating vertex shader.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

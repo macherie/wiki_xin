@@ -1,0 +1,32 @@
+uniform mat4 u_MVPMatrix<span class="sy0">;</span>		<span class="co1">// A constant representing the combined model/view/projection matrix.      		       </span>
+uniform mat4 u_MVMatrix<span class="sy0">;</span>		<span class="co1">// A constant representing the combined model/view matrix.       		</span>
+&nbsp;
+attribute vec4 a_Position<span class="sy0">;</span>		<span class="co1">// Per-vertex position information we will pass in.   				</span>
+attribute vec4 a_Color<span class="sy0">;</span>			<span class="co1">// Per-vertex color information we will pass in. 				</span>
+attribute vec3 a_Normal<span class="sy0">;</span>		<span class="co1">// Per-vertex normal information we will pass in.      </span>
+attribute vec2 a_TexCoordinate<span class="sy0">;</span> <span class="co1">// Per-vertex texture coordinate information we will pass in. 		</span>
+&nbsp;
+varying vec3 v_Position<span class="sy0">;</span>		<span class="co1">// This will be passed into the fragment shader.       		</span>
+varying vec4 v_Color<span class="sy0">;</span>			<span class="co1">// This will be passed into the fragment shader.          		</span>
+varying vec3 v_Normal<span class="sy0">;</span>			<span class="co1">// This will be passed into the fragment shader.  </span>
+varying vec2 v_TexCoordinate<span class="sy0">;</span>   <span class="co1">// This will be passed into the fragment shader.    		</span>
+&nbsp;
+<span class="co1">// The entry point for our vertex shader.  </span>
+<span class="kw4">void</span> main<span class="br0">&#40;</span><span class="br0">&#41;</span>                                                 	
+<span class="br0">&#123;</span>                                                         
+	<span class="co1">// Transform the vertex into eye space. 	</span>
+	v_Position <span class="sy0">=</span> vec3<span class="br0">&#40;</span>u_MVMatrix <span class="sy0">*</span> a_Position<span class="br0">&#41;</span><span class="sy0">;</span>            
+&nbsp;
+	<span class="co1">// Pass through the color.</span>
+	v_Color <span class="sy0">=</span> a_Color<span class="sy0">;</span>
+&nbsp;
+	<span class="co1">// Pass through the texture coordinate.</span>
+	v_TexCoordinate <span class="sy0">=</span> a_TexCoordinate<span class="sy0">;</span>                                      
+&nbsp;
+	<span class="co1">// Transform the normal's orientation into eye space.</span>
+    v_Normal <span class="sy0">=</span> vec3<span class="br0">&#40;</span>u_MVMatrix <span class="sy0">*</span> vec4<span class="br0">&#40;</span>a_Normal, <span class="nu0">0.0</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+	<span class="co1">// gl_Position is a special variable used to store the final position.</span>
+	<span class="co1">// Multiply the vertex by the matrix to get the final point in normalized screen coordinates.</span>
+	gl_Position <span class="sy0">=</span> u_MVPMatrix <span class="sy0">*</span> a_Position<span class="sy0">;</span>                       		  
+<span class="br0">&#125;</span>

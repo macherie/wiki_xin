@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:modem</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:56:37+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-activeperl&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-python&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-rvds2.2&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:overview&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-activeperl&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:modem:编译环境安装-activeperl</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-activeperl&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2014/01/09
+
+Qualcomm 的 Modem 编译需要的工具。
+
+安装包地址：&lt;\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset&gt;
+
+打开 QUALCOMM_RVCT2.2_Toolset 文件夹，运行 ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:modem:编译环境安装-cygwin</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-cygwin&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2014/01/09
+
+因为 Qualcomm 的 Modem 编译需要 GCC 和 GNU make 工具，所有我们需要安装Cygwin。
+
+安装包地址：&lt;\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset&gt;
+
+解压 cygwin.rar 到 D:\QUALCOMM_RVCT2.2_Toolset\cygwin。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-python&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:modem:编译环境安装-python</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-python&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2014/01/09
+
+Qualcomm 的 Modem 编译需要的工具。
+
+安装 Python 2.6.2
+
+安装包地址：&lt;\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset&gt;
+
+打开 QUALCOMM_RVCT2.2_Toolset 文件夹，运行 python-2.6.msi。
+
+
+
+指定安装路径为“”。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-rvds2.2&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:modem:编译环境安装-rvds2.2</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85-rvds2.2&amp;rev=1390476864&amp;do=diff</link>
+        <description>--- 尹姝 2014/01/13
+
+Windows 下 Modem 编译环境安装 - RVDS2.2
+
+安装 ARM 编译器 RVDS2.2
+
+安装包地址： &lt;\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset&gt;
+
+安装步骤：
+
+复制并解压 RVDS_2_2.rar 到本地。
+
+运行 setup.exe。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:overview&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:modem:overview</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:modem:overview&amp;rev=1390476864&amp;do=diff</link>
+        <description>隐藏在手机中的第二个操作系统
+
+每一部智能手机或其它拥有3G、LTE通迅能力的设备实际上都运行着两个操作系统，这是个众所周知但又很少被提起的话题。除了那个我们能看的见的系统（Android、iOs、PalmOS），设备上还运行着一个专门处理无线信号的系统。由于这部分任务是高度依赖时效的，必需有一个实时系统来处理它们。</description>
+    </item>
+</rdf:RDF>

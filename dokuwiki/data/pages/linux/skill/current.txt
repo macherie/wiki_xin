@@ -1,0 +1,4 @@
+====== linux current ======
+Android用户空间可能有很多进程会操作同一个设备节点，如果想知道设备节点都是被哪个进程调用了，可以利用linux的current指针：
+<code> #include <linux/sched.h>
+printk(KERN_INFO "The process is \"%s\" (pid %i)\n", current->comm, current->pid);</code>

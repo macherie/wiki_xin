@@ -1,0 +1,6 @@
+=====使用QXDM的dmc配置抓取log=====
+
+见教学视频，在共享服务器：
+<code>
+smb://192.167.100.225/share/项目分类/Modem/How To use DMC to capture QXDM log.wmv
+</code>

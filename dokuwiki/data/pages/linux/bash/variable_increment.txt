@@ -1,0 +1,18 @@
+**How to use seven methods to achieve variable increment**
+
+**Some methods are only support by Bash.It is the advanced features of Bash**
+
+let count+=1
+
+let count++
+
+count=$[ $count + 1 ]
+
+count=`expr $count + 1`
+
+count=`echo "$count + 1" | bc`
+
+
+（（ count++ ））
+
+count=$（（ $count + 1 ）） support by zsh

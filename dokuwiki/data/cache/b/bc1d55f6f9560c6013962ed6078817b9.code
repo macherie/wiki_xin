@@ -1,0 +1,26 @@
+<span class="kw2">enum</span> CreationFlags
+<span class="br0">&#123;</span>                                                                                                                                           
+    kPreferSoftwareCodecs    <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">,</span>
+    kIgnoreCodecSpecificData <span class="sy0">=</span> <span class="nu0">2</span><span class="sy0">,</span>
+&nbsp;
+    <span class="co1">// The client wants to access the output buffer's video</span>
+    <span class="co1">// data for example for thumbnail extraction.</span>
+    kClientNeedsFramebuffer  <span class="sy0">=</span> <span class="nu0">4</span><span class="sy0">,</span>
+&nbsp;
+    <span class="co1">// Request for software or hardware codecs. If request</span>
+    <span class="co1">// can not be fullfilled, Create() returns NULL.</span>
+    kSoftwareCodecsOnly      <span class="sy0">=</span> <span class="nu0">8</span><span class="sy0">,</span>
+    kHardwareCodecsOnly      <span class="sy0">=</span> <span class="nu0">16</span><span class="sy0">,</span> 
+&nbsp;
+    <span class="co1">// Store meta data in video buffers</span>
+    kStoreMetaDataInVideoBuffers <span class="sy0">=</span> <span class="nu0">32</span><span class="sy0">,</span> 
+&nbsp;
+    <span class="co1">// Only submit one input buffer at one time.</span>
+    kOnlySubmitOneInputBufferAtOneTime <span class="sy0">=</span> <span class="nu0">64</span><span class="sy0">,</span> 
+&nbsp;
+    <span class="co1">// Enable GRALLOC_USAGE_PROTECTED for output buffers from native window</span>
+    kEnableGrallocUsageProtected <span class="sy0">=</span> <span class="nu0">128</span><span class="sy0">,</span>
+&nbsp;
+    <span class="co1">// Secure decoding mode</span>
+    kUseSecureInputBuffers <span class="sy0">=</span> <span class="nu0">256</span><span class="sy0">,</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>

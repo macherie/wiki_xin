@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! wiki</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:47:16+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=wiki:dokuwiki&amp;rev=1371413028&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=wiki:syntax&amp;rev=1371413028&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=wiki:welcome&amp;rev=1371413028&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=wiki:dokuwiki&amp;rev=1371413028&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2013-06-16T22:03:48+01:00</dc:date>
+        <title>wiki:dokuwiki</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=wiki:dokuwiki&amp;rev=1371413028&amp;do=diff</link>
+        <description>DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at creating documentation of any kind. It is targeted at developer teams, workgroups and small companies. It has a simple but powerful syntax which makes sure the datafiles remain readable outside the Wiki and eases the creation of structured texts. All data is stored in plain text files -- no database is required.</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=wiki:syntax&amp;rev=1371413028&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2013-06-16T22:03:48+01:00</dc:date>
+        <title>wiki:syntax</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=wiki:syntax&amp;rev=1371413028&amp;do=diff</link>
+        <description>DokuWiki supports some simple markup language, which tries to make the datafiles to be as readable as possible. This page contains all possible syntax you may use when editing the pages. Simply have a look at the source of this page by pressing “Edit this page”. If you want to try something, just use the playground page. The simpler markup is easily accessible via quickbuttons, too.</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=wiki:welcome&amp;rev=1371413028&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2013-06-16T22:03:48+01:00</dc:date>
+        <title>wiki:welcome</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=wiki:welcome&amp;rev=1371413028&amp;do=diff</link>
+        <description>Congratulations, your wiki is now up and running. Here are a few more tips to get you started.
+
+Enjoy your work with DokuWiki,
+
+-- the developers
+
+Create your first pages
+
+Your wiki needs to have a start page. As long as it doesn't exist, this link will be red: start.</description>
+    </item>
+</rdf:RDF>

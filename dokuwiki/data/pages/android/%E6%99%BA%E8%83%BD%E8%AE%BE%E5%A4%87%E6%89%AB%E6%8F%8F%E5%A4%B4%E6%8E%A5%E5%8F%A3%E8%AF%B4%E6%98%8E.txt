@@ -1,0 +1,94 @@
+--- //[[shu.yin@sim.com|尹姝]] 2014/2/21//
+====== 智能设备扫描头接口说明 ======
+^Document Title:     |SIMCom智能设备扫描头接口说明|
+^Version:            |1.01                    |
+^Date:               |2014-02-13              |       
+^Status:             |Release                 |
+^Document Control ID:|SIM0005                 |
+^Writer:             |Yunqi.miao              |
+
+
+----
+
+
+=====通过程序代码开启扫描=====
+通过广播实现，广播名称为：<color cadetblue>android.intent.action.SIMSCAN</color>
+
+<color forestgreen>举例：</color>
+<code java>
+context.sendBroadcast(new Intent("android.intent.action.SIMSCAN"));
+</code>
+
+<color forestgreen>说明：</color>
+
+在通过程序广播开启扫描时，扫描灯持续时间最长为6秒，即扫描头的激光灯将在6秒后自动关闭。
+
+=====通过程序代码关闭扫描=====
+通过广播实现，广播名称为：<color cadetblue>android.intent.action.SIMSCAN</color>
+
+<color forestgreen>举例：</color>
+<code java>
+context.sendBroadcast(new Intent("android.intent.action.SIMSCAN"));
+</code>
+
+<color forestgreen>说明：</color>
+
+在通过程序广播开启扫描时，扫描灯持续时间最长为6秒，即扫描头的激光灯将在6秒后自动关闭，那么在6秒时间内，可以通过如上的广播来关闭扫描头。
+
+=====通过程序代码获取扫描结果=====
+通过广播实现，广播名称为：<color cadetblue>com.sim.action.SIMSCAN</color>，广播参数为：<color cadetblue>value</color>，参数类型为：<color cadetblue>String</color>
+
+<color forestgreen>举例：</color>
+<code java>
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ////////////////
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //让其它的广播注册者无法获取广播信息，***此处必须***
+                this.abortBroadcast();
+
+                //此处获取扫描结果信息
+                final String scanResult = intent.getStringExtra("value");
+                mTvScanResult.setText(scanResult);
+                mTvScanResult.invalidate();
+            }
+        };
+
+        mFilter = new IntentFilter("com.sim.action.SIMSCAN");
+        //在用户自行获取数据时，将广播的优先级调到最高 1000，***此处必须***
+        mFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        ////////////////
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        //注册广播来获取扫描结果
+        this.registerReceiver(mReceiver, mFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        //注销获取扫描结果的广播
+        this.unregisterReceiver(mReceiver);
+        super.onPause();
+    }
+</code>
+
+<color forestgreen>说明：</color>
+在获取扫描结果时，需要重点关注的是
+
+1）在程序捕获到广播时，需要执行：
+<code java>
+this.abortBroadcast();
+</code>
+
+2）需要将广播接收优先级调至最高：
+<code java>
+mFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+</code>

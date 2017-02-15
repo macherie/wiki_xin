@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! software_engineering</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:43:44+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%A4%B1%E8%B4%A5%E6%98%AF%E6%88%90%E5%8A%9F%E4%B9%8B%E6%AF%8D&amp;rev=1392967762&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%AE%B9%E9%94%99%E5%A4%84%E7%90%86&amp;rev=1392775246&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%80%8E%E4%B9%88%E6%8B%9B%E8%81%98%E7%A8%8B%E5%BA%8F%E5%91%98&amp;rev=1392863625&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%89%81%E9%B9%8A%E7%9A%84%E4%B8%89%E5%85%84%E5%BC%9F&amp;rev=1392703660&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%B4%A0%E8%B4%A8&amp;rev=1392775132&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%BB%9F%E7%AD%B9%E6%96%B9%E6%B3%95&amp;rev=1392800314&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA%E7%9A%84%E5%8F%8D%E6%80%9D&amp;rev=1392774419&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90&amp;rev=1392714053&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:cmmi&amp;rev=1392691820&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%A4%B1%E8%B4%A5%E6%98%AF%E6%88%90%E5%8A%9F%E4%B9%8B%E6%AF%8D&amp;rev=1392967762&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T08:29:22+01:00</dc:date>
+        <title>software_engineering:失败是成功之母</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%A4%B1%E8%B4%A5%E6%98%AF%E6%88%90%E5%8A%9F%E4%B9%8B%E6%AF%8D&amp;rev=1392967762&amp;do=diff</link>
+        <description>---杨克猛2014/2/21
+
+经常听到这句话“失败是成功之母”。试想把失败重复十次二十次就会成功吗？历史上那些屡次失败的人都成功了吗？
+
+秦朝灭亡后，项羽和刘邦展开了长达四年的楚汉之争，战争初期楚军势力强，打了几次胜仗，但随后韩信加盟刘邦后，项羽一次次吃败仗，最后自刎乌江。临死前他做一下总结，“天亡我，非战之罪也”。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%AE%B9%E9%94%99%E5%A4%84%E7%90%86&amp;rev=1392775246&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-19T03:00:46+01:00</dc:date>
+        <title>software_engineering:容错处理</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E5%AE%B9%E9%94%99%E5%A4%84%E7%90%86&amp;rev=1392775246&amp;do=diff</link>
+        <description>---杨克猛2014/2/18
+
+软件跟世界上任何事物一样不是完美的，很可能我们经过很长时间的努力，软件还存在这样或那样的问题。若是软件确实遇到了错误，目前我们还无法避免错误的发生，我们可以使用容错处理。</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%80%8E%E4%B9%88%E6%8B%9B%E8%81%98%E7%A8%8B%E5%BA%8F%E5%91%98&amp;rev=1392863625&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-20T03:33:45+01:00</dc:date>
+        <title>software_engineering:怎么招聘程序员</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%80%8E%E4%B9%88%E6%8B%9B%E8%81%98%E7%A8%8B%E5%BA%8F%E5%91%98&amp;rev=1392863625&amp;do=diff</link>
+        <description>---杨克猛2014/02/20
+
+我在网上找到一篇好文章，与大家一起分享。
+
+我以前写过一篇“我是怎么招聘程序员的”的文章。今天，我想再谈谈关于招聘和面试这方面的东西，主要是以下这些原因：</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%89%81%E9%B9%8A%E7%9A%84%E4%B8%89%E5%85%84%E5%BC%9F&amp;rev=1392703660&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T07:07:40+01:00</dc:date>
+        <title>software_engineering:扁鹊的三兄弟</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E6%89%81%E9%B9%8A%E7%9A%84%E4%B8%89%E5%85%84%E5%BC%9F&amp;rev=1392703660&amp;do=diff</link>
+        <description>---杨克猛2014/2/18
+
+魏文王问名医扁鹊说：”你们家兄弟三人，都精于医术，到底哪一位最好呢？”
+扁鹊答说：”长兄最好，中兄次之，我最差。”
+文王再问：”那么为什么你最出名呢？”
+扁鹊答说：”我长兄治病，是治病于病情发作之前。由于一般人不知道他事先能铲除病因，所以他的名气无法传出去，只有我们家的人才知道。我中兄治病， 是治病于病情初起之时。一般人以为他只能治轻微的小病，所以他的名气只及于本乡里。而我扁鹊治病，是治病于病情严重之时。一般人都看到我在经脉上穿针管来 放血、在皮肤上敷药等大手术，所以以为我的医术高明，名气因此响遍全国。”…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%B4%A0%E8%B4%A8&amp;rev=1392775132&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-19T02:58:52+01:00</dc:date>
+        <title>software_engineering:程序员的素质</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%B4%A0%E8%B4%A8&amp;rev=1392775132&amp;do=diff</link>
+        <description>--- 杨克猛 2014/2/18
+
+程序员的素质
+
+一个程序员应该具备哪些素质？谁是优秀的程序员？
+
+	*  细心和责任心。他们写代码非常细心，基本上不会犯忘记释放内存关闭文件的错误，经常性的检查代码，发现代码中微小错误；提交代码之前，一般会测试几十遍，保证代码尽量不出问题。对代码精益求精，即便是代码没有问题，也要经常重构，提高代码的健壮性和简洁性。
+	*  善于学习和总结，寻找自己的不足。IT领域的技术更新换代太快了，他们会经常读一些计算机经典名著，又时刻关注新技术的发展，对于犯过的错误会牢牢记在心中，写代码经常提醒别犯类似的错误。
+	*  思维严谨。他们写一个函数，总会先检查参数，IF语句总能覆盖所有的条件组合，while不会有加1减1的错误，内存不用的时候，总会及时释放，调用一个函数，经常判断返回值。他们考虑的问题比一般人多，比如在SD卡上写文件，会先判断SD是否已经挂载，是不是可写，是不是已满，调用了write函数会检查写入了字符数，最后自己关闭文件，不使用java语言自动关闭文件的功能。
+	*  良好的耐力。为了跟踪一个BUG，连续几天分析LOG，反复对比不同条件下的LOG…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%BB%9F%E7%AD%B9%E6%96%B9%E6%B3%95&amp;rev=1392800314&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-19T09:58:34+01:00</dc:date>
+        <title>software_engineering:统筹方法</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E7%BB%9F%E7%AD%B9%E6%96%B9%E6%B3%95&amp;rev=1392800314&amp;do=diff</link>
+        <description>--- 杨克猛 2014/2/19
+
+统筹方法，是一种安排工作进程的数学方法。它的实用范围极广泛，在企业管理和基本建设中，以及关系复杂的科研项目的组织与管理中，都可以应用。
+
+我觉得将统筹方法用于软件工程，会起到很好的效果！</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA%E7%9A%84%E5%8F%8D%E6%80%9D&amp;rev=1392774419&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-19T02:46:59+01:00</dc:date>
+        <title>software_engineering:软件危机的反思</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA%E7%9A%84%E5%8F%8D%E6%80%9D&amp;rev=1392774419&amp;do=diff</link>
+        <description>--- 杨克猛 2014/2/18
+
+软件危机的反思
+
+上世纪六十年代爆发了软件危机，它表现在：
+
+	*  软件开发费用和进度失控。费用超支、进度拖延的情况屡屡发生。有时为了赶进度或压成本不得不采取一些权宜之计，这样又往往严重损害了软件产品的质量。
+	*  软件的可靠性差。尽管耗费了大量的人力物力，而系统的正确性却越来越难以保证，出错率大大增加，由于软件错误而造成的损失十分惊人。
+	*  生产出来的软件难以维护。很多程序缺乏相应的文档资料，程序中的错误难以定位，难以改正，有时改正了已有的错误又引入新的错误。…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90&amp;rev=1392714053&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T10:00:53+01:00</dc:date>
+        <title>software_engineering:需求分析</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90&amp;rev=1392714053&amp;do=diff</link>
+        <description>---杨克猛2014/2/18
+
+需求分析是软件工程中的重要一步，需求分析的好坏直接影响软件的成败，其重要性是不言而喻的。如果我们要给医院开发一套护理软件，怎么去获取需求呢？
+
+	*  访谈，访谈是获取需求的最直接的方式。问题要事先准备好，比如护士多长时间查一次病房？每次查房需要检查病人哪些数据？将用户的回答一一记录下来。访谈通常有个困难，就是客户认为这是我们理所当然应该知道的，无需多讲，问多了客户会不耐烦，而我们会认为客户不配合我们的工作，无法得到详尽的需求。访谈原则上不超过两小时，时间长了客户会失去耐心。
+	*  问卷调查，问卷调查避免上面的问题，将事先准备好的问题发给护士和医生，短时间就可以获取客户的需求。
+	*  实地考查，有时客户自己都讲不清楚要什么东西，这需要我们进行实地考察。看看护士每天做些什么？何时来检查病房，测量体温，安排吃药，安排病人康复锻炼，甚至我们把自己当成护士，对病人进行服务，将每天医生护士的工作一一记录下来。实地考查可以进一步获取詳細的需求。
+	*  情景分析，有些客户自己讲不清楚需求，可以采用情景分析的方法，比如问她如果一个病人刚完手术你们怎么对他护理？
+…</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:cmmi&amp;rev=1392691820&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T03:50:20+01:00</dc:date>
+        <title>software_engineering:cmmi</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=software_engineering:cmmi&amp;rev=1392691820&amp;do=diff</link>
+        <description>--- 杨克猛 2014/2/18
+
+CMMI的5个级别
+
+为了帮助软件企业对软件工程过程进行管理和改进，增强开发与改进能力，从而能按时地、不超预算地开发出高质量的软件，美国国防部与卡内基-梅隆大学和美国国防工业协会共同开发和研制了CMMI(软件能力成熟度模型集成)</description>
+    </item>
+</rdf:RDF>

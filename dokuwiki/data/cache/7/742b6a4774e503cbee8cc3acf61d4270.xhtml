@@ -1,0 +1,126 @@
+
+<h1 class="sectionedit1" id="bugzilla使用规范">Bugzilla使用规范</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Bugzilla使用规范" [1-36] -->
+<h2 class="sectionedit2" id="登陆bugzilla">登陆Bugzilla</h2>
+<div class="level2">
+
+<p>
+Bugzilla登陆地址：
+</p>
+
+<p>
+<a href="http://172.21.8.39:21500/manual/" class="urlextern" title="http://172.21.8.39:21500/manual/"  rel="nofollow">http://172.21.8.39:21500/manual/</a>
+</p>
+
+<p>
+账号：XXX@sim.com
+</p>
+
+<p>
+密码：123456	
+</p>
+
+</div>
+<!-- EDIT2 SECTION "登陆Bugzilla" [37-167] -->
+<h2 class="sectionedit3" id="bugzilla简介">Bugzilla简介</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Bugzilla是一个问题跟踪的专门工具</div>
+</li>
+<li class="level1"><div class="li"> 基于web方式、使用方便简单 </div>
+</li>
+<li class="level1"><div class="li"> 有利于问题的跟踪，问题的统计分析</div>
+</li>
+<li class="level1"><div class="li"> 系统灵活，强大的可配置能力</div>
+</li>
+<li class="level1"><div class="li"> 自动发送email通知相关人员   </div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT3 SECTION "Bugzilla简介" [168-429] -->
+<h2 class="sectionedit4" id="bug处理流程">Bug处理流程</h2>
+<div class="level2">
+<ol>
+<li class="level1"><div class="li"> 软测提交Bug之后，状态为“新建”。</div>
+</li>
+<li class="level1"><div class="li"> 软件收到bug，确认是自己的bug，请选择接受Bug,状态会变成已分配。</div>
+</li>
+<li class="level1"><div class="li"> 如果不是自己的bug，请将bug状态设置为“重分配”并提交给相应责任人。</div>
+</li>
+<li class="level1"><div class="li"> 如是重复bug,则填好重复的bug号码后，更改状态为“解决Bug”。</div>
+</li>
+<li class="level1"><div class="li"> 如此bug是无效的，开发人员则更改bug状态为“无效”</div>
+</li>
+<li class="level1"><div class="li"> 如此bug的耦合度较高，修改会造成未知的问题，开发人员可以更改bug状态为“决定不改”“稍后再改”。</div>
+</li>
+<li class="level1"><div class="li"> 如此问题开发人员无法复现则可以更改状态为“无法重现”。</div>
+</li>
+<li class="level1"><div class="li"> 如修复了此bug,则更改状态为已修复。   </div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT4 SECTION "Bug处理流程" [430-1155] -->
+<h2 class="sectionedit5" id="bug处理要求">Bug处理要求</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Bug修复后需要及时更新bug状态至Fix，并在评论中写清楚在哪一版验证，而不是诸如“已解决”等，如下图。</div>
+</li>
+</ul>
+
+<p>
+   <a href="/dokuwiki/lib/exe/detail.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%9B%BE%E7%89%871.png?id=%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83%3Abugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83" class="media" title="工作规范:图片1.png"><img src="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%9B%BE%E7%89%871.png?w=200&amp;tok=ac23ef" class="media" alt="" width="200" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> Bug不修复，与测试沟通确认后，需要及时作相应的处理，在评论说明不改的原因，而不是诸如“不改”“无聊的bug”等， 如下图。</div>
+</li>
+</ul>
+
+<p>
+  <a href="/dokuwiki/lib/exe/detail.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%9B%BE%E7%89%872.png?id=%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83%3Abugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83" class="media" title="工作规范:图片2.png"><img src="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%9B%BE%E7%89%872.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Bug处理要求" [1156-1594] -->
+<h2 class="sectionedit6" id="注意事项_bug状态的变更">注意事项：Bug状态的变更</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> 软测提交bug后，bugzilla上显示为“new”，如下图</div>
+</li>
+</ul>
+
+<p>
+   <a href="/dokuwiki/lib/exe/detail.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E6%96%B0%E5%BB%BA.png?id=%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83%3Abugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83" class="media" title="工作规范:新建.png"><img src="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E6%96%B0%E5%BB%BA.png?w=300&amp;tok=3ac7c0" class="media" alt="" width="300" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> 开发接收bug，bugzilla上显示为“assigned”，如下图</div>
+</li>
+</ul>
+
+<p>
+   <a href="/dokuwiki/lib/exe/detail.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%B7%B2%E5%88%86%E9%85%8D.png?id=%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83%3Abugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83" class="media" title="工作规范:已分配.png"><img src="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%B7%B2%E5%88%86%E9%85%8D.png?w=300&amp;tok=4d106a" class="media" alt="" width="300" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> 修改完毕后，更改状态为“repaired”，并写明验证版本，如下图</div>
+</li>
+</ul>
+
+<p>
+  <a href="/dokuwiki/lib/exe/detail.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%85%B3%E9%97%AD.png?id=%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83%3Abugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83" class="media" title="工作规范:关闭.png"><img src="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;%E5%85%B3%E9%97%AD.png?w=300&amp;tok=ef2c80" class="media" alt="" width="300" /></a>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "注意事项：Bug状态的变更" [1595-2012] -->
+<h2 class="sectionedit7" id="使用详情">使用详情</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php/%E5%B7%A5%E4%BD%9C%E8%A7%84%E8%8C%83;sim0009_bugzilla%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83.ppt" class="media mediafile mf_ppt" title="工作规范:sim0009_bugzilla使用规范.ppt (628.5 KB)">sim0009_bugzilla使用规范.ppt</a>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "使用详情" [2013-] -->

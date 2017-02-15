@@ -1,0 +1,44 @@
+^ NV ITEM              ^ 功能^
+|NV10                  |mode prefer，找网模式|
+|NV255                 |CDMA规避网络列表|
+|NV447                 |蓝牙地址|
+|NV453                 |FTM模式，出货值为0|
+|NV550                 |IMEI号|
+|NV850                 |CS/PS/CS_PS|
+|NV855                 |RTRE，仅对CDMA有效，量产时为1RUIM only|
+|NV945                 |MRU=most recently used, CDMA最近使用的频点，出厂应清空，否则可能不找网|
+|NV1877                |HDR/CDMA;GSM,WCDMA的RF Band支持能力|
+|NV1878                |RF 模组标识|
+|NV1943                |MEID|
+|NV2497                |SN|
+|NV2822                |Usb充电开启关闭|
+|NV3534                |RMNET AUTOCONNECT|
+|NV4205                |抓取开机LOG，增加时延|
+|NV4548                |分集RF Band|
+|NV4678                |WIFI地址|
+|NV6760                |GLONASS disable/enable|
+|NV65633               |enable Band3|
+|NV70210               |L2/L3项目：UIM[0] = TRUE；UIM[1] = FALSE|
+|NV70310               |L2/L3项目：thin UI configuration, 应该等于1|
+|NV4398                |UIM SELECT DEFAULT USIM APPLICATION|
+|NV6876                |DUAL STANDBY CONFIG ITEMS|
+|NV6907                |UIM HW SIM CONFIG|
+|NV6828                |LTE Band支持能力|
+|NV68468               |TDSCDMA Band支持能力|
+|Download模式            |NV905：1:死机重启，0:进download模式|
+|:::                      |NV4399：0:死机重启，1: 进download模式|
+|:::                   |To enable F3 message log in RAMDUMP|
+|:::                   |--------------------------------------------------|
+|:::                   |NV1892 =0x5 enable F3|
+|:::                   |NV1895=0xFF filter all the level of the F3 message|
+|:::                   |NV1962=0x01 enable F3 saving into EFS|
+|DSDS（EVDO+G）          |NV10 = 19 （0x13）， 卡2的值不变还是13（即0xD）|
+|:::                   |NV4398 =0，|
+|:::                   |NV6876 = 0 0 0 0 2，|
+|:::                   |NV6907 = 1|
+|SSSS（单卡多模）         |NV10 = 56|
+|:::                   |NV4398 =1，|
+|:::                   |NV6876 = 0 0 0 0 1，|
+|:::                   |NV6907 = 0 |
+
+

@@ -1,0 +1,31 @@
+
+<h2 class="sectionedit1" id="查看gpio状态">查看GPIO状态</h2>
+<div class="level2">
+
+<p>
+位置：（测试发现[DIN]这项可能不是输入，而是电平高低）
+</p>
+<pre class="code">root@cb04_6735_35u:/sys/class/misc/mtgpio # cat pin
+      功能   是否上拉拉高  输入   输出   上拉使能  默认方向  
+PIN: [MODE] [PULL_SEL] [DIN] [DOUT] [PULL EN] [DIR] [IES] [SMT]
+
+PIN: [MODE] [DIN] [PULL_SEL] [DOUT] [PULL EN] [DIR] [IES] [SMT]//实际测试可能是这样的顺序
+  0:11101010
+  1:00000110
+  2:00001010
+  3:00110110
+  4:00110110
+  5:01001011
+  6:01001011
+  7:01111111
+  8:51101011
+  9:41101011
+ 10:01000111
+ 11:01001111
+ 12:01111111
+ 13:10001110
+ 14:10001110
+ 15:10001110
+ 16:10001110</pre>
+
+</div>

@@ -1,0 +1,50 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2013/12/11//
+====== Git 安装配置 ======
+===== 安装 git，gitk =====
+==== 在 Ubuntu 上，可以用 apt-get 安装 ====
+网络连接正常的情况下：
+<code bash>
+$ sudo apt-get install git-core gitk git-gui
+</code>
+
+不能上网，有.deb安装包的，请执行：
+<code bash>
+$ sudo dpkg -i XXXX.deb
+</code>
+
+==== 在Windows上，可以安装msysGit ====
+\\192.167.100.225\linux_server_share\tool\Git\Git-1.7.6-preview20110708.exe[[\\192.167.100.225\linux_server_share\tool\Git\Git-1.7.6-preview20110708.exe|Git]]
+
+===== 初次运行 Git 前的配置 =====
+==== 简介：====
+git config 用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了Git在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
+  * 当前项目的git目录中的配置文件（也就是工作目录的.git/config文件）：这里的配置仅仅针对当前项目有效。
+  * ~/.gitconfig文件：用户目录下的配置文件只适用于该用户。使用git config时用--global选项读写这个文件。
+  * /etc/gitconfig文件：系统中对所有用户普遍适用的配置。使用git config时用--system选项读写这个文件。
+优先级：版本库级别的配置文件 > 全局配置文件次之 >系统配置文件
+
+==== 配置用户信息 ====
+<code bash>
+$ git config --global user.name yourname
+$ git config --global user.email "youremail"
+</code>
+==== 配置文本编辑器 ====
+<code bash>
+$ git config --global core.editor vim
+</code>
+
+==== 查看配置信息 ====
+<code bash>
+$ git config --list
+</code>
+
+==== 查看某个环境变量的设置 ====
+<code bash>
+$ git config user.name
+</code>
+
+==== 删除设置 ====
+<code bash>
+$ git config --unset --global user.name
+</code>
+

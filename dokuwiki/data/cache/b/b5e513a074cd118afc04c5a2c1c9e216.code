@@ -1,0 +1,6 @@
+<span class="kw4">static</span> sdcc_bsp_slot_type sdcc_bsp_slot_config <span class="br0">&#91;</span>SDCC_BSP_NUM_SLOTS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+SDCC_BSP_EMBEDDED_MEM_SLOT<span class="sy0">,</span>
+SDCC_BSP_NO_SLOT<span class="sy0">,</span>
+SDCC_BSP_OPEN_SLOT<span class="sy0">,</span>
+SDCC_BSP_NO_SLOT
+<span class="br0">&#125;</span><span class="sy0">;</span>

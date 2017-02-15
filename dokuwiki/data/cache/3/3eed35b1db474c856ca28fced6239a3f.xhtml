@@ -1,0 +1,312 @@
+
+<h1 class="sectionedit1" id="如何抓取_ramdump">如何抓取 ramdump</h1>
+<div class="level1">
+
+<p>
+8926/8928 抓取 ramdump 的方法和 8625q 平台不一样，不需要用 “Memory Debug App” 工具。
+</p>
+
+<p>
+连接USB后它会自动抓取(需要安装驱动和 QPST)。
+</p>
+
+</div>
+<!-- EDIT1 SECTION "如何抓取 ramdump" [1-204] -->
+<h2 class="sectionedit2" id="抓取方法">抓取方法</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT2 SECTION "抓取方法" [205-229] -->
+<h3 class="sectionedit3" id="pc_usb_抓取">PC USB 抓取</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> 让机器进入 download 模式（出问题carsh进download或者手动让机器carsh），连接USB。当连上USB时就会自动抓取 ramdump。</div>
+</li>
+<li class="level1"><div class="li"> QPST Configuration, select Help &gt; Open Log File Directory 就可以打开保存 ramdump的目录。其中ramdump就在 Sahara\Port_COMX（当前连接的端口）下。</div>
+</li>
+</ul>
+
+<p>
+<img src="/dokuwiki/lib/images/smileys/icon_cool.gif" class="icon" alt="8-)" /><span style='color:red; background-color:lightgrey;'>注意： 连接上USB后要稍等一会，等它抓取完，需要一小会时间,如果没抓完 dump_info.txt 文件是空的。</span>
+</p>
+
+<p>
+<strong>ramdump保存的目录：</strong>
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/linux;892x;ramdump.png?id=platform%3A892x%3Ahow_to_get_ramdump" class="media" title="linux:892x:ramdump.png"><img src="/dokuwiki/lib/exe/fetch.php/linux;892x;ramdump.png?w=1000&amp;tok=5aaec6" class="media" title="ramdump保存目录" alt="ramdump保存目录" width="1000" /></a>
+</p>
+
+<p>
+<strong>可以打开 dump_info.txt 确认一下时间，看是否为刚刚要抓取的。</strong>
+</p>
+<pre class="code">2014/05/23 17:02:18.097
+QPST 2.7.0.409
+pref       base    length               region            file name
+-------------------------------------------------------------------
+   1 0xFE800000     24576               OCIMEM           OCIMEM.BIN 
+   1 0xFC100000    131072  RPM Code RAM region          CODERAM.BIN 
+   1 0xFC190000     65536  RPM Data RAM region          DATARAM.BIN 
+   1 0xFC428000     16384   RPM MSG RAM region           MSGRAM.BIN 
+   1 0xFE090000     65536     LPASS LPM region              LPM.BIN 
+   1 0x0FE1B360         8        Pmic PON stat         PMIC_PON.BIN 
+   1 0x0FE1B358         4  Reset Status Region         RST_STAT.BIN 
+   1 0x0FE1B35C         4         Pmic RTCstat         PMIC_RTC.BIN 
+   1 0x00000000 536870912       DDR CS0 Memory           DDRCS0.BIN 
+Memory read failed to return data
+2014/05/23 17:02:26.757
+Exception MemoryDebug during memory dump
+2014/05/23 17:02:26.768</pre>
+
+</div>
+<!-- EDIT3 SECTION "PC USB 抓取" [230-1854] -->
+<h3 class="sectionedit4" id="sd卡抓取">SD卡抓取</h3>
+<div class="level3">
+
+<p>
+在SD卡中创建cookie文件 文件名为“rdcookie.txt”的空文件。
+</p>
+
+<p>
+宕机的时候等着，S55/G55上抓ramdump到SD卡上时绿灯会闪烁，绿灯熄灭时就抓好了。
+</p>
+
+<p>
+SD卡抓取ramdump 高通网站上有对应的Solution（Solution Number：00022254）<span class="curid"><a href="/dokuwiki/doku.php/platform;892x;how_to_get_ramdump#how_to_enable_saving_ramdump_onto_sdcard" class="wikilink1" title="platform:892x:how_to_get_ramdump">how_to_enable_saving_ramdump_onto_sdcard</a></span>
+</p>
+
+</div>
+<!-- EDIT4 SECTION "SD卡抓取" [1855-2214] -->
+<h1 class="sectionedit5" id="crash_into_download_mode">Crash into download mode</h1>
+<div class="level1">
+
+<p>
+为了让机器出问题后进入download模式而不是重启需要做以下修改。
+</p>
+
+<p>
+kernel config 文件中把 <span style='color:red; '>CONFIG_MSM_DLOAD_MODE=y</span> 这个宏定义加上，这样crash的时候就会进download模式了
+</p>
+
+<p>
+MSM_DLOAD_MODE 这个宏在 arch/arm/mach-msm/Kconfig 中定义。
+</p>
+
+<p>
+在 kernel/arch/arm/mach-msm/restart.c 文件中使用到。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Crash into download mode" [2215-2614] -->
+<h1 class="sectionedit6" id="crash_device_manually">Crash device manually</h1>
+<div class="level1">
+
+<p>
+两种 cause a crash 的方法:
+</p>
+<pre class="code bash">方法<span class="nu0">1</span>
+adb shell <span class="kw3">echo</span> c <span class="sy0">&gt;</span> <span class="sy0">/</span>proc<span class="sy0">/</span>sysrq-trigger</pre>
+<pre class="code">方法2
+Input the below command in QXDM command output tool to cause a err_fatal:
+send_data 75 37 03 00</pre>
+
+</div>
+<!-- EDIT6 SECTION "Crash device manually" [2615-2873] -->
+<h1 class="sectionedit7" id="ramdump_分析所需文件">ramdump 分析所需文件</h1>
+<div class="level1">
+
+<p>
+AP：
+</p>
+
+<p>
+out/target/product/xxx/obj/KERNEL_OBJ目录下的
+</p>
+
+<p>
+System.map  vmlinux
+</p>
+
+<p>
+保存目录(这个目录里面的obj文件是带debug信息的可用来缝隙Oops)：
+</p>
+
+<p>
+out/target/product/xxx/symbols
+</p>
+
+<p>
+CP：
+</p>
+
+<p>
+rpm_proc/core/bsp/rpm/build/8&times;26/RPM_AAAAANAAR.elf
+</p>
+
+<p>
+trustzone_images/core/bsp/tzbsp/build/FARAANBA/tz.elf
+</p>
+
+<p>
+modem_proc/build/ms/M8926DAAAANAZQ00884.elf
+</p>
+
+<p>
+debug_image/core/debug/dbi/output/msm8x26/sdi_AAAAANAZA.elf
+</p>
+
+<p>
+debug_image/core/bsp/dbi/dbi/build/AAAAANAZ/sdi_AAAAANAZA.elf
+</p>
+
+<p>
+rpm 和modem的后缀会根据你编译命令的不同而不同
+</p>
+
+</div>
+<!-- EDIT7 SECTION "ramdump 分析所需文件" [2874-3465] -->
+<h1 class="sectionedit8" id="分析内核的ramdump">分析内核的ramdump</h1>
+<div class="level1">
+
+<p>
+<strong>执行命令前先配置工程source build/envsetup.sh,然后lunch相应的项目，否则出现如下错误</strong>：
+</p>
+
+<p>
+Could not find platform independent libraries &lt;prefix&gt;
+Could not find platform dependent libraries &lt;exec_prefix&gt;
+Consider setting $PYTHONHOME to &lt;prefix&gt;[:&lt;exec_prefix&gt;]
+ImportError: No module named site
+</p>
+
+<p>
+python ramparse.py –everything -g &lt;path_to_gdb&gt; -n &lt;path_to_nm&gt; –vmlinux &lt;path_to_vmlinux&gt; –auto-dump &lt;path_to_ramdump&gt; -o &lt;path_to_output&gt; 
+</p>
+
+<p>
+例子：
+python ramparse.py –everything -g arm-linux-androideabi-gdb -n arm-linux-androideabi-nm –vmlinux /home/tsy/work/case/01575729/vmlinux –auto-dump /home/tsy/work/case/01575729/dump -o /home/tsy/work/case/01575729/dump/output 
+</p>
+
+<p>
+python ramparse.py - -everything -g ~/work/c580/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-gdb -n ~/work/c580/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-nm  - -vmlinux ~/work/c580/out/target/product/c580/obj/KERNEL_OBJ/vmlinux  - -auto-dump ~/ramdump/  -o ~/ramdump/out/
+</p>
+
+<p>
+工具包：<a href="/dokuwiki/lib/exe/fetch.php/linux;892x;linux-ramdump-parser-v2-64bit.tar" class="media mediafile mf_tar" title="linux:892x:linux-ramdump-parser-v2-64bit.tar (650 KB)">linux-ramdump-parser-v2-64bit.tar</a>
+</p>
+
+<p>
+上面的旧工具包不能分析8939平台64位的ramdump,请用下面的工具：<br/>
+
+8939的工具包：<a href="http://172.21.1.23/dokuwiki/lib/exe/fetch.php?media=linux:8939:linux-ramdump-parser-v2-64-8939.tar.gz" class="urlextern" title="http://172.21.1.23/dokuwiki/lib/exe/fetch.php?media=linux:8939:linux-ramdump-parser-v2-64-8939.tar.gz"  rel="nofollow">linux-ramdump-parser-v2-64-8939.tar.gz</a> <br/>
+
+分析方法：　<a href="/dokuwiki/doku.php/platform;8939;ramdump%E5%88%86%E6%9E%90" class="wikilink1" title="platform:8939:ramdump分析">8939分析内核的ramdump</a>
+</p>
+
+</div>
+<!-- EDIT8 SECTION "分析内核的ramdump" [3466-4949] -->
+<h1 class="sectionedit9" id="附加内容">附加内容</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT9 SECTION "附加内容" [4950-4976] -->
+<h2 class="sectionedit10" id="how_to_enable_saving_ramdump_onto_sdcard">How to enable saving RAMDUMP onto SDCARD</h2>
+<div class="level2">
+
+<p>
+<strong> Question: How to enable saving RAMDUMP onto SDCARD </strong>
+</p>
+
+<p>
+Answer: 
+</p>
+
+<p>
+On Qualcomm&#039;s later platform, 7x27a, 8&times;25, 8&times;60,8960, save ramdump to sdcard is supported and has a fast speed than usb.
+</p>
+
+<p>
+1. Define “FEATURE_BOOT_RAMDUMPS_TO_SD_CARD” flag in cust*.h file(created from .builds) if not eanbled by default, this should enable/compile call (boot_ram_dumps_to_sd_card) to ram dump logic.
+</p>
+
+<p>
+2. SD_PATH (define SD_PATH “/mmc1/”) needs to be defined in cust*.h file. This also already exists in our build in .builds/cust*.h.
+</p>
+
+<p>
+3. need to place “rdcookie.txt” empty file in FAT partition on removable SD card (at SD_PATH) to enable ram-dump-to-sd card.
+</p>
+
+<p>
+on 8&times;60,8960
+</p>
+
+<p>
+When SBL3 enters download mode with above setup, SBL3 will find “rdcookie.txt” at SD_PATH SBL3 will perform ram dump to SD card and enter dload mode after ram dump completion.
+</p>
+
+<p>
+in sbl3_pre_dload_procs[]
+</p>
+
+<p>
+boot_ram_dumps_to_sd_card()
+</p>
+
+<p>
+[some notes]
+</p>
+
+<p>
+1). make sure your device can enter download mode.
+refer to solution 00022521
+CR 352062
+note: nv905 and nv4399 should not be set anymore.
+</p>
+
+<p>
+2)change sdcc_bsp_slot_config in core\storage\sdcc\src\bsp\surf\8&times;60\sdcc_bsp_boot.c to 
+</p>
+<pre class="code c"><span class="kw4">static</span> sdcc_bsp_slot_type sdcc_bsp_slot_config <span class="br0">&#91;</span>SDCC_BSP_NUM_SLOTS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+SDCC_BSP_EMBEDDED_MEM_SLOT<span class="sy0">,</span>
+SDCC_BSP_NO_SLOT<span class="sy0">,</span>
+SDCC_BSP_OPEN_SLOT<span class="sy0">,</span>
+SDCC_BSP_NO_SLOT
+<span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+by this change, external sd card in SDCC3 slot can be  mounted on /mmc1/ of romfs in efs_boot_initialize().
+</p>
+
+<p>
+on 8&times;55
+</p>
+
+<p>
+osbl_ram_dumps_to_sd_card
+</p>
+
+<p>
+on 7x27a, 8&times;25
+</p>
+
+<p>
+oemsbl_ram_dumps_to_sd_card()
+</p>
+
+<p>
+[note]:
+</p>
+
+<p>
+on 7&times;30/7x27a, if meet sd card compatibility issue, can define FEATURE_SDCC_DISABLE_DMA in custsdcc.h.
+</p>
+
+<p>
+but this will slow the sdcc speed.
+</p>
+
+</div>
+<!-- EDIT10 SECTION "How to enable saving RAMDUMP onto SDCARD" [4977-] -->

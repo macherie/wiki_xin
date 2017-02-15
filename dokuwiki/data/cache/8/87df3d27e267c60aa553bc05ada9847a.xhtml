@@ -1,0 +1,62 @@
+
+<p>
+使用QRCT验证PA，ASM是否添加成功方法
+</p>
+
+<p>
+<strong>1， 启动QRCT工具， 打开以下窗口：</strong>
+</p>
+<pre class="code">FTM Command ---- Common ---- Main Controls
+View ---- QRCT Debug Message
+FTM Command ---- RF ---- TD-SCDMA/WCDMA-Main Controls/LTE-LTE(Primary Cell) (根据需要打开对应的网络模式窗口)</pre>
+
+<p>
+<strong>2， 连接测试手机/主板，然后点击COM Port，再选择端口。 选择Mobile Mode Control —- FTM进入FTM模式。</strong>
+</p>
+
+<p>
+<strong>3， 读取spec信息</strong>
+</p>
+
+<p>
+以WCDMA为例， 在WCDMA RF窗口中选择Band，然后填写频点并Set UL Channel(每个band的范围可在Tool - Helper Tools中查询)，在Main Controls窗口，选择Channel，PA选0，ASM选1，根据spec给定的数据填写Slave ID(hex)，需要读取的Address(hex)，然后点击Read，在Data(hex)框中即可显示该地址的值，再与spec对比是否一致。
+如图例PA-7459A，读取地址0x1E的值为0x34
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Aqrct_usage&amp;media=linux:892x:pa7459a_spec.png" class="media" title="linux:892x:pa7459a_spec.png"><img src="/dokuwiki/lib/exe/fetch.php?w=200&amp;tok=b0beee&amp;media=linux:892x:pa7459a_spec.png" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+如图例ASM-1498A，读取地址0x1D的值为0x28
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Aqrct_usage&amp;media=linux:892x:asm1498a_spec.png" class="media" title="linux:892x:asm1498a_spec.png"><img src="/dokuwiki/lib/exe/fetch.php?w=200&amp;tok=f3b7ee&amp;media=linux:892x:asm1498a_spec.png" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+<strong>4， 读取PA信息</strong>
+</p>
+
+<p>
+以WCDMA为例， 在WCDMA RF窗口中选择Band，然后填写频点并Set UL Channel。然后在Tx Controls栏Set Tx On，选择WCDMA。再在Main Controls窗口中根据spec设置Slave ID, Address。则对应WCDMA RF窗口中Tx Controls栏内不同的PA Range，读取出不同的PA值。
+如图例PA-7459A，band1，R0-On,R1-On时读取值为0xE
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Aqrct_usage&amp;media=linux:892x:pa.png" class="media" title="linux:892x:pa.png"><img src="/dokuwiki/lib/exe/fetch.php?w=200&amp;tok=e03ea9&amp;media=linux:892x:pa.png" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+<strong>5， 读取ASM信息</strong>
+</p>
+
+<p>
+以WCDMA为例， 在WCDMA RF窗口中选择Band，然后填写频点并Set UL Channel。然后在Main Controls窗口中根据spec设置Slave ID, Address， 然后点击Read。
+如图例ASM-1498A，band5时读取值为0x1
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=platform%3A892x%3Aqrct_usage&amp;media=linux:892x:asm.png" class="media" title="linux:892x:asm.png"><img src="/dokuwiki/lib/exe/fetch.php?w=200&amp;tok=d22cbe&amp;media=linux:892x:asm.png" class="media" alt="" width="200" /></a>
+</p>

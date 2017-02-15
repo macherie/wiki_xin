@@ -1,0 +1,29 @@
+
+<p>
+修改QCN
+</p>
+
+<p>
+1， 将手机烧录至最新软件版本
+</p>
+
+<p>
+2， 擦除手机中已有的QCN， 确保不受干扰
+</p>
+<pre class="code">adb reboot-bootloader
+fastboot erase modem_st1
+fastboot erase modem_st2
+fastboot reboot</pre>
+
+<p>
+3， 从服务器获取最新版本QCN， QPST烧录至手机中
+</p>
+
+<p>
+4， 用QXDM修改NV
+</p>
+<pre class="code">  Read ----&gt; 修改 ----&gt; Write ----&gt; Offline ----&gt; Reset</pre>
+
+<p>
+5, 用QPST导出
+</p>

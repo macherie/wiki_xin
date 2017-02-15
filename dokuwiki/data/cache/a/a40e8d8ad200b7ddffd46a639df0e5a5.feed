@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! platform:8625q:s300p</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:53:44+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:%E8%80%97%E6%B5%81&amp;rev=1392802913&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:pd&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:%E8%80%97%E6%B5%81&amp;rev=1392802913&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-19T10:41:53+01:00</dc:date>
+        <title>platform:8625q:s300p:耗流</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:%E8%80%97%E6%B5%81&amp;rev=1392802913&amp;do=diff</link>
+        <description>首先使机器进入飞行模式，排除待机时modem的干扰。
+
+1.测量底板电流。
+
+2.测量整机电流。经过整机和底板的测量，挑选具有代表性的板子作为调试使用。
+
+3.软件方面: 
+
+3.1查看是否进入休眠状态，如果无法休眠，看是否由于wake lock引起，判断是哪个设备引起的</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:pd&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>platform:8625q:s300p:pd</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=platform:8625q:s300p:pd&amp;rev=1390476864&amp;do=diff</link>
+        <description>项目名称：		S300+	
+Kick off：		7.10 	
+类型：			
+销售地区：		中国大陆	
+			
+基本产品信息			
+
+CPU		高通8625Q 1.2G	
+软件		Android 4.1及以上	
+MEMORY		4GB ROM;1GB RAM	
+尺寸		76mm(W)x167mm(H)x29m(D)	
+重量		360g（包含电池）	
+颜色		多款/TBD	
+显示		LCM	3.97&quot;WVGA TFT-LCD Module	
+		TP	电阻式触摸屏	
+
+后摄像头　　	5Mpix, LED灯	
+
+按键		左侧按键	扫描键、音量调节+-键	
+		右侧按键	扫描键、拍照键	
+		正面按键	menu、home、扫描/确认键、back、开关键、数字键盘（不含拨号、挂机键）、Enter、Backspace、功能键F1、F2、F3	有按键灯
+
+指示灯（数量和定义）		&quot;3个单色LED指示灯: 
+				1、Scan Data capture LED（1D/2D条码扫描读取到信息-绿灯闪烁一下，其余为关闭状态）
+				2、Charging/Battery LED（红色-充电中；红灯灭-…</description>
+    </item>
+</rdf:RDF>

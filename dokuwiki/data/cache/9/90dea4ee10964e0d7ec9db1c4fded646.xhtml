@@ -1,0 +1,26 @@
+
+<h1 class="sectionedit1" id="msm8625quse_fastboot_to_flash_image">MSM8625Q: Use fastboot to flash image</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "MSM8625Q: Use fastboot to flash image" [1-62] -->
+<h4 class="sectionedit2" id="modem_side">Modem side</h4>
+<div class="level4">
+<pre class="code">fastboot flash cfgdata qcsblhd_cfgdata.mbn 
+fastboot flash qcsbl qcsbl.mbn 
+fastboot flash oemsbl oemsbl_fsb.mbn 
+fastboot flash modem fat.bin</pre>
+
+</div>
+<!-- EDIT2 SECTION "Modem side" [63-238] -->
+<h4 class="sectionedit3" id="ap_side">AP side</h4>
+<div class="level4">
+<pre class="code">fastboot flash aboot emmc_appsboot_fsb.mbn
+fastboot flash boot boot.img
+fastboot flash recovery recovery.img
+fastboot flash persist persist.img
+fastboot flash system system.img
+fastboot flash userdata userdata.img</pre>
+
+</div>
+<!-- EDIT3 SECTION "AP side" [239-] -->

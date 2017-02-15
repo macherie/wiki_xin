@@ -1,0 +1,31 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2014/01/09//
+====== Windows 编译环境安装 - ActivePerl ======
+
+Qualcomm 的 Modem 编译需要的工具。
+
+安装包地址：[[\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset|]]
+
+**<color teal>1. </color>**打开 QUALCOMM_RVCT2.2_Toolset 文件夹，运行 ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi。
+
+{{linux:modem:activeperl1.png}}
+
+**<color teal>2. </color>**点“I accept the terms in the License Agreement”并点“Next”。
+
+{{linux:modem:activeperl2.png}}
+
+**<color teal>3. </color>**指定安装路径为“<color red>C:\Perl</color>”,并点“Next”。
+
+{{linux:modem:activeperl3.png}}
+
+**<color teal>4. </color>**点“Next”。
+
+{{linux:modem:activeperl4.png}}
+
+**<color teal>5. </color>**点“Install”。
+
+{{linux:modem:activeperl5.png}}
+
+**<color teal>6. </color>**点“Finish”。
+
+{{linux:modem:activeperl6.png}}
+

@@ -1,0 +1,29 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> startPlayback<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>mService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        Intent intent <span class="sy0">=</span> getIntent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filename <span class="sy0">=</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        Uri uri <span class="sy0">=</span> intent.<span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>uri <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// If this is a file:// URI, just use the path directly instead</span>
+            <span class="co1">// of going through the open-from-filedescriptor codepath.</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> scheme <span class="sy0">=</span> uri.<span class="me1">getScheme</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span><span class="st0">&quot;file&quot;</span>.<span class="me1">equals</span><span class="br0">&#40;</span>scheme<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                filename <span class="sy0">=</span> uri.<span class="me1">getPath</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                filename <span class="sy0">=</span> uri.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                mService.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mService.<span class="me1">openFile</span><span class="br0">&#40;</span>filename<span class="br0">&#41;</span><span class="sy0">;</span>
+                mService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                setIntent<span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span><span class="st0">&quot;MediaPlaybackActivity&quot;</span>, <span class="st0">&quot;couldn't start playback: &quot;</span> <span class="sy0">+</span> ex<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        updateTrackInfo<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">long</span> next <span class="sy0">=</span> refreshNow<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        queueNextRefresh<span class="br0">&#40;</span>next<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

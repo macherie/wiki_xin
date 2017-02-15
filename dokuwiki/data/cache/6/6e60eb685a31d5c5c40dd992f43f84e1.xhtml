@@ -1,0 +1,11 @@
+
+<h1 class="sectionedit1" id="linux_current">linux current</h1>
+<div class="level1">
+
+<p>
+Android用户空间可能有很多进程会操作同一个设备节点，如果想知道设备节点都是被哪个进程调用了，可以利用linux的current指针：
+</p>
+<pre class="code"> #include &lt;linux/sched.h&gt;
+printk(KERN_INFO &quot;The process is \&quot;%s\&quot; (pid %i)\n&quot;, current-&gt;comm, current-&gt;pid);</pre>
+
+</div>

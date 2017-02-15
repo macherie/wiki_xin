@@ -1,0 +1,4 @@
+<span class="kw1">public</span> <span class="kw1">class</span> PeopleActivity <span class="kw1">extends</span> ContactsActivity
+        <span class="kw1">implements</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnCreateContextMenuListener</span>, ActionBarAdapter.<span class="me1">Listener</span>,
+        DialogManager.<span class="me1">DialogShowingViewActivity</span>,
+        ContactListFilterController.<span class="me1">ContactListFilterListener</span>, ProviderStatusListener

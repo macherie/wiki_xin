@@ -1,0 +1,4 @@
+    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_compose_new&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/new_message&quot;</span>
+        android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@drawable/ic_menu_msg_compose_holo_dark&quot;</span>
+        android<span class="sy0">:</span>showAsAction<span class="sy0">=</span><span class="st0">&quot;always|withText&quot;</span> <span class="sy0">/&gt;</span>

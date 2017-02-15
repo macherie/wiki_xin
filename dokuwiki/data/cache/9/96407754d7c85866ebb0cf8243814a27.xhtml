@@ -1,0 +1,57 @@
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x69;&#x61;&#x6e;&#x67;&#x6a;&#x69;&#x6f;&#x6e;&#x67;&#x2e;&#x7a;&#x68;&#x6f;&#x75;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">liangjiong.zhou</a> 2014/04/02 03:34</em>
+</p>
+
+<h1 class="sectionedit1" id="打开android_c_c_文件中的log">打开Android C/C++文件中的LOG</h1>
+<div class="level1">
+
+<p>
+在Android的C/C++文件中可以用以下的方法来打开关闭不同级别的log
+</p>
+
+<p>
+把要打开的log对应的宏加到想要看log的cpp文件里就可以。
+</p>
+<pre class="code c"><span class="co2">#undef  NDEBUG          //打开LOGV/LOGI/LOGD</span>
+<span class="co2">#define LOG_NDEBUG   0  //打开LOGV</span>
+<span class="co2">#define LOG_NIDEBUG  0  //打开LOGI</span>
+<span class="co2">#define LOG_NDDEBUG  0  //打开LOGD</span></pre>
+
+<p>
+<img src="/dokuwiki/lib/images/smileys/icon_eek.gif" class="icon" alt="8-O" /> <span style='color:red; '>注意： 上面的定义要放在  #include &lt;utils/Log.h&gt;  这个include之前。</span>
+</p>
+
+<p>
+<strong>
+具体这些宏的定义在log.h文件里     <em>system/core/include/cutils/log.h</em></strong>
+</p>
+<pre class="code c"> <span class="nu0">49</span> <span class="coMULTI">/*
+ 50  * Normally we strip ALOGV (VERBOSE messages) from release builds.
+ 51  * You can modify this (for example with &quot;#define LOG_NDEBUG 0&quot;
+ 52  * at the top of your source file) to change that behavior.
+ 53  */</span>
+ <span class="nu0">54</span> <span class="co2">#ifndef LOG_NDEBUG</span>
+ <span class="nu0">55</span> <span class="co2">#ifdef NDEBUG</span>
+ <span class="nu0">56</span> <span class="co2">#define LOG_NDEBUG 1</span>
+ <span class="nu0">57</span> <span class="co2">#else</span>
+ <span class="nu0">58</span> <span class="co2">#define LOG_NDEBUG 0</span>
+ <span class="nu0">59</span> <span class="co2">#endif</span>
+ <span class="nu0">60</span> <span class="co2">#endif</span></pre>
+
+<p>
+<strong>例 ALOGV:</strong>
+</p>
+<pre class="code c"> <span class="nu0">73</span> <span class="coMULTI">/*
+ 74  * Simplified macro to send a verbose log message using the current LOG_TAG.
+ 75  */</span>
+ <span class="nu0">76</span> <span class="co2">#ifndef ALOGV</span>
+ <span class="nu0">77</span> <span class="co2">#if LOG_NDEBUG</span>
+ <span class="nu0">78</span> <span class="co2">#define ALOGV(...)   ((void)0)</span>
+ <span class="nu0">79</span> <span class="co2">#else</span>
+ <span class="nu0">80</span> <span class="co2">#define ALOGV(...) ((void)ALOG(LOG_VERBOSE, LOG_TAG, __VA_ARGS__))</span>
+ <span class="nu0">81</span> <span class="co2">#endif</span>
+ <span class="nu0">82</span> <span class="co2">#endif</span></pre>
+
+</div>
+<!-- EDIT1 SECTION "打开Android C/C++文件中的LOG" [72-] -->

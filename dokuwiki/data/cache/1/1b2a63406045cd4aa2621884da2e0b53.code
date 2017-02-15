@@ -1,0 +1,129 @@
+<span class="kw1">public</span> <span class="kw4">void</span> bindEditors<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">// This may happen when this Fragment is recreated by the system during users</span>
+    <span class="co1">// confirming the split action (and thus this method is called just before onCreate()),</span>
+    <span class="co1">// for example.Check this to prevent the occurrence of NullException when sort mState.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mState <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="co1">// Sort the editors</span>
+    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collections"><span class="kw3">Collections</span></a>.<span class="me1">sort</span><span class="br0">&#40;</span>mState, mComparator<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Remove any existing editors and rebuild any visible</span>
+    mContent.<span class="me1">removeAllViews</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// If photoActionPopup shown, the popup will leak when contact editor</span>
+    <span class="co1">// fragment bind editors. The popup need dismiss with content view</span>
+    <span class="co1">// remove all views.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>mBindPhotoHandler <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mBindPhotoHandler.<span class="me1">destroy</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mBindPhotoHandler <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">final</span> LayoutInflater inflater <span class="sy0">=</span> <span class="br0">&#40;</span>LayoutInflater<span class="br0">&#41;</span> mContext.<span class="me1">getSystemService</span><span class="br0">&#40;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">LAYOUT_INFLATER_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">final</span> AccountTypeManager accountTypes <span class="sy0">=</span> AccountTypeManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>mContext<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw4">int</span> numRawContacts <span class="sy0">=</span> mState.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    currentAccountTpye <span class="sy0">=</span> mState.<span class="me1">get</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span>.<span class="me1">getValues</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">ACCOUNT_TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> numRawContacts<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// TODO ensure proper ordering of entities in the list</span>
+        <span class="kw1">final</span> EntityDelta entity <span class="sy0">=</span> mState.<span class="me1">get</span><span class="br0">&#40;</span>i<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> ValuesDelta values <span class="sy0">=</span> entity.<span class="me1">getValues</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>values.<span class="me1">isVisible</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> accountType <span class="sy0">=</span> values.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">ACCOUNT_TYPE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> dataSet <span class="sy0">=</span> values.<span class="me1">getAsString</span><span class="br0">&#40;</span>RawContacts.<span class="me1">DATA_SET</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> AccountType type <span class="sy0">=</span> accountTypes.<span class="me1">getAccountType</span><span class="br0">&#40;</span>accountType, dataSet<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> <span class="kw4">long</span> rawContactId <span class="sy0">=</span> values.<span class="me1">getAsLong</span><span class="br0">&#40;</span>RawContacts._ID<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>type.<span class="me1">areContactsWritable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            editor <span class="sy0">=</span> <span class="br0">&#40;</span>BaseRawContactEditorView<span class="br0">&#41;</span> inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>
+                    R.<span class="me1">layout</span>.<span class="me1">raw_contact_readonly_editor_view</span>, mContent, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#40;</span><span class="br0">&#40;</span>RawContactReadOnlyEditorView<span class="br0">&#41;</span> editor<span class="br0">&#41;</span>.<span class="me1">setListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            editor <span class="sy0">=</span> <span class="br0">&#40;</span>RawContactEditorView<span class="br0">&#41;</span> inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">raw_contact_editor_view</span>,
+                    mContent, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>Intent.<span class="me1">ACTION_INSERT</span>.<span class="me1">equals</span><span class="br0">&#40;</span>mAction<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> numRawContacts <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">final</span> List<span class="sy0">&lt;</span>AccountWithDataSet<span class="sy0">&gt;</span> accounts <span class="sy0">=</span>
+                    AccountTypeManager.<span class="me1">getInstance</span><span class="br0">&#40;</span>mContext<span class="br0">&#41;</span>.<span class="me1">getAccounts</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>accounts.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">1</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>mNewLocalProfile<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                addAccountSwitcher<span class="br0">&#40;</span>mState.<span class="me1">get</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span>, editor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                disableAccountSwitcher<span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            disableAccountSwitcher<span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        editor.<span class="me1">setEnabled</span><span class="br0">&#40;</span>mEnabled<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mContent.<span class="me1">addView</span><span class="br0">&#40;</span>editor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        editor.<span class="me1">setState</span><span class="br0">&#40;</span>entity, type, mViewIdGenerator, isEditingUserProfile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Set up the photo handler.</span>
+        bindPhotoHandler<span class="br0">&#40;</span>editor, type, mState<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// If a new photo was chosen but not yet saved, we need to</span>
+        <span class="co1">// update the thumbnail to reflect this.</span>
+        Bitmap bitmap <span class="sy0">=</span> updatedBitmapForRawContact<span class="br0">&#40;</span>rawContactId<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>bitmap <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            editor.<span class="me1">setPhotoBitmap</span><span class="br0">&#40;</span>bitmap<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mUpdatedPhotos.<span class="me1">putBoolean</span><span class="br0">&#40;</span><span class="st0">&quot;has_remove&quot;</span>,<span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>editor <span class="kw1">instanceof</span> RawContactEditorView<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">final</span> Activity activity <span class="sy0">=</span> getActivity<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">final</span> RawContactEditorView rawContactEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RawContactEditorView<span class="br0">&#41;</span> editor<span class="sy0">;</span>
+            EditorListener listener <span class="sy0">=</span> <span class="kw1">new</span> EditorListener<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onRequest<span class="br0">&#40;</span><span class="kw4">int</span> request<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>activity.<span class="me1">isFinishing</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="co1">// Make sure activity is still running.</span>
+                        <span class="kw1">return</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>request <span class="sy0">==</span> EditorListener.<span class="me1">FIELD_CHANGED</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>isEditingUserProfile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        acquireAggregationSuggestions<span class="br0">&#40;</span>activity, rawContactEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onDismissPopup<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// Nothing to do.</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                @Override
+                <span class="kw1">public</span> <span class="kw4">void</span> onDeleteRequested<span class="br0">&#40;</span>Editor removedEditor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">final</span> TextFieldsEditorView nameEditor <span class="sy0">=</span> rawContactEditor.<span class="me1">getNameEditor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mRequestFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                nameEditor.<span class="me1">requestFocus</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mRequestFocus <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            nameEditor.<span class="me1">setEditorListener</span><span class="br0">&#40;</span>listener<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">final</span> TextFieldsEditorView phoneticNameEditor <span class="sy0">=</span>
+                    rawContactEditor.<span class="me1">getPhoneticNameEditor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            phoneticNameEditor.<span class="me1">setEditorListener</span><span class="br0">&#40;</span>listener<span class="br0">&#41;</span><span class="sy0">;</span>
+            rawContactEditor.<span class="me1">setAutoAddToDefaultGroup</span><span class="br0">&#40;</span>mAutoAddToDefaultGroup<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">if</span> <span class="br0">&#40;</span>rawContactId <span class="sy0">==</span> mAggregationSuggestionsRawContactId <span class="sy0">||</span> mAggregationSuggestionsRawContactId <span class="sy0">&lt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                acquireAggregationSuggestions<span class="br0">&#40;</span>activity, rawContactEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    mRequestFocus <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+&nbsp;
+    bindGroupMetaData<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Show editor now that we've loaded state</span>
+    mContent.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Refresh Action Bar as the visibility of the join command</span>
+    <span class="co1">// Activity can be null if we have been detached from the Activity</span>
+    <span class="kw1">final</span> Activity activity <span class="sy0">=</span> getActivity<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span>activity <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> activity.<span class="me1">invalidateOptionsMenu</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

@@ -1,0 +1,20 @@
+MT6735 android5.1 编译
+
+各image指令如下:
+<code>
+make bootimage
+cacheimage
+ramdisk
+recoveryimage
+secroimage
+systemimage
+userdataimage
+pl
+lk
+</code>
+
+更多指令可查:
+<code>
+device/mediatek/build/build/mk
+build/core/main.mk
+</code>

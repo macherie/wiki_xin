@@ -1,0 +1,65 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2013/12/10</em>
+</p>
+
+<h1 class="sectionedit1" id="android_编译环境安装">Android 编译环境安装</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Android 编译环境安装" [48-89] -->
+<h2 class="sectionedit2" id="安装_java_6">安装 Java 6</h2>
+<div class="level2">
+
+<p>
+<a href="/dokuwiki/doku.php?id=ubuntu:%E5%AE%89%E8%A3%85java" class="wikilink1" title="ubuntu:安装java">安装 Java 6</a>
+</p>
+
+<p>
+<a href="/dokuwiki/doku.php?id=ubuntu:%E5%AE%89%E8%A3%85openjdk" class="wikilink1" title="ubuntu:安装openjdk">安装open JDK</a>
+</p>
+
+</div>
+<!-- EDIT2 SECTION "安装 Java 6" [90-193] -->
+<h2 class="sectionedit3" id="安装依赖包_ubuntu_1204">安装依赖包 (Ubuntu 12.04)</h2>
+<div class="level2">
+<pre class="code bash">$ <span class="kw2">sudo</span> <span class="kw2">apt-get install</span> <span class="kw2">git</span> gnupg <span class="kw2">flex</span> <span class="kw2">bison</span> gperf build-essential \
+  <span class="kw2">zip</span> curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
+  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+$ <span class="kw2">sudo</span> <span class="kw2">ln</span> <span class="re5">-s</span> <span class="sy0">/</span>usr<span class="sy0">/</span>lib<span class="sy0">/</span>i386-linux-gnu<span class="sy0">/</span>mesa<span class="sy0">/</span>libGL.so.1 <span class="sy0">/</span>usr<span class="sy0">/</span>lib<span class="sy0">/</span>i386-linux-gnu<span class="sy0">/</span>libGL.so</pre>
+
+<p>
+这里注意非android2.3.6代码编译，下面命令不需要去配置，否则编译的时候会报错，(找不到gcc路径…)
+<strong> 如果要编译 android2.3.6 代码，还需要如下配置 </strong>
+</p>
+<pre class="code bash">$ <span class="kw2">sudo</span> <span class="kw2">apt-get install</span> linux-libc-dev:i386 libc6-dev:i386 lib32z1-dev imagemagick \
+  gcc-<span class="nu0">4.4</span> g++-<span class="nu0">4.4</span> g++-<span class="nu0">4.4</span>-multilib
+$ <span class="kw2">sudo</span> <span class="kw2">mv</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">gcc</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span>gcc-bak
+$ <span class="kw2">sudo</span> <span class="kw2">mv</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">g++</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span>g++-bak
+$ <span class="kw2">sudo</span> <span class="kw2">ln</span> <span class="re5">-s</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span>gcc-<span class="nu0">4.4</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">gcc</span>
+$ <span class="kw2">sudo</span> <span class="kw2">ln</span> <span class="re5">-s</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span>g++-<span class="nu0">4.4</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">g++</span></pre>
+
+<p>
+<strong> 如果要安装高通编译工具 Hexagon，还需要安装： </strong>
+</p>
+<pre class="code bash"><span class="co4">$ </span><span class="kw2">sudo</span> <span class="kw2">apt-get install</span> ia32-libs</pre>
+
+</div>
+<!-- EDIT3 SECTION "安装依赖包 (Ubuntu 12.04)" [194-1269] -->
+<h2 class="sectionedit4" id="编译问题">编译问题</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "编译问题" [1270-1292] -->
+<h3 class="sectionedit5" id="编译问题_can_t_locate_switchpm_in_inc">编译问题：Can&#039;t locate Switch.pm in @INC</h3>
+<div class="level3">
+
+<p>
+<strong>解决方法：</strong>
+sudo apt-get install libswitch-perl
+</p>
+
+</div>
+<!-- EDIT5 SECTION "编译问题：Can't locate Switch.pm in @INC" [1293-] -->

@@ -1,0 +1,541 @@
+
+<h1 class="sectionedit1" id="程序启动">程序启动</h1>
+<div class="level1">
+
+<p>
+程序的入口：ConversationList.java，对应主页中短信的快捷方式。由此进入短信列表模块。
+</p>
+
+</div>
+<!-- EDIT1 SECTION "程序启动" [1-141] -->
+<h1 class="sectionedit2" id="短信列表模块">短信列表模块</h1>
+<div class="level1">
+
+<p>
+该模块的展示是由ConversationList.java类实现的，该类继承自ListActivity，以列表的形式展示所有短信记录。模块启动的onCreate()方法中初始化listview的数据源mListAdapter与actionbar
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> initListAdapter<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mListAdapter <span class="sy0">=</span> <span class="kw1">new</span> ConversationListAdapter<span class="br0">&#40;</span><span class="kw1">this</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mListAdapter.<span class="me1">setOnContentChangedListener</span><span class="br0">&#40;</span>mContentChangedListener<span class="br0">&#41;</span><span class="sy0">;</span>
+        setListAdapter<span class="br0">&#40;</span>mListAdapter<span class="br0">&#41;</span><span class="sy0">;</span>
+        getListView<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">setRecyclerListener</span><span class="br0">&#40;</span>mListAdapter<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> setupActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ActionBar actionBar <span class="sy0">=</span> getActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        ViewGroup v <span class="sy0">=</span> <span class="br0">&#40;</span>ViewGroup<span class="br0">&#41;</span>LayoutInflater.<span class="me1">from</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span>
+            .<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">conversation_list_actionbar</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setDisplayOptions</span><span class="br0">&#40;</span>ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span>,
+                ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setCustomView</span><span class="br0">&#40;</span>v,
+                <span class="kw1">new</span> ActionBar.<span class="me1">LayoutParams</span><span class="br0">&#40;</span>ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        Gravity.<span class="me1">CENTER_VERTICAL</span> <span class="sy0">|</span> Gravity.<span class="me1">RIGHT</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mUnreadConvCount <span class="sy0">=</span> <span class="br0">&#40;</span>TextView<span class="br0">&#41;</span>v.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">unread_conv_count</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+在ConversationList.java类的onStart()方法中调用startAsyncQuery();实现异步查询短信数据
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> startAsyncQuery<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            <span class="br0">&#40;</span><span class="br0">&#40;</span>TextView<span class="br0">&#41;</span><span class="br0">&#40;</span>getListView<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getEmptyView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">setText</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">loading_conversations</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            Conversation.<span class="me1">startQueryForAll</span><span class="br0">&#40;</span>mQueryHandler, THREAD_LIST_QUERY_TOKEN<span class="br0">&#41;</span><span class="sy0">;</span>
+            Conversation.<span class="me1">startQuery</span><span class="br0">&#40;</span>mQueryHandler, UNREAD_THREADS_QUERY_TOKEN, Threads.<span class="me1">READ</span> <span class="sy0">+</span> <span class="st0">&quot;=0&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span>SQLiteException e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            SqliteWrapper.<span class="me1">checkSQLiteException</span><span class="br0">&#40;</span><span class="kw1">this</span>, e<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+异步查询数据的功能主要是由ThreadListQueryHandler.java类来实现，该类继承自ConversationQueryHandler.java，而ConversationQueryHandler.java类又继承自AsyncQueryHandler.java类。ThreadListQueryHandler.java类调用父类AsyncQueryHandler.java的startQuery（）方法开始异步查询。同时ThreadListQueryHandler.java类重写了父类的onQueryComplete（）方法，来实现将查询出来的数据更新listview绑定的mListAdapter对象，实现异步刷新并展现的功能。
+</p>
+<pre class="code java">    @Override
+    <span class="kw1">protected</span> <span class="kw4">void</span> onQueryComplete<span class="br0">&#40;</span><span class="kw4">int</span> token, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+object"><span class="kw3">Object</span></a> cookie, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">switch</span> <span class="br0">&#40;</span>token<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">case</span> THREAD_LIST_QUERY_TOKEN<span class="sy0">:</span>
+            mListAdapter.<span class="me1">changeCursor</span><span class="br0">&#40;</span>cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mListAdapter.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="br0">&#40;</span><span class="br0">&#40;</span>TextView<span class="br0">&#41;</span><span class="br0">&#40;</span>getListView<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getEmptyView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>.<span class="me1">setText</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">no_conversations</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mNeedToMarkAsSeen<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mNeedToMarkAsSeen <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+                Conversation.<span class="me1">markAllConversationsAsSeen</span><span class="br0">&#40;</span>getApplicationContext<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mHandler.<span class="me1">postDelayed</span><span class="br0">&#40;</span>mDeleteObsoleteThreadsRunnable,DELETE_OBSOLETE_THREAD_DELAY<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="co1">// some menu items depend on the adapter's count</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mDeleteAllItem <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    mDeleteAllItem.<span class="me1">setVisible</span><span class="br0">&#40;</span>mListAdapter.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+       <span class="kw1">case</span> UNREAD_THREADS_QUERY_TOKEN<span class="sy0">:</span>
+            <span class="kw4">int</span> count <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>cursor <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                count <span class="sy0">=</span> cursor.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                cursor.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            mUnreadConvCount.<span class="me1">setText</span><span class="br0">&#40;</span>count <span class="sy0">&gt;</span> <span class="nu0">0</span> <span class="sy0">?</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">toString</span><span class="br0">&#40;</span>count<span class="br0">&#41;</span> <span class="sy0">:</span> <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+         <span class="kw1">case</span> HAVE_LOCKED_MESSAGES_TOKEN<span class="sy0">:</span>
+            @SuppressWarnings<span class="br0">&#40;</span><span class="st0">&quot;unchecked&quot;</span><span class="br0">&#41;</span>
+            Collection<span class="sy0">&lt;</span>Long<span class="sy0">&gt;</span> threadIds <span class="sy0">=</span> <span class="br0">&#40;</span>Collection<span class="sy0">&lt;</span>Long<span class="sy0">&gt;</span><span class="br0">&#41;</span>cookie<span class="sy0">;</span>
+            confirmDeleteThreadDialog<span class="br0">&#40;</span><span class="kw1">new</span> DeleteThreadListener<span class="br0">&#40;</span>threadIds, mQueryHandler,
+                    ConversationList.<span class="kw1">this</span><span class="br0">&#41;</span>, threadIds,
+                    cursor <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> cursor.<span class="me1">getCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span>,
+                    ConversationList.<span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>cursor <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                cursor.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">break</span><span class="sy0">;</span>
+         <span class="kw1">default</span><span class="sy0">:</span>
+            Log.<span class="me1">e</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onQueryComplete called with unknown token &quot;</span> <span class="sy0">+</span> token<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+listview中的每个item点击后会进入到短信发送模块，由此方式进入到短信发送模块会传递一个联系人参数，在短信发送模块中会显示与该联系人的相关短信记录，并可向该联系人发送短信
+</p>
+<pre class="code java">    @Override
+    <span class="kw1">protected</span> <span class="kw4">void</span> onListItemClick<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+listview"><span class="kw3">ListView</span></a> l, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v, <span class="kw4">int</span> position, <span class="kw4">long</span> id<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// Note: don't read the thread id data from the ConversationListItem view passed in.</span>
+        <span class="co1">// It's unreliable to read the cached data stored in the view because the ListItem</span>
+        <span class="co1">// can be recycled, and the same view could be assigned to a different position</span>
+        <span class="co1">// if you click the list item fast enough. Instead, get the cursor at the position</span>
+        <span class="co1">// clicked and load the data from the cursor.</span>
+        <span class="co1">// (ConversationListAdapter extends CursorAdapter, so getItemAtPosition() should</span>
+        <span class="co1">// return the cursor object, which is moved to the position passed in)</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor  <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a><span class="br0">&#41;</span> getListView<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getItemAtPosition</span><span class="br0">&#40;</span>position<span class="br0">&#41;</span><span class="sy0">;</span>
+        Conversation conv <span class="sy0">=</span> Conversation.<span class="me1">from</span><span class="br0">&#40;</span><span class="kw1">this</span>, cursor<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">long</span> tid <span class="sy0">=</span> conv.<span class="me1">getThreadId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>LogTag.<span class="me1">VERBOSE</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onListItemClick: pos=&quot;</span> <span class="sy0">+</span> position <span class="sy0">+</span> <span class="st0">&quot;, view=&quot;</span> <span class="sy0">+</span> v <span class="sy0">+</span> <span class="st0">&quot;, tid=&quot;</span> <span class="sy0">+</span> tid<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        openThread<span class="br0">&#40;</span>tid<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> openThread<span class="br0">&#40;</span><span class="kw4">long</span> threadId<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        startActivity<span class="br0">&#40;</span>ComposeMessageActivity.<span class="me1">createIntent</span><span class="br0">&#40;</span><span class="kw1">this</span>, threadId<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+在菜单栏中也可以进入短信发送模块，该MenuItem在XML中定义如下。由此方式进入到短信发送模块不会传递具体的联系人参数，此时在短信发送模块中可以选择需要发送短信的联系人，也可是实现短信群发的功能。
+</p>
+<pre class="code java">    <span class="sy0">&lt;</span>item android<span class="sy0">:</span>id<span class="sy0">=</span><span class="st0">&quot;@+id/action_compose_new&quot;</span>
+        android<span class="sy0">:</span>title<span class="sy0">=</span><span class="st0">&quot;@string/new_message&quot;</span>
+        android<span class="sy0">:</span>icon<span class="sy0">=</span><span class="st0">&quot;@drawable/ic_menu_msg_compose_holo_dark&quot;</span>
+        android<span class="sy0">:</span>showAsAction<span class="sy0">=</span><span class="st0">&quot;always|withText&quot;</span> <span class="sy0">/&gt;</span></pre>
+<pre class="code java">    @Override
+    <span class="kw1">public</span> <span class="kw4">boolean</span> onOptionsItemSelected<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menuitem"><span class="kw3">MenuItem</span></a> item<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">switch</span><span class="br0">&#40;</span>item.<span class="me1">getItemId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_compose_new</span><span class="sy0">:</span>
+                createNewMessage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_delete_all</span><span class="sy0">:</span>
+                <span class="co1">// The invalid threadId of -1 means all threads here.</span>
+                confirmDeleteThread<span class="br0">&#40;</span><span class="sy0">-</span>1L, mQueryHandler<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">// hide the item: &quot;Delete all threads&quot;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mDeleteAllItem <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    mDeleteAllItem.<span class="me1">setVisible</span><span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_settings</span><span class="sy0">:</span>
+                Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="kw1">this</span>, MessagingPreferenceActivity.<span class="kw1">class</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                startActivityIfNeeded<span class="br0">&#40;</span>intent, <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_debug_dump</span><span class="sy0">:</span>
+                LogTag.<span class="me1">dumpInternalTables</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">default</span><span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> createNewMessage<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        startActivity<span class="br0">&#40;</span>ComposeMessageActivity.<span class="me1">createIntent</span><span class="br0">&#40;</span><span class="kw1">this</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT2 SECTION "短信列表模块" [142-7237] -->
+<h1 class="sectionedit3" id="短信发送模块">短信发送模块</h1>
+<div class="level1">
+
+<p>
+短信发送模块的页面展示是ComposeMessageActivity.java来实现的。在该模块中有个较为复杂的自定义组件RecipientsEditor。在onCreate（）方法中用initRecipientsEditor（）方法初始化该组件
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> initRecipientsEditor<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>isRecipientsEditorVisible<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        ContactList recipients <span class="sy0">=</span> getRecipients<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        ViewStub stub <span class="sy0">=</span> <span class="br0">&#40;</span>ViewStub<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor_stub</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>stub <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> stubView <span class="sy0">=</span> stub.<span class="me1">inflate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span> stubView.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker <span class="sy0">=</span> <span class="br0">&#40;</span>ImageButton<span class="br0">&#41;</span> stubView.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_picker</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            mRecipientsEditor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_editor</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsEditor.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker <span class="sy0">=</span> <span class="br0">&#40;</span>ImageButton<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">recipients_picker</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mRecipientsPicker.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mRecipientsPicker.<span class="me1">setOnClickListener</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setAdapter</span><span class="br0">&#40;</span><span class="kw1">new</span> ChipsRecipientAdapter<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">populate</span><span class="br0">&#40;</span>recipients<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnCreateContextMenuListener</span><span class="br0">&#40;</span>mRecipientsMenuCreateListener<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">addTextChangedListener</span><span class="br0">&#40;</span>mRecipientsWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnSelectChipRunnable</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mRecipientsEditor.<span class="me1">getRecipientCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// if we're in extract mode then don't request focus</span>
+                    <span class="kw1">final</span> InputMethodManager inputManager <span class="sy0">=</span> <span class="br0">&#40;</span>InputMethodManager<span class="br0">&#41;</span>
+                        getSystemService<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a>.<span class="me1">INPUT_METHOD_SERVICE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>inputManager <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">||</span> <span class="sy0">!</span>inputManager.<span class="me1">isFullscreenMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mTextEditor.<span class="me1">requestFocus</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecipientsEditor.<span class="me1">setOnFocusChangeListener</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">OnFocusChangeListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> onFocusChange<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> v, <span class="kw4">boolean</span> hasFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>hasFocus<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    RecipientsEditor editor <span class="sy0">=</span> <span class="br0">&#40;</span>RecipientsEditor<span class="br0">&#41;</span> v<span class="sy0">;</span>
+                    ContactList contacts <span class="sy0">=</span> editor.<span class="me1">constructContactsFromInput</span><span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    updateTitle<span class="br0">&#40;</span>contacts<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        PhoneNumberFormatter.<span class="me1">setPhoneNumberFormattingTextWatcher</span><span class="br0">&#40;</span><span class="kw1">this</span>, mRecipientsEditor<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mTopPanel.<span class="me1">setVisibility</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a>.<span class="me1">VISIBLE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+点击该组件中的imagebutton即mRecipientsPicker可以进入联系人选择页面，选择需要发送短信的联系人，可以多选。进入到联系人选择页面是采用startActivityForResult(）的方式进入的
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> launchMultiplePhonePicker<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="st0">&quot;com.android.contacts.action.MULTI_PICK&quot;</span>,Contacts.<span class="me1">CONTENT_URI</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> exsitNumbers <span class="sy0">=</span> mRecipientsEditor.<span class="me1">getExsitNumbers</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>exsitNumbers<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            intent.<span class="me1">putExtra</span><span class="br0">&#40;</span>Intents.<span class="me1">EXTRA_PHONE_URIS</span>, exsitNumbers<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// We have to wait for the constructing complete.</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mIsPickingContact <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+            startActivityForResult<span class="br0">&#40;</span>intent, REQUEST_CODE_PICK<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span>ActivityNotFoundException ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Toast.<span class="me1">makeText</span><span class="br0">&#40;</span><span class="kw1">this</span>, R.<span class="me1">string</span>.<span class="me1">contact_app_not_found</span>, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+通过startActivityForResult（）进入到选择联系人界面，在ComposeMessageActivity.java类中自然会有onActivityResult（）来从返回结果中获取联系人信息，这个返回的数据是联系人在sqlite数据库中对应的id。
+</p>
+<pre class="code java">    <span class="kw1">protected</span> <span class="kw4">void</span> onActivityResult<span class="br0">&#40;</span><span class="kw4">int</span> requestCode, <span class="kw4">int</span> resultCode, Intent data<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ...
+        <span class="kw1">if</span> <span class="br0">&#40;</span>requestCode <span class="sy0">==</span> REQUEST_CODE_PICK<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mWorkingMessage.<span class="me1">asyncDeleteDraftSmsMessage</span><span class="br0">&#40;</span>mConversation<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">// if the sms draft be deleted, flag mIsSmsDraftAlreadyDeleted is true.</span>
+            mIsSmsDraftAlreadyDeleted <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        ...
+        <span class="kw1">switch</span> <span class="br0">&#40;</span>requestCode<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+           ...
+            <span class="kw1">case</span> REQUEST_CODE_PICK<span class="sy0">:</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>data <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    processPickResult<span class="br0">&#40;</span>data<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp;
+            ...
+            <span class="kw1">default</span><span class="sy0">:</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>LogTag.<span class="me1">VERBOSE</span><span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;bail due to unknown requestCode=&quot;</span> <span class="sy0">+</span> requestCode<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+processPickResult方法主要是用来判断要发送短信的联系人数量是否超出了100个，默认是不允许超过100个。
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> processPickResult<span class="br0">&#40;</span><span class="kw1">final</span> Intent data<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// The EXTRA_PHONE_URIS stores the phone's urls that were selected by user in the</span>
+        <span class="co1">// multiple phone picker.</span>
+        Bundle bundle <span class="sy0">=</span> data.<span class="me1">getExtras</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getBundle</span><span class="br0">&#40;</span><span class="st0">&quot;result&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> Set<span class="sy0">&lt;</span>String<span class="sy0">&gt;</span> keySet <span class="sy0">=</span> bundle.<span class="me1">keySet</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> <span class="kw4">int</span> recipientCount <span class="sy0">=</span> <span class="br0">&#40;</span>keySet <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="sy0">?</span> keySet.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// if total recipients count &gt; recipientLimit,</span>
+        <span class="co1">// then forbid add reipients to RecipientsEditor</span>
+        <span class="kw1">final</span> <span class="kw4">int</span> recipientLimit <span class="sy0">=</span> MmsConfig.<span class="me1">getRecipientLimit</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">int</span> totalRecipientsCount <span class="sy0">=</span> mExistsRecipientsCount <span class="sy0">+</span> recipientCount<span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>recipientLimit <span class="sy0">!=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">MAX_VALUE</span> <span class="sy0">&amp;&amp;</span> totalRecipientsCount <span class="sy0">&gt;</span> recipientLimit<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">new</span> AlertDialog.<span class="me1">Builder</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span>
+                    .<span class="me1">setMessage</span><span class="br0">&#40;</span>getString<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">too_many_recipients</span>, totalRecipientsCount, recipientLimit<span class="br0">&#41;</span><span class="br0">&#41;</span>
+                    .<span class="me1">setPositiveButton</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">string</span>.<span class="me1">ok</span>, <span class="kw1">new</span> OnClickListener<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        @Override
+                        <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span>DialogInterface dialog, <span class="kw4">int</span> which<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            <span class="co1">// if already exists some recipients,</span>
+                            <span class="co1">// then new pick recipients with exists recipients count</span>
+                            <span class="co1">// can't more than recipient limit count.</span>
+                            <span class="kw4">int</span> newPickRecipientsCount <span class="sy0">=</span> recipientLimit <span class="sy0">-</span> mExistsRecipientsCount<span class="sy0">;</span>
+                            <span class="kw1">if</span> <span class="br0">&#40;</span>newPickRecipientsCount <span class="sy0">&lt;=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                <span class="kw1">return</span><span class="sy0">;</span>
+                            <span class="br0">&#125;</span>
+                            processAddRecipients<span class="br0">&#40;</span>keySet, newPickRecipientsCount<span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+                    .<span class="me1">setNegativeButton</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">string</span>.<span class="me1">cancel</span>, <span class="kw2">null</span><span class="br0">&#41;</span>
+                    .<span class="me1">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        processAddRecipients<span class="br0">&#40;</span>keySet, recipientCount<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+processAddRecipients方法中开启了三条条线程，第一条线程是判断对从联系人选择界面返回的数据的格式化处理是否超过1秒，是则显示一个progressDialog，否则不显示。第二条是获取从联系人选择界面返回的数据并格式化这些数据，然后与之前已经存在的需要发送的联系人集合合并，去除重复的联系人信息。第三条则是将联系人信息按照一定的方式填充到RecipientsEditor组件中
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> processAddRecipients<span class="br0">&#40;</span><span class="kw1">final</span> Set<span class="sy0">&lt;</span>String<span class="sy0">&gt;</span> keySet, <span class="kw1">final</span> <span class="kw4">int</span> newPickRecipientsCount<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// if process pick result that is pick recipients from Contacts</span>
+        mIsProcessPickedRecipients <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+        <span class="kw1">final</span> Handler handler <span class="sy0">=</span> <span class="kw1">new</span> Handler<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> ProgressDialog progressDialog <span class="sy0">=</span> <span class="kw1">new</span> ProgressDialog<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        progressDialog.<span class="me1">setTitle</span><span class="br0">&#40;</span>getText<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">pick_too_many_recipients</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        progressDialog.<span class="me1">setMessage</span><span class="br0">&#40;</span>getText<span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">adding_recipients</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        progressDialog.<span class="me1">setIndeterminate</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        progressDialog.<span class="me1">setCancelable</span><span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a> showProgress <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                progressDialog.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+        <span class="co1">// Only show the progress dialog if we can not finish off parsing the return data in 1s,</span>
+        <span class="co1">// otherwise the dialog could flicker.</span>
+        handler.<span class="me1">postDelayed</span><span class="br0">&#40;</span>showProgress, <span class="nu0">1000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+thread"><span class="kw3">Thread</span></a><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Uri<span class="br0">&#91;</span><span class="br0">&#93;</span> newuris <span class="sy0">=</span> <span class="kw1">new</span> Uri<span class="br0">&#91;</span>newPickRecipientsCount<span class="br0">&#93;</span><span class="sy0">;</span>
+                <span class="kw1">final</span> ContactList list<span class="sy0">;</span>
+                 <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    Iterator<span class="sy0">&lt;</span>String<span class="sy0">&gt;</span> it <span class="sy0">=</span> keySet.<span class="me1">iterator</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                    <span class="kw1">while</span> <span class="br0">&#40;</span>it.<span class="me1">hasNext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> id <span class="sy0">=</span> it.<span class="me1">next</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        newuris<span class="br0">&#91;</span>i<span class="sy0">++</span><span class="br0">&#93;</span> <span class="sy0">=</span> ContentUris.<span class="me1">withAppendedId</span><span class="br0">&#40;</span>Phone.<span class="me1">CONTENT_URI</span>, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">parseInt</span><span class="br0">&#40;</span>id<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span>i <span class="sy0">==</span> newPickRecipientsCount<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            <span class="kw1">break</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#125;</span>
+                    list <span class="sy0">=</span> ContactList.<span class="me1">blockingGetByUris</span><span class="br0">&#40;</span>newuris<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">finally</span> <span class="br0">&#123;</span>
+                    handler.<span class="me1">removeCallbacks</span><span class="br0">&#40;</span>showProgress<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mRecipientsEditor <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    ContactList exsitList <span class="sy0">=</span> mRecipientsEditor.<span class="me1">constructContactsFromInput</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="co1">// Remove the repeat recipients.</span>
+                  <span class="kw1">if</span><span class="br0">&#40;</span>exsitList.<span class="me1">equals</span><span class="br0">&#40;</span>list<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    exsitList.<span class="me1">clear</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    list.<span class="me1">addAll</span><span class="br0">&#40;</span><span class="nu0">0</span>, exsitList<span class="br0">&#41;</span><span class="sy0">;</span>
+                  <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+                    list.<span class="me1">removeAll</span><span class="br0">&#40;</span>exsitList<span class="br0">&#41;</span><span class="sy0">;</span>
+                    list.<span class="me1">addAll</span><span class="br0">&#40;</span><span class="nu0">0</span>, exsitList<span class="br0">&#41;</span><span class="sy0">;</span>
+                     <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                <span class="co1">// TODO: there is already code to update the contact header widget and recipients</span>
+                <span class="co1">// editor if the contacts change. we can re-use that code.</span>
+                <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a> populateWorker <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runnable"><span class="kw3">Runnable</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    @Override
+                    <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="co1">// We must remove this listener before dealing with the contact list.</span>
+                        <span class="co1">// Because the listener will take a lot of time, this will cause an ANR.</span>
+                        mRecipientsEditor.<span class="me1">removeTextChangedListener</span><span class="br0">&#40;</span>mRecipientsWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mRecipientsEditor.<span class="me1">populate</span><span class="br0">&#40;</span>list<span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="co1">// Set value for mRecipientsPickList and</span>
+                        <span class="co1">// mRecipientsWatcher will update the UI.</span>
+                        mRecipientsPickList <span class="sy0">=</span> list<span class="sy0">;</span>
+                        updateTitle<span class="br0">&#40;</span>list<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                        mRecipientsEditor.<span class="me1">addTextChangedListener</span><span class="br0">&#40;</span>mRecipientsWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                        <span class="co1">// if process finished, then dismiss the progress dialog</span>
+                        progressDialog.<span class="me1">dismiss</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span><span class="sy0">;</span>
+                handler.<span class="me1">post</span><span class="br0">&#40;</span>populateWorker<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>, <span class="st0">&quot;ComoseMessageActivity.processPickResult&quot;</span><span class="br0">&#41;</span>.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+RecipientsEditor组件的主要功能是承担短信发送的联系人的容器,RecipientsEditor.java类继承自RecipientEditTextView.java类。其populate方法通过调用父类append方法来实现填充联系人的功能。
+</p>
+<pre class="code java">    <span class="kw1">public</span> <span class="kw4">void</span> populate<span class="br0">&#40;</span>ContactList list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>list.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            setText<span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="co1">// Clear the recipient when add contact again</span>
+            setText<span class="br0">&#40;</span><span class="st0">&quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span>Contact c <span class="sy0">:</span> list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                CharSequence charSequence <span class="sy0">=</span> contactToToken<span class="br0">&#40;</span>c<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>charSequence <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> charSequence.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    append<span class="br0">&#40;</span> charSequence<span class="sy0">+</span> <span class="st0">&quot;, &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+RecipientEditTextView.java类中的append方法具体实现了填充联系人信息的功能。
+</p>
+<pre class="code java">    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> append<span class="br0">&#40;</span>CharSequence text, <span class="kw4">int</span> start, <span class="kw4">int</span> end<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// We need care about watching text changes while appending ',' or ';'.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>text<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> textString <span class="sy0">=</span> text.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">trim</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>textString.<span class="me1">equals</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>COMMIT_CHAR_COMMA<span class="br0">&#41;</span><span class="br0">&#41;</span>
+                    <span class="sy0">||</span> textString.<span class="me1">equals</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">&#40;</span>COMMIT_CHAR_SEMICOLON<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">super</span>.<span class="me1">append</span><span class="br0">&#40;</span>text, start, end<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// We don't care about watching text changes while appending.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mTextWatcher <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            removeTextChangedListener<span class="br0">&#40;</span>mTextWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">super</span>.<span class="me1">append</span><span class="br0">&#40;</span>text, start, end<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>text<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> TextUtils.<span class="me1">getTrimmedLength</span><span class="br0">&#40;</span>text<span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> displayString <span class="sy0">=</span> text.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> seperatorPos <span class="sy0">=</span> displayString.<span class="me1">indexOf</span><span class="br0">&#40;</span>COMMIT_CHAR_COMMA<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>seperatorPos <span class="sy0">!=</span> <span class="nu0">0</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>TextUtils.<span class="me1">isEmpty</span><span class="br0">&#40;</span>displayString<span class="br0">&#41;</span>
+                    <span class="sy0">&amp;&amp;</span> TextUtils.<span class="me1">getTrimmedLength</span><span class="br0">&#40;</span>displayString<span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mPendingChipsCount<span class="sy0">++;</span>
+                mPendingChips.<span class="me1">add</span><span class="br0">&#40;</span>text.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="co1">// Put a message on the queue to make sure we ALWAYS handle pending chips.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mPendingChipsCount <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            postHandlePendingChips<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mHandler.<span class="me1">post</span><span class="br0">&#40;</span>mAddTextWatcher<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+在append方法中调动postHandlePendingChips();方法，对联系人信息数据进行异步处理，具体方法是handlePendingChips（）
+</p>
+<pre class="code java">    <span class="coMULTI">/*package*/</span> <span class="kw4">void</span> handlePendingChips<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>getViewWidth<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&lt;=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// The widget has not been sized yet.</span>
+            <span class="co1">// This will be called as a result of onSizeChanged</span>
+            <span class="co1">// at a later point.</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mPendingChipsCount <span class="sy0">&lt;=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">synchronized</span> <span class="br0">&#40;</span>mPendingChips<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Editable editable <span class="sy0">=</span> getText<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Tokenize!</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPendingChipsCount <span class="sy0">&lt;=</span> MAX_CHIPS_PARSED<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> mPendingChips.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> current <span class="sy0">=</span> mPendingChips.<span class="me1">get</span><span class="br0">&#40;</span>i<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw4">int</span> tokenStart <span class="sy0">=</span> editable.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">indexOf</span><span class="br0">&#40;</span>current<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw4">int</span> tokenEnd <span class="sy0">=</span> tokenStart <span class="sy0">+</span> current.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>tokenStart <span class="sy0">&gt;=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="co1">// When we have a valid token, include it with the token</span>
+                        <span class="co1">// to the left.</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span>tokenEnd <span class="sy0">&lt;</span> editable.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">2</span>
+                                <span class="sy0">&amp;&amp;</span> editable.<span class="me1">charAt</span><span class="br0">&#40;</span>tokenEnd<span class="br0">&#41;</span> <span class="sy0">==</span> COMMIT_CHAR_COMMA<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            tokenEnd<span class="sy0">++;</span>
+                        <span class="br0">&#125;</span>
+                        createReplacementChip<span class="br0">&#40;</span>tokenStart, tokenEnd, editable<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                    mPendingChipsCount<span class="sy0">--;</span>
+                <span class="br0">&#125;</span>
+                sanitizeEnd<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                mNoChips <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+&nbsp;
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mTemporaryRecipients <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> mTemporaryRecipients.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span>
+                    <span class="sy0">&amp;&amp;</span> mTemporaryRecipients.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&lt;=</span> RecipientAlternatesAdapter.<span class="me1">MAX_LOOKUPS</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>hasFocus<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">||</span> mTemporaryRecipients.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&lt;=</span> CHIP_LIMIT<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">new</span> RecipientReplacementTask<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    mTemporaryRecipients <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    <span class="co1">// Create the &quot;more&quot; chip</span>
+                    mIndividualReplacements <span class="sy0">=</span> <span class="kw1">new</span> IndividualReplacementTask<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    mIndividualReplacements.<span class="me1">execute</span><span class="br0">&#40;</span><span class="kw1">new</span> ArrayList<span class="sy0">&lt;</span>RecipientChip<span class="sy0">&gt;</span><span class="br0">&#40;</span>
+                            mTemporaryRecipients.<span class="me1">subList</span><span class="br0">&#40;</span><span class="nu0">0</span>, CHIP_LIMIT<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                    <span class="co1">// Remove the exists more chip before create, or it may</span>
+                    <span class="co1">// create repeat more chip.</span>
+                    removeMoreChip<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    createMoreChip<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                <span class="co1">// There are too many recipients to look up, so just fall back</span>
+                <span class="co1">// to showing addresses for all of them.</span>
+                mTemporaryRecipients <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+                removeMoreChip<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                createMoreChip<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            mPendingChipsCount <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            mPendingChips.<span class="me1">clear</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+<p>
+在handlePendingChips（）方法中调用createReplacementChip（）方法，完成对联系人信息的处理。RecipientsEditor组件中显示的其实是RecipientEntry.java类，createReplacementChip（）方法完成将特定格式的联系人信息转换成RecipientEntry对象，在RecipientsEditor组件中显示具体的联系人姓名，但在实际的短信发送过程中，是根据联系人的号码来发送的。
+</p>
+<pre class="code java">    <span class="kw1">private</span> <span class="kw4">void</span> createReplacementChip<span class="br0">&#40;</span><span class="kw4">int</span> tokenStart, <span class="kw4">int</span> tokenEnd, Editable editable<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>alreadyHasChip<span class="br0">&#40;</span>tokenStart, tokenEnd<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// There is already a chip present at this location.</span>
+            <span class="co1">// Don't recreate it.</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> token <span class="sy0">=</span> editable.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">substring</span><span class="br0">&#40;</span>tokenStart, tokenEnd<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw4">int</span> commitCharIndex <span class="sy0">=</span> token.<span class="me1">trim</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">lastIndexOf</span><span class="br0">&#40;</span>COMMIT_CHAR_COMMA<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>commitCharIndex <span class="sy0">==</span> token.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            token <span class="sy0">=</span> token.<span class="me1">substring</span><span class="br0">&#40;</span><span class="nu0">0</span>, token.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        RecipientEntry entry <span class="sy0">=</span> createTokenizedEntry<span class="br0">&#40;</span>token<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>entry <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> destText <span class="sy0">=</span> createAddressText<span class="br0">&#40;</span>entry<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Always leave a blank space at the end of a chip.</span>
+            <span class="kw4">int</span> textLength <span class="sy0">=</span> destText.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="sy0">;</span>
+            SpannableString chipText <span class="sy0">=</span> <span class="kw1">new</span> SpannableString<span class="br0">&#40;</span>destText<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> end <span class="sy0">=</span> getSelectionEnd<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> start <span class="sy0">=</span> mTokenizer <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">?</span> mTokenizer.<span class="me1">findTokenStart</span><span class="br0">&#40;</span>getText<span class="br0">&#40;</span><span class="br0">&#41;</span>, end<span class="br0">&#41;</span> <span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">;</span>
+            RecipientChip chip <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mNoChips<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    chip <span class="sy0">=</span> constructChipSpan<span class="br0">&#40;</span>entry, start, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    chipText.<span class="me1">setSpan</span><span class="br0">&#40;</span>chip, <span class="nu0">0</span>, textLength, Spanned.<span class="me1">SPAN_EXCLUSIVE_EXCLUSIVE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+nullpointerexception"><span class="kw3">NullPointerException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">e</span><span class="br0">&#40;</span>TAG, e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, e<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            editable.<span class="me1">replace</span><span class="br0">&#40;</span>tokenStart, tokenEnd, chipText<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Add this chip to the list of entries &quot;to replace&quot;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>chip <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mTemporaryRecipients <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    mTemporaryRecipients <span class="sy0">=</span> <span class="kw1">new</span> ArrayList<span class="sy0">&lt;</span>RecipientChip<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                chip.<span class="me1">setOriginalText</span><span class="br0">&#40;</span>chipText.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mTemporaryRecipients.<span class="me1">add</span><span class="br0">&#40;</span>chip<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT3 SECTION "短信发送模块" [7238-] -->

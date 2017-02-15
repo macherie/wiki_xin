@@ -1,0 +1,2 @@
+<span class="sc2">&lt;<a href="http://december.com/html/4/element/font.html"><span class="kw2">font</span></a> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;blod&quot;</span>&gt;</span>示例代码结构：<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/font.html"><span class="kw2">font</span></a>&gt;</span> 工厂模式 + 策略模式
+Activity通过工厂方法获取对应的录像策略，进而控制录像的开始、停止、分段

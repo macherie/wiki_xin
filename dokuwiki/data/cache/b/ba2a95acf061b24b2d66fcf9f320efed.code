@@ -1,0 +1,118 @@
+<span class="kw1">public</span> <span class="kw1">class</span> CameraGLSurfaceView <span class="kw1">extends</span> GLSurfaceView <span class="kw1">implements</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+renderer"><span class="kw3">Renderer</span></a>,
+        SurfaceTexture.<span class="me1">OnFrameAvailableListener</span> <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> TAG <span class="sy0">=</span> <span class="st0">&quot;DEMO-UI&quot;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> SurfaceTexture mSurface<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">int</span> mTextureID <span class="sy0">=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span>
+    <span class="kw1">private</span> DirectDrawer mDirectDrawer<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> CameraProxy mProxyFront, mProxyBack<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> CameraGLSurfaceView<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> ctx, CameraProxy proxy, <span class="kw4">int</span> cameraId<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span><span class="br0">&#40;</span>ctx<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        setEGLContextClientVersion<span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        setRenderer<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        setRenderMode<span class="br0">&#40;</span>RENDERMODE_WHEN_DIRTY<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 脏模式，意思就是有数据的时候才进入onDrawFrame进行渲染</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>proxy <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>cameraId <span class="sy0">==</span> <span class="nu0">1</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mSurface <span class="sy0">=</span> proxy.<span class="me1">getSurfaceTexureFront</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mTextureID <span class="sy0">=</span> proxy.<span class="me1">getTexureIdFront</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                proxy.<span class="me1">registerFrameAvailableListenerFront</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mProxyFront <span class="sy0">=</span> proxy<span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>cameraId <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mSurface <span class="sy0">=</span> proxy.<span class="me1">getSurfaceTexureBack</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mTextureID <span class="sy0">=</span> proxy.<span class="me1">getTexureIdBack</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                proxy.<span class="me1">registerFrameAvailableListenerBack</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mProxyBack <span class="sy0">=</span> proxy<span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 创建纹理ID **/</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> createTextureID<span class="br0">&#40;</span><span class="kw4">int</span> cameraId<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw4">int</span><span class="br0">&#91;</span><span class="br0">&#93;</span> texture <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">int</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="sy0">;</span>
+        texture<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span><span class="co1">// 后摄</span>
+        texture<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span><span class="co1">// 前摄</span>
+&nbsp;
+        GLES20.<span class="me1">glGenTextures</span><span class="br0">&#40;</span><span class="nu0">1</span>, texture, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glBindTexture</span><span class="br0">&#40;</span>GLES11Ext.<span class="me1">GL_TEXTURE_EXTERNAL_OES</span>, texture<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glTexParameterf</span><span class="br0">&#40;</span>GLES11Ext.<span class="me1">GL_TEXTURE_EXTERNAL_OES</span>,
+                GL10.<span class="me1">GL_TEXTURE_MIN_FILTER</span>, GL10.<span class="me1">GL_LINEAR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glTexParameterf</span><span class="br0">&#40;</span>GLES11Ext.<span class="me1">GL_TEXTURE_EXTERNAL_OES</span>,
+                GL10.<span class="me1">GL_TEXTURE_MAG_FILTER</span>, GL10.<span class="me1">GL_LINEAR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES11Ext.<span class="me1">GL_TEXTURE_EXTERNAL_OES</span>,
+                GL10.<span class="me1">GL_TEXTURE_WRAP_S</span>, GL10.<span class="me1">GL_CLAMP_TO_EDGE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glTexParameteri</span><span class="br0">&#40;</span>GLES11Ext.<span class="me1">GL_TEXTURE_EXTERNAL_OES</span>,
+                GL10.<span class="me1">GL_TEXTURE_WRAP_T</span>, GL10.<span class="me1">GL_CLAMP_TO_EDGE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>cameraId <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+            <span class="kw1">return</span> texture<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+        <span class="kw1">else</span>
+            <span class="kw1">return</span> texture<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onSurfaceCreated<span class="br0">&#40;</span>GL10 gl, EGLConfig config<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onSurfaceCreated...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">// mSurface.setOnFrameAvailableListener(this);</span>
+        mDirectDrawer <span class="sy0">=</span> <span class="kw1">new</span> DirectDrawer<span class="br0">&#40;</span>mTextureID<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 当创建是把纹理ID下发给渲染封装类</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onSurfaceChanged<span class="br0">&#40;</span>GL10 gl, <span class="kw4">int</span> width, <span class="kw4">int</span> height<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onSurfaceChanged...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glViewport</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span>, width, height<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onDrawFrame<span class="br0">&#40;</span>GL10 gl<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onDrawFrame...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">// 获取手机屏幕尺寸</span>
+        DisplayMetrics dm <span class="sy0">=</span> MainActivity.<span class="me1">getDisplayMetrics</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glViewport</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span>, dm.<span class="me1">widthPixels</span>, dm.<span class="me1">heightPixels</span> <span class="sy0">/</span> <span class="nu0">2</span> <span class="sy0">-</span> <span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glClearColor</span><span class="br0">&#40;</span>1.0f, 1.0f, 1.0f, 1.0f<span class="br0">&#41;</span><span class="sy0">;</span>
+        GLES20.<span class="me1">glClear</span><span class="br0">&#40;</span>GLES20.<span class="me1">GL_COLOR_BUFFER_BIT</span> <span class="sy0">|</span> GLES20.<span class="me1">GL_DEPTH_BUFFER_BIT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mSurface.<span class="me1">updateTexImage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw4">float</span><span class="br0">&#91;</span><span class="br0">&#93;</span> mtx <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">float</span><span class="br0">&#91;</span><span class="nu0">16</span><span class="br0">&#93;</span><span class="sy0">;</span>
+        mSurface.<span class="me1">getTransformMatrix</span><span class="br0">&#40;</span>mtx<span class="br0">&#41;</span><span class="sy0">;</span>
+        mDirectDrawer.<span class="me1">draw</span><span class="br0">&#40;</span>mtx<span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 主要在此进行回调渲染</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onFrameAvailable<span class="br0">&#40;</span>SurfaceTexture surfaceTexture<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">i</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onFrameAvailable...&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">this</span>.<span class="me1">requestRender</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">protected</span> <span class="kw4">void</span> onDetachedFromWindow<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onDetachedFromWindow&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mProxyFront<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mProxyFront.<span class="me1">registerFrameAvailableListenerFront</span><span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mProxyBack<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mProxyBack.<span class="me1">registerFrameAvailableListenerBack</span><span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">super</span>.<span class="me1">onDetachedFromWindow</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onPause<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onPause&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">super</span>.<span class="me1">onPause</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onResume<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;onResume&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">super</span>.<span class="me1">onResume</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>

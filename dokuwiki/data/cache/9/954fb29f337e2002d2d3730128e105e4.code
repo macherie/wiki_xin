@@ -1,0 +1,5 @@
+        <span class="kw1">if</span> <span class="br0">&#40;</span>a <span class="sy0">==</span> <span class="nu0">2</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span> 			<span class="coMULTI">/* special case */</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> isPrime<span class="br0">&#40;</span>a<span class="br0">&#41;</span><span class="sy0">;</span>	<span class="coMULTI">/* works only for odd a */</span>
+        <span class="br0">&#125;</span>

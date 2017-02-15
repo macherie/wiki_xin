@@ -1,0 +1,96 @@
+====== How to configure external PA for Lineout output on 8926 KK ======
+
+===== 1.For the models use WCD9306,such as: d508=====
+
+==== 1.1 We need to pull up/down gpio to enable/disable external PA. ====
+
+
+in kernel/arch/arm/boot/dts/d508.dtsi
+
+        sound {
+       +        qcom,model = "msm8226-tapan-snd-card";             //configure audio path  
+                qcom,audio-routing =
+                        "RX_BIAS", "MCLK",
+                        "LDO_H", "MCLK",
+                        "SPK_OUT", "MCLK",
+                        "SPK_OUT", "EXT_VDD_SPKR",
+       +                "Lineout_1 amp", "LINEOUT1",               //configure Lineout audio path
+       +                "Lineout_2 amp", "LINEOUT2",
+                        "AMIC1", "MIC BIAS1 External",
+                        "MIC BIAS1 External", "Handset Mic",
+                        "AMIC2", "MIC BIAS2 External",
+                        "MIC BIAS2 External", "Headset Mic",
+                        "AMIC3", "MIC BIAS1 External",
+                        "MIC BIAS1 External", "Analog Mic3",
+                        "AMIC4", "MIC BIAS3 External",
+                        "MIC BIAS3 External", "Analog Mic4";
+
+         +      qcom,cdc-lineout-spkr-gpios = <&msmgpio 69 0>;  //configure right gpio number in dts
+                qcom,cdc-mclk-gpios = <&pm8226_gpios 1 0>;
+                qcom,cdc-vdd-spkr-gpios = <&pm8226_gpios 2 0>;
+                //qcom,cdc-us-euro-gpios = <&msmgpio 69 0>;
+        };
+        
+==== 1.2 Change UCM file. ====  
+
+In device/qcom/d508/mixer_paths.xml       
+
+{{linux:892x:508_1.png?direct|}}
+
+{{linux:892x:508_2.png?direct|}}
+
+
+=====2.For the models use WCD9302,such as: d801=====
+ 
+==== 2.1 We need to pull up/down gpio to enable/disable external PA. ====
+
+
+in kernel/arch/arm/boot/dts/d801.dtsi
+
+        sound-9302 {
+       +        qcom,model = "msm8226-tapan9302-snd-card";          //configure audio path
+                qcom,audio-routing =
+                        "RX_BIAS", "MCLK",
+                        "LDO_H", "MCLK",
+                        "SPK_OUT", "MCLK",
+                        "SPK_OUT", "EXT_VDD_SPKR",
+      +                 "Lineout_1 amp", "LINEOUT1",                //configure Lineout audio path
+      +                 "Lineout_2 amp", "LINEOUT2",                //configure Lineout audio path
+                        "AMIC1", "MIC BIAS1 Internal1",
+                        "MIC BIAS1 Internal1", "Handset Mic",
+                        "AMIC2", "MIC BIAS2 External",
+                        "MIC BIAS2 External", "Headset Mic",
+                        "AMIC3", "MIC BIAS1 External",
+                        "MIC BIAS1 External", "Analog Mic3",
+                        "AMIC4", "MIC BIAS3 External",
+                        "MIC BIAS3 External", "Analog Mic4";
+     +          qcom,cdc-lineout-spkr-gpios = <&msmgpio 69 0>;    //configure right gpio number in dts
+                /delete-property/ qcom,prim-auxpcm-gpio-clk;
+                /delete-property/ qcom,prim-auxpcm-gpio-dout;
+        /*      /delete-property/ qcom,cdc-vdd-spkr-gpios;*/
+        };
+        
+==== 2.2 Change UCM file. ====
+
+
+In device/qcom/d801/mixer_paths.xml        
+
+{{linux:892x:801_1.png?direct|}}
+
+{{linux:892x:801_2.png?direct|}}
+===== 3. If it can not work , please catch logcat and kernel log , and check it with qcom. =====
+
+please enable log mask in audio_hw.c, platform.c
+
+#define LOG_NDEBUG 0
+#define LOG_NDDEBUG 0
+
+kmsg,  catch it after run below commands:
+
+   adb root
+   adb remount
+   adb shell
+   #mount -t debugfs debugfs /sys/kernel/debug/
+   #echo -n "file soc-dapm.c +p" > /sys/kernel/debug/dynamic_debug/control
+   #echo -n "file msm8226.c +p" > /sys/kernel/debug/dynamic_debug/control
+   #echo -n "file msm-pcm-routing-v2.c +p" > /sys/kernel/debug/dynamic_debug/control

@@ -1,0 +1,272 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2014/01/09//
+======Modem 编译环境安装======
+=====组件发布版本属性=====
+下表列出了组件发布版本属性，并提供了每个 non-HLOS 构建模块的编译器、Python、Perl 及 Cygwin 版本信息。
+
+^     组件发布版本    ^            构建源代码所需的工具链            ^    Python 版本    ^          Perl 版本            ^       Cygwin        ^    构建主机    ^
+| MPSS(AZM)         | Hexagon 5.0.13，RVDS2.2 仅适用于 Linux 构建 | Python 2.6.2     | Perl 5.8.x 仅适用于 Linux 构建 | 仅适用于 Windows 构建 | Linux, Windows |
+| ADSP(AZL)         | Hexagon 5.0.10                           | Python 2.6.2     |               --             | 仅适用于 Windows 构建 | Linux, Windows |
+| Boot loaders(AZB) | ARM 编译工具 5.01 update 3(build 94)      | Python 2.6.2     |               --             | 仅适用于 Windows 构建 | Windows        |
+| RPM(AZR)          | ARM 编译工具 5.01 update 3(build 94)      | Python 2.6.2     |               --             | 仅适用于 Windows 构建 | Windows        |
+| TZ(AZT)           | ARM 编译工具 5.01 update 3(build 94)      | Python 2.6.2     |               --             | 仅适用于 Windows 构建 | Windows        |
+
+===== Windows 下 Modem 编译环境安装=====
+
+====安装 ARM 编译器 DS5====
+
+**安装包地址：**[[\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94|]]
+
+**安装步骤：**
+
+**<color teal>1. </color>**复制 DS500-PA-00002-r5p0-05rel0.zip 到本地。
+
+**<color teal>2. </color>**解压 DS500-PA-00002-r5p0-05rel0.zip，打开 Installer 文件夹，运行 setup.exe。
+
+{{linux:8928:arm1.png}}
+
+**<color teal>3. </color>**勾选 “I accept the terms in the License Agreement” 并点 “Next”。
+
+{{linux:8928:arm2.png}}
+
+**<color teal>4. </color>**指定安装路径为“<color red>C:\Apps\ARMCT5.01\94</color>”，并点“Next”。
+
+{{linux:8928:arm3.png}}
+
+**<color teal>5. </color>**点“Next”。
+
+{{linux:8928:arm4.png}}
+
+**<color teal>6. </color>**点“Install”。
+
+{{linux:8928:arm5.png}}
+
+**<color teal>7. </color>**点“Finish”。
+
+{{linux:8928:arm6.png}}
+
+**<color teal>8. </color>**安装完成。
+
+
+----
+
+
+====破解 ARM 编译器 DS5====
+
+**破解包地址：**[[\\192.167.100.225\share\Tool\ARM\DS5\5.01bld94\ARMCT_Crack|]]
+
+**破解步骤：**
+
+**<color teal>1. </color>**解压 crack.rar 到 D:\ARMCT_Crack\crack。
+
+**<color teal>2. </color>**复制 D:\ARMCT_Crack\crack\ 下的所有文件（fromelf.exe，armlink.exe，armcc.exe，armasm.exe）到 C:\Apps\ARMCT5.01\94\bin 下，覆盖所有已存在的文件。
+
+**<color teal>3. </color>**解压 flexlm.rar 到 D:\ARMCT_Crack\flexlm。
+
+**<color teal>4. </color>**在 C:\Apps\ARMCT5.01\94 下新建文件夹 Licenses 。
+
+**<color teal>5. </color>**复制 D:\ARMCT_Crack\flexlm 下 license.dat 文件到 C:\Apps\ARMCT5.01\94\Licenses 下。
+
+
+----
+
+
+====安装 Qualcomm 编译器 Hexagon====
+
+**安装包地址：**
+
+需用账户登陆，该工具受高通限制，所以没有放到共享服务器。
+
+**Hexagon 5.0.10：**\\192.167.100.225\work\Qualcomm\Hexagon\Windows Tools\Hexagon5010
+
+**Hexagon 6.2.08：**\\192.167.100.225\work\Qualcomm\Hexagon\Windows Tools\Hexagon6208
+
+**安装步骤：**
+
+**<color teal>1. </color>**复制安装包地址下所有文件到本地。
+
+**<color teal>2. </color>**把对应版本目录下 quic-5.0-*.tar.bz2、win32_profiler_plugins.tar.bz2、win32_ra_plugins.tar.bz2 复制到 C:\Documents and Settings\Administrator 下。
+
+**<color teal>3. </color>**解压 zip 包，运行 Install_HEXAGON_Tools_windows_*.exe 进行安装。
+
+{{linux:8928:hexagon5010-windows1.png}}
+
+**<color teal>4. </color>**安装路径用默认路径，点“Next”。
+
+<color red>服务器上安装路径改为“/pkg/Qualcomm/”</color>
+
+{{linux:8928:hexagon5010-windows2.png}}
+
+**<color teal>5. </color>**选择“Offline Install”，并点“Install”。
+
+{{linux:8928:hexagon5010-windows3.png}}
+
+**<color teal>6. </color>**不用选择”Open Brower...“这个选项，点“Next”。
+
+{{linux:8928:hexagon5010-windows4.png}}
+
+**<color teal>7. </color>**点“Next”。
+
+{{linux:8928:hexagon5010-windows5.png}}
+
+**<color teal>8. </color>**安装程序默认会扫描查找 quic-5.0-*-hexagon-i686-mingw32.tar.bz2 文件，但是扫描完成后并没有显示此文件，所以要手动选择此文件。点“Choose...”选择 quic-5.0-*-hexagon-i686-mingw32.tar.bz2 文件，选择文件后点“Next”。
+
+{{linux:8928:hexagon5010-windows6.png}}
+
+**<color teal>9. </color>**不用选择”Open Brower...“这个选项，点“Next”。
+
+{{linux:8928:hexagon5010-windows7.png}}
+
+**<color teal>10. </color>**点“Next”。
+
+{{linux:8928:hexagon5010-windows8.png}}
+
+**<color teal>11. </color>**安装程序默认会到 C:\Documents and Settings\Administrator 下扫描查找 win32_profiler_plugins.tar.bz2 文件，扫到后选择此文件，如果没有扫到请点“Choose Other...”手动选择 win32_profiler_plugins.tar.bz2 文件，选择文件后点“Next”安装。
+
+{{linux:8928:hexagon5010-windows9.png}}
+
+**<color teal>12. </color>**安装程序默认会到 C:\Documents and Settings\Administrator 下扫描查找 win32_ra_plugins.tar.bz2 文件，扫到后选择此文件，如果没有扫到请点“Choose Other...”手动选择 win32_ra_plugins.tar.bz2 文件，选择文件后点“Next”安装。
+
+{{linux:8928:hexagon5010-windows10.png}}
+
+**<color teal>13. </color>**点“Install”
+
+{{linux:8928:hexagon5010-windows11.png}}
+
+**<color teal>14. </color>**在弹出对话框中选“No, thanks. I will add these myself”。
+
+{{linux:8928:hexagon5010-windows12.png}}
+
+**<color teal>15. </color>**安装完成，点“Done”。
+
+{{linux:8928:hexagon5010-windows13.png}}
+
+
+----
+
+====安装 Cygwin====
+[[platform:modem:编译环境安装-cygwin|Windows 编译环境安装 - Cygwin]]
+
+
+----
+
+
+====安装 ActivePerl====
+[[platform:modem:编译环境安装-activeperl|Windows 编译环境安装 - ActivePerl]]
+
+
+----
+
+
+====安装 Python====
+[[platform:modem:编译环境安装-python|Windows 编译环境安装 - Python]]
+
+===== Linux 下 Modem 编译环境安装=====
+====安装 Qualcomm 编译器 Hexagon====
+
+**安装包地址：**
+
+需用账户登陆，该工具受高通限制，所以没有放到共享服务器。
+
+**Hexagon 5.0.10：**\\192.167.100.225\work\Qualcomm\Hexagon\Linux Tools\Hexagon5010
+
+**Hexagon 6.2.08：**\\192.167.100.225\work\Qualcomm\Hexagon\Linux Tools\Hexagon6208
+
+
+=== 图形界面下安装方法 ===
+**安装步骤：**
+
+**<color teal>1. </color>**复制安装包地址下所有文件到本地。
+
+**<color teal>2. </color>**把对应版本目录下 ​quic-5.0-*.tar.bz2、lnx64_profiler_plugins.tar.bz2、lnx64_ra_plugins.tar.bz2 复制到 HOME 下。
+
+**<color teal>3. </color>**解压 zip 包，在终端中给 Install_HEXAGON_Tools_linux_*.bin 文件执行权限：chmod a+x Install_HEXAGON_Tools_linux_*.bin。运行 Install_HEXAGON_Tools_linux_*.bin 进行安装：./​Install_HEXAGON_Tools_linux_*.bin。
+
+**<color teal>4. </color>**其他步骤同 Windows 下安装方法：[[modem编译环境安装#安装_Qualcomm_编译器_Hexagon|安装 Qualcomm 编译器 Hexagon]]
+
+
+
+
+
+=== 命令行底下安装方法 ===
+
+复制安装包地址下 Hexagon 5.0.13 所有文件到本地.
+
+**<color teal>1. </color>**解压：
+    unzip -x 72-NB910-12.zip
+**<color teal>2. </color>**更改权限
+    cd 72-NB910-12_5.0.13
+    chmod a+x Install_HEXAGON_Tools_linux_5.0.13.bin
+**<color teal>3. </color>**安装：
+    ./Install_HEXAGON_Tools_linux_5.0.13.bin
+
+一路回车，在遇到选择下载安装还是离线安装时，选2 离线安装：
+       
+      ->1- Download and Install (Recommended)
+        2- Offline Install
+    ENTER THE NUMBER FOR YOUR CHOICE, OR PRESS <ENTER> TO ACCEPT THE DEFAULT:: 2
+
+两个回车后，会询问3个包的位置，默认为HOME下的Downloads，此处输入3个tar包所在的位置后回车。
+
+再回车进行安装。
+
+**<color teal>4. </color>**安装成功后回车退出安装。
+
+**注：**
+
+如果安装后提示有error，请自行安装3个tar包：
+    tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 lnx64_profiler_plugins.tar.bz2
+    tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 lnx64_ra_plugins.tar.bz2
+    tar -jxf -C xxxx/Qualcomm/HEXAGON_Tools/5.0.13 quic-5.0-432-hexagon-i686-pc-linux-gnu.tar.bz2
+    xxxx是你的home目录(如果前面步骤3都是一路回车的话)，只要是HEXAGON_Tools/5.0.13的路径就对了。
+
+OK call it a day!
+
+----
+
+
+====安装 RVDS2.2====
+[[platform:modem:编译环境安装-rvds2.2#linux_下_modem_编译环境安装_-_rvds22|编译环境安装 - RVDS2.2]]
+
+
+----
+
+====编译问题====
+===编译问题：Can't locate XML/Parser.pm in @INC===
+
+**解决方法：**
+
+安装包地址：[[smb://192.167.100.225/share/Tool/Perl|]]
+
+**<color teal>1. </color>**复制并解决 expat-2.1.0.tar.gz 和 XML-Parser-2.41.tar.gz 到本地。
+
+**<color teal>2. </color>**在终端中切换目录到 expat-2.1.0。
+
+**<color teal>3. </color>**运行如下命令：
+<code bash>
+$ ./configure
+$ make
+$ sudo make install
+</code>
+
+**<color teal>4. </color>**在终端中切换目录到 XML-Parser-2.41。
+
+**<color teal>5. </color>**运行如下命令：
+<code bash>
+$ perl Makefile.PL
+$ make
+$ make test
+$ sudo make install
+</code>
+
+===编译问题：EnvironmentError: No module named _md5===
+**解决方法：**
+拷贝下面两个库到目录： /lib/i386-linux-gnu/
+
+libcrypto.so.0.9.8 和 libssl.so.0.9.8
+
+文件地址：
+
+<code bash>
+smb://192.167.100.225/share/Tool/Ubuntu/ubuntu14.04编译_md5问题/
+</code>
+

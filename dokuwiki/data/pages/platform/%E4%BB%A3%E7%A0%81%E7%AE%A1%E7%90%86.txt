@@ -1,0 +1,563 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2013/12/10//
+====== 开发代码管理 ======
+====== Freescale平台 ======
+//Freescale_4.1.15平台代码//
+<code bash>
+repo init -u git@172.16.6.72:Freescale-6ul/manifest.git -b Freescale-6ul_4.1.15 --repo-url=git@172.16.6.72:Freescale-6ul/repo.git
+</code>
+
+//Freescale平台代码//
+<code bash>
+repo init -u git@172.16.6.72:Freescale-6ul/manifest.git -b Freescale-6ul --repo-url=git@172.16.6.72:Freescale-6ul/repo.git
+</code>
+====== MTK平台 ======
+==== HOMEBOX2.3 ====
+//code base on HOMEBOX2.1//
+<code bash>
+svn://172.19.1.147/homebox/homebox2.3
+</code>
+<code bash>
+svn://172.19.1.147/homebox/homebox2.1
+</code>
+<code bash>
+Base code
+svn://172.19.1.147/homebox/CBSDK_141209
+</code>
+----
+==== MT6572【3G】 ====
+//(ALPS.KK1.MP7.V1_SIMCOM72_CWET_KK_KERNEL.tar.gz)//
+<code bash>
+SVN：//172.19.1.147/MT6572/ap_base/alps
+</code>
+<code bash>
+SVN://172.19.1.147/MT6572/homebox3
+</code>
+
+----
+
+==== 遥控器 ====
+//A9112芯片，keil4环境//
+<code bash>
+SVN://172.19.1.147/homebox/remote_controler
+</code>
+
+
+==== 代码库备份====
+<code bash>
+//HOMEBOX--homebox2.1//           git clone git@172.16.6.72:MTK/homebox/homebox2.1.git -b homebox2.1
+//HOMEBOX--homebox2.3//           git clone git@172.16.6.72:MTK/homebox/homebox2.3.git -b homebox2.3
+//HOMEBOX--Base code//            git clone git@172.16.6.72:MTK/homebox2.3.git -b CBSDK
+//遥控器//                         git clone git@172.16.6.72:MTK/homebox/remote_controler.git -b remote_controler
+//MT6572--homebox3//              git clone git@172.16.6.72:MTK/MT6572/homebox3.git -b homebox3 
+</code>
+==== CB04 ====
+//MT6735组合3代码(5/4/3M)//
+//6735M/6735P/6735/6753 (FDD/TDD) + (64/32) + (FULL/GMO)///
+<code bash>
+repo init -u git@172.16.6.72:MT6735/platform/manifest.git -b MT6735_L --repo-url=git@172.16.6.72:MT6735/tools/repo.git
+</code>
+
+==== CB04 客户代码 ====
+<code bash>
+repo init -u git@172.16.6.72:MT6735/platform/manifest.git -b MT6735_Cu --repo-url=git@172.16.6.72:MT6735/tools/repo.git
+</code>
+
+
+==== VR 代码====
+<code bash>
+git clone git@172.16.6.72:VR.git -b master
+</code>
+
+
+==== SmartPoint 代码====
+<code bash>
+git clone git@172.16.6.72:SmartPoint.git -b master
+</code>
+====== 高通平台 ======
+
+
+===== AP侧代码 =====
+==== S100 ====
+//(高通版本 M7630AABBQMLZA414007)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b phs100_414007 \
+--repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== S100 旺旺版本 ====
+//(高通版本 M7630AABBQMLZA414007)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b phs100_414007_wang \
+--repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== S300 ====
+//(高通版本 M7630AABBQMLZA414007)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b msm8255_414007 --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== LSR titan ====
+//(高通版本 M8960AAAAANLYA2031)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b titan_jb --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== cathy ====
+//(高通版本 M8960AAAAANLYA2031)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b cathay_jb --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== titan & apollo ====
+//(高通版本 M8960AAAAANLYA2035)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b msm8960_jb --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== S100D & S200 & S300P & C500 ====
+//(高通版本 R8625QSOSKQLYA3070.1)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b qrd8625_jb --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== S100 & S300 Android4.2 ====
+//(高通版本 M7630AABBQMLZA40901040)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b msm8255_jb --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== K900 开发版本 ====
+//(高通版本 R8625QSOSKQLYA3070)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b k900 --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== K900 客户版本 ====
+//(高通版本 R8625QSOSKQLYA3070)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b k900 -m customer.xml --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== D508 (Android 4.3) ====
+//(高通版本 LNX.LA.3.2.1-06840-8x26.0)//
+
+
+
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8926_JB --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== C580 & D508  & D801(Android 4.4.2) ====
+//(高通版本 LNX.LA.3.5.3-05420-8x26.0)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8926_KK --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== D508 客户版本 (Android 4.4.2)   ====
+//(高通版本 LNX.LA.3.5.3-05420-8x26.0)//
+<color red>**已停用**</color>
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8926_KK -m D508.xml --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== D801 客户版本 (Android 4.4.2)   ====
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8926_KK -m D801.xml --repo-url=git@192.167.100.232:repo.git
+</code>
+==== S55 & G55 (Android 4.4.2) ====
+//(高通版本 LNX.LA.3.5.3-05120-8x26.0)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8926_KK_S55 --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== I501 (Android 4.4.4) ====
+//(高通版本 LNX.LA.3.7.3.1-03910-8939.0)//<color red>**项目已停止**</color> \\
+<color red>**(02710<14-09-26>)，(03210<14-11-13>)，(03910<14-11-27>)**</color>
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QRD8939_KK --repo-url=git@192.167.100.232:repo.git
+</code>
+
+====机甲(Android 4.4.4) ====
+//(高通版本LNX.LA.3.7.1-00630-8x16.0)//<color red>**已停用**</color>
+
+<code>
+repo init -u git@192.167.100.232:platform/manifest.git -b QCT8939_KK --repo-url=git@192.167.100.232:repo.git
+</code>
+
+====8939 基线2.0主干分支 V5003P&V5003&Primo&Ocean&L61&Umi&S507(Android 5.0.2)====
+<color red>**主干分支**</color> \\
+
+//(高通版本 LNX.LA.BR64.1.1-05010-8x16.0)//<color red>**(04610<14-11-20>)，(05010<14-11-26>)，(00610<14-12-13>)，(01010<15-1-4>)**</color> \\
+//(高通版本 LA.BR.1.1.2-01310-8x16.0) //<color red>**(01310<15-1-29>)，(01610<15-2-11>)，(01910<15-3-11>)**</color>
+
+<code>
+repo init -u git@192.167.100.232:platform/manifest.git -b 8939_L --repo-url=git@192.167.100.232:repo.git
+</code>
+
+====Q39基线2.0(Android 5.0.2)====
+<color red>**Q39客户分支**</color> \\
+
+//(高通版本 LNX.LA.BR64.1.1-05010-8x16.0)//<color red>**(04610<14-11-20>)，(05010<14-11-26>)，(00610<14-12-13>)，(01010<15-1-4>)**</color> \\
+//(高通版本 LA.BR.1.1.2-01310-8x16.0) //<color red>**(01310<15-1-29>)，(01610<15-2-11>)，(01910<15-3-11>)**</color>
+
+<code>
+repo init -u git@192.167.100.232:platform/manifest.git -b Q39_L --repo-url=git@192.167.100.232:repo.git
+</code>
+
+====8939基线2.0 R3 (Android 5.1.1)====
+<color red>**主干分支**</color> \\
+
+//(高通版本 LA.BR.1.1.3-03110) //<color red>**(03110<15-7-1>)**</color>
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_R3 --repo-url=git@172.16.6.72:tools/repo.git
+</code>
+
+====Q39基线2.0 R3(Android 5.1.1)====
+<color red>**Q39客户分支**</color> \\
+
+//(高通版本 LA.BR.1.1.3-03110) //<color red>**(03110<15-7-1>)**</color>
+
+<code>
+repo init -u git@192.167.100.232:platform/manifest.git -b Q39_L_R3 --repo-url=git@192.167.100.232:repo.git
+</code>
+
+
+====8939 基线2.1 && Q39 CTA (Android 5.1.1) ====
+//(高通版本LA.BR.1.2.1-00910-8x16.0) // <color red>**(00910<15-2-11>)，(01210<15-3-11>)**</color>\\
+//(高通版本LA.BR.1.2.4-00310-8×16.0) //<color red>**(00310<15-5-27>)**</color>
+
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1 --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+
+====S201&S700&W80 (Android 5.1.1) ====
+//(高通版本LA.BR.1.2.1-00910-8x16.0) // <color red>**(00910<15-2-11>)，(01210<15-3-11>)**</color>\\
+//(高通版本LA.BR.1.2.4-00310-8×16.0) //<color red>**(00310<15-5-27>)**</color>\\
+//(高通版本LA.BR.1.2.4-03510-8x16.0) //<color red>**(03510<15-11-25>)**</color>
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1 --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+
+
+====SEandroid ====
+
+<code>
+repo init -u git@192.167.100.232:platform/manifest.git -b 8625_SEandroid --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== Juno && Liva ====
+
+<code>
+repo init -u ssh://youname@172.16.6.11:29418/5xx/platform/manifest.git -b MSM8939_LA_V102016 --repo-url=ssh://youname@172.16.6.11:29418/5xx/repo.git
+</code>
+
+==== S600 ====
+
+<code>
+repo init -u git@172.16.6.72:S600/platform/manifest.git -b S600 --repo-url=git@172.16.6.72:S600/tools/repo.git
+</code>
+
+==== KC20 ====
+
+<code>
+repo init -u git@172.16.6.72:KC20/platform/manifest.git -b KC20 --repo-url=git@172.16.6.72:KC20/tools/repo.git
+</code>
+
+==== W80客户代码 ====
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m w80.xml --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+==== W80_8039客户代码 ====
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m w80_8039.xml --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+==== S700客户代码 ====
+
+<code>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_L_2.1  -m s700.xml --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+
+
+====CB09  <MSM8996-la-2.0 (Android 6.0.1)> ====
+//(高通版本 LA.HB.1.3.2-16800-8x96.0  ) // <color red>**(r01600.1<16-07-27>)**</color>\\
+//(高通版本 LA.HB.1.3.2-19000-8x96.0  ) // <color red>**(r01650.1<16-08-23>)**</color>\\
+//(高通版本 LA.HB.1.3.2-19600-8x96.0  ) // <color red>**(r01700.1<16-08-27>)**</color>\\
+//(高通版本 LA.HB.1.3.2-27800-8x96.0  ) // <color red>**(r01801.1<16-11-04>)**</color> \\
+<code bash>
+repo init -u git@172.16.6.72:msm8996/platform/manifest.git -b msm8996 --repo-url=git@172.16.6.72:msm8996/tools/repo.git    \\ 主开发分支
+repo init -u git@172.16.6.72:msm8996/platform/manifest.git -b MSM8996_C01 --repo-url=git@172.16.6.72:msm8996/tools/repo.git    \\ 铭源开发分支
+repo init -u git@172.16.6.72:msm8996/platform/manifest.git -b MSM8996_C02 --repo-url=git@172.16.6.72:msm8996/tools/repo.git    \\ 哆哆开发分支
+
+repo init -u git@172.16.6.72:msm8996/platform/manifest.git -b MSM8996_C --repo-url=git@172.16.6.72:msm8996/tools/repo.git         \\  客户 SDK 分支
+repo init -u git@172.16.6.72:6xx/platform/manifest.git -b MSM8996_LA2.0 --repo-url=git@172.16.6.72:6xx/tools/repo.git       \\ 三部 < W3代码 >
+</code>
+
+
+
+==== PBS01 <MSM8953-SPF-1.0 (Android 6.0.1) >====
+//(高通版本 LA.UM.5.3-02310-89xx.0 ) // <color red>**(r01025.2<16-09-07>)**</color>\\
+//(高通版本 LA.UM.5.3-07010-89xx.0) // <color red>**(r14000.1<16-11-17>)**</color>\\
+<del>
+repo init -u git@172.16.6.72:MSM8953/platform/manifest.git -b MSM8953_1.0 --repo-url=git@172.16.6.72:tools/repo.git
+</del>
+
+<code bash>
+repo init -u git@172.16.6.72:MSM8953/platform/manifest.git -b MSM8953_SPF_1.0 --repo-url=git@172.16.6.72:tools/repo.git
+</code>
+===== Modem侧代码 =====
+
+==== S100 ====
+//(高通版本 M7630AABBQMAZM414007)//
+<code bash>
+git clone git@192.167.100.232:AMSS.git -b phs100_414007
+</code>
+
+==== S300 ====
+//(高通版本 M7630AABBQMAZM414007)//
+<code bash>
+git clone git@192.167.100.232:AMSS.git -b s300_414007
+</code>
+
+==== LSR titan ====
+//(高通版本 M8960AAAAANLYD2031)//
+<code bash>
+git clone git@192.167.100.232:Non-HLOS.git -b titan
+</code>
+
+==== titan & apollo ====
+//(高通版本 M8960AAAAANLYD2035)//
+<code bash>
+git clone git@192.167.100.232:Non-HLOS.git -b msm8960_jb
+</code>
+
+==== S100D & S200 & S300P & K900 & C500 ====
+//(高通版本 R8625QSOSKQLYM3070.5)//
+<code bash>
+git clone git@192.167.100.232:AMSS.git -b qrd8625_jb
+</code>
+
+==== S100 & S300 Android4.2 ====
+//(高通版本 M7630AABBQMAZM414012)//
+<code bash>
+git clone git@192.167.100.232:AMSS.git -b msm8255_414012
+</code>
+
+==== D508 (Android 4.3) ====
+//(高通版本 M8926AAAAANLYD1130007.1)//
+
+<del>git clone git@192.167.100.232:Non-HLOS.git -b QCT8926_KK_101</del>
+<code bash>
+git clone git@192.167.100.232:Non-HLOS.git -b QRD8926_JB
+</code>
+
+==== C580 & D508 (Android 4.4.2) ====
+//(高通版本 M8926AAAAANLYD2136.1) // \\
+**<color red>(2135.2<14-09-18>)，(2136.1<14-11-06>)</color>**
+<code bash>
+git clone git@192.167.100.232:Non-HLOS.git -b QRD8926_KK
+</code>
+
+====  S55 & G55 (Android 4.4.2) ====
+//(高通版本 M8926AAAAANLYD2132.1) // \\
+**<color red>(2132.1<11-07-14>)</color>**
+<code bash>
+git clone git@192.167.100.232:Non-HLOS.git -b QRD8926_KK_S55
+</code>
+
+====  I501 (Android 4.4.4) ====
+//(高通版本 M8939AAAAANLYD1135.1)//<color red>**项目已停止**</color> \\
+**<color red>(1131.1<14-09-26>)，(1132.3<14-10-20>)，(1135.1<14-11-27>)</color>**
+<code bash>
+git clone git@192.167.100.232:Non-HLOS_second.git -b QRD8939_KK
+</code>
+
+==== 8939 (Android 5.0.2) ====
+//(高通版本 M8939AAAAANLYD2037.2)// \\
+<color red>**(2025.1<14-11-20>)，(2026.4<14-11-26>)，(2030.1<14-12-13>)，(2031.1<15-1-4>，(2032.1<15-1-13>)，(2034.1<15-1-29>)，(2035.1<15-2-11>)，(2037.2<15-3-11>)**</color>
+
+<del>
+git clone git@192.167.100.232:AMSS_4.4.4.git -b QCT8939_KK
+</del>
+<code>
+git clone git@192.167.100.232:Non-HLOS_second.git -b 8939_L
+</code>
+
+==== Q39 (Android 5.0.2) ====
+//(高通版本 M8939AAAAANLYD2037.2.22973.1.24322.1)// \\
+<color red>**(2025.1<14-11-20>)，(2026.4<14-11-26>)，(2030.1<14-12-13>)，(2031.1<15-1-4>，(2032.1<15-1-13>)，(2034.1<15-1-29>)，(2035.1<15-2-11>)，(2037.2<15-3-11>)，(2037.2.22973.1<15-06-24>)**</color> \\
+<color red>**(2037.2.22973.1.24322.1<15-07-20>**</color>
+
+<code/>
+git clone git@192.167.100.232:Non-HLOS_second.git -b Q39_L
+</code>
+
+==== Q39 R3(Android 5.1.1) ====
+//(高通版本 M8939AAAAANLYD2046.1)// \\
+<color red>**(2046.1<15-07-01>)**</color>
+
+<code/>
+git clone git@192.167.100.232:Non-HLOS_second.git -b Q39_L_R3
+</code>
+
+==== 机甲Q39  CTA 基线2.1 ====
+
+<del>
+git clone git@192.167.100.232:8939L2.1/Non-HLOS.git -b 8939_L_2.1
+</del>
+
+==== 8939 基线2.1(Android 5.1.1) ====
+//(高通版本M8939AAAAANLYD2145B.1.1)// \\
+<color red>**(r2121.4<15-2-11>)，(2130.1<15-3-11>)，(2136.1<15-5-27>)，(2145B.1<15-11-25>)**</color>
+<code>
+git clone git@172.16.6.72:Non-HLOS_second.git -b 8939_L_2.1
+</code>
+
+==== Juno && Liva ====
+<code>
+git clone git@172.16.6.11:sim-android/5xx/AMSS.git -b MSM8939_LA_V102010
+</code>
+
+==== CB09 <MSM8996  (Android 6.0.1)> ====
+//(高通版本MSM8996.LA.2.0)//<color red>** (r01600.1<16-7-27>)  (r01650.1<16-8-23>)  (r01700.1<16-8-27>)  (r01801.1<16-11-04>) **</color>
+<code bash>
+git clone git@172.16.6.72:msm8996/Non-HLOS -b msm8996
+
+git clone git@172.16.6.72:6xx/Non-HLOS -b MSM8996_LA2.0  (三部)
+</code>
+
+
+
+==== PBS01 <MSM8953  (Android 6.0.1)> ====
+//(高通版本MSM8953.LA.1.0)//<color red>**(r01025.2<16-9-7>)**</color> \\
+//(高通版本  Snapdragon_High_Med_2016.SPF.1.0 <MSM8953.LA.1.0>)//<color red>**(r14000.1<16-11-17>)**</color>\\
+<del>
+git clone git@172.16.6.72:MSM8953/Non-HLOS -b MSM8953_1.0
+</del>
+<code bash>
+git clone git@172.16.6.72:MSM8953/Non-HLOS -b MSM8953_SPF_1.0
+</code>
+
+===== QCN库 =====
+
+<code bash>
+git clone git@192.167.100.232:QCN.git    \\ 数据已迁移至新服务器（172.16.6.72）
+git clone git@172.16.6.72:QCN.git
+</code>
+
+====== 客户共享代码管理 ======
+==== LSR titan ====
+//(高通版本 M8960AAAAANLYA2031)//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b LSR-titan_jb -m customer.xml --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== K900 ====
+内网地址：
+<code bash>
+repo init -u git://172.16.6.163/platform/manifest.git -b k900 --repo-url=git://172.16.6.163/repo.git
+</code>
+
+外网地址：
+<code bash>
+repo init -u http://116.247.119.165:5140/git/platform/manifest.git --repo-url=http://116.247.119.165:5140/git/repo.git
+</code>
+
+==== S55 (Android 4.3) ====
+内网地址：
+<code bash>
+repo init -u git://172.16.6.64/platform/manifest.git -b QRD8926_JB_INTERNAL --repo-url=git://172.16.6.64/repo.git
+</code>
+
+外网地址：
+<code bash>
+repo init -u http://116.247.119.165:8877/git/platform/manifest.git -b QRD8926_JB --repo-url=http://116.247.119.165:8877/git/repo.git
+</code>
+
+==== S55 & G55 (Android 4.4.2) ====
+内网地址：
+<code bash>
+repo init -u git://172.16.6.64/platform/manifest.git -b QRD8926_KK_INTERNAL --repo-url=git://172.16.6.64/repo.git
+</code>
+
+外网地址：**<color red>(已关闭)</color>**  \\ 
+<del>
+repo init -u http://116.247.119.165:8877/git/platform/manifest.git -b QRD8926_KK --repo-url=http://116.247.119.165:8877/git/repo.git
+</del>
+
+==== S100D (指端) ====
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b s100d --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== S300P (新大陆) ====
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b s300p --repo-url=git@192.167.100.232:repo.git
+</code>
+
+====== 高通原始源码 ======
+
+==== QAULCOMM_8939 高通源码 (Android 4.4.4) ====
+//(高通版本 modem build id: M8939AAAAANLYD1130.1; ap build id: LNX.LA.3.7.3.1-02710-8939.0 )//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QAULCOMM_8939 --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== QAULCOMM_8939 Android L高通源码 (Android 5.0.0) ====
+//(高通版本 modem build id: M8939AAAAANLYD2037.2; ap build id: LA.BR.1.1.2-01910-8x16.0 )//
+<code bash>
+repo init -u git@192.167.100.232:platform/manifest.git -b QAULCOMM_Q39_L --repo-url=git@192.167.100.232:repo.git
+</code>
+
+==== QAULCOMM_8939 Android L高通源码 (Android 5.1.1) ====
+
+//**<color red> (20150311)</color>** (modem build id: M8939AAAAANLYD2130.1; ap build id: LNX.LA.3.7.3.1-02710-8939.0 )//  \\
+//**<color red> (20150527)</color>** (modem build id: M8939AAAAANLYD2136.1; ap build id: LA.BR.1.2.4-00310-8x16.0 )//
+
+**<color red>老服务器代码，不做维护</color>**
+
+<del>
+repo init -u git@192.167.100.232:platform/manifest.git -b QAULCOMM_8939_L_2.1 --repo-url=git@192.167.100.232:repo.git
+</del>
+
+
+==== QAULCOMM_8939 Android L高通源码 (Android 5.1.1) ====
+//**<color red> (20151112)</color>** (modem build id: M8939AAAAANLYD2145B.1; ap build id: LA.BR.1.2.4-03510-8x16.0 )//
+<code bash>
+repo init -u git@172.16.6.72:platform/manifest.git -b 8939_qualcomm_2.1 --repo-url=git@172.16.6.72:/tools/repo.git
+</code>
+
+==== QAULCOMM_8996 Android M高通源码(msm8996-la-2.0  Android 6.0.1 ) ====
+//**<color red> (20160727)</color>** (modem build id: MPSS.TH.2.0.1-00437-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-16800-8x96.0 )//
+
+//**<color red> (20160823)</color>** (modem build id: MPSS.TH.2.0.1-00458-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-19000-8x96.0 )//
+
+//**<color red> (20160827)</color>** (modem build id: MPSS.TH.2.0.1-00481-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-19600-8x96.0 )//
+
+//**<color red> (20161104)</color>** (modem build id: MPSS.TH.2.0.1-00532-M8996FAAAANAZM-1; ap build id: LA.HB.1.3.2-27800-8x96.0 )//
+<code bash>
+repo init -u git@172.16.6.72:msm8996/platform/manifest.git -b MSM8996_Qualcomm --repo-url=git@172.16.6.72:msm8996/tools/repo.git
+</code>
+
+==== QAULCOMM_8953 Android M高通源码(msm8953-spf-1.0  Android 6.0.1 ) ====
+//**<color red> (20160907)</color>** (modem build id:MPSS.TA.2.2.r7-00006-8953_GEN_PACK-1; ap build id: LA.UM.5.3-02310-89xx.0 )//
+
+//**<color red> (201601117)</color>** (modem build id:MPSS.TA.2.2.c1-00367-8953_GEN_PACK-1; ap build id: LA.UM.5.3-07010-89xx.0- )//
+<code bash>
+repo init -u git@172.16.6.72:MSM8953/platform/manifest.git -b MSM8953_Qualcomm_1.0 --repo-url=git@172.16.6.72:tools/repo.git
+</code>
+====== 版本发布 ======
+
+所有项目的发布版本都在：192.167.100.225/release
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+
+<p>
+MEMWATCH 由 Johan Lindh 编写，是一个开放源代码 C 语言内存错误检测工具，您可以自己下载它（请参阅本文后面部分的 参考资料）。只要在代码中添加一个头文件并在 gcc 语句中定义了 MEMWATCH 之后，您就可以跟踪程序中的内存泄漏和错误了。MEMWATCH 支持 ANSI C，它提供结果日志纪录，能检测双重释放（double-free）、错误释放（erroneous free）、没有释放的内存（unfreed memory）、溢出和下溢等等。 
+</p>
+
+<p>
+清单 1. 内存样本（test1.c）
+</p>
+
+<p>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include “memwatch.h”
+int main(void)
+{
+</p>
+<pre class="code">char *ptr1;
+char *ptr2;
+ptr1 = malloc(512);
+ptr2 = malloc(512);
+ptr2 = ptr1;
+free(ptr2);
+free(ptr1);</pre>
+
+<p>
+}
+</p>
+
+<p>
+清单 1 中的代码将分配两个 512 字节的内存块，然后指向第一个内存块的指针被设定为指向第二个内存块。结果，第二个内存块的地址丢失，从而产生了内存泄漏。
+</p>
+
+<p>
+现在我们编译清单 1 的 memwatch.c。下面是一个 makefile 示例：
+</p>
+
+<p>
+test1
+</p>
+
+<p>
+gcc -DMEMWATCH -DMW_STDIO test1.c memwatch
+c -o test1
+</p>
+
+<p>
+当您运行 test1 程序后，它会生成一个关于泄漏的内存的报告。清单 2 展示了示例 memwatch.log 输出文件。
+</p>
+
+<p>
+清单 2. test1 memwatch.log 文件
+</p>
+<pre class="code">MEMWATCH 2.67 Copyright (C) 1992-1999 Johan Lindh</pre>
+
+<p>
+…
+double-free: &lt;4&gt; test1.c(15), 0x80517b4 was freed from test1.c(14)
+…
+unfreed: &lt;2&gt; test1.c(11), 512 bytes at 0x80519e4
+{FE FE FE FE FE FE FE FE FE FE FE FE …………..}
+Memory usage statistics (global):
+</p>
+<pre class="code">N)umber of allocations made: 	2
+L)argest memory usage : 	1024
+T)otal of all alloc() calls: 	1024
+U)nfreed bytes totals : 	512</pre>
+
+<p>
+MEMWATCH 为您显示真正导致问题的行。如果您释放一个已经释放过的指针，它会告诉您。对于没有释放的内存也一样。日志结尾部分显示统计信息，包括泄漏了多少内存，使用了多少内存，以及总共分配了多少内存。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/fetch.php/linux;skill;memwatch-2.71.rar" class="media mediafile mf_rar" title="linux:skill:memwatch-2.71.rar (43.7 KB)">memwatch-2.71.rar</a>
+</p>

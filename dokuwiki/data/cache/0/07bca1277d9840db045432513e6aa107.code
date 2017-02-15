@@ -1,0 +1,12 @@
+<span class="kw1">public</span> <span class="kw4">boolean</span> onCreateOptionsMenu<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menu"><span class="kw3">Menu</span></a> menu<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>areContactsAvailable<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// If contacts aren't available, hide all menu items.</span>
+        <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">super</span>.<span class="me1">onCreateOptionsMenu</span><span class="br0">&#40;</span>menu<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    MenuInflater inflater <span class="sy0">=</span> getMenuInflater<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    inflater.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">menu</span>.<span class="me1">people_options</span>, menu<span class="br0">&#41;</span><span class="sy0">;</span>
+    ...
+    <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

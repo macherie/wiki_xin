@@ -1,0 +1,279 @@
+
+<h2 class="sectionedit1" id="音频通路">音频通路</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT1 SECTION "音频通路" [1-23] -->
+<h3 class="sectionedit2" id="xml里的链路到底是什么">xml里的链路到底是什么</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT2 SECTION "xml里的链路到底是什么" [24-62] -->
+<h4 class="sectionedit3" id="说明">说明</h4>
+<div class="level4">
+
+<p>
+这个文档基于我在做8953项目的总结。所以所有的代码都以8953的为例。
+</p>
+
+</div>
+<!-- EDIT3 SECTION "说明" [63-168] -->
+<h4 class="sectionedit4" id="基本语法">基本语法</h4>
+<div class="level4">
+
+<p>
+./device/qcom/pbs01/mixer_path_mtp.xml文件中定义了链路和节点的组合关系。其大致语法如下：
+</p>
+<pre class="code xml">...
+126     <span class="sc3"><span class="re1">&lt;ctl</span> <span class="re0">name</span>=<span class="st0">&quot;QUIN_MI2S_RX Audio Mixer MultiMedia11&quot;</span> <span class="re0">value</span>=<span class="st0">&quot;0&quot;</span> <span class="re2">/&gt;</span></span>          ctl name=定义的是节点 value则声明了节点的值
+...
+962     <span class="sc3"><span class="re1">&lt;path</span> <span class="re0">name</span>=<span class="st0">&quot;qchat-call bt-sco-wb&quot;</span><span class="re2">&gt;</span></span>                                      path name 定义的是通路
+963         <span class="sc3"><span class="re1">&lt;ctl</span> <span class="re0">name</span>=<span class="st0">&quot;Internal BTSCO SampleRate&quot;</span> <span class="re0">value</span>=<span class="st0">&quot;BTSCO_RATE_16KHZ&quot;</span> <span class="re2">/&gt;</span></span>   通路中包含节点
+964         <span class="sc3"><span class="re1">&lt;path</span> <span class="re0">name</span>=<span class="st0">&quot;qchat-call bt-sco&quot;</span> <span class="re2">/&gt;</span></span>                                   通路中也可以包含其他已定义的通路
+965     <span class="sc3"><span class="re1">&lt;/path<span class="re2">&gt;</span></span></span>
+...</pre>
+
+</div>
+<!-- EDIT4 SECTION "基本语法" [169-826] -->
+<h4 class="sectionedit5" id="文件结构">文件结构</h4>
+<div class="level4">
+
+<p>
+xml文件的结构大体简单，文件的前大段是一些节点的值的初始化。而后则是一些通路的声明。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "文件结构" [827-970] -->
+<h3 class="sectionedit6" id="节点">**节点**</h3>
+<div class="level3">
+
+<p>
+这时候我们提出的第一个问题是：节点是什么？
+要解答这个问题需要去看./sound/soc/codec/msm8x16-wcd.c的codec文件
+我们能找到如下的语句：
+</p>
+<pre class="code c">...
+<span class="nu0">2582</span> <span class="kw4">static</span> <span class="kw4">const</span> <span class="kw4">struct</span> snd_kcontrol_new msm8x16_wcd_snd_controls<span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+...
+<span class="nu0">2609</span>         SOC_SINGLE_TLV<span class="br0">&#40;</span><span class="st0">&quot;ADC3 Volume&quot;</span><span class="sy0">,</span> MSM8X16_WCD_A_ANALOG_TX_3_EN<span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span>
+<span class="nu0">2610</span>                                         <span class="nu0">8</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> analog_gain<span class="br0">&#41;</span><span class="sy0">,</span>
+...</pre>
+
+<p>
+恰好契合了xml中的：
+</p>
+<pre class="code xml">...
+ 66     <span class="sc3"><span class="re1">&lt;ctl</span> <span class="re0">name</span>=<span class="st0">&quot;ADC3 Volume&quot;</span> <span class="re0">value</span>=<span class="st0">&quot;4&quot;</span> <span class="re2">/&gt;</span></span>
+...</pre>
+
+<p>
+那么我们确认这个应该是ADC3 Volume节点的声明。所以我们来解读一下这个声明：
+SOC_SINGLE_TLV显然是一个宏，而MSM8x16_WCD_A_ANALOG_TX_3_EN也是一个宏。analog_gain则应该是某一个数值。
+重点是SOC_SINGLE_TLV。他在./kernel/include/sound/soc.h中被定义
+</p>
+<pre class="code c">  <span class="nu0">79</span> <span class="co2">#define SOC_SINGLE_SX_TLV(xname, xreg, xshift, xmin, xmax, tlv_array) </span>
+  <span class="nu0">80</span> <span class="br0">&#123;</span>       .<span class="me1">iface</span> <span class="sy0">=</span> SNDRV_CTL_ELEM_IFACE_MIXER<span class="sy0">,</span> .<span class="me1">name</span> <span class="sy0">=</span> xname<span class="sy0">,</span> \
+  <span class="nu0">81</span>         .<span class="me1">access</span> <span class="sy0">=</span> SNDRV_CTL_ELEM_ACCESS_TLV_READ <span class="sy0">|</span> \
+  <span class="nu0">82</span>         SNDRV_CTL_ELEM_ACCESS_READWRITE<span class="sy0">,</span> \
+  <span class="nu0">83</span>         .<span class="me1">tlv</span>.<span class="me1">p</span>  <span class="sy0">=</span> <span class="br0">&#40;</span>tlv_array<span class="br0">&#41;</span><span class="sy0">,</span>\
+  <span class="nu0">84</span>         .<span class="me1">info</span> <span class="sy0">=</span> snd_soc_info_volsw<span class="sy0">,</span> \
+  <span class="nu0">85</span>         .<span class="me1">get</span> <span class="sy0">=</span> snd_soc_get_volsw_sx<span class="sy0">,</span>\
+  <span class="nu0">86</span>         .<span class="me1">put</span> <span class="sy0">=</span> snd_soc_put_volsw_sx<span class="sy0">,</span> \
+  <span class="nu0">87</span>         .<span class="me1">private_value</span> <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">unsigned</span> <span class="kw4">long</span><span class="br0">&#41;</span><span class="sy0">&amp;</span><span class="br0">&#40;</span><span class="kw4">struct</span> soc_mixer_control<span class="br0">&#41;</span> \
+  <span class="nu0">88</span>                 <span class="br0">&#123;</span>.<span class="me1">reg</span> <span class="sy0">=</span> xreg<span class="sy0">,</span> .<span class="me1">rreg</span> <span class="sy0">=</span> xreg<span class="sy0">,</span> \
+  <span class="nu0">89</span>                 .<span class="me1">shift</span> <span class="sy0">=</span> xshift<span class="sy0">,</span> .<span class="me1">rshift</span> <span class="sy0">=</span> xshift<span class="sy0">,</span> \
+  <span class="nu0">90</span>                 .<span class="me1">max</span> <span class="sy0">=</span> xmax<span class="sy0">,</span> .<span class="me1">min</span> <span class="sy0">=</span> xmin<span class="br0">&#125;</span> <span class="br0">&#125;</span></pre>
+
+<p>
+从这个声明上，我们猜测，这个宏定有：名字，芯片寄存器操作的地址，此地址的bit偏移（因为有可能一个8位的寄存器只有三位与控制这个节点有关），
+值的最大与最小。最后一位可能是一个指向内存空间的指针。操作的方式类似数组。
+最终我在./kernel/Documentation/sound/alsa/soc/codec.txt中找到如下说明：
+</p>
+<pre class="code c"> <span class="nu0">96</span> A stereo control spanning <span class="nu0">2</span> registers
+ <span class="nu0">97</span> 
+ <span class="nu0">98</span>     <span class="co2">#define SOC_ENUM_SINGLE(xreg, xshift, xmask, xtexts)</span>
+ <span class="nu0">99</span> 
+<span class="nu0">100</span> Defines an single enumerated control as follows<span class="sy0">:-</span>
+<span class="nu0">101</span> 
+<span class="nu0">102</span>    xreg <span class="sy0">=</span> <span class="kw4">register</span>
+<span class="nu0">103</span>    xshift <span class="sy0">=</span> control bit<span class="br0">&#40;</span>s<span class="br0">&#41;</span> offset in <span class="kw4">register</span>
+<span class="nu0">104</span>    xmask <span class="sy0">=</span> control bit<span class="br0">&#40;</span>s<span class="br0">&#41;</span> size
+<span class="nu0">105</span>    xtexts <span class="sy0">=</span> pointer to array of strings that describe each setting
+<span class="nu0">106</span> 
+<span class="nu0">107</span>    <span class="co2">#define SOC_ENUM_DOUBLE(xreg, xshift_l, xshift_r, xmask, xtexts)</span>
+<span class="nu0">108</span> 
+<span class="nu0">109</span> Defines a stereo enumerated control</pre>
+
+<p>
+基本佐证了我们的猜想。在soc.h中还有其他的宏声明以对应不同的节点。但是最重要的信息没有变动：名字和寄存器地址。
+</p>
+
+<p>
+大家可以在这个文件中看到各种节点对应的不同宏定义
+</p>
+
+</div>
+<!-- EDIT6 SECTION "**节点**" [971-3604] -->
+<h5 class="sectionedit7" id="小节">小节</h5>
+<div class="level5">
+
+<p>
+因此抽象意义上的节点，实际上应该就是codec中的某一个寄存器。当我们改变节点时，就是在对codec中的一个寄存器做操作，引起codec的行为变化，因此控制了声音。
+（这段讲我挺心虚，因为还是音频新手，因此觉得是不是我说的武断了，如有错误请前辈指点）
+</p>
+
+</div>
+<!-- EDIT7 SECTION "小节" [3605-3959] -->
+<h3 class="sectionedit8" id="添加一个通路的步骤">添加一个通路的步骤</h3>
+<div class="level3">
+
+<p>
+我们以添加副mic为例：
+（因为有些原理和原因我暂时还无法表达）
+</p>
+
+</div>
+<!-- EDIT8 SECTION "添加一个通路的步骤" [3960-4084] -->
+<h4 class="sectionedit9" id="添加xml">添加xml</h4>
+<div class="level4">
+
+<p>
+首先我们从xml入手：
+我们应该利用已有的节点来组成我们的通路。组成的方式要参考高通文档和已有通路。8953的平台请参考 MSM8953 LINUX ANDROID AUDIO OVERVIEW 的44页
+</p>
+<pre class="code c"><span class="nu0">1066</span>     <span class="sy0">&lt;!--</span> pbs01 secondary mic <span class="nu0">2016</span><span class="sy0">-</span><span class="nu0">12</span><span class="sy0">-</span><span class="nu0">8</span> daimiao.<span class="me1">chen</span>@sim.<span class="me1">com</span> <span class="sy0">--&gt;</span>
+<span class="nu0">1067</span>     <span class="sy0">&lt;</span>path name<span class="sy0">=</span><span class="st0">&quot;secondary-mic&quot;</span><span class="sy0">&gt;</span>
+<span class="nu0">1068</span>         <span class="sy0">&lt;</span>path name<span class="sy0">=</span><span class="st0">&quot;adc3&quot;</span> <span class="sy0">/&gt;</span>
+<span class="nu0">1069</span>         <span class="sy0">&lt;</span>ctl name<span class="sy0">=</span><span class="st0">&quot;IIR1 INP1 MUX&quot;</span> value<span class="sy0">=</span><span class="st0">&quot;DEC3&quot;</span> <span class="sy0">/&gt;</span>
+<span class="nu0">1070</span>     <span class="sy0">&lt;/</span>path<span class="sy0">&gt;</span></pre>
+
+</div>
+<!-- EDIT9 SECTION "添加xml" [4085-4540] -->
+<h4 class="sectionedit10" id="核对设备树">核对设备树</h4>
+<div class="level4">
+
+<p>
+作为一个mic，它需要设置偏压。偏压的选择，例如外部或者内部，端口的对应都需要在设备树中添加。
+</p>
+<pre class="code c"><span class="sy0">/</span>kernel<span class="sy0">/</span>arch<span class="sy0">/</span>arm<span class="sy0">/</span>boot<span class="sy0">/</span>dts<span class="sy0">/</span>qcom<span class="sy0">/</span>pbs01<span class="sy0">-</span>audio.<span class="me1">dtsi</span>
+<span class="nu0">317</span>                 qcom<span class="sy0">,</span>audio<span class="sy0">-</span>routing <span class="sy0">=</span>
+<span class="nu0">318</span>                         <span class="st0">&quot;RX_BIAS&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MCLK&quot;</span><span class="sy0">,</span>
+<span class="nu0">319</span>                         <span class="st0">&quot;SPK_RX_BIAS&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MCLK&quot;</span><span class="sy0">,</span>
+<span class="nu0">320</span>                         <span class="st0">&quot;INT_LDO_H&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MCLK&quot;</span><span class="sy0">,</span>
+<span class="nu0">321</span>                         <span class="st0">&quot;MIC BIAS External&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Handset Mic&quot;</span><span class="sy0">,</span>
+<span class="nu0">322</span>                         <span class="st0">&quot;MIC BIAS External2&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Headset Mic&quot;</span><span class="sy0">,</span>
+<span class="nu0">323</span>                         <span class="st0">&quot;MIC BIAS External&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Secondary Mic&quot;</span><span class="sy0">,</span>
+<span class="nu0">324</span>                         <span class="st0">&quot;AMIC1&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MIC BIAS External&quot;</span><span class="sy0">,</span>
+<span class="nu0">325</span>                         <span class="st0">&quot;AMIC2&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MIC BIAS External2&quot;</span><span class="sy0">,</span>
+<span class="nu0">326</span>                         <span class="st0">&quot;AMIC3&quot;</span><span class="sy0">,</span> <span class="st0">&quot;MIC BIAS External&quot;</span><span class="sy0">,</span>
+<span class="nu0">327</span>                         <span class="st0">&quot;WSA_SPK OUT&quot;</span><span class="sy0">,</span> <span class="st0">&quot;VDD_WSA_SWITCH&quot;</span><span class="sy0">,</span>
+<span class="nu0">328</span>                         <span class="st0">&quot;SpkrMono WSA_IN&quot;</span><span class="sy0">,</span> <span class="st0">&quot;WSA_SPK OUT&quot;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT10 SECTION "核对设备树" [4541-5444] -->
+<h4 class="sectionedit11" id="添加电源管理">添加电源管理</h4>
+<div class="level4">
+
+<p>
+在/kernel/sound/soc/msm/目录下，高通代码主要用来针对某一平台做初始化。包括注册声卡。对于msm8953平台，使用的代码是msm8952.c。由于有偏压的存在，我们需要将他添加到电源管理中：
+</p>
+<pre class="code c"> <span class="nu0">198</span> <span class="kw4">static</span> <span class="kw4">const</span> <span class="kw4">struct</span> snd_soc_dapm_widget msm8952_dapm_widgets<span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+ <span class="nu0">199</span> 
+ <span class="nu0">200</span>         SND_SOC_DAPM_SUPPLY_S<span class="br0">&#40;</span><span class="st0">&quot;MCLK&quot;</span><span class="sy0">,</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">,</span> SND_SOC_NOPM<span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span>
+ <span class="nu0">201</span>         msm8952_mclk_event<span class="sy0">,</span> SND_SOC_DAPM_POST_PMD<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">202</span>         SND_SOC_DAPM_MIC<span class="br0">&#40;</span><span class="st0">&quot;Handset Mic&quot;</span><span class="sy0">,</span> NULL<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">203</span>         SND_SOC_DAPM_MIC<span class="br0">&#40;</span><span class="st0">&quot;Headset Mic&quot;</span><span class="sy0">,</span> NULL<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">204</span>         SND_SOC_DAPM_MIC<span class="br0">&#40;</span><span class="st0">&quot;Secondary Mic&quot;</span><span class="sy0">,</span> NULL<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">205</span>         SND_SOC_DAPM_MIC<span class="br0">&#40;</span><span class="st0">&quot;Digital Mic1&quot;</span><span class="sy0">,</span> NULL<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">206</span>         SND_SOC_DAPM_MIC<span class="br0">&#40;</span><span class="st0">&quot;Digital Mic2&quot;</span><span class="sy0">,</span> NULL<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">207</span>         SND_SOC_DAPM_SUPPLY<span class="br0">&#40;</span><span class="st0">&quot;VDD_WSA_SWITCH&quot;</span><span class="sy0">,</span> SND_SOC_NOPM<span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span>
+ <span class="nu0">208</span>         msm8952_wsa_switch_event<span class="sy0">,</span>
+ <span class="nu0">209</span>         SND_SOC_DAPM_PRE_PMU <span class="sy0">|</span> SND_SOC_DAPM_POST_PMD<span class="br0">&#41;</span><span class="sy0">,</span>
+ <span class="nu0">210</span> <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+并且防止它被suspend
+</p>
+<pre class="code c"><span class="nu0">1535</span> <span class="kw4">static</span> <span class="kw4">int</span> msm_audrx_init<span class="br0">&#40;</span><span class="kw4">struct</span> snd_soc_pcm_runtime <span class="sy0">*</span>rtd<span class="br0">&#41;</span>
+<span class="nu0">1536</span> <span class="br0">&#123;</span>
+...
+<span class="nu0">1552</span>         snd_soc_dapm_ignore_suspend<span class="br0">&#40;</span>dapm<span class="sy0">,</span> <span class="st0">&quot;Secondary Mic&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+...</pre>
+
+</div>
+<!-- EDIT11 SECTION "添加电源管理" [5445-6557] -->
+<h4 class="sectionedit12" id="为上层开放借口">为上层开放借口</h4>
+<div class="level4">
+
+<p>
+自此，我们的音频通路是已经建立了，但是还没有办法和上层通讯。上层并不知道，也无法调用到这个结构。
+添加方法如下：
+首先在./hardware/qcom/audio/hal/msm8916/platfrom.h中添加对应的枚举值（这个枚举是匿名的）
+</p>
+<pre class="code c"> <span class="nu0">64</span> <span class="kw2">enum</span> <span class="br0">&#123;</span>
+ <span class="nu0">65</span>     SND_DEVICE_NONE <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">,</span>
+...
+<span class="nu0">181</span>     SND_DEVICE_IN_SECONDARY_MIC<span class="sy0">,</span>
+<span class="nu0">182</span>     SND_DEVICE_IN_END<span class="sy0">,</span>
+<span class="nu0">183</span> 
+<span class="nu0">184</span>     SND_DEVICE_MAX <span class="sy0">=</span> SND_DEVICE_IN_END<span class="sy0">,</span>
+<span class="nu0">185</span> 
+<span class="nu0">186</span> <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+其次在./hardware/qcom/audio/hal/msm8916/platfrom.c中添加：
+</p>
+<pre class="code c"><span class="co2">#define AUDIO_PARAMETER_KEY_SECONDARY_MIC &quot;secondary_mic&quot; //一个宏</span>
+&nbsp;
+<span class="kw4">static</span> <span class="kw4">const</span> <span class="kw4">char</span> <span class="sy0">*</span> <span class="kw4">const</span> device_table<span class="br0">&#91;</span>SND_DEVICE_MAX<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SPEAKER_QMIC_NS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">&quot;quad-mic&quot;</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SPEAKER_QMIC_AEC_NS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">&quot;quad-mic&quot;</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_THREE_MIC<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">&quot;three-mic&quot;</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SECONDARY_MIC<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">&quot;secondary-mic&quot;</span><span class="sy0">,</span><span class="co1">//这个数组中储存有所有声音设备的名字（此处字符串应该和xml中对应）</span>
+ <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw4">static</span> <span class="kw4">int</span> acdb_device_table<span class="br0">&#91;</span>SND_DEVICE_MAX<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SPEAKER_QMIC_NS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">127</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SPEAKER_QMIC_AEC_NS<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">129</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_THREE_MIC<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">46</span><span class="sy0">,</span>
+     <span class="br0">&#91;</span>SND_DEVICE_IN_SECONDARY_MIC<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">4</span><span class="sy0">,</span> <span class="co1">//高通acdb的数组，这个数字应该对应了在qact中的设备号</span>
+ <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw4">static</span> <span class="kw4">struct</span> name_to_index snd_device_name_index<span class="br0">&#91;</span>SND_DEVICE_MAX<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+     <span class="br0">&#123;</span>TO_NAME_INDEX<span class="br0">&#40;</span>SND_DEVICE_IN_SPEAKER_QMIC_AEC<span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+     <span class="br0">&#123;</span>TO_NAME_INDEX<span class="br0">&#40;</span>SND_DEVICE_IN_SPEAKER_QMIC_NS<span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+     <span class="br0">&#123;</span>TO_NAME_INDEX<span class="br0">&#40;</span>SND_DEVICE_IN_SPEAKER_QMIC_AEC_NS<span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+     <span class="br0">&#123;</span>TO_NAME_INDEX<span class="br0">&#40;</span>SND_DEVICE_IN_SECONDARY_MIC<span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//这个应该是对应给上层的选项（我还不是很确定。我会写个调用的java试试看。之后再更新）</span>
+ <span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+由于复mic主要的作用是消声，因此在正常使用中比较难测试它的好坏。（无法通过普通的录音软件直观的感受到）。为了能在cit中测试它的好坏，我们需要做一些接口：
+</p>
+<pre class="code c"><span class="nu0">41</span> bool secondary_mic_state <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span><span class="co1">//这个全局变量用来标记是否要测试副mic</span>
+&nbsp;
+<span class="nu0">2977</span> snd_device_t platform_get_input_snd_device<span class="br0">&#40;</span><span class="kw4">void</span> <span class="sy0">*</span>platform<span class="sy0">,</span> audio_devices_t out_device<span class="br0">&#41;</span>
+<span class="nu0">2978</span> <span class="br0">&#123;</span>
+...
+<span class="nu0">2985</span>     audio_devices_t in_device <span class="sy0">=</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>adev<span class="sy0">-&gt;</span>active_input <span class="sy0">==</span> NULL<span class="br0">&#41;</span> <span class="sy0">?</span>
+<span class="nu0">2986</span>                                     AUDIO_DEVICE_NONE <span class="sy0">:</span> adev<span class="sy0">-&gt;</span>active_input<span class="sy0">-&gt;</span>device<span class="br0">&#41;</span>
+<span class="nu0">2987</span>                                 <span class="sy0">&amp;</span> ~AUDIO_DEVICE_BIT_IN<span class="sy0">;</span>
+...
+<span class="nu0">3228</span>     <span class="kw1">if</span> <span class="br0">&#40;</span>in_device <span class="sy0">!=</span> AUDIO_DEVICE_NONE <span class="sy0">&amp;&amp;</span>
+<span class="nu0">3229</span>             <span class="sy0">!</span><span class="br0">&#40;</span>in_device <span class="sy0">&amp;</span> AUDIO_DEVICE_IN_VOICE_CALL<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+<span class="nu0">3230</span>             <span class="sy0">!</span><span class="br0">&#40;</span>in_device <span class="sy0">&amp;</span> AUDIO_DEVICE_IN_COMMUNICATION<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="nu0">3231</span>         <span class="kw1">if</span> <span class="br0">&#40;</span>in_device <span class="sy0">&amp;</span> AUDIO_DEVICE_IN_BUILTIN_MIC<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="nu0">3232</span>             <span class="kw1">if</span> <span class="br0">&#40;</span>adev<span class="sy0">-&gt;</span>active_input <span class="sy0">&amp;&amp;</span> <span class="br0">&#40;</span>audio_extn_ssr_get_stream<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> adev<span class="sy0">-&gt;</span>active_input<span class="br0">&#41;</span><span class="br0">&#41;</span>
+<span class="nu0">3233</span>                 snd_device <span class="sy0">=</span> SND_DEVICE_IN_QUAD_MIC<span class="sy0">;</span>
+<span class="nu0">3234</span>             <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>my_data<span class="sy0">-&gt;</span>fluence_type <span class="sy0">&amp;</span> <span class="br0">&#40;</span>FLUENCE_DUAL_MIC <span class="sy0">|</span> FLUENCE_QUAD_MIC<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span>
+<span class="nu0">3235</span>                     channel_count <span class="sy0">==</span> <span class="nu0">2</span><span class="br0">&#41;</span>
+<span class="nu0">3236</span>                 snd_device <span class="sy0">=</span> SND_DEVICE_IN_HANDSET_STEREO_DMIC<span class="sy0">;</span>
+<span class="nu0">3237</span>             <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>secondary_mic_state <span class="sy0">==</span> <span class="kw2">false</span><span class="br0">&#41;</span><span class="co1">//如果要求的in_device</span>
+<span class="nu0">3238</span>                 snd_device <span class="sy0">=</span> SND_DEVICE_IN_HANDSET_MIC<span class="sy0">;</span>
+<span class="nu0">3239</span>             <span class="kw1">else</span>
+<span class="nu0">3240</span>                 snd_device <span class="sy0">=</span> SND_DEVICE_IN_SECONDARY_MIC<span class="sy0">;</span><span class="co1">//如果secondary_mic_state == ture则返回副mic的号</span>
+...
+<span class="nu0">3307</span>     <span class="kw1">return</span> snd_device<span class="sy0">;</span>
+<span class="nu0">3308</span> <span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT12 SECTION "为上层开放借口" [6558-] -->

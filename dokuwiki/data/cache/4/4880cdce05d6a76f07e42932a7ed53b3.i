@@ -1,0 +1,8 @@
+a:20:{i:0;a:3:{i:0;s:14:"document_start";i:1;a:0:{}i:2;i:0;}i:1;a:3:{i:0;s:6:"header";i:1;a:3:{i:0;s:30:"调试init.c时如何打印log";i:1;i:2;i:2;i:1;}i:2;i:1;}i:2;a:3:{i:0;s:12:"section_open";i:1;a:1:{i:0;i:2;}i:2;i:1;}i:3;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:1;}i:4;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:87:"Android启动从system/core/init/init.c开始，默认这里的log不是全部打印。";}i:2;i:43;}i:5;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:136;}i:6;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:107:"
+system/core/include/curtils/klog.h
+#define KLOG_DEFAULT_LEVEL  7  /* messages <= this level are logged */
+";i:1;N;i:2;N;}i:2;i:136;}i:7;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:136;}i:8;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:46:"默认是3，log会在kernel的log中打印。";}i:2;i:252;}i:9;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:298;}i:10;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:298;}i:11;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:24:"查看kernel的log级别";}i:2;i:300;}i:12;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:330;}i:13;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:29:"
+cat /proc/sys/kernel/printk
+";i:1;N;i:2;N;}i:2;i:330;}i:14;a:3:{i:0;s:6:"p_open";i:1;a:0:{}i:2;i:330;}i:15;a:3:{i:0;s:5:"cdata";i:1;a:1:{i:0;s:36:"如果想什么都打印出来，就";}i:2;i:368;}i:16;a:3:{i:0;s:7:"p_close";i:1;a:0:{}i:2;i:410;}i:17;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:34:"
+echo 8 > /proc/sys/kernel/printk
+";i:1;N;i:2;N;}i:2;i:410;}i:18;a:3:{i:0;s:13:"section_close";i:1;a:0:{}i:2;i:453;}i:19;a:3:{i:0;s:12:"document_end";i:1;a:0:{}i:2;i:453;}}

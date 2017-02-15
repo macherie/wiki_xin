@@ -1,0 +1,42 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2013/12/09//
+====== 打开Android C++文件中的LOG ======
+在C++文件中，打开LOG需要加入如下代码：
+<code>
+#define LOG_TAG "AndroidRuntime"
+#include <utils/Log.h>
+</code>
+
+默认情况下ALOGE是打开的。
+
+可以一次打开ALOGV，ALOGI，ALOGD，也可以分别打开：
+
+<code>
+#undef NDEBUG       //打开ALOGV/ALOGI/ALOGD
+#define LOG_NDEBUG   0  //打开ALOGV
+#define LOG_NIDEBUG  0  //打开ALOGI
+#define LOG_NDDEBUG 0 //打开ALOGD
+</code>
+
+===== 举例 =====
+
+举例，如果要看AndroidRuntime的ALOGI和ALOGD，可以有这样2种写法：
+
+==== 方法一 ====
+NDEBUG-LOG_NDEBUG=LOG_NIDEBUG +LOG_NIDEBUG
+
+<code>
+#define LOG_TAG "AndroidRuntime"
+#undef NDEBUG
+#define LOG_NDEBUG 1
+#include <utils/Log.h>
+</code>
+
+==== 方法二 ====
+LOG_NIDEBUG +LOG_NIDEBUG
+
+<code>
+#define LOG_TAG "AndroidRuntime"
+#define LOG_NIDEBUG 0
+#define LOG_NDDEBUG 0
+#include <utils/Log.h>
+</code>

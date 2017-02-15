@@ -1,0 +1,13 @@
+a:2:{s:7:"current";a:7:{s:4:"date";a:2:{s:7:"created";i:1477977235;s:8:"modified";i:1477977235;}s:7:"creator";s:10:"zhijun.liu";s:4:"user";s:10:"zhijun.liu";s:11:"last_change";a:7:{s:4:"date";i:1477977235;s:2:"ip";s:12:"172.19.1.175";s:4:"type";s:1:"C";s:2:"id";s:34:"android:application:opengl_es_demo";s:4:"user";s:10:"zhijun.liu";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:295:"创建Opengl es程序框架
+
+1.定义IOpenGLDemo接口
+
+
+package com.android.opengldemo.example;
+
+import javax.microedition.khronos.opengles.GL10;
+
+public interface IOpenGLDemo {
+    //drawScene提供统一的绘制函数，实现主要的绘制图形工作
+    public void drawScene(GL10 gl);
+}";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:4:{s:4:"date";a:1:{s:7:"created";i:1477977235;}s:7:"creator";s:10:"zhijun.liu";s:4:"user";s:10:"zhijun.liu";s:11:"last_change";a:7:{s:4:"date";i:1477977235;s:2:"ip";s:12:"172.19.1.175";s:4:"type";s:1:"C";s:2:"id";s:34:"android:application:opengl_es_demo";s:4:"user";s:10:"zhijun.liu";s:3:"sum";s:6:"创建";s:5:"extra";s:0:"";}}}

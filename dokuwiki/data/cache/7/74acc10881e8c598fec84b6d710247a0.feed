@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! linux:makefile</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T11:24:10+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:jobs&amp;rev=1390476864&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:make%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B&amp;rev=1390476864&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:jobs&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>linux:makefile:jobs</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:jobs&amp;rev=1390476864&amp;do=diff</link>
+        <description>为什么在编译工程时使用make不会出错而使用make -j4会出现错误？？？？？？？？？？？？？
+
+有以下两种可能：
+
+1.在同一时刻可能会存在多个命令执行进程同时读取标准输入，但是对于标准输入设备来说，在同一时刻只能存在一个进程访问它。就是说在某个时间点， make</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:make%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B&amp;rev=1390476864&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-01-23T12:34:24+01:00</dc:date>
+        <title>linux:makefile:make的执行过程</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=linux:makefile:make%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B&amp;rev=1390476864&amp;do=diff</link>
+        <description>如下： 
+
+1.  依次读取变量“MAKEFILES”定义的 makefile 文件列表 
+
+2.  读取工作目录下的 makefile 文件（根据命名的查找顺序“GNUmakefile”，“makefile”，“Makefile” ，首先找到那个就读取那个） 
+
+3.  依次读取工作目录 makefile 文件中使用指示符“include”包含的文件</description>
+    </item>
+</rdf:RDF>

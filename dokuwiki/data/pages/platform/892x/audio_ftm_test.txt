@@ -1,0 +1,175 @@
+====== Audio ftm test ======
+
+===== Get the configuration file: =====
+
+To run the FTM test, it needs the configuration file, the configuration is put in the Linux Android AP source code side.
+
+The location is at
+
+"./vendor/qcom/proprietary/mm-audio/audio_ftm/config/8x26/ftm_test_config" for 8x26
+
+"./vendor/qcom/proprietary/mm-audio/audio_ftm/config/8x10/ftm_test_config" for 8x10
+
+If you can't find it, please sync the latest source code.
+
+
+=====  Understanding the configuration file: =====
+
+Following are keywords which be parsed by the test app from config file when a test case is executed:
+
+    tc -->Keyword to indicate beginning of a test case
+    
+    ! -->prefix character indicating test case type, following are supported strings that should be appended:
+    
+        Capture
+        
+        Playback
+        
+        FM
+        
+        CodecLoop
+        
+        AfeLoop
+        
+    # -->prefix character for indicating that string appened to it is a comment.
+    
+    enable -->keyword to indicate mixer command sequence for starting test case
+    
+    disable -->keyword to indicate mixer command sequence for stopping test case
+    
+    Rxdevice -->Keyword to indicate the pcm playback device id.
+    
+    Txdevice -->Keyword to indicate the pcm capture device id.
+    
+    
+
+Keyword highlighted in red are mandatory items when a new test case is added.
+
+It is also mandatory to maintain the sequence of keywords as per following figure when new test case is added.
+
+Here is an example of one test case.
+
+---
+
+tc 1 -->test case number
+
+#Handset Capture -->Comments as test case title
+
+!Capture -->test case type
+
+Txdevice:0 -->the sound device under test
+
+
+enable -->followed by this is the amix command sequence to start the test case
+
+SLIM_0_TX Channels:One
+
+AIF1_CAP Mixer SLIM TX1:1
+
+MultiMedia1 Mixer SLIM_0_TX:1
+
+SLIM TX1 MUX:DEC1
+
+DEC1 MUX:ADC1
+
+ADC1 Volume:50
+
+DEC1 Volume:50
+
+
+disable -->followed by this is the amix command sequence to stop the test
+
+AIF1_CAP Mixer SLIM TX1:0
+
+MultiMedia1 Mixer SLIM_0_TX:0
+
+SLIM TX1 MUX:ZERO
+
+DEC1 MUX:ZERO
+
+ADC1 Volume:0
+
+DEC1 Volume:0
+
+Customer can modify the config file to customize the FTM test cases by following the configuration syntax.
+
+===== Enter the following command sequences for preparation : =====
+ 
+
+adb root
+
+adb remount
+
+adb push ftm_test_config /data/
+
+adb shell
+
+It will put the configuration file in device folder /data/
+
+
+===== Command and parameters to run the test case: =====
+
+Wave File playback :
+
+    /system/bin/mm-audio-ftm -tc <Test_case_number> -c <path to config file> -d <Duration> -v   <Volume> -file <Path_to_wav>
+    
+Tone playback:
+
+    /system/bin/mm-audio-ftm -tc <Test_case_number> -c <path to config file> -d <Duration> -v   <Volume> -fl <frequency_low> -fh <frequency_high>
+    
+Audio Capture :
+
+    /system/bin/mm-audio-ftm -tc <Test_case_number> -c <path to config file> -d <Duration>
+    
+FM :
+
+    /system/bin/mm-audio-ftm -tc <Test_case_number> -c <path to config file>
+    
+AFE/ADIE loop back :
+
+    /system/bin/mm-audio-ftm -tc <Test_case_number> -c <path to config file> -d <Duration> -v <Volume>
+    
+
+===== The following examples are verified on 8x26: =====
+
+
+AFE loopback (Handset MIC -> Earpiece)
+
+#/system/bin/mm-audio-ftm -tc 27 -c /data/ftm_test_config -d 60 -v 67
+
+
+Codec loopback (Handset MIC -> Earpiece)
+
+#/system/bin/mm-audio-ftm -tc 33 -c /data/ftm_test_config -d 60 -v 67
+
+
+Playback (#Ear Piece)
+
+/system/bin/mm-audio-ftm -tc 2 -c /data/ftm_test_config -d 20 -v 70 -file /data/test.wav
+
+
+Recording (#Handset Capture)
+
+/system/bin/mm-audio-ftm -tc 1 -c /data/ftm_test_config -d 10
+
+The recorded file is saved as /data/ftm_pcm_record.wav
+
+
+===== The following examples are verified on 8939: =====
+
+
+mm-audio-ftm -tc 15 -c /data/ftm_test_config -d 30 -v 75(Q39 耳机回环）
+
+mm-audio-ftm -tc 18 -c /data/ftm_test_config -d 30 -v 75（Q39回环 耳机说，speaker放）
+
+
+Playback (#Ear Piece)
+
+/system/bin/mm-audio-ftm -tc 2 -c /data/ftm_test_config -d 20 -v 70 -file /data/test.wav
+
+
+Recording (#Handset Capture)
+
+/system/bin/mm-audio-ftm -tc 1 -c /data/ftm_test_config -d 10
+
+The recorded file is saved as /data/ftm_pcm_record.wav

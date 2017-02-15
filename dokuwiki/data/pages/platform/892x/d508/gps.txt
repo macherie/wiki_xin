@@ -1,0 +1,26 @@
+添加GPS模块SKG10D
+
+一、添加kernel代码
+    加宏定义CONFIG_GPS_MODULE_SKG10D
+    添加文件：kernel/driver/misc/gps_skg10d.c中，主要是控制GPIO，给模块上电，上电后就可以工作。
+    
+二、添加HAL层代码
+   1) 在hardware/qcom/gps/loc_api/libloc_api_50001/gps.c中
+   添加GPS接口，并兼容高通内置的GPS。
+   用属性：hw.gps.type来判断是是内置GPS还是外置GPS。0是内置，1是外置，属性值的设置见下面三。
+   2）hardware/qcom/gps/loc_api/libloc_api_50001/hitown_beidou.c
+   是GPS接口函数的实现。若打开GPS，就会启动一个线程，监听串口，串口每隔1秒会发一次数据，数据格式遵循NMEA协议。
+   修改代码使其支持三种模式切换，分别是：0代表gps跟beidou模式；1代表beidou模式； 2代表gps模式。
+   这个模式在设置菜单里控制，模式设置后会写属性值persist.sys.gps.mode,HAL层在每次开GPS之前会去读这个属性值。
+   
+三、外置GPS自动识别
+   通过开机自启动一个服务来实现，GpsDetector
+   代码在packages/simcom/里。
+   原理是给GPS模块上电后，3秒内如果从串口读到“$PMTK”这5个字符，就判断是外置GPS，并设置属性hw.gps.type = 1，否则是内置GPS，属性设置为0。
+   应用根据这个值来判断要不要加前面二说的模式控制菜单。因为高通内置GPS目前没做模式切换这个功能。
+   
+四、GPIO105控制
+   GPIO105是天线的放大使能脚，高通内置GPS也是用这个pin作为天线LNA控制，因此在modem被RF占有，在AP侧用gpio_set_value()这种方式不行。
+   目前的解决方案是打开外置GPS，同时也打开内置GPS，但这样耗电会比较大，在问高通，看AP侧有没有接口直接可以控制GPIO105.
+   
+   

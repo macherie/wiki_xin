@@ -1,0 +1,69 @@
+======安装openjdk-7======
+
+The master branch of Android in the Android Open Source Project (AOSP) requires Java 7. On Ubuntu, use OpenJDK.
+
+Java 7: For the latest version of Android
+
+进入/usr/lib/，创建jvm目录 
+
+$ sudo apt-get update
+$ sudo apt-get install openjdk-7-jdk
+
+Optionally, update the default Java version by running:
+
+$ sudo update-alternatives --config java
+
+$ sudo update-alternatives --config javac
+
+openjdk1.7无法和以前jdk1.6兼容，所以在/etc/profile里配置openjdk环境变量\\
+<color red>注意：若代码中已添加“lunch项目后修改jdk环境变量”功能后，以下不用配置</color>
+
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+
+export JRE_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
+
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+
+export CLASSPATH=$CLASSPATH:.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib   
+
+======安装openjdk-8======
+**[[How to Install OpenJDK 8 in Ubuntu 14.04 & 12.04 LTS]] http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/**
+
+OpenJDK Java 8 has been made into official Ubuntu repositories for 14.10 Utopic and higher. For Ubuntu 14.04, Ubuntu 12.04, and Linux Mint 17 users here’s how to install it from PPA.
+
+OpenJDK 8 was released in March 2014. It’s available in Ubuntu Software Center for Ubuntu 14.10 and Ubuntu 15.04. Someone has reported in launchpad asking for packaging openjdk-8 in Ubuntu 14.04, but no luck so far.
+
+As a workaround, you can install OpenJDK 8 from a PPA repository:
+
+1. 
+<code>
+sudo add-apt-repository ppa:openjdk-r/ppa
+</code>
+
+2. 
+<code>
+sudo apt-get update 
+
+sudo apt-get install openjdk-8-jdk
+</code>
+3. 
+<code>
+sudo update-alternatives --config java
+</code>
+Type in a number to select a Java version.
+
+set default java version
+
+And set default Java Compiler by running:
+<code>
+sudo update-alternatives --config javac
+</code>
+4. Finally check out current Java version by running:
+<code>
+java -version
+
+It outputs something like this:
+
+openjdk version "1.8.0_01-internal"
+OpenJDK Runtime Environment (build 1.8.0_01-internal-b04)
+OpenJDK 64-Bit Server VM (build 25.40-b08, mixed mode)</code>

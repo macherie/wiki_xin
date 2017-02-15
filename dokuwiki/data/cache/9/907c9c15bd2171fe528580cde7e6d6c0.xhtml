@@ -1,0 +1,235 @@
+
+<h1 class="sectionedit1" id="bss">BSS</h1>
+<div class="level1">
+
+<p>
+BSS stands for Basic Service Set. The coverage of an access point is called a BSS. 
+</p>
+
+</div>
+<!-- EDIT1 SECTION "BSS" [1-104] -->
+<h1 class="sectionedit2" id="cfg80211">cfg80211</h1>
+<div class="level1">
+
+<p>
+Kernel side of configuration management for wireless devices. nl80211 is the User-space side of configuration management for wireless devices.
+</p>
+
+<p>
+Works together with FullMAC-drivers and also with mac80211-based drivers. 
+</p>
+
+</div>
+<!-- EDIT2 SECTION "cfg80211" [105-348] -->
+<h1 class="sectionedit3" id="fullmac">FullMAC</h1>
+<div class="level1">
+
+<p>
+FullMAC is a term used to describe a type of wireless card where the MLME is managed in hardware. You would not use mac80211 to write a FullMAC wireless driver. 
+</p>
+
+</div>
+<!-- EDIT3 SECTION "FullMAC" [349-534] -->
+<h1 class="sectionedit4" id="ibss">IBSS</h1>
+<div class="level1">
+
+<p>
+IBSS stands for Independent Basic Service Set. Its basically Ad-Hoc mode. See Independent Basic Service Set
+</p>
+
+</div>
+<!-- EDIT4 SECTION "IBSS" [535-663] -->
+<h1 class="sectionedit5" id="information_element">Information Element</h1>
+<div class="level1">
+
+<p>
+An Information Element (<abbr title="Internet Explorer">IE</abbr>) is a part of management frames in the IEEE 802.11 wireless <abbr title="Local Area Network">LAN</abbr> protocol. IEs are a device&#039;s way to transfer descriptive information about itself inside management frames. There are usually several IEs inside each such frame, and each is built of Type-length-value (TLVs). 
+</p>
+
+<p>
+The common structure of an <abbr title="Internet Explorer">IE</abbr> is as follows:
+</p>
+<div class="table sectionedit6"><table class="inline">
+	<tr class="row0">
+		<td class="col0 centeralign">   1   </td><td class="col1 centeralign">    1   </td><td class="col2 centeralign">     1-255       </td>
+	</tr>
+</table></div>
+<!-- EDIT6 TABLE [1048-1084] -->
+<p>
++——-+——–+—————–+
+</p>
+<div class="table sectionedit7"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Type  </td><td class="col1"> Length </td><td class="col2 centeralign">     Data        </td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [1122-1158] -->
+<p>
++——-+——–+—————–+
+</p>
+
+<p>
+Whereas the vendor specific <abbr title="Internet Explorer">IE</abbr> looks like this:
+</p>
+<div class="table sectionedit8"><table class="inline">
+	<tr class="row0">
+		<td class="col0 centeralign">   1   </td><td class="col1 centeralign">    1   </td><td class="col2 centeralign">          4        </td><td class="col3 centeralign">    1-251   </td>
+	</tr>
+</table></div>
+<!-- EDIT8 TABLE [1246-1297] -->
+<p>
++——-+——–+——————-+————+
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0 centeralign">  221  </td><td class="col1"> Length </td><td class="col2 centeralign">        OUI        </td><td class="col3 centeralign">     Data   </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [1350-1401] -->
+<p>
++——-+——–+——————-+————+
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Information Element" [664-1454] -->
+<h1 class="sectionedit10" id="iw">iw</h1>
+<div class="level1">
+
+<p>
+iw is a new nl80211 based CLI configuration utility for wireless devices.
+</p>
+
+</div>
+<!-- EDIT10 SECTION "iw" [1455-1547] -->
+<h1 class="sectionedit11" id="nl80211">nl80211</h1>
+<div class="level1">
+
+<p>
+User-space side of configuration management for wireless devices. It is a Netlink-based user-space protocol. cfg80211 is Kernel side of configuration management for wireless devices.
+</p>
+
+<p>
+Several user-space applications are available which utilize nl80211. See Developer Docs for nl80211. 
+</p>
+
+</div>
+<!-- EDIT11 SECTION "nl80211" [1548-1857] -->
+<h1 class="sectionedit12" id="mac80211">mac80211</h1>
+<div class="level1">
+
+<p>
+A driver <abbr title="Application Programming Interface">API</abbr> for SoftMAC WNICs. See Developer Docs for mac80211.
+</p>
+
+<p>
+See also SoftMAC.
+</p>
+
+</div>
+<!-- EDIT12 SECTION "mac80211" [1858-1966] -->
+<h1 class="sectionedit13" id="mac">MAC</h1>
+<div class="level1">
+
+<p>
+A WNIC works on both, Layer 1 and Layer 2 of the OSI model. MAC is a sub-layer for Layer2. Media Access Control
+</p>
+
+</div>
+<!-- EDIT13 SECTION "MAC" [1967-2098] -->
+<h1 class="sectionedit14" id="mlme">MLME</h1>
+<div class="level1">
+
+<p>
+MLME Stands for Media Access Control (MAC) Sublayer Management Entity. MLME is the management entity where the Physical layer (PHY) MAC state machines reside. Examples of states a MLME may assist in reaching:
+</p>
+<pre class="code">  Authenticate
+  Deauthenticate
+  Associate
+  Disassociate
+  Reassociate
+  Beacon
+  Probe
+  Timing Synchronization Function (TSF) </pre>
+
+<p>
+mac80211&#039;s MLME management implementation is currently handled by net/mac80211/ieee80211_sta.c. This handles only the STA MLME
+</p>
+
+</div>
+<!-- EDIT14 SECTION "MLME" [2099-2604] -->
+<h1 class="sectionedit15" id="phy">PHY</h1>
+<div class="level1">
+
+<p>
+A WNIC works on both, Layer 1 and Layer 2 of the OSI model. PHY is abbreviation for physical-layer controller and refers to the hardware components of the WNIC, that are responsible for creating/producing the em waves conforming to the standards specified in the responsible standard, e.g. IEEE 802.11a.
+</p>
+
+<p>
+See PHY and also Physical layer.
+</p>
+
+</div>
+<!-- EDIT15 SECTION "PHY" [2605-2962] -->
+<h1 class="sectionedit16" id="softmac">SoftMAC</h1>
+<div class="level1">
+
+<p>
+SoftMAC is a term used to describe a type of WNIC where the MLME is expected to be managed in software. mac80211 is a driver <abbr title="Application Programming Interface">API</abbr> for SoftMAC WNIC, for example. 
+</p>
+
+</div>
+<!-- EDIT16 SECTION "SoftMAC" [2963-3146] -->
+<h1 class="sectionedit17" id="ssid">SSID</h1>
+<div class="level1">
+
+<p>
+SSID stands for Service Set IDentifier. The SSID is a code attached to all packets on a wireless network to identify each packet as part of that network. The code consists of a string of 1-32 octets (usually represented as case sensitive alphanumeric characters).
+</p>
+
+</div>
+<!-- EDIT17 SECTION "SSID" [3147-3431] -->
+<h1 class="sectionedit18" id="station_sta">Station (STA)</h1>
+<div class="level1">
+
+<p>
+Station (or STA) is the generic term for a device with a radio that can communicate with other stations in a wireless network. Common forms of a station are access points (AP), computers, or phones.
+</p>
+
+</div>
+<!-- EDIT18 SECTION "Station (STA)" [3432-3660] -->
+<h1 class="sectionedit19" id="we">WE</h1>
+<div class="level1">
+
+<p>
+WE stands for Wireless-Extensions - the old driver <abbr title="Application Programming Interface">API</abbr> and user &lt;�”&gt; kernel communication transport. Obsoleted by #cfg80211
+</p>
+
+</div>
+<!-- EDIT19 SECTION "WE" [3661-3805] -->
+<h1 class="sectionedit20" id="wext">WEXT</h1>
+<div class="level1">
+
+<p>
+WEXT stands for Wireless-Extensions - the old driver <abbr title="Application Programming Interface">API</abbr> and user &lt;�”&gt; kernel communication transport. Obsoleted by #cfg80211
+</p>
+
+</div>
+<!-- EDIT20 SECTION "WEXT" [3806-3954] -->
+<h1 class="sectionedit21" id="wiphy">WIPHY</h1>
+<div class="level1">
+
+<p>
+Wireless PHY.
+</p>
+
+</div>
+<!-- EDIT21 SECTION "WIPHY" [3955-3990] -->
+<h1 class="sectionedit22" id="wnic">WNIC</h1>
+<div class="level1">
+
+<p>
+The Wireless Network Interface Controller always refers to the hardware performing the functionality described in the standards family, i.e. IEEE 802.11. This can be an entire PCB (e.g. a mini PCIe wireless card), a single Chip or the functionality can even be integrated into a SoC. 
+</p>
+
+</div>
+<!-- EDIT22 SECTION "WNIC" [3991-] -->

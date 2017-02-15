@@ -1,0 +1,104 @@
+====== 制作LOGO和开机动画 ======
+=====LOGO的修改与控制=====
+
+LOGO文件vendor/qcom/opensource/qrdplus/QRDExtensions/DynamicComponents/res/Splash_QRD/中，
+其中xxxx.raw保存的文件即是不同项目的开机LOGO.（一般raw文件名和项目名相同）
+
+**<color teal>1. </color>**xxxx.raw文件的转换
+  convert -depth 8 logo.png bgr:xxxx.raw
+
+**<color teal>2. </color>**vendor/qcom/opensource/qrdplus/QRDExtensions/DynamicComponents/res/Splash_QRD/Android.mk
+  BOOTLOGO_FILE := vendor/qcom/opensource/qrdplus/QRDExtensions/DynamicComponents/res/Splash_QRD/$(QRDExt_BootLogo_gp).raw
+  QRDExt_BootLogo_gp 为宏控的定义的xxxx.raw文件
+
+**<color teal>3. </color>**platform/build/buildplus/buildspec/xx/aaaa.spec (aaaa为项目名)
+  在aaaa.spec中修改QRDExt_BootLogo_gp的值
+  QRDExt_BootLogo_gp = xxxx  (xxxx为raw的文件名)
+
+**<color teal>4. </color>**烧录到系统
+  fastboot flash logo xxxx.raw
+  fastboot flash aboot emmc_appsboot_fsb.mbn
+  fastboot reboot
+  
+=====开机动画的制作和设置=====
+
+
+frameworks/base/cmds/bootanimation/
+此目录是对动画和声音的播放控制，包括开机和关机的。
+
+BootAnimation::android()播放Android自带的动画(android字符动画，默认)
+
+BootAnimation::movie()播放设计的动画
+
+**<color teal>1. </color>**开机动画的制作
+
+**<color teal>1.1. </color>**BootAnimation.cpp中可见播放的动画为bootAnimation.zip文件包下的图片。
+
+bootanimation.zip不是压缩包，要选择无损压缩的形式。
+
+Ubuntu下
+<code bash>
+zip -r -X -Z store ../bootanimation part*/*.png desc.txt
+</code>
+windows下
+
+选择zip格式下的存储压缩方式
+
+**<color teal>1.2. </color>**动画文件分析
+desc.txt文件
+  480 800 24        // 图片宽度480，高度800，最后24是播放动画的每秒帧率为24。
+  p 1 0 part0  // p 是一个分隔符，1 表示播放一遍，0表示播放完后停顿 0 帧，最后是图片所在的zip包里的目录名。比如你的zip包里最后是这么个结构
+                    //  part0(里面包含很多图片）  + desc.txt， 那么你可以在这里把part替换成part0
+  根据这个语法，我们也可以自定义各种动画形式，例如下面所示:
+  p 2 24 part0        将part0里的图片，播放2遍，播放完一遍后停顿24帧，因为我们之前设置了帧率是24帧每秒，那么这里就等于停顿1秒。
+  p 0 0 part1        将part1里的图片无限循环播放，每次播放不停顿。part0播放完后part1循环播放part1
+如果你设置的宽度和高度不充满屏幕也没关系，剩余区域，系统会填充黑色。如果你设置的宽度和高度大过屏幕，系统会自动裁剪显示居中部分的图片区域。
+
+part文件夹
+   此文件夹保存着播放的动画的图片 *.png
+   动画的播放过程其实就是图片的展现。
+   part0 是动画的图片展示，根据帧数的变化，展示不同的图片
+   part1 part0播放完后播放该文件夹中的图片。可以一直都是同一图片，也可以根据帧数的变化，展示不同的图片。
+
+在以上的基础上创建bootanimation，并把以上文件和文件拷入，进行**无损压缩**就创建完成了。
+
+**<color teal>2. </color>**开机动画的项目控制
+   动画文件保存在vendor/qcom/proprietary/qrdplus/QRDExtensions/DynamicComponents/res/BootAnimation_res/xxxx（xxxx为项目名）
+**<color teal>2.1. </color>**将创建好的动画bootanimation.zip文件放入对应的项目文件夹(文件夹最好与项目名相同）下
+
+**<color teal>2.2. </color>** vendor/qcom/proprietary/qrdplus/QRDExtensions/DynamicComponents/res/BootAnimation_res/Android.mk
+   其中....QRDExt_BootAnimation_gp)/*.zip。QRDExt_BootAnimation_gp即为宏控的动画文件。
+      ...QRDExt_BootSound_gp)/*.wav。 QRDExt_BootSound_gp为宏控的开机声音文件。
+
+**<color teal>2.3. </color>**添加宏控
+   platform/build/buildplus/buildspec/namsapce/names.ini
+   添加宏控字符串QRDExt_BootAnimation_gp = xxxx(默认的开机动画，若为no,则默认没有自定义动画)
+
+   platform/build/buildplus/buildspec/xxxx/aaaa.spec（aaaa为项目名，或为默认的gernal.spec）
+   其中QRDExt_BootAnimation_gp = xxxx（xxxx为我们将动画bootanimation.zip的文件夹名，xxxx若为no则没有动画，选用默认的(android字符）
+
+**<color teal>3. </color>**烧录
+   adb push bootanimation.zip /system/media
+   adb shell sync
+
+
+
+===== h 头文件的形式 =====
+
+rgb888:
+<code bash>
+convert -depth 8 android_logo.png rgb:android_logo.raw
+xxd -i android_logo.raw > initlogo.h 
+</code>
+
+
+rgb565:
+<code bash>
+$convert -depth 8 <splash image in PNG format> rgb:splash.raw
+$host/linux-x86/bin/rgb2565 < ./splash.raw > final.img
+$hexdump -C -v final.img | tr -s " " | cut -d ' ' -f2-17 | awk 'BEGIN {print "{"} {OFS=""; ORS=""; print "\t"; for(i=1; i <= NF; i++) print "0x"$i", "; print "\n";}' > splash.array 
+</code>
+
+===== 默认壁纸文件存放位置 =====
+
+vendor/qcom/opensource/qrdplus/QRDExtensions/DynamicComponents/res/CustomizationRes/sinldo/frameworks/base/core/res/res/drawable-nodpi/default_wallpaper.jpg 

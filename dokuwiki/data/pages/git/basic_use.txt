@@ -1,0 +1,17 @@
+====== 清除git以外文件 ======
+清除git以外文件
+<code bash>
+git clean -fxd
+</code>
+
+====== git log ======
+查看某段时刻的log
+<code bash>
+git log --until=2013-11-23  #表示查看2013年11月23日以前的log
+git log --since="2 days ago" --until="10 hour ago" #就表示你希望查找两天前到十小时前的log
+git log --until=1.minute.ago # 一分钟之前的所有 log
+git log --since=1.day.ago #一天之内的log
+git log --since=1.hour.ago #一个小时之内的 log
+git log --since=1.month.ago --until=2.weeks.ago #一个月之前到半个月之前的log
+git log --since=2013.08.01 --until=2013-09-07 #某个时间段的 log
+</code>

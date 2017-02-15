@@ -1,0 +1,5 @@
+    <span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+void"><span class="kw3">Void</span></a> doInBackground<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>... <span class="me1">params</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw4">int</span> position <span class="sy0">=</span> params<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            MusicUtils.<span class="me1">playAll</span><span class="br0">&#40;</span>mContext, mTrackCursor, position<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>

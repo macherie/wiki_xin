@@ -1,0 +1,58 @@
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw4">void</span> playAll<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> context, <span class="kw4">long</span> <span class="br0">&#91;</span><span class="br0">&#93;</span> list, <span class="kw4">int</span> position, <span class="kw4">boolean</span> force_shuffle<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      <span class="kw1">try</span><span class="br0">&#123;</span>
+           IVideoTelephony vtInterface <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+           vtInterface <span class="sy0">=</span> IVideoTelephony.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+stub"><span class="kw3">Stub</span></a>.<span class="me1">asInterface</span><span class="br0">&#40;</span>ServiceManager.<span class="me1">checkService</span><span class="br0">&#40;</span><span class="st0">&quot;videophone&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+          <span class="kw1">if</span><span class="br0">&#40;</span>vtInterface <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+             <span class="kw1">if</span> <span class="br0">&#40;</span>vtInterface.<span class="me1">isVtActive</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Toast.<span class="me1">makeText</span><span class="br0">&#40;</span>context, R.<span class="me1">string</span>.<span class="me1">vt_playback_failed</span>, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+         <span class="br0">&#125;</span>
+       <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> e<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+       <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>list.<span class="me1">length</span> <span class="sy0">==</span> <span class="nu0">0</span> <span class="sy0">||</span> sService <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span><span class="st0">&quot;MusicUtils&quot;</span>, <span class="st0">&quot;attempt to play empty song list&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">// Don't try to play empty playlists. Nothing good will come of it.</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> message <span class="sy0">=</span> context.<span class="me1">getString</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">emptyplaylist</span>, list.<span class="me1">length</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            Toast.<span class="me1">makeText</span><span class="br0">&#40;</span>context, message, Toast.<span class="me1">LENGTH_SHORT</span><span class="br0">&#41;</span>.<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>force_shuffle<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                sService.<span class="me1">setShuffleMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">SHUFFLE_NORMAL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">//If the repeat mode is REPEAT_CURRENT, we should change mode to REPEAT_ALL</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>sService.<span class="me1">getRepeatMode</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> MediaPlaybackService.<span class="me1">REPEAT_CURRENT</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    sService.<span class="me1">setRepeatMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">REPEAT_ALL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mPlayAllFromMenu<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                sService.<span class="me1">setShuffleMode</span><span class="br0">&#40;</span>MediaPlaybackService.<span class="me1">SHUFFLE_NONE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mPlayAllFromMenu <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw4">long</span> curid <span class="sy0">=</span> sService.<span class="me1">getAudioId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw4">int</span> curpos <span class="sy0">=</span> sService.<span class="me1">getQueuePosition</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">!=</span> <span class="sy0">-</span><span class="nu0">1</span> <span class="sy0">&amp;&amp;</span> curpos <span class="sy0">==</span> position <span class="sy0">&amp;&amp;</span> curid <span class="sy0">==</span> list<span class="br0">&#91;</span>position<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="co1">// The selected file is the file that's currently playing;</span>
+                <span class="co1">// figure out if we need to restart with a new playlist,</span>
+                <span class="co1">// or just launch the playback activity.</span>
+                <span class="kw4">long</span> <span class="br0">&#91;</span><span class="br0">&#93;</span> playlist <span class="sy0">=</span> sService.<span class="me1">getQueue</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+arrays"><span class="kw3">Arrays</span></a>.<span class="me1">equals</span><span class="br0">&#40;</span>list, playlist<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// we don't need to set a new list, but we should resume playback if needed</span>
+                    sService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">return</span><span class="sy0">;</span> <span class="co1">// the 'finally' block will still run</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>position <span class="sy0">&lt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                position <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            sService.<span class="me1">open</span><span class="br0">&#40;</span>list, force_shuffle <span class="sy0">?</span> <span class="sy0">-</span><span class="nu0">1</span> <span class="sy0">:</span> position<span class="br0">&#41;</span><span class="sy0">;</span>
+            sService.<span class="me1">play</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+remoteexception"><span class="kw3">RemoteException</span></a> ex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="br0">&#125;</span> <span class="kw1">finally</span> <span class="br0">&#123;</span>
+            Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="st0">&quot;com.android.music.PLAYBACK_VIEWER&quot;</span><span class="br0">&#41;</span>
+                .<span class="me1">setFlags</span><span class="br0">&#40;</span>Intent.<span class="me1">FLAG_ACTIVITY_CLEAR_TOP</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            context.<span class="me1">startActivity</span><span class="br0">&#40;</span>intent<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

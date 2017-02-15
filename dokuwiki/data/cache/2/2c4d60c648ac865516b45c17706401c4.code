@@ -1,0 +1,12 @@
+    <span class="kw1">public</span> <span class="kw4">void</span> stopRecording<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mRecorder <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+&nbsp;
+        mRecorder.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecorder.<span class="me1">reset</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecorder.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mRecorder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+        mSampleLength <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">int</span><span class="br0">&#41;</span><span class="br0">&#40;</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+system"><span class="kw3">System</span></a>.<span class="me1">currentTimeMillis</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> mSampleStart<span class="br0">&#41;</span><span class="sy0">/</span><span class="nu0">1000</span> <span class="br0">&#41;</span><span class="sy0">;</span>
+        setState<span class="br0">&#40;</span>IDLE_STATE<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

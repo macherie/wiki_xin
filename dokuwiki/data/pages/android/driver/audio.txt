@@ -1,0 +1,111 @@
+===== 音频相关零碎知识点 =====
+
+
+  * **硬件拓扑图**
+{{:android:driver:hw_blocks.png|}}
+  * **硬件接口数据流向图**
+{{:android:driver:hw_blocks_diagram.png|}}
+  * **软件接口数据流向图**
+{{:android:driver:sw_blocks.png|}}
+  * **播放音频（Audio Playback）大致步骤**
+
+  1、Framework 调用 OpenMAX IL 把比特流（未解码的二进制）传给 aDSP。
+  2、aDSP把接收到的比特流（未解码的二进制）解码成PCM然后回传给OpenMAX IL（Framework）。
+  3、Framework通过AudioFlinger把PCM传递到audio的HAL层，audio HAL再把PCM传递到kernel。
+  4、PCM的kernel driver再把PCM回传给aDSP。
+  5、aDSP最后把PCM传递给D/A codec转换成模拟信号输出到speaker。
+  
+
+  * **接听电话（Voice Call RX Path）大致步骤**
+
+  1、启动声卡设备
+  2、协议栈那边通过MVS（multimode voice services）接口mvs_acquire/mvs_enable启动vocoder service （vocoder和codec概念类似，可以翻译成声码器，用来编解码voice，codec主要用来编解码“音乐”）。
+  3、Vocoder从mDSP那里接受到vocoder封包转发给aDSP去解码。
+  4、aDSP解码vocoder的封包到PCM，然后再把PCM路由到AFE（Audio Front End）。
+  5、AFE（Audio Front End）把PCM传递给D/A codec转换成模拟信号输出到speaker。
+  
+
+
+  * **接听电话（Voice Call RX Path）大致步骤**
+
+  <del>这个我也不知道，谁知道的填下先。</del>
+
+  * **音频解码**
+
+  多个audio playback同时解码时不考虑他们的格式、比特流、采样率只有一个能使用硬件加速，其他的全部采用软解
+  采样频率：将模拟声音波形进行数字化时每秒钟抽取的声波幅度样本的次数，一般正常人的听觉范围20Hz-20KHz。根据奈奎斯特理论保证人耳听到的保值采样率应该是40KHz。高通的8x25系列所支持的最高采样率是48KHz。
+
+| PCM playback | 采样率:48 KHz |
+| AAC decode | 硬件加速 比特率:384 kbps采样率:48 KHz |
+| AAC+decode | 硬件加速 比特率:384 kbps采样率:48 KHz |
+| eAAC+decode | 硬件加速 比特率:384 kbps采样率:48 KHz |
+| AMR-NB decode | 软件 |
+| AMR-WB decode | 软件 |
+| EVRC decode | 硬件加速 |
+| MP3 decode | 硬件加速 比特率:320 kbps采样率:48 KHz |
+| WMA playback (end-to-end) | WMA7 WMA8 WMA9能达到384 kbps |
+
+  * **音频编码**
+
+| PCM record | 硬件加速 OpenMAX |
+| AAC encode | 软件48KHZ |
+| AMR-NB encode (normal recording) | 硬件编码 |
+| EVRC encode | 硬件加速 最大12.2 Kbps |
+| QCELP encode | 硬件加速 |
+| Voice call recording | 硬件加速(QCELP/EVRC/AMR-NB) |
+| Codec interface-audio encode | QCELP/EVRC/AMR-NB |
+
+
+
+  * **Audio的hal的调用（即aDSP操作）流程如下**
+{{:android:driver:audiohardware_flow.png|}}
+
+
+
+
+
+
+
+
+  * **Modem的mDSP操作流程如下**
+
+{{:android:driver:mdsp_flow.png|}}
+
+
+
+
+
+  * **耳机检测**
+
+
+  在hs_gpio_cfg_s.c文件中的下面数组中增加一条
+  
+<code c>
+hs_gpio_info_type hsi_gpio_info[HS_GPIO_LAST] =
+{
+  {41,GPIO_IN_41_HSD_SKUD, 1,150, TRUE }, 
+  {41,GPIO_IN_41_HSD_SKUD, 0,150, TRUE }, 
+  {HS_PM_GPIO_9,GPIO_GENERIC_DEFAULT, 0,150, TRUE }, 
+  ……
+}
+
+/*上面结构数组的结构成员含义*/
+typedef struct
+{
+  gpio_num; //用来做耳机检测的中断pin脚
+  gpio_config;
+  gpio_active_level;//插入后中断pin脚应该呈现的状态
+  gpio_debounce_interval;
+  gpio_uses_irq;//是否配置成中断。
+} hs_gpio_info_type;
+</code>
+
+  如果是使用PMIC的gpio做耳机的中断检测pin，使用方法一样，我已经把使用pmic的gpio做耳机中断检测功能整合到一起了，使用的时候只用把 gpio_config成员变量配置成GPIO_GENERIC_DEFAULT，其他成员变量功能一致。
+  配置耳机中断还需注意两个地方，在board_gpio_setting_skud()函数中是否把中断pin配置成了输入(BSP_GPIO_INPUT)且要配置成TLMM_OWNER_MASTER。
+
+
+
+
+
+
+

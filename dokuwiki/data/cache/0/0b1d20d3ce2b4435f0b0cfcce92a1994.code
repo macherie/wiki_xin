@@ -1,0 +1,50 @@
+    <span class="kw1">private</span> <span class="kw4">void</span> setupActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        ActionBar actionBar@Override
+    <span class="kw1">public</span> <span class="kw4">boolean</span> onOptionsItemSelected<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menuitem"><span class="kw3">MenuItem</span></a> item<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">switch</span><span class="br0">&#40;</span>item.<span class="me1">getItemId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_compose_new</span><span class="sy0">:</span>
+                createNewMessage<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_delete_all</span><span class="sy0">:</span>
+                <span class="co1">// The invalid threadId of -1 means all threads here.</span>
+                confirmDeleteThread<span class="br0">&#40;</span><span class="sy0">-</span>1L, mQueryHandler<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="co1">// hide the item: &quot;Delete all threads&quot;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mDeleteAllItem <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    mDeleteAllItem.<span class="me1">setVisible</span><span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_settings</span><span class="sy0">:</span>
+                Intent intent <span class="sy0">=</span> <span class="kw1">new</span> Intent<span class="br0">&#40;</span><span class="kw1">this</span>, MessagingPreferenceActivity.<span class="kw1">class</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                startActivityIfNeeded<span class="br0">&#40;</span>intent, <span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="kw1">case</span> R.<span class="me1">id</span>.<span class="me1">action_debug_dump</span><span class="sy0">:</span>
+                LogTag.<span class="me1">dumpInternalTables</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="coMULTI">/*case R.id.action_cell_broadcasts:
+                Intent cellBroadcastIntent = new Intent(Intent.ACTION_MAIN);
+                cellBroadcastIntent.setComponent(new ComponentName(
+                        &quot;com.android.cellbroadcastreceiver&quot;,
+                        &quot;com.android.cellbroadcastreceiver.CellBroadcastListActivity&quot;));
+                cellBroadcastIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(cellBroadcastIntent);
+                } catch (ActivityNotFoundException ignored) {
+                    Log.e(TAG, &quot;ActivityNotFoundException for CellBroadcastListActivity&quot;);
+                }
+                return true;*/</span>
+            <span class="kw1">default</span><span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="sy0">=</span> getActionBar<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        ViewGroup v <span class="sy0">=</span> <span class="br0">&#40;</span>ViewGroup<span class="br0">&#41;</span>LayoutInflater.<span class="me1">from</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span>
+            .<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">conversation_list_actionbar</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setDisplayOptions</span><span class="br0">&#40;</span>ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span>,
+                ActionBar.<span class="me1">DISPLAY_SHOW_CUSTOM</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        actionBar.<span class="me1">setCustomView</span><span class="br0">&#40;</span>v,
+                <span class="kw1">new</span> ActionBar.<span class="me1">LayoutParams</span><span class="br0">&#40;</span>ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        ActionBar.<span class="me1">LayoutParams</span>.<span class="me1">WRAP_CONTENT</span>,
+                        Gravity.<span class="me1">CENTER_VERTICAL</span> <span class="sy0">|</span> Gravity.<span class="me1">RIGHT</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mUnreadConvCount <span class="sy0">=</span> <span class="br0">&#40;</span>TextView<span class="br0">&#41;</span>v.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">unread_conv_count</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

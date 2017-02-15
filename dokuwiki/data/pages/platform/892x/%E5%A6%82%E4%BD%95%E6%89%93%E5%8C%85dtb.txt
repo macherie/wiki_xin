@@ -1,0 +1,21 @@
+====== 892x平台是如何来打包dtb ======
+ --- //[[liangjiong.zhou@sim.com|liangjiong.zhou]] 2014/03/11 13:09//
+
+892x 平台的kernel已经用了 dts 文件来组织设备。这里来讲一下 892x 平台是如何来打包 各个 dtb 文件的。
+Device tree 友情链接 [[linux:kernel:device_tree|ARM Linux Device Tree]]
+
+
+在编译kernel的时候，kernel中的 dtc 脚本会编译出所有相关的dtb。而高通平台上最终打包到boot.img里去的是
+dt.img，这个镜像是一个叫 dtbtool 的工具来产生的。
+
+===== 这个工具的位置： =====
+
+device/qcom/common/dtbtool
+
+===== 参考文档： =====
+
+device/qcom/common/dtbtool/dtbtool.txt
+
+//TODO： add more
+
+

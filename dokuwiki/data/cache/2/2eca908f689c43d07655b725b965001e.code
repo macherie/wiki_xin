@@ -1,0 +1,3 @@
+$ <span class="kw2">git add</span> 冲突文件
+$ <span class="kw2">git commit</span>
+$ <span class="kw2">git rebase</span> <span class="re5">--continue</span>

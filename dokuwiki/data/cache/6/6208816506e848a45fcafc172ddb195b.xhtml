@@ -1,0 +1,132 @@
+
+<p>
+— <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2014/2/21</em>
+</p>
+
+<h1 class="sectionedit1" id="efs分区损坏问题分析报告">EFS分区损坏问题分析报告</h1>
+<div class="level1">
+<div class="table sectionedit2"><table class="inline">
+	<tr class="row0">
+		<th class="col0 leftalign">Document Title:     </th><td class="col1">EFS分区损坏问题分析报告</td>
+	</tr>
+	<tr class="row1">
+		<th class="col0 leftalign">Version:            </th><td class="col1 leftalign">1.01               </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign">Date:               </th><td class="col1 leftalign">2013-04-19         </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign">Status:             </th><td class="col1 leftalign">Release            </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">Document Control ID:</th><td class="col1 leftalign">SIM0003            </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0 leftalign">Writer:             </th><td class="col1 leftalign">Xifangqing         </td>
+	</tr>
+</table></div>
+<!-- EDIT2 TABLE [94-372] --><hr />
+
+</div>
+<!-- EDIT1 SECTION "EFS分区损坏问题分析报告" [46-381] -->
+<h2 class="sectionedit3" id="问题描述">问题描述：</h2>
+<div class="level2">
+
+<p>
+客户旺旺集团在S100(Qualcomm 8255芯片)的使用过程中，发现某些机器经过多次开关机后会再也无法正常启动，有些机器开机就直接进入QPST下载模式，有些机器在开机Log画面不断重启。
+</p>
+
+</div>
+<!-- EDIT3 SECTION "问题描述：" [382-646] -->
+<h2 class="sectionedit4" id="问题分析">问题分析：</h2>
+<div class="level2">
+
+<p>
+<strong><span style='color:teal; '>1. </span></strong>烧录Debug版本，使用Memory Debug Application抓取RAM dump之后，使用Trace32 Simulator分析，发现是Modem在初始化EFS文件系统的时候或是读写某个NV的时候出现error fetal:
+</p>
+
+<p>
+有些机器是挂在EFS初始化函数中：
+</p>
+<pre class="code c"><span class="kw4">void</span>
+efs_estdio_init <span class="br0">&#40;</span><span class="kw4">void</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw4">int</span> i<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_statvfs efs_info<span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="br0">&#40;</span>efs_statvfs <span class="br0">&#40;</span><span class="st0">&quot;/&quot;</span><span class="sy0">,</span> <span class="sy0">&amp;</span>efs_info<span class="br0">&#41;</span><span class="br0">&#41;</span>
+    FS_ERR_FATAL <span class="br0">&#40;</span><span class="st0">&quot;efs_estdio_init failed, efs_errno=%d.&quot;</span><span class="sy0">,</span> efs_errno<span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  efs_block_size <span class="sy0">=</span> efs_info.<span class="me1">f_bsize</span><span class="sy0">;</span>
+……
+<span class="br0">&#125;</span></pre>
+
+<p>
+Call stack 如下图
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=android%3Aefs%E5%88%86%E5%8C%BA%E6%8D%9F%E5%9D%8F%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90&amp;media=doc:efs1.png" class="media" title="doc:efs1.png"><img src="/dokuwiki/lib/exe/fetch.php?media=doc:efs1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+有些机器挂在写某个NV 项 (NV5083、NV5804)：
+</p>
+<pre class="code c"><span class="kw4">static</span> <span class="kw4">int</span>
+efs_unlink_helper <span class="br0">&#40;</span><span class="kw4">struct</span> nameidata <span class="sy0">*</span>ndp<span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw4">struct</span> fs_vnode <span class="sy0">*</span>dvp <span class="sy0">=</span> ndp<span class="sy0">-&gt;</span>dvp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_vnode <span class="sy0">*</span>vp <span class="sy0">=</span> ndp<span class="sy0">-&gt;</span>vp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span>dmp <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span><span class="br0">&#41;</span> dvp<span class="sy0">-&gt;</span>mp<span class="sy0">;</span>
+  <span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span>mp <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw4">struct</span> fs_mount_efs <span class="sy0">*</span><span class="br0">&#41;</span> vp<span class="sy0">-&gt;</span>mp<span class="sy0">;</span>
+  <span class="kw4">int</span> result<span class="sy0">;</span>
+&nbsp;
+  XACT_CHECK <span class="br0">&#40;</span>mp<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>S_ISLNK <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>mode<span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>S_ISITM <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>mode<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ASSERT <span class="br0">&#40;</span>vp<span class="sy0">-&gt;</span>p.<span class="me1">inode</span>.<span class="me1">nlink</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    vp<span class="sy0">-&gt;</span>p.<span class="me1">inode</span>.<span class="me1">nlink</span><span class="sy0">--;</span>
+    vp<span class="sy0">-&gt;</span>dirty <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+  ……
+&nbsp;
+  <span class="kw1">return</span> result<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=android%3Aefs%E5%88%86%E5%8C%BA%E6%8D%9F%E5%9D%8F%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90&amp;media=doc:efs2.png" class="media" title="doc:efs2.png"><img src="/dokuwiki/lib/exe/fetch.php?media=doc:efs2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+<strong><span style='color:teal; '>2. </span></strong>使用JTAG dump问题机器的EFS分区给高通EFS专家分析：
+</p>
+
+<p>
+Note: 使用AMSS\products\7&times;30\core\storage\flash\tools\src\nandnand_dump.cmm，遵照提示运行即可。
+</p>
+
+<p>
+进过高通分析，发现EFS分区是被pm_rst_file.txt损坏。
+</p>
+
+<p>
+<strong><span style='color:teal; '>3. </span></strong>在代码里面查找pm_rst_file.txt文件，发现机器开机的时候会在pm_get_reset_reason_pcil和pm_set_reset_reason_pcil函数中读写EFS分区的pm_rst_file.txt文件，由于这个函数是在中断服务线程（IST）被调用，可能会出现被中断或重入，所以容易造成EFS损坏。
+</p>
+
+<p>
+高通FAE的解释如下：
+</p>
+
+<p>
+Efs operation is not allowed in IST context because it can be interrupted and re-entered, which will cause efs data corrupt
+</p>
+
+</div>
+<!-- EDIT4 SECTION "问题分析：" [647-2533] -->
+<h2 class="sectionedit5" id="解决方案">解决方案：</h2>
+<div class="level2">
+
+<p>
+去除函数pm_get_reset_reason_pcil和pm_set_reset_reason_pcil中对于EFS分区的相关操作
+</p>
+
+</div>
+<!-- EDIT5 SECTION "解决方案：" [2534-] -->

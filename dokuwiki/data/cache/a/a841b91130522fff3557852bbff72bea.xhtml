@@ -1,0 +1,49 @@
+
+<h3 class="sectionedit1" id="alogx_打印函数问题">ALOGX 打印函数问题</h3>
+<div class="level3">
+
+<p>
+打印函数变更名称，但其实现与原来还是一样
+</p>
+
+<p>
+最简单方式:
+</p>
+<pre class="code">system\core\include\cutils 路径下新定义一个 log_legacy.h</pre>
+
+<p>
+实现如下：
+</p>
+<pre class="code">#ifndef __LOG_LEGACY_H__
+#define __LOG_LEGACY_H__
+
+#define LOGV ALOGV
+#define LOGD ALOGD
+#define LOGI ALOGI
+#define LOGW ALOGW
+#define LOGE ALOGE
+
+#define LOGV_IF ALOGV_IF
+#define LOGD_IF ALOGD_IF
+#define LOGI_IF ALOGI_IF
+#define LOGW_IF ALOGW_IF
+#define LOGE_IF ALOGE_IF
+
+#define IF_LOGV IF_ALOGV
+#define IF_LOGD IF_ALOGD
+#define IF_LOGI IF_ALOGI
+#define IF_LOGW IF_ALOGW
+#define IF_LOGE IF_ALOGE
+
+#endif /* __LOG_LEGACY_H__*/</pre>
+
+<p>
+然后在 log.h 中最后引用一下即可
+</p>
+<pre class="code">#include &quot;log_legacy.h&quot;</pre>
+
+<p>
+其他的地方都不用变更
+</p>
+
+</div>

@@ -1,0 +1,123 @@
+
+<p>
+<strong>主要用于监控系统tz温度，电池温度，GPU温度等，通过设定阀值，超过阀值会触发降频和关核动作</strong>
+</p>
+
+<p>
+<strong>1 通过ADB来输出系统thermal的参数</strong>
+</p>
+<pre class="code">thermal-engine -o</pre>
+
+<p>
+<strong>2 加载thermal-config文件</strong>
+</p>
+<pre class="code">thermal-engine -c /system/etc/thermal-engine-perf.conf</pre>
+
+<p>
+<strong>3 thermal-engine代码中的位置</strong>
+</p>
+<pre class="code">msm8953/vendor/qcom/proprietary/thermal-engine/thermal.c</pre>
+
+<p>
+<strong>4 开启关闭温控</strong>
+</p>
+<pre class="code">adb shell start thermal-engine
+adb shell stop thermal-engine</pre>
+
+<p>
+<strong>5 通过对以下模块进行监控</strong>
+</p>
+<pre class="code">&#039;cpu&#039;
+- ACTION - CPU frequency scaling
+- ACTION_INFO - Max CPU frequency in KHz </pre>
+<pre class="code">&#039;cpuN&#039;
+- ACTION - CPU frequency scaling where N is the specific CPU core [0..MAX CORES]
+- ACTION_INFO - Max CPU frequency in KHz </pre>
+<pre class="code">&#039;clusterN&#039;
+- ACTION - CLUSTER frequency scaling where N is the specific CLUSTER ID
+- ACTION_INFO - Max CLUSTER frequency in KHz </pre>
+<pre class="code">&#039;hotplug_N&#039;
+- ACTION -  Hotplug a specific CPU core [1..MAX CORES]
+- ACTION_INFO - 0 for online a core, or 1 to offline it. </pre>
+<pre class="code">&#039;lcd&#039;
+- ACTION - LCD brightness throttling
+- ACTION_INFO - 0-255 value for max LCD brightness
+                                                                                                                                 
+&#039;modem&#039;
+- ACTION - Request throttling of modem functionality
+- ACTION_INFO - 0-3 throttling level for modem mitigation</pre>
+<pre class="code">&#039;fusion&#039;
+- ACTION - Request throttling of fusion modem functionality
+- ACTION_INFO - 0-3 throttling level for fusion modem mitigation</pre>
+<pre class="code">&#039;battery&#039;
+- ACTION - Battery charging current throttling
+- ACTION_INFO - 0-3 throttling level for battery charging current</pre>
+<pre class="code">&#039;gpu&#039;
+- ACTION - GPU frequency scaling
+- ACTION_INFO - Max GPU frequency in Hz</pre>
+<pre class="code">&#039;wlan&#039;
+- ACTION - WLAN throttling
+- ACTION_INFO - 0-4 throttling level for WLAN mitigation</pre>
+<pre class="code">&#039;shutdown&#039;
+- ACTION - Shutdown target
+- ACTION_INFO - Shutdown delay in ms</pre>
+<pre class="code">&#039;vdd_restriction&#039;
+- ACTION - Request voltage restriction of all vdd rails on SoC
+- ACTION_INFO - 1 for request for vdd_restriction,
+              0 for release vdd_restriction</pre>
+<pre class="code">&#039;camera&#039;
+- ACTION - camera fps throttling and camera shutdown mitigation
+- ACTION_INFO - 0-3 throttling level for camera fps mitigation,
+              10 level for camera app shutdown</pre>
+<pre class="code">&#039;camcorder&#039;
+- ACTION - camcorder fps throttling and camcorder shutdown mitigation
+- ACTION_INFO - 0-3 throttling level for camcorder fps mitigation,
+              10 level for camcorder app shutdown</pre>
+<pre class="code">&#039;mdp&#039;
+- ACTION - Request throttling of MDP CX voting
+- ACTION_INFO - 0-3 throttling level for MDP mitigation</pre>
+<pre class="code">&#039;venus&#039;
+- ACTION - Request throttling of VENUS CX voting
+- ACTION_INFO - 0-3 throttling level for VENUS mitigation    </pre>
+<pre class="code">&#039;cpu&#039;
+- DEVICE - Dynamic CPU frequency scaling</pre>
+<pre class="code">&#039;cpuN&#039;
+- DEVICE - Dynamic CPU frequency scaling where N is the specific CPU core [0..MAX CORES]</pre>
+<pre class="code">&#039;clusterN&#039;
+- DEVICE - Dynamic CLUSTER frequency scaling where N is the specific CLUSTER ID</pre>
+<pre class="code">&#039;gpu&#039;
+- DEVICE - Dynamic GPU frequency scaling</pre>
+
+<p>
+<strong>6 Battery Current Limit(BCL)</strong>
+</p>
+<pre class="code">主要是利用PMIC的fuel gauging来监控电池的电压和电池的电流来减轻这些发生。主要用于以下这几中情况下：
+6.1 Battery Current(Ibat): 当电池电流达到一个高的或者低的阀值时，降低CPU的频率和关闭CPU核.
+6.2 Battery voltage(Vbat): 当电池电压达到一个高的或者低的阀值时，降低CPU的频率和关闭CPU核.
+6.3 Battery State-of-Charge(Soc): 当电池电量降到某个阀值，例如10%，BCL会降低CPU的频率和关闭CPU核.
+   
+[bcl_monitor]
+algo_type        monitor
+descending
+sensor           bcl
+sampling         1000
+thresholds       100      0
+thresholds_clr   500      100
+actions          report   report
+action_info      0        0</pre>
+
+<p>
+<strong>7 例子</strong>
+</p>
+<pre class="code">[PMIC_THERM_MON]
+algo_type        monitor
+sensor           PMIC_THERM
+sampling         5000
+thresholds       40200       45000   50000
+thresholds_clr   38000       43000   48000
+actions          cpu+report  cpu     cpu
+action_info      1188000+0   368640  245760
+7.1 sampling(采样率): 如果没有写，默认为1ms,PMIC_THERM_MON的采样率为5s
+7.2 thresholds level 1(阀值): 当温度达到40.2摄氏度，会触发actions，调节cpu的最大频率为1188000 KHz,
+当温度低于38摄氏度时，会清除actions。
+7.3 thresholds level 2(阀值): 同理.</pre>

@@ -1,0 +1,51 @@
+
+<p>
+using the check_vmlinux_match.py to check if the dump and vmlinux mismatch or not.
+</p>
+
+<p>
+1. what is check_vmlinux_match.py
+</p>
+<pre class="code">yingangl@yingangl-work:~/sdc/case/Huawei/02389676/dump00$ cat check_vmlinux_match.py
+import binascii
+a = &quot;Linux version&quot;
+line_no = 0
+print &quot;================Vmliux:====================&quot;
+for line in open(&quot;vmlinux&quot;,&#039;rb&#039;):
+    line_no = line_no+1
+    if a in line:
+        print&quot;%d            :&quot; %line_no +line
+
+
+print &quot;=================DDRCS0.bin:================&quot;
+line_no = 0
+for line in open(&quot;DDRCS0.BIN&quot;,&#039;rb&#039;):
+    line_no = line_no+1
+    if a in line:
+        print&quot;%d            :&quot; %line_no +line</pre>
+
+<p>
+2. the check_vmlinux_match.py , dump and vmlinux should put in the same path
+</p>
+<pre class="code">yingangl@yingangl-work:~/sdc/case/Huawei/02389676/dump00$ ls
+CODERAM.BIN  DDRCS1.BIN     IPA_DICT.bin  IPA_IRAM.bin  IPA_REG2.bin  load.cmm     OCIMEM.BIN    PMIC_RTC.BIN       RST_STAT.BIN
+DATARAM.BIN  DDR_DATA.BIN   IPA_DRAM.bin  IPA_MBOX.bin  IPA_REG3.bin  loadreg.cmm  parser        QCAPReport00.html  vmlinux
+DDRCS0.BIN   dump_info.txt  IPA_HRAM.bin  IPA_REG1.bin  IPA_SRAM.bin  MSGRAM.BIN   PMIC_PON.BIN  rpm.bat</pre>
+
+<p>
+3. run the  python check_vmlinux_match.py
+</p>
+<pre class="code">yingangl@yingangl-work:~/sdc/case/Huawei/02389676/dump00$ python check_vmlinux_match.py
+================Vmliux:====================
+42685            :Linux version 3.10.84-gac0d179-dirty (android@localhost) (gcc version 4.9.x-google 20140827 (prerelease) (GCC) ) #1 SMP PREEMPT Thu Mar 17 15:14:31 CST 2016
+
+=================DDRCS0.bin:================
+43828            :Linux version 3.10.84-gac0d179-dirty (android@localhost) (gcc version 4.9.x-google 20140827 (prerelease) (GCC) ) #1 SMP PREEMPT Thu Mar 17 15:14:31 CST 2016</pre>
+
+<p>
+4. if you see the timestamp is not matched, this means the dump and vmlinux is mismatched,
+</p>
+
+<p>
+if you see the timestamp matched, this means the dump and vmlinux is mismatched.
+</p>

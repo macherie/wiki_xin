@@ -1,0 +1,39 @@
+diff --git a/mm-camera/server/hardware/vfe/vfe2x/common/vfe.c b/mm-camera/server/hardware/vfe/vfe2x/common/vfe.c
+index <span class="re0">75d93</span>db..59e4537 <span class="nu0">100755</span>
+<span class="re3">--- a/mm-camera/server/hardware/vfe/vfe2x/common/vfe.c</span>
+<span class="re4">+++ b/mm-camera/server/hardware/vfe/vfe2x/common/vfe.c</span>
+<span class="re6">@@ -1517,6 +1517,7 @@ vfe_status_t vfe_set_pixel_crop_info<span class="br0">&#40;</span>vfe_ctrl_info_t *p_obj, void *parm<span class="br0">&#41;</span></span>
+   vfe_sensor_params_t *sparams = &amp;<span class="br0">&#40;</span>p_obj-&gt;vfe_params.sensor_parms<span class="br0">&#41;</span>;
+   vfe_active_region_t *active_params = &amp;<span class="br0">&#40;</span>p_obj-&gt;vfe_params.active_crop_info<span class="br0">&#41;</span>;
+   uint32_t delta;
+<span class="re8">+  uint32_t MaxVFEWidth = MAX_VFE_WIDTH; //for yuv sensor</span>
+&nbsp;
+   sparams-&gt;firstPixel =  info-&gt;first_pixel;
+   sparams-&gt;lastPixel =  info-&gt;last_pixel;
+<span class="re6">@@ -1526,9 +1527,7 @@ vfe_status_t vfe_set_pixel_crop_info<span class="br0">&#40;</span>vfe_ctrl_info_t *p_obj, void *parm<span class="br0">&#41;</span></span>
+                               &amp;<span class="br0">&#40;</span>p_obj-&gt;vfe_params<span class="br0">&#41;</span><span class="br0">&#41;</span>;
+   if <span class="br0">&#40;</span><span class="br0">&#40;</span>active_params-&gt;lastLine - active_params-&gt;firstLine + <span class="nu0">1</span><span class="br0">&#41;</span> &gt;
+            MAX_VFE_HEIGHT<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+<span class="re7">-                    delta = <span class="br0">&#40;</span>MAX_VFE_HEIGHT -</span>
+<span class="re7">-                                <span class="br0">&#40;</span>active_params-&gt;lastLine -</span>
+<span class="re7">-                                      active_params-&gt;firstLine + <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span> / <span class="nu0">2</span>;</span>
+<span class="re8">+                   delta = <span class="br0">&#40;</span><span class="br0">&#40;</span>active_params-&gt;lastLine -active_params-&gt;firstLine + <span class="nu0">1</span><span class="br0">&#41;</span>-MAX_VFE_HEIGHT<span class="br0">&#41;</span> / <span class="nu0">2</span>;</span>
+                     p_obj-&gt;vfe_params.demosaic_op_params.first_line =
+                                          active_params-&gt;firstLine + delta - <span class="nu0">1</span>;
+                      p_obj-&gt;vfe_params.demosaic_op_params.last_line =
+<span class="re6">@@ -1541,10 +1540,11 @@ vfe_status_t vfe_set_pixel_crop_info<span class="br0">&#40;</span>vfe_ctrl_info_t *p_obj, void *parm<span class="br0">&#41;</span></span>
+                                       active_params-&gt;lastLine;
+   <span class="br0">&#125;</span>
+&nbsp;
+<span class="re7">-  if <span class="br0">&#40;</span><span class="br0">&#40;</span>active_params-&gt;lastPixel - active_params-&gt;firstPixel + 1<span class="br0">&#41;</span> &gt;</span>
+<span class="re7">-             MAX_VFE_WIDTH<span class="br0">&#41;</span> <span class="br0">&#123;</span></span>
+<span class="re7">-                delta = <span class="br0">&#40;</span>MAX_VFE_WIDTH -</span>
+<span class="re7">-                   <span class="br0">&#40;</span>active_params-&gt;lastPixel - active_params-&gt;firstPixel + <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span> / <span class="nu0">2</span>;</span>
+<span class="re8">+  if <span class="br0">&#40;</span>p_obj-&gt;vfe_params.sensor_parms.vfe_snsr_fmt == SENSOR_YCBCR<span class="br0">&#41;</span> // for yuv sensor</span>
+<span class="re8">+       MaxVFEWidth *=<span class="nu0">2</span>; // for yuv sensor</span>
+<span class="re8">+</span>
+<span class="re8">+  if <span class="br0">&#40;</span><span class="br0">&#40;</span>active_params-&gt;lastPixel - active_params-&gt;firstPixel + 1<span class="br0">&#41;</span> &gt; MaxVFEWidth<span class="br0">&#41;</span> <span class="br0">&#123;</span></span>
+<span class="re8">+               delta = <span class="br0">&#40;</span><span class="br0">&#40;</span>active_params-&gt;lastPixel - active_params-&gt;firstPixel + <span class="nu0">1</span><span class="br0">&#41;</span>-MaxVFEWidth<span class="br0">&#41;</span> / <span class="nu0">2</span>;</span>
+                 p_obj-&gt;vfe_params.demosaic_op_params.first_pixel =
+                 active_params-&gt;firstPixel + delta - <span class="nu0">1</span>;
+                 p_obj-&gt;vfe_params.demosaic_op_params.last_pixel =

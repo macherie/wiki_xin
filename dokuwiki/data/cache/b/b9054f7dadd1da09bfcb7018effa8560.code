@@ -1,0 +1,1 @@
+<span class="kw2">cat</span> wakelocks.cap <span class="sy0">|</span> <span class="kw2">awk</span> <span class="st_h">'{print $1 &quot; &quot; $5}'</span> <span class="sy0">|</span> <span class="kw2">grep</span> <span class="re5">-v</span> <span class="st0">&quot; 0&quot;</span> <span class="sy0">|</span> <span class="kw2">grep</span> <span class="re5">-v</span> active

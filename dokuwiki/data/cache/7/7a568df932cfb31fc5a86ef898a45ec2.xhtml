@@ -1,0 +1,25 @@
+
+<p>
+1.进入所要编译的项目，比如CB09：
+</p>
+<pre class="code">cd CB09/</pre>
+
+<p>
+2.输入以下命令配置编译环境的shell：
+</p>
+<pre class="code">source build/envsetup.sh</pre>
+
+<p>
+3.输入启动命令以选择编译配置，或者不带参数输入以查看用于进行选择的交互式菜单。
+</p>
+<pre class="code">lunch msm8996-userdebug或者直接输入lunch命令，在输出的交互式菜单内选择相应的编译配置
+如下图红色箭头所示，这里我们选择第十九个，在绿色光标处输入19，按Enter进行编译配置</pre>
+
+<p>
+ <a href="/dokuwiki/lib/exe/detail.php/platform;modem;%E9%80%89%E6%8B%A9%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE.jpg?id=platform%3Amodem%3Aandroid_hlos%E7%BC%96%E8%AF%91" class="media" title="platform:modem:选择编译配置.jpg"><img src="/dokuwiki/lib/exe/fetch.php/platform;modem;%E9%80%89%E6%8B%A9%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE.jpg?w=200&amp;tok=8f16aa" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+4.运行make以开始编译。如果要在多核编译机上运行多个编译进程来加快编译速度，运行以下命令：
+</p>
+<pre class="code">make -j8</pre>

@@ -1,0 +1,1 @@
+adb shell <span class="kw2">cat</span> <span class="sy0">/</span>sys<span class="sy0">/</span>devices<span class="sy0">/</span>system<span class="sy0">/</span>soc<span class="sy0">/</span>soc0<span class="sy0">/</span>build_id

@@ -1,0 +1,85 @@
+
+<h1 class="sectionedit1" id="d508_cta经验">D508 CTA经验</h1>
+<div class="level1">
+
+<p>
+D508过CTA采用的方式是有客户负责送测，我们提供技术支持
+</p>
+
+</div>
+<!-- EDIT1 SECTION "D508 CTA经验" [1-106] -->
+<h2 class="sectionedit2" id="wapi_patch">WAPI Patch</h2>
+<div class="level2">
+
+<p>
+基于我们的BSP去高通申请WAPI的patch，由于高通内部流程较慢，需要及早申请。
+</p>
+
+</div>
+<!-- EDIT2 SECTION "WAPI Patch" [107-232] -->
+<h2 class="sectionedit3" id="固定版本号">固定版本号</h2>
+<div class="level2">
+
+<p>
+选定一个版本号上报实验室之后，后续的更新一定要使用相同的版本号，所以需要在代码里面专门创建CTA的分支
+</p>
+
+</div>
+<!-- EDIT3 SECTION "固定版本号" [233-408] -->
+<h2 class="sectionedit4" id="音频参数">音频参数</h2>
+<div class="level2">
+
+<p>
+需要到高通实验室针对CTA的几个要求调一个音频参数
+</p>
+
+</div>
+<!-- EDIT4 SECTION "音频参数" [409-503] -->
+<h2 class="sectionedit5" id="去掉内置浏览器">去掉内置浏览器</h2>
+<div class="level2">
+
+<p>
+为了方便起见，最好是把内置浏览器去掉
+</p>
+
+</div>
+<!-- EDIT5 SECTION "去掉内置浏览器" [504-592] -->
+<h2 class="sectionedit6" id="权限管理">权限管理</h2>
+<div class="level2">
+
+<p>
+不懂，等到有人填空
+</p>
+
+</div>
+<!-- EDIT6 SECTION "权限管理" [593-645] -->
+<h2 class="sectionedit7" id="手动选网以及用户可编辑plmn">手动选网以及用户可编辑PLMN</h2>
+<div class="level2">
+
+<p>
+需要手动选网能搜索到网络，并且需要能从卡上读到PLMN表。
+</p>
+
+<p>
+高通在8926代码中已内置PLMN功能，只需要设置packages/services/Telephony/res/values/config.xml中config_uplmn_for_cta_test为true。
+</p>
+
+</div>
+<!-- EDIT7 SECTION "手动选网以及用户可编辑PLMN" [646-924] -->
+<h2 class="sectionedit8" id="sim卡电气性能测试">SIM卡电气性能测试</h2>
+<div class="level2">
+
+<p>
+测试标准需要SIM卡的Reset, CLK, Data, VCC四个引脚需要一起下电，高通在Modem端已经实现，不过由于我们实现
+</p>
+
+<p>
+NFC功能时在内核代码里误操作了VCC，从而导致Modem端无法控制这路电，所以一直过不了实验室认证。
+</p>
+
+<p>
+最后修改NFC的内核代码之后解决了这个问题。
+</p>
+
+</div>
+<!-- EDIT8 SECTION "SIM卡电气性能测试" [925-] -->

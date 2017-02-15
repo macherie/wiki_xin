@@ -1,0 +1,1 @@
+<span class="kw2">sudo</span> x11vnc <span class="re5">-storepasswd</span>

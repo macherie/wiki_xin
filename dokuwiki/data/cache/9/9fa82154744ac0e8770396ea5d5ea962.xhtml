@@ -1,0 +1,208 @@
+
+<h1 class="sectionedit1" id="simple_omnipeek_guide">Simple OmniPeek Guide</h1>
+<div class="level1">
+
+<p>
+OmniPeek is a famous WiFi network analysis tool. We often use this tool to trouble shooting Wifi issues.
+</p>
+
+<p>
+This simple guide will let you know how to use OmniPeek to capture WiFi packets. We assume you have installed the OmniPeek software.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Simple OmniPeek Guide" [1-277] -->
+<h2 class="sectionedit2" id="select_a_wifi_card_and_install_its_driver">Select a WiFi card, and install its driver</h2>
+<div class="level2">
+
+<p>
+Please check this link to find out the supported wireless adapter list.
+After the wireless adapter has been plugged into your PC and driver is correctly installed, you will see the device in device manager.
+</p>
+
+<p>
+We use D-Link DWA-140 USB WiFi adapter as example in this document. 
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;1.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:1.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;1.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Select a WiFi card, and install its driver" [278-641] -->
+<h2 class="sectionedit3" id="start_capture">Start capture</h2>
+<div class="level2">
+
+<p>
+Let&#039;s start capture WiFi packets over air now.
+</p>
+
+<p>
+Run OmniPeek, click File → New Capture
+We suggest you to check the Continuous capture checkbox
+We also suggest you to check the Capture to disk checkbox if you need to run a long time capturing.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;2.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:2.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Select the correct Adapter, you will see the adapter information in the down-right window.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;3.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:3.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;3.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Now select channel. If you selected wrong adapter, you will not be able to select channel.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;4.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:4.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;4.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Okay, go! You can Start/Stop Capture by clicking the top-right large button.
+You can click the Auto Scrool icon to always check the fresh packets.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;5.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:5.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;5.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Start capture" [642-1373] -->
+<h2 class="sectionedit4" id="packet_analysis">Packet Analysis</h2>
+<div class="level2">
+
+<p>
+Now you have your WiFi sniffer files in your hand. We have some tips can make you feel easier to check them.
+</p>
+
+<p>
+Please be familiar with these packet flags.
+For example, C means CRC error, + means retransmission.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;1.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:1.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;1.png" class="media" title="{{:android:wifi:80211:6.png|" alt="{{:android:wifi:80211:6.png|" /></a>}}
+</p>
+
+<p>
+Check the left panel, and go to Wireless → WLAN. We can see the packets are grouped by AP-STAs.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;7.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:7.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;7.png" class="media" alt="" /></a>
+</p>
+
+<p>
+ Select one AP or STA, and do right click, we can select packets by source and destination.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;8.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:8.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;8.png" class="media" alt="" /></a>
+</p>
+
+<p>
+ You can copy the selected packets to new window.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;9.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:9.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;9.png" class="media" alt="" /></a>
+</p>
+
+<p>
+We can also go to Statistics → Protocols, and select packets by protocol. 
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;10.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:10.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;10.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Packet Analysis" [1374-2124] -->
+<h2 class="sectionedit5" id="decrypt_wep_packets">Decrypt WEP packets</h2>
+<div class="level2">
+
+<p>
+In many cases, the AP is set to WEP mode, it will be very convenient if we can decrypt the WEP packets.
+Of course, OmniPeek supports this feature.
+</p>
+
+<p>
+Select Tools → Decrypt WLAN Packets to decrypt WEP packets.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;11.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:11.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;11.png" class="media" alt="" /></a>
+</p>
+
+<p>
+If the WEP key set is not defined yet, we can edit WEP key set by clicking the … button, and then select Insert…
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;12.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:12.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;12.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Decrypt WEP packets" [2125-2552] -->
+<h2 class="sectionedit6" id="decrypt_wpa_packets">Decrypt WPA packets</h2>
+<div class="level2">
+
+<p>
+Now in most cases, AP is set to WPA mode. And OmniPeek also supports decrypt WPA packets. It&#039;s a little bit more complex than WEP mode.
+</p>
+
+<p>
+Let&#039;s read this part from OmniPeek help file.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;13.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:13.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;13.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Here&#039;s an example. We captured some WPA packets here.
+Please note it&#039;s encrypted by CCMP.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;14.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:14.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;14.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Now we use Tools → Decrypt WLAN Packets to decrypt all packets.
+With correct WPA passphrase and SSID setting.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;15.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:15.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;15.png" class="media" alt="" /></a>
+</p>
+
+<p>
+ And now we can see the CCMP packets are successfully decrypted.
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/android;wifi;80211;16.png?id=android%3Awifi%3A80211%3Aomnipeek%E6%8A%93%E5%8C%85" class="media" title="android:wifi:80211:16.png"><img src="/dokuwiki/lib/exe/fetch.php/android;wifi;80211;16.png" class="media" alt="" /></a>
+</p>
+
+<p>
+So the key point is to capture all 4 hand shaking packets.
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Decrypt WPA packets" [2553-3229] -->
+<h2 class="sectionedit7" id="tips">Tips</h2>
+<div class="level2">
+
+<p>
+DO NOT set any filter when you capture the WiFi packets.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Tips" [3230-] -->

@@ -1,0 +1,3 @@
+   <span class="kw2">sudo</span> <span class="kw2">apt-get update</span>
+   <span class="kw2">sudo</span> <span class="kw2">apt-get install</span> <span class="kw2">bison</span> g++-multilib <span class="kw2">git</span>
+   <span class="kw2">sudo</span> <span class="kw2">apt-get install</span> gperf libxml2-utils <span class="kw2">make</span> python-networkx zlib1g-dev:i386 <span class="kw2">zip</span> build-essential

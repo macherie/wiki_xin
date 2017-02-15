@@ -1,0 +1,77 @@
+====== HD801射频驱动调试过程中出现的问题及解决方法 ======
+
+===== 1.通过QRCT看不到ASM的配置信息 =====
+
+发现定义ASM的DEVICE_COMM_BUS配成{1，0}了，应配为 {0,0}，这个要看电路图上MIPI的接口。
+
+modem_proc/rfc_dime/rf_card/rfc_wtr1625_svsg_qfe/common/src/rfc_wtr1625_svsg_qfe_cmn_ag.cpp
+
+Bus info:In case of RFFE devices, 1st index is the RFFE bus: bus[0]
+
+===== 2.LTE频段无功率 =====
+
+LTE band_38, band_39, band_40, band_41的TX校准均没有功率，一样的配置，而TD-SCDMA的 band_39是好的
+
+rfc_msm_signal_info_type rfc_msm8926_signal_info[RFC_MSM_SIG_NUM] = 
+
+{ 
+
+...... 
+
+{ RFC_ANT_SEL , 90 , 15 , RFC_GRFC , 1, DAL_GPIO_OUTPUT }, /* Signal: RFC_MSM_RF_PATH_SEL_02, MSM Pin Name: GPIO_90*/ 
+
+...... 
+
+{ RFC_PA_ON , 90 , 15 , RFC_GRFC , 1, DAL_GPIO_OUTPUT }, /* Signal: RFC_MSM_PA_ON_10, MSM Pin Name: DRX_SWITCH_SEL1*/ 
+
+...... 
+
+}
+
+
+rfc_wtr1625_svsg_qfe_sig_info里已经定义了RFC_MSM_PA_ON_10,我们就用它作为GPIO 90，但是每次拉低它量出来的GPIO反而都是高的，发现并没有别的地方调用RFC_MSM_PA_ON_10，
+
+在 rfc_wtr1625_svsg_qfe_sig_info里添加RFC_MSM_RF_PATH_SEL_02做为GPIO_90,然后再拉低 RFC_MSM_RF_PATH_SEL_02,量出来GPIO低,是正确的。
+
+这是为什么呢？高通回复如下：
+
+ANT_SEL is to control switch, and PA_ON is to work as PA enable, if you put PA_ON signal in signal configuration, it will be pulled high by FW no matter how you configure in SW.
+
+===== 3.切到WCDMA 的band_5和band_8时会死 =====
+WCDMA 的band_5和band_8如果切band时会死，可以注空（只定义transceiver)来测试问题在哪里,但是测试TX on 等，是MIPI的话要把PA和ASM加全才能测过
+
+===== 4.b41_b的channels:(40940～41589)不通 =====
+有些_b也要配置，比如：b41_b，如果不配置全 b41_b， channels:(40940～41589)会不通。
+另外，B41 200M带宽，分2段RF性能会好点
+
+
+===== 5.TDD-LTE band切到B39连接不上 =====
+在做LTE 连接测试时，从其他TDD-LTE band切到B39,连接会掉，实际上没有连接上。
+
+主要原因：LTE B39用了一个MIPI PA，但是在sig_cfg里加了有关PA_ON and PA_Range signal的GRFC PA，GRFC PA control会覆盖MIPI PA control，导致连接不上；
+
+其次，一些QCN的NV项配置不对。
+
+
+解决办法：
+
+a. 在 rf_card_wtr1625_svsg_qfe_rx0_lte_b39_sig_cfg里，删除：
+ 
+{ (int)RFC_WTR1625_SVSG_QFE_TIMING_ASM_CTL, { RFC_CONFIG_ONLY /*Warning: Not specified*/ , -5 }, {RFC_LOW, -6 } }, 
+
+
+b. 在 rf_card_wtr1625_svsg_qfe_rx1_lte_b39_sig_cfg里，删除： 
+
+{ (int)RFC_WTR1625_SVSG_QFE_TIMING_ASM_CTL, { RFC_CONFIG_ONLY /*Warning: Not specified*/ , -5 }, {RFC_LOW, -6 } },
+
+
+c. 在 rf_card_wtr1625_svsg_qfe_tx0_lte_b39_sig_cfg里，删除：
+ 
+{ (int)RFC_WTR1625_SVSG_QFE_TIMING_ASM_CTL, { RFC_CONFIG_ONLY /*Warning: Not specified*/ , -5 }, {RFC_LOW, -6 } }, 
+
+{ (int)RFC_WTR1625_SVSG_QFE_TIMING_ASM_TRIGGER, { RFC_CONFIG_ONLY /*Warning: Not specified*/ , -5 }, {RFC_CONFIG_ONLY /*Warning: Not specified*/ , -6 } }, 
+
+{ (int)RFC_WTR1625_SVSG_QFE_PA_ON_14, { RFC_HIGH, -2 }, {RFC_LOW, -4 } }, 
+
+{ (int)RFC_WTR1625_SVSG_QFE_PA0_R3, { RFC_CONFIG_ONLY, -7 }, {RFC_LOW, -4 } },
+

@@ -1,0 +1,3 @@
+<span class="nu0">1</span>）“R1..R2” 表示R1到R2之间的区别，功能通 ”R1 R2“不添加 ..
+&nbsp;
+<span class="nu0">2</span>） “R1...R2” 与<span class="kw2">git diff</span> $<span class="br0">&#40;</span><span class="kw2">git-merge-base</span> R1 R2<span class="br0">&#41;</span> R2 相同，表示从R1和R2公共祖先到R2的区别。

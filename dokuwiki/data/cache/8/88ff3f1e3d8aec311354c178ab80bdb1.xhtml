@@ -1,0 +1,115 @@
+
+<p>
+ — <em><a href="mailto:&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x73;&#x68;&#x75;&#x2e;&#x79;&#x69;&#x6e;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">尹姝</a> 2013/12/11</em>
+</p>
+
+<h1 class="sectionedit1" id="gerrit_代码审核流程">Gerrit 代码审核流程</h1>
+<div class="level1">
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php/git;gerrit.png?id=git%3Agerrit%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8%E6%B5%81%E7%A8%8B" class="media" title="git:gerrit.png"><img src="/dokuwiki/lib/exe/fetch.php/git;gerrit.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Gerrit 代码审核流程" [48-108] -->
+<h1 class="sectionedit2" id="gerrit_介绍">Gerrit 介绍</h1>
+<div class="level1">
+
+<p>
+ — <em><a href="mailto:&#x79;&#x75;&#x68;&#x75;&#x61;&#x2e;&#x77;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x79;&#x75;&#x68;&#x75;&#x61;&#x2e;&#x77;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">yuhua.wang</a> 2016/12/21 </em>
+</p>
+<ul>
+<li class="level1"><div class="li"> 为什么用repo和gerrit项目：</div>
+</li>
+</ul>
+<ol>
+<li class="level1"><div class="li"> Android 使用git作为代码管理工具，并开发了gerrit进行代码审核以便更好的对代码进行集中式管理，还开发了repo命令行工具，对git部分命令封装，将数百个git库有效的进行组织。</div>
+</li>
+<li class="level1"><div class="li"> 为什么会有repo和gerrit，还是要先回头说一下git：因为 git 在最初设计的时候，作者希望的是做一个SCM（Source Code Management）的核心，这样其他人就可以在这个核心上面开发各种 SCM。虽然他后来做着做着，就做成了一个功能完整的 SCM，但这并不影响其最初的设计：Google于是在git的基础上开发了repo和gerrit。</div>
+</li>
+</ol>
+<ul>
+<li class="level1"><div class="li"> Gerrit是什么：</div>
+</li>
+</ul>
+<ol>
+<li class="level1"><div class="li"> 基于 Web 的代码评审和项目管理的工具，面向基于 Git 版本控制系统；</div>
+</li>
+<li class="level1"><div class="li"> 为 Git 引入强制性的代码审核机制，非特别的授权设置，向 Git 版本库的推送（Push）必须要经过 Gerrit 服务器，经过审核流程后，才能正式纳入代码库；</div>
+</li>
+<li class="level1"><div class="li"> 每一次提交将对应一个评审任务;</div>
+</li>
+<li class="level1"><div class="li"> 通过特殊的分支提交评审任务（refs/for/….); </div>
+</li>
+<li class="level1"><div class="li"> Gerrit 提供的 Git 服务的端口并非标准的 22 端口，缺省是 29418 端口；</div>
+</li>
+<li class="level1"><div class="li"> Gerrit缺省的Http端口是8080。</div>
+</li>
+</ol>
+<ul>
+<li class="level1"><div class="li"> Repo是什么</div>
+</li>
+</ul>
+<ol>
+<li class="level1"><div class="li"> repo是基于git工具的知识库管理系统工具，该工具可以统一管理git知识库并提交源码到版本管理系统，使得Android项目的开发流程自动化。</div>
+</li>
+<li class="level1"><div class="li"> repo并不意味着替代git工具，它仅使得工作更加简单。</div>
+</li>
+<li class="level1"><div class="li"> repo命令是python脚本，可以放到任何路径下。涉及到网络操作时可以使用该工具，比如使用单个repo命令可以下载多个知识库到本地。</div>
+</li>
+<li class="level1 node"><div class="li"> repo 在实际使用中主要担任2个角色：</div>
+<ol>
+<li class="level4"><div class="li"> 和主代码服务器（gerrit）进行交互</div>
+</li>
+<li class="level4"><div class="li"> 根据 .repo库下面的xml（manifest.xml）来管理多个 git 仓库</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> repo相关细节和安装分别 请参考  <a href="/dokuwiki/doku.php/git;repo" class="wikilink1" title="git:repo">Repo</a>  &amp;   <a href="/dokuwiki/doku.php/linux;%E6%90%AD%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83;%E5%AE%89%E8%A3%85repo" class="wikilink1" title="linux:搭建工作环境:安装repo">安装 Repo</a></div>
+</li>
+</ol>
+<ul>
+<li class="level1"><div class="li"> Gerrit全局权限描述</div>
+</li>
+</ul>
+
+<p>
+Code Review  审核
+</p>
+<ol>
+<li class="level1"><div class="li"> +2 批准</div>
+</li>
+<li class="level1"><div class="li"> +1 通过审核，待批准</div>
+</li>
+<li class="level1"><div class="li"> 0  可以查看代码，评述，但不可评分</div>
+</li>
+<li class="level1"><div class="li"> -1  最好不要提交</div>
+</li>
+<li class="level1"><div class="li"> -2  不可提交</div>
+</li>
+</ol>
+
+<p>
+Verified     编译
+</p>
+<ol>
+<li class="level1"><div class="li"> +1 编译成功</div>
+</li>
+<li class="level1"><div class="li"> -1 编译失败</div>
+</li>
+</ol>
+
+<p>
+Read Access  读写权限
+</p>
+<ol>
+<li class="level1"><div class="li">  +2 可提交代码</div>
+</li>
+<li class="level1"><div class="li"> +1  可下载代码</div>
+</li>
+<li class="level1"><div class="li"> -1  不可下载</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT2 SECTION "Gerrit 介绍" [109-] -->

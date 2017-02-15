@@ -1,0 +1,128 @@
+ --- //[[shu.yin@sim.com|尹姝]] 2014/01/13//
+====== 编译环境安装 - RVDS2.2 ======
+
+===== Windows 下 Modem 编译环境安装 - RVDS2.2 =====
+
+==== 安装 ARM 编译器 RVDS2.2 ====
+
+**安装包地址：** [[\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset|]]
+
+**安装步骤：**
+
+**<color teal>1. </color>**复制并解压 RVDS_2_2.rar 到本地。
+
+**<color teal>2. </color>**运行 setup.exe。
+
+{{linux:modem:rvds2_2-1.png}}
+
+**<color teal>3. </color>**点“下一步”。
+
+{{linux:modem:rvds2_2-2.png}}
+
+**<color teal>4. </color>**点“I Agree”并点“下一步”。
+
+{{linux:modem:rvds2_2-3.png}}
+
+**<color teal>5. </color>**更改目录为“<color red>C:\ARM</color>”。
+
+{{linux:modem:rvds2_2-4.png}}
+
+**<color teal>6. </color>**选择”Typical”。
+
+{{linux:modem:rvds2_2-5.png}}
+
+**<color teal>7. </color>**点“下一步”。
+
+{{linux:modem:rvds2_2-6.png}}
+
+**<color teal>8. </color>**所有选择框都不要勾选，并点“下一步”。
+
+{{linux:modem:rvds2_2-7.png}}
+
+**<color teal>9. </color>**在新弹出的窗口中，点“取消”。
+
+{{linux:modem:rvds2_2-8.png}}
+
+**<color teal>10. </color>**点“下一步”。
+
+{{linux:modem:rvds2_2-9.png}}
+
+**<color teal>11. </color>**点“完成”。
+
+{{linux:modem:rvds2_2-10.png}}
+
+**<color teal>12. </color>**安装完成后重启电脑。
+
+
+----
+
+==== 安装 ARM 编译器 RVDS2.2 补丁====
+
+QUALCOMM所使用RVCT编译器的版本是2.2 build 593，所以还需要为我们的编译器安装补丁。
+
+**补丁地址：** [[\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset|]]
+
+**补丁安装步骤：**
+
+**<color teal>1. </color>**复制并解压 RVDS_2_2_Patch_593.rar 到本地。
+
+**<color teal>2. </color>**复制 RVDS_2_2_Patch_593 下的所有文件到 C:\ARM\RVCT\Programs\2.2\349\win_32-pentium下，覆盖所有已存在的文件。
+
+
+----
+
+
+==== 破解 ARM 编译器 RVDS2.2 ====
+
+**破解包地址：** [[\\192.167.100.225\share\Tool\ARM\DQUALCOMM_RVCT2.2_Toolset|]]
+
+**破解步骤：**
+
+**<color teal>1. </color>**复制并解压 RVDS_License.rar 到本地。
+
+**<color teal>2. </color>**复制 RVDS_License\flexlm到C:\。
+
+{{linux:modem:rvds2_2-11.png}}
+
+**<color teal>3. </color>**执行 RVDS_License\VolumeSerial.exe。
+
+{{linux:modem:rvds2_2-12.png}}
+
+**<color teal>4. </color>**选择C盘。
+
+{{linux:modem:rvds2_2-13.png}}
+
+**<color teal>5. </color>**在“New serial”中输入“1C9B46C9”。
+
+{{linux:modem:rvds2_2-14.png}}
+
+**<color teal>6. </color>**点“change serial number”。
+
+{{linux:modem:rvds2_2-15.png}}
+
+**<color teal>7. </color>**在安装好许可后，把C:\flexlm\license.dat复制到C:\ARM\Licenses\下。
+
+{{linux:modem:rvds2_2-16.png}}
+
+
+===== Linux 下 Modem 编译环境安装 - RVDS2.2 =====
+
+**安装包地址：** [[smb://192.167.100.225/share/Tool/ARM/RVDS2.2-ubuntu|]]
+
+**安装步骤：**
+
+**<color teal>1. </color>**复制 qualcommtools_0.0.1_all.deb 到本地。
+
+
+**<color teal>2. </color>**运行 sudo dpkg -i qualcommtools_0.0.1_all.deb。
+
+
+**<color teal>3. </color>**运行 dpkg 时出现错误，请按照提示运行 sudo apt-get -f install。
+
+
+**<color teal>4. </color>**重新运行 sudo dpkg -i qualcommtools_0.0.1_all.deb。
+
+
+**<color teal>4. </color>**安装成功后请 <color red>重启</color>。
+
+**PS：**默认安装目录为/pkg/qct/software/arm/RVDS/，请不要更改。如果出现root权限问题，请用chown -R命令将pkg及其所有子目录的所有者改为自己。

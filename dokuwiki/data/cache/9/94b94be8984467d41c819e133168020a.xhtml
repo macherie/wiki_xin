@@ -1,0 +1,55 @@
+
+<p>
+ 擦除Q39 android L的QCN
+</p>
+
+<p>
+方式一，按分区名擦除：
+</p>
+<pre class="code">adb reboot-bootloader
+fastboot erase modemst1
+fastboot erase modemst2
+fastboot reboot</pre>
+
+<p>
+方式二，按对应分区表mmcblock擦除：
+</p>
+<pre class="code">lrwxrwxrwx root     root              1970-01-01 00:03 modemst1 -&gt; /dev/block/mmcblk0p17
+lrwxrwxrwx root     root              1970-01-01 00:03 modemst2 -&gt; /dev/block/mmcblk0p18
+
+adb shell dd if=/dev/zero of=/dev/block/mmcblk0p17
+adb shell dd if=/dev/zero of=/dev/block/mmcblk0p18
+adb reboot</pre>
+
+<p>
+root@q39:/dev/block/platform/7824900.sdhci/by-name # ls -al
+</p>
+<pre class="code">lrwxrwxrwx root     root              1970-01-01 00:03 DDR -&gt; /dev/block/mmcblk0p2
+lrwxrwxrwx root     root              1970-01-01 00:03 aboot -&gt; /dev/block/mmcblk0p9
+lrwxrwxrwx root     root              1970-01-01 00:03 abootbak -&gt; /dev/block/mmcblk0p10
+lrwxrwxrwx root     root              1970-01-01 00:03 boot -&gt; /dev/block/mmcblk0p19
+lrwxrwxrwx root     root              1970-01-01 00:03 cache -&gt; /dev/block/mmcblk0p23
+lrwxrwxrwx root     root              1970-01-01 00:03 config -&gt; /dev/block/mmcblk0p26
+lrwxrwxrwx root     root              1970-01-01 00:03 fsc -&gt; /dev/block/mmcblk0p5
+lrwxrwxrwx root     root              1970-01-01 00:03 fsg -&gt; /dev/block/mmcblk0p3
+lrwxrwxrwx root     root              1970-01-01 00:03 hyp -&gt; /dev/block/mmcblk0p15
+lrwxrwxrwx root     root              1970-01-01 00:03 hypbak -&gt; /dev/block/mmcblk0p16
+lrwxrwxrwx root     root              1970-01-01 00:03 keystore -&gt; /dev/block/mmcblk0p25
+lrwxrwxrwx root     root              1970-01-01 00:03 misc -&gt; /dev/block/mmcblk0p24
+lrwxrwxrwx root     root              1970-01-01 00:03 modem -&gt; /dev/block/mmcblk0p1
+lrwxrwxrwx root     root              1970-01-01 00:03 modemst1 -&gt; /dev/block/mmcblk0p17
+lrwxrwxrwx root     root              1970-01-01 00:03 modemst2 -&gt; /dev/block/mmcblk0p18
+lrwxrwxrwx root     root              1970-01-01 00:03 oem -&gt; /dev/block/mmcblk0p27
+lrwxrwxrwx root     root              1970-01-01 00:03 persist -&gt; /dev/block/mmcblk0p22
+lrwxrwxrwx root     root              1970-01-01 00:03 recovery -&gt; /dev/block/mmcblk0p20
+lrwxrwxrwx root     root              1970-01-01 00:03 rpm -&gt; /dev/block/mmcblk0p11
+lrwxrwxrwx root     root              1970-01-01 00:03 rpmbak -&gt; /dev/block/mmcblk0p12
+lrwxrwxrwx root     root              1970-01-01 00:03 sbl1 -&gt; /dev/block/mmcblk0p7
+lrwxrwxrwx root     root              1970-01-01 00:03 sbl1bak -&gt; /dev/block/mmcblk0p8
+lrwxrwxrwx root     root              1970-01-01 00:03 sec -&gt; /dev/block/mmcblk0p4
+lrwxrwxrwx root     root              1970-01-01 00:03 ssd -&gt; /dev/block/mmcblk0p6
+lrwxrwxrwx root     root              1970-01-01 00:03 system -&gt; /dev/block/mmcblk0p21
+lrwxrwxrwx root     root              1970-01-01 00:03 tz -&gt; /dev/block/mmcblk0p13
+lrwxrwxrwx root     root              1970-01-01 00:03 tzbak -&gt; /dev/block/mmcblk0p14
+lrwxrwxrwx root     root              1970-01-01 00:03 userdata -&gt; /dev/block/mmcblk0p28
+</pre>

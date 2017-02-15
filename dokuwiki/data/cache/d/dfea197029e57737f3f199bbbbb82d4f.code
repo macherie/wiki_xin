@@ -1,0 +1,7 @@
+&nbsp;
+int main()
+{
+    printf(&quot;Hello wiki\n&quot;);
+&nbsp;
+    return 0;
+}

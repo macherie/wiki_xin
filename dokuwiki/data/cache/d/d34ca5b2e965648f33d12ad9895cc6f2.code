@@ -1,0 +1,68 @@
+<span class="kw1">package</span> <span class="co2">com.android.opengldemo.example</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.opengl.GLSurfaceView</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.opengl.GLU</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">javax.microedition.khronos.egl.EGLConfig</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">javax.microedition.khronos.opengles.GL10</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">class</span> OpenGLRenderer <span class="kw1">implements</span> GLSurfaceView.<a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+renderer"><span class="kw3">Renderer</span></a> <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">final</span> IOpenGLDemo mOpenGLDemo<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> OpenGLRenderer<span class="br0">&#40;</span>IOpenGLDemo demo<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mOpenGLDemo <span class="sy0">=</span> demo<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onSurfaceCreated<span class="br0">&#40;</span>GL10 gl10, EGLConfig eglConfig<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//set the background color to back (rgba)</span>
+        gl10.<span class="me1">glClearColor</span><span class="br0">&#40;</span>0.0f, 0.0f, 0.0f, 0.5f<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Enable smooth shade</span>
+        gl10.<span class="me1">glShadeModel</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_SMOOTH</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Depth buffer setup</span>
+        gl10.<span class="me1">glClearDepthf</span><span class="br0">&#40;</span>1.0f<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Enable Depth test</span>
+        gl10.<span class="me1">glEnable</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_DEPTH_TEST</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//The type of Depth testing to do</span>
+        gl10.<span class="me1">glDepthFunc</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_LEQUAL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Really nice perspective calculations.</span>
+        gl10.<span class="me1">glHint</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_PERSPECTIVE_CORRECTION_HINT</span>, GL10.<span class="me1">GL_NICEST</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onSurfaceChanged<span class="br0">&#40;</span>GL10 gl, <span class="kw4">int</span> width, <span class="kw4">int</span> height<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//Set the current view port to the new size</span>
+        gl.<span class="me1">glViewport</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="nu0">0</span> , width, height<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Select the projection matrix</span>
+        gl.<span class="me1">glMatrixMode</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_PROJECTION</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Reset the projection matrix</span>
+        gl.<span class="me1">glLoadIdentity</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Caculate the aspect radio of window</span>
+        GLU.<span class="me1">gluPerspective</span><span class="br0">&#40;</span>gl,45.0f, <span class="br0">&#40;</span><span class="kw4">float</span><span class="br0">&#41;</span>width<span class="sy0">/</span><span class="br0">&#40;</span><span class="kw4">float</span><span class="br0">&#41;</span>height, 1.0f, 100f<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Select the Modelview matrix</span>
+        gl.<span class="me1">glMatrixMode</span><span class="br0">&#40;</span>GL10.<span class="me1">GL_MODELVIEW</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//Reset the modelview matrix</span>
+        gl.<span class="me1">glLoadIdentity</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onDrawFrame<span class="br0">&#40;</span>GL10 gl10<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mOpenGLDemo <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            mOpenGLDemo.<span class="me1">drawScene</span><span class="br0">&#40;</span>gl10<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

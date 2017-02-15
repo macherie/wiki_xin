@@ -1,0 +1,984 @@
+
+<h1 class="sectionedit1" id="android_app_不漏秒分段录像方案">Android App 不漏秒分段录像方案</h1>
+<div class="level1">
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Android App 不漏秒分段录像方案" [1-57] -->
+<h2 class="sectionedit2" id="录像方案">录像方案</h2>
+<div class="level2">
+
+1. 使用 MediaRecord 周期创建停止来实现分段录像的， 由于创建 MediaRecord 需要时间，所以每一次分段都会有1秒多的画面丢失<BR>
+<BR>
+2. 将 MediaRecord 的数据输出到流，根据设置的分段时间，从流中取数据存储到本地。<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;但是，MediaRecord 输出的流不是封装好的 MP4 码流，需要转码。这种方式，如果处理好转码，可以做到完全不漏秒<BR>
+<BR>
+3. 原理、流程：<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;1) 采集 Camera preview 数据输送到编码器 Mediacodec<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;2) 编码器将数据编码到 H264 码流<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;3) 将 H264 码流输送到 MediaMuxer<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;4) MediaMuxer 将 H264 封装为 MP4 格式文件<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;通过周期性销毁、创建 MediaCodec和MediaMuxer来达到分段目的，由于数据都存放在队列中。所以这种方式也不会漏秒。<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;这个方案需要对MediaCodec的参数调优(比特率、帧速率、分辨率等)，参数会影响编码效率、视频文件质量以及最终分段的视频文件是否有效等。<BR>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT2 SECTION "录像方案" [58-1294] -->
+<h2 class="sectionedit3" id="示例代码">示例代码</h2>
+<div class="level2">
+
+工厂模式 + 策略模式
+Activity通过工厂方法获取对应的录像策略，进而控制录像的开始、停止、分段
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT3 SECTION "示例代码" [1295-1467] -->
+<h3 class="sectionedit4" id="请求权限">请求权限</h3>
+<div class="level3">
+<pre class="code xml">    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.CAMERA&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.RECORD_AUDIO&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.MOUNT_UNMOUNT_FILESYSTEMS&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;uses-permission</span> <span class="re0">android:name</span>=<span class="st0">&quot;android.permission.INTERNET&quot;</span><span class="re2">/&gt;</span></span></pre>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT4 SECTION "请求权限" [1468-1879] -->
+<h3 class="sectionedit5" id="录像策略抽象类">录像策略抽象类</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/dokuwiki/htdocs/doku.php?do=export_code&amp;id=android:application:%E4%B8%8D%E4%B8%A2%E7%A7%92%E5%88%86%E6%AE%B5%E5%BD%95%E5%83%8F%E6%96%B9%E6%A1%88&amp;codeblock=1" title="下载片段" class="mediafile mf_java">VideoRecordBase.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.sim.segvideo</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">java.io.File</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.text.SimpleDateFormat</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.Date</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.annotation.SuppressLint</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.util.Log</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.SurfaceHolder</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw1">class</span> VideoRecordBase <span class="br0">&#123;</span>
+    <span class="kw1">protected</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> TAG <span class="sy0">=</span> <span class="st0">&quot;SEG_VIDEO&quot;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw4">void</span> initRecord<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw4">void</span> startRecord<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">abstract</span> <span class="kw4">void</span> stopRecord<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">protected</span> SurfaceHolder mSurfaceHolder<span class="sy0">;</span>
+    <span class="kw1">protected</span> <span class="kw4">int</span> mVideoWidth, mVideoHeight<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> FILE_PATH <span class="sy0">=</span> <span class="st0">&quot;/sdcard/SegmentVideo/&quot;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> VideoRecordBase<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        createDirIfneed<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw4">void</span> setSurfaceHolder<span class="br0">&#40;</span>SurfaceHolder holder<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mSurfaceHolder <span class="sy0">=</span> holder<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw4">void</span> setVideoSize<span class="br0">&#40;</span><span class="kw4">int</span> width, <span class="kw4">int</span> height<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mVideoWidth <span class="sy0">=</span> width<span class="sy0">;</span>
+        mVideoHeight <span class="sy0">=</span> height<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">void</span> createDirIfneed<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+file"><span class="kw3">File</span></a> f <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+file"><span class="kw3">File</span></a><span class="br0">&#40;</span>FILE_PATH<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>f.<span class="me1">exists</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            f.<span class="me1">mkdir</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @SuppressLint<span class="br0">&#40;</span><span class="st0">&quot;SimpleDateFormat&quot;</span><span class="br0">&#41;</span>
+    <span class="kw1">protected</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+file"><span class="kw3">File</span></a> getNewRecordFile<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+date"><span class="kw3">Date</span></a> d <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+date"><span class="kw3">Date</span></a><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+system"><span class="kw3">System</span></a>.<span class="me1">currentTimeMillis</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">// 以“年-月-日-时-分-秒-毫秒”为分段视频文件命名：如 2016-05-10-13-53-22-131.mp4</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+simpledateformat"><span class="kw3">SimpleDateFormat</span></a> sd <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+simpledateformat"><span class="kw3">SimpleDateFormat</span></a><span class="br0">&#40;</span><span class="st0">&quot;yyyy-MM-dd-HH-mm-ss-SSS&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+file"><span class="kw3">File</span></a> f <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+file"><span class="kw3">File</span></a><span class="br0">&#40;</span>FILE_PATH <span class="sy0">+</span> sd.<span class="me1">format</span><span class="br0">&#40;</span>d<span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot;.mp4&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecord]getNewRecordFile New File:&quot;</span> <span class="sy0">+</span> f.<span class="me1">getAbsolutePath</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> f<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT5 SECTION "录像策略抽象类" [1880-3488] -->
+<h3 class="sectionedit6" id="分段录像方案三实现类">分段录像方案三实现类</h3>
+<div class="level3">
+
+<p>
+<br/>
+该实现未采集音频，如果需要音频，需要再添加音频采集和编码，再将编码的音频添加到MediaMuxer的音频轨道。
+<br/>
+该实现，由于分段策略统计的是视频采集的时间，经过转码、压制后得到的视频文件播放时间会小于设定的分段时间，重新设计分段策略可解决该问题
+</p>
+<dl class="file">
+<dt><a href="/dokuwiki/htdocs/doku.php?do=export_code&amp;id=android:application:%E4%B8%8D%E4%B8%A2%E7%A7%92%E5%88%86%E6%AE%B5%E5%BD%95%E5%83%8F%E6%96%B9%E6%A1%88&amp;codeblock=2" title="下载片段" class="mediafile mf_java">VideoRecordImpl_v3.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.sim.segvideo</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">java.io.IOException</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.nio.ByteBuffer</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.List</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.Timer</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.TimerTask</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.concurrent.ArrayBlockingQueue</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.graphics.ImageFormat</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.hardware.Camera</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.hardware.Camera.Parameters</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.hardware.Camera.PreviewCallback</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaCodec</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaCodec.BufferInfo</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaCodecInfo</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaCodecList</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaFormat</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.media.MediaMuxer</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.os.Build</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.os.Handler</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.util.Log</span><span class="sy0">;</span>
+&nbsp;
+<span class="co3">/**
+ * 原理、流程：
+ * 1. 采集 Camera preview 数据输送到编码器 Mediacodec 
+ * 2. 编码器将数据编码到 H264 码流 
+ * 3. 将 H264 码流输送到 MediaMuxer 
+ * 4. MediaMuxer 将 H264 封装为 MP4 格式文件 
+ * 
+ * 线程： 
+ * 1) 线程1： 编码线程。循环取 YUV 队列数据输送到编码器，再从编码器取出数据，添加到 MUXER 队列 
+ * 2) 线程2： 封装线程。循环从 MUXER 队列取数据输送到 MediaMuxer 封装 MP4 文件 
+ * 
+ * 视频分段： 
+ * 1) 定时器定时发送消息
+ * 2) 收到消息后，停止线程，释放 MediaEncoder 和 MediaMuxer，再重新创建
+ */</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">class</span> VideoRecordImpl_v3 <span class="kw1">extends</span> VideoRecordBase <span class="kw1">implements</span> PreviewCallback <span class="br0">&#123;</span>
+&nbsp;
+    <span class="coMULTI">/* 编码器参数 */</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> MIME_TYPE <span class="sy0">=</span> <span class="st0">&quot;video/avc&quot;</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> BIT_RATE <span class="sy0">=</span> <span class="nu0">300</span> <span class="sy0">*</span> <span class="nu0">1000</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> FRAMES_PER_SECOND <span class="sy0">=</span> <span class="nu0">30</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> IFRAME_INTERVAL <span class="sy0">=</span> <span class="nu0">5</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> TIMEOUT_USEC <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> BaseThread mEncoderThread, mMuxerThread<span class="sy0">;</span>
+    <span class="kw1">private</span> MediaCodec.<span class="me1">BufferInfo</span> mBufferInfo<span class="sy0">;</span>
+    <span class="kw1">private</span> MediaCodec mEncoder<span class="sy0">;</span>
+    <span class="kw1">private</span> MediaMuxer mMuxer<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">int</span> mTrackIndex<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">boolean</span> mMuxerStarted<span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">long</span> mFakePts<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> Camera mCamera <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> YUV_QUEUE_SIZE <span class="sy0">=</span> <span class="nu0">30</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> MUXER_QUEUE_SIZE <span class="sy0">=</span> <span class="nu0">20</span><span class="sy0">;</span>
+    <span class="co3">/** Camera preview数据队列。等待输送到编码器 */</span>
+    <span class="kw1">private</span> ArrayBlockingQueue<span class="sy0">&lt;</span><span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">&gt;</span> mYUVQueue <span class="sy0">=</span> <span class="kw1">new</span> ArrayBlockingQueue<span class="sy0">&lt;</span><span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">&gt;</span><span class="br0">&#40;</span>YUV_QUEUE_SIZE<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co3">/** 编码后的数据队列。等待输送到混合器 MediaMuxer */</span>
+    <span class="kw1">private</span> ArrayBlockingQueue<span class="sy0">&lt;</span>MuxerData<span class="sy0">&gt;</span> mMuxerQueue <span class="sy0">=</span> <span class="kw1">new</span> ArrayBlockingQueue<span class="sy0">&lt;</span>MuxerData<span class="sy0">&gt;</span><span class="br0">&#40;</span>
+            MUXER_QUEUE_SIZE<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">class</span> MuxerData <span class="br0">&#123;</span>
+        <span class="kw1">public</span> <span class="kw4">int</span> trackIndex<span class="sy0">;</span>
+        <span class="kw1">public</span> <span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> data<span class="sy0">;</span>
+        <span class="kw1">public</span> BufferInfo bufferInfo<span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">public</span> MuxerData<span class="br0">&#40;</span><span class="kw4">int</span> index, <span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> d, BufferInfo info<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">this</span>.<span class="me1">trackIndex</span> <span class="sy0">=</span> index<span class="sy0">;</span>
+            <span class="kw1">this</span>.<span class="me1">data</span> <span class="sy0">=</span> d<span class="sy0">;</span>
+            <span class="kw1">this</span>.<span class="me1">bufferInfo</span> <span class="sy0">=</span> info<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 获取设备支持的编码器类型 */</span>
+    <span class="kw1">public</span> <span class="kw4">boolean</span> getSupportedAvcCodec<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>Build.<span class="me1">VERSION</span>.<span class="me1">SDK_INT</span> <span class="sy0">&gt;=</span> <span class="nu0">18</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> j <span class="sy0">=</span> MediaCodecList.<span class="me1">getCodecCount</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="sy0">;</span> j <span class="sy0">&gt;=</span> <span class="nu0">0</span><span class="sy0">;</span> j<span class="sy0">--</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                MediaCodecInfo codecInfo <span class="sy0">=</span> MediaCodecList.<span class="me1">getCodecInfoAt</span><span class="br0">&#40;</span>j<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> types <span class="sy0">=</span> codecInfo.<span class="me1">getSupportedTypes</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> types.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;codec type: &quot;</span> <span class="sy0">+</span> types<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> initRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        startcamera<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        prepareEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> startRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mEncoderThread <span class="sy0">=</span> <span class="kw1">new</span> EncoderThread<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMuxerThread <span class="sy0">=</span> <span class="kw1">new</span> MuxerThread<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mEncoderThread.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMuxerThread.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> stopRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mEncoderEOSFlag <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+        stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mEncoderThread <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mEncoderThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mEncoderThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mMuxerThread <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mMuxerThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMuxerThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        releaseEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mCamera <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mCamera.<span class="me1">setPreviewCallback</span><span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mCamera.<span class="me1">stopPreview</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mCamera.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mCamera <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onPreviewFrame<span class="br0">&#40;</span><span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> data, Camera camera<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mYUVQueue.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;=</span> YUV_QUEUE_SIZE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mYUVQueue.<span class="me1">poll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;YUV queue discard frame&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mYUVQueue.<span class="me1">add</span><span class="br0">&#40;</span>data<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 配置、启动 camera */</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> startcamera<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Parameters parameters <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        mCamera <span class="sy0">=</span> Camera.<span class="me1">open</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// Get backcamera</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mCamera <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                mCamera.<span class="me1">setPreviewCallback</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mCamera.<span class="me1">setDisplayOrientation</span><span class="br0">&#40;</span><span class="nu0">90</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>parameters <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    parameters <span class="sy0">=</span> mCamera.<span class="me1">getParameters</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                parameters <span class="sy0">=</span> mCamera.<span class="me1">getParameters</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                <span class="co1">// 获取设备支持的画面尺寸</span>
+                <span class="co1">// List&lt;Size&gt; picSize = parameters.getSupportedPictureSizes();</span>
+                <span class="co1">// List&lt;Size&gt; preSize = parameters.getSupportedPreviewSizes();</span>
+                <span class="co1">// for(int i = 0; i &lt; picSize.size(); i++) {</span>
+                <span class="co1">// Log.d(TAG, &quot;pic size: &quot; + picSize.get(i).width + &quot;  &quot; +</span>
+                <span class="co1">// picSize.get(i).height);</span>
+                <span class="co1">// }</span>
+                <span class="co1">// for(int i = 0; i &lt; preSize.size(); i++) {</span>
+                <span class="co1">// Log.d(TAG, &quot;pre size: &quot; + preSize.get(i).width + &quot;  &quot; +</span>
+                <span class="co1">// preSize.get(i).height);</span>
+                <span class="co1">// }</span>
+&nbsp;
+                parameters.<span class="me1">setPreviewFormat</span><span class="br0">&#40;</span>ImageFormat.<span class="me1">NV21</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                parameters.<span class="me1">setPictureSize</span><span class="br0">&#40;</span>mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span>
+                parameters.<span class="me1">setPreviewSize</span><span class="br0">&#40;</span>mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span>
+                List<span class="sy0">&lt;</span>String<span class="sy0">&gt;</span> focusModes <span class="sy0">=</span> parameters.<span class="me1">getSupportedFocusModes</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>focusModes.<span class="me1">contains</span><span class="br0">&#40;</span>Camera.<span class="me1">Parameters</span>.<span class="me1">FOCUS_MODE_CONTINUOUS_VIDEO</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    parameters.<span class="me1">setFocusMode</span><span class="br0">&#40;</span>Camera.<span class="me1">Parameters</span>.<span class="me1">FOCUS_MODE_CONTINUOUS_VIDEO</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>focusModes.<span class="me1">contains</span><span class="br0">&#40;</span>Camera.<span class="me1">Parameters</span>.<span class="me1">FOCUS_MODE_CONTINUOUS_PICTURE</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    parameters.<span class="me1">setFocusMode</span><span class="br0">&#40;</span>Camera.<span class="me1">Parameters</span>.<span class="me1">FOCUS_MODE_CONTINUOUS_PICTURE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                mCamera.<span class="me1">setParameters</span><span class="br0">&#40;</span>parameters<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                mCamera.<span class="me1">autoFocus</span><span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                mCamera.<span class="me1">setPreviewDisplay</span><span class="br0">&#40;</span>mSurfaceHolder<span class="br0">&#41;</span><span class="sy0">;</span>
+                mCamera.<span class="me1">startPreview</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                e.<span class="me1">printStackTrace</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;Create camera fail&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="co1">// startcamera()</span>
+&nbsp;
+    <span class="co3">/** 配置编码器 */</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> prepareEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mBufferInfo <span class="sy0">=</span> <span class="kw1">new</span> MediaCodec.<span class="me1">BufferInfo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            MediaFormat format <span class="sy0">=</span> MediaFormat
+                    .<span class="me1">createVideoFormat</span><span class="br0">&#40;</span>MIME_TYPE, mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            format.<span class="me1">setInteger</span><span class="br0">&#40;</span>MediaFormat.<span class="me1">KEY_COLOR_FORMAT</span>,
+                    MediaCodecInfo.<span class="me1">CodecCapabilities</span>.<span class="me1">COLOR_FormatYUV420SemiPlanar</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            format.<span class="me1">setInteger</span><span class="br0">&#40;</span>MediaFormat.<span class="me1">KEY_BIT_RATE</span>, BIT_RATE<span class="br0">&#41;</span><span class="sy0">;</span>
+            format.<span class="me1">setInteger</span><span class="br0">&#40;</span>MediaFormat.<span class="me1">KEY_FRAME_RATE</span>, FRAMES_PER_SECOND<span class="br0">&#41;</span><span class="sy0">;</span>
+            format.<span class="me1">setInteger</span><span class="br0">&#40;</span>MediaFormat.<span class="me1">KEY_I_FRAME_INTERVAL</span>, IFRAME_INTERVAL<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            mEncoder <span class="sy0">=</span> MediaCodec.<span class="me1">createEncoderByType</span><span class="br0">&#40;</span>MIME_TYPE<span class="br0">&#41;</span><span class="sy0">;</span>
+            mEncoder.<span class="me1">configure</span><span class="br0">&#40;</span>format, <span class="kw2">null</span>, <span class="kw2">null</span>, MediaCodec.<span class="me1">CONFIGURE_FLAG_ENCODE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mEncoder.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="coMULTI">/* 创建混合器，用于将编码后的数据封装为 MP4 */</span>
+            mMuxer <span class="sy0">=</span> <span class="kw1">new</span> MediaMuxer<span class="br0">&#40;</span>getNewRecordFile<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">getAbsolutePath</span><span class="br0">&#40;</span><span class="br0">&#41;</span>,
+                    MediaMuxer.<span class="me1">OutputFormat</span>.<span class="me1">MUXER_OUTPUT_MPEG_4</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            mTrackIndex <span class="sy0">=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span>
+            mMuxerStarted <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]prepareEncoder ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">void</span> releaseEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;releasing encoder objects&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mEncoder <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mEncoder.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mEncoder.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mEncoder <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mMuxer <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mMuxer.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMuxer.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMuxer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">boolean</span> mEncoderEOSFlag <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="co3">/** 从编码器取出数据 */</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> drainEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mEncoderEOSFlag<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;sending EOS to encoder&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mEncoder.<span class="me1">signalEndOfInputStream</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]drainEncoder signalEndOfInputStream ERROR: &quot;</span>
+                        <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        ByteBuffer<span class="br0">&#91;</span><span class="br0">&#93;</span> encoderOutputBuffers <span class="sy0">=</span> mEncoder.<span class="me1">getOutputBuffers</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">while</span> <span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                <span class="kw4">int</span> encoderStatus <span class="sy0">=</span> mEncoder.<span class="me1">dequeueOutputBuffer</span><span class="br0">&#40;</span>mBufferInfo, TIMEOUT_USEC<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>encoderStatus <span class="sy0">==</span> MediaCodec.<span class="me1">INFO_TRY_AGAIN_LATER</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// no output available yet</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mEncoderEOSFlag<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG,
+                                <span class="st0">&quot;[VideoRecordImpl_v3]INFO_TRY_AGAIN_LATER no EOS flag, break while.&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="kw1">break</span><span class="sy0">;</span> <span class="co1">// out of while</span>
+                    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG,
+                                <span class="st0">&quot;[VideoRecordImpl_v3]INFO_TRY_AGAIN_LATER no output available, spinning to await EOS&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>encoderStatus <span class="sy0">==</span> MediaCodec.<span class="me1">INFO_OUTPUT_BUFFERS_CHANGED</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]INFO_OUTPUT_BUFFERS_CHANGED&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="co1">// not expected for an encoder</span>
+                    encoderOutputBuffers <span class="sy0">=</span> mEncoder.<span class="me1">getOutputBuffers</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>encoderStatus <span class="sy0">==</span> MediaCodec.<span class="me1">INFO_OUTPUT_FORMAT_CHANGED</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">// should happen before receiving buffers, and should only</span>
+                    <span class="co1">// happen once</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>mMuxerStarted<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;format changed twice&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                    MediaFormat newFormat <span class="sy0">=</span> mEncoder.<span class="me1">getOutputFormat</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]INFO_OUTPUT_FORMAT_CHANGED newFormat: &quot;</span>
+                            <span class="sy0">+</span> newFormat<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                    <span class="co1">// now that we have the Magic Goodies, start the muxer</span>
+                    mTrackIndex <span class="sy0">=</span> mMuxer.<span class="me1">addTrack</span><span class="br0">&#40;</span>newFormat<span class="br0">&#41;</span><span class="sy0">;</span>
+                    mMuxer.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    mMuxerStarted <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>encoderStatus <span class="sy0">&lt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Log.<span class="me1">w</span><span class="br0">&#40;</span>TAG,
+                            <span class="st0">&quot;[VideoRecordImpl_v3]unexpected result from encoder.dequeueOutputBuffer: &quot;</span>
+                                    <span class="sy0">+</span>
+                                    encoderStatus<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="co1">// let's ignore it</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    ByteBuffer encodedData <span class="sy0">=</span> encoderOutputBuffers<span class="br0">&#91;</span>encoderStatus<span class="br0">&#93;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>encodedData <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;encoderOutputBuffer &quot;</span> <span class="sy0">+</span> encoderStatus <span class="sy0">+</span>
+                                <span class="st0">&quot; was null&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>mBufferInfo.<span class="me1">flags</span> <span class="sy0">&amp;</span> MediaCodec.<span class="me1">BUFFER_FLAG_CODEC_CONFIG</span><span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="co1">// The codec config data was pulled out and fed to the</span>
+                        <span class="co1">// muxer</span>
+                        <span class="co1">// when we got</span>
+                        <span class="co1">// the INFO_OUTPUT_FORMAT_CHANGED status. Ignore it.</span>
+                        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]ignoring BUFFER_FLAG_CODEC_CONFIG&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mBufferInfo.<span class="me1">size</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>mBufferInfo.<span class="me1">size</span> <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mMuxerStarted<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            <span class="kw1">throw</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+runtimeexception"><span class="kw3">RuntimeException</span></a><span class="br0">&#40;</span><span class="st0">&quot;muxer hasn't started&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+&nbsp;
+                        <span class="co1">// adjust the ByteBuffer values to match BufferInfo</span>
+                        encodedData.<span class="me1">position</span><span class="br0">&#40;</span>mBufferInfo.<span class="me1">offset</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        encodedData.<span class="me1">limit</span><span class="br0">&#40;</span>mBufferInfo.<span class="me1">offset</span> <span class="sy0">+</span> mBufferInfo.<span class="me1">size</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mBufferInfo.<span class="me1">presentationTimeUs</span> <span class="sy0">=</span> mFakePts<span class="sy0">;</span>
+                        mFakePts <span class="sy0">+=</span> 1000000L <span class="sy0">/</span> FRAMES_PER_SECOND<span class="sy0">;</span>
+&nbsp;
+                        <span class="coMULTI">/* 将编码后的数据添加到混合器队列 */</span>
+                        <span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> temp <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">byte</span><span class="br0">&#91;</span>mBufferInfo.<span class="me1">size</span><span class="br0">&#93;</span><span class="sy0">;</span>
+                        encodedData.<span class="me1">get</span><span class="br0">&#40;</span>temp<span class="br0">&#41;</span><span class="sy0">;</span>
+                        MuxerData md <span class="sy0">=</span> <span class="kw1">new</span> MuxerData<span class="br0">&#40;</span>mTrackIndex, temp, mBufferInfo<span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span>mMuxerQueue.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;=</span> MUXER_QUEUE_SIZE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            mMuxerQueue.<span class="me1">poll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]drainEncoder discard muxer data&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                        mMuxerQueue.<span class="me1">add</span><span class="br0">&#40;</span>md<span class="br0">&#41;</span><span class="sy0">;</span>
+                        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]sent &quot;</span> <span class="sy0">+</span> mBufferInfo.<span class="me1">size</span>
+                                <span class="sy0">+</span> <span class="st0">&quot; bytes to muxer&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    mEncoder.<span class="me1">releaseOutputBuffer</span><span class="br0">&#40;</span>encoderStatus, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span>mBufferInfo.<span class="me1">flags</span> <span class="sy0">&amp;</span> MediaCodec.<span class="me1">BUFFER_FLAG_END_OF_STREAM</span><span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>mEncoderEOSFlag<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                            Log.<span class="me1">w</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]reached end of stream unexpectedly&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]end of stream reached&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        <span class="br0">&#125;</span>
+                        <span class="kw1">break</span><span class="sy0">;</span> <span class="co1">// out of while</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]drainEncoder ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">continue</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="co1">// while true</span>
+    <span class="br0">&#125;</span><span class="co1">// drainEncoder</span>
+&nbsp;
+    <span class="co3">/** 编码线程 */</span>
+    <span class="kw1">private</span> <span class="kw1">class</span> EncoderThread <span class="kw1">extends</span> BaseThread <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mmIsRunning <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+            <span class="kw4">long</span> pts <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="kw4">long</span> generateIndex <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> input <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">while</span> <span class="br0">&#40;</span>mmIsRunning<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mEncoder <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">||</span> mMuxer <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mYUVQueue.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    input <span class="sy0">=</span> mYUVQueue.<span class="me1">poll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                <span class="kw1">if</span> <span class="br0">&#40;</span>input <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+                <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    <span class="coMULTI">/* 把从队列中去除的数据输送给编码器 */</span>
+                    ByteBuffer<span class="br0">&#91;</span><span class="br0">&#93;</span> inputBuffers <span class="sy0">=</span> mEncoder.<span class="me1">getInputBuffers</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw4">int</span> inputBufferIndex <span class="sy0">=</span> mEncoder.<span class="me1">dequeueInputBuffer</span><span class="br0">&#40;</span><span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span><span class="co1">// 设置-1，等到有一个可用的buffer才返回。</span>
+                    <span class="kw1">if</span> <span class="br0">&#40;</span>inputBufferIndex <span class="sy0">&gt;=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        pts <span class="sy0">=</span> computePresentationTime<span class="br0">&#40;</span>generateIndex<span class="br0">&#41;</span><span class="sy0">;</span>
+                        ByteBuffer inputBuffer <span class="sy0">=</span> inputBuffers<span class="br0">&#91;</span>inputBufferIndex<span class="br0">&#93;</span><span class="sy0">;</span>
+                        inputBuffer.<span class="me1">clear</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        inputBuffer.<span class="me1">put</span><span class="br0">&#40;</span>input<span class="br0">&#41;</span><span class="sy0">;</span>
+                        mEncoder.<span class="me1">queueInputBuffer</span><span class="br0">&#40;</span>inputBufferIndex, <span class="nu0">0</span>, input.<span class="me1">length</span>, pts, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        generateIndex <span class="sy0">+=</span> <span class="nu0">1</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]EncoderThread ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+&nbsp;
+                <span class="coMULTI">/* 从编码器取出数据 */</span>
+                drainEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span><span class="co1">// while</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">private</span> <span class="kw4">long</span> computePresentationTime<span class="br0">&#40;</span><span class="kw4">long</span> frameIndex<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="nu0">132</span> <span class="sy0">+</span> frameIndex <span class="sy0">*</span> <span class="nu0">1000000</span> <span class="sy0">/</span> FRAMES_PER_SECOND<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co3">/** 封装线程 */</span>
+    <span class="kw1">private</span> <span class="kw1">class</span> MuxerThread <span class="kw1">extends</span> BaseThread <span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mmIsRunning <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+            MuxerData data<span class="sy0">;</span>
+            <span class="kw1">while</span> <span class="br0">&#40;</span>mmIsRunning<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mEncoder <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">||</span> mMuxer <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+                <span class="kw1">if</span> <span class="br0">&#40;</span>mMuxerQueue.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    data <span class="sy0">=</span> mMuxerQueue.<span class="me1">poll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>data <span class="sy0">==</span> <span class="kw2">null</span><span class="br0">&#41;</span>
+                    <span class="kw1">continue</span><span class="sy0">;</span>
+&nbsp;
+                <span class="kw1">try</span> <span class="br0">&#123;</span>
+                    <span class="coMULTI">/* 把从队列取出的数据输送给混合器, 封装 MP4 文件 */</span>
+                    mMuxer.<span class="me1">writeSampleData</span><span class="br0">&#40;</span>data.<span class="me1">trackIndex</span>, ByteBuffer.<span class="me1">wrap</span><span class="br0">&#40;</span>data.<span class="me1">data</span><span class="br0">&#41;</span>,
+                            data.<span class="me1">bufferInfo</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]mMuxerThread write MP4 data&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+exception"><span class="kw3">Exception</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v3]mMuxerThread ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="co1">// while</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">abstract</span> <span class="kw1">class</span> BaseThread <span class="kw1">extends</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+thread"><span class="kw3">Thread</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">protected</span> <span class="kw4">boolean</span> mmIsRunning <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> cancel<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mmIsRunning <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/**
+     *  视频分段策略。
+     *  由于统计的是视频采集的时间，经过转码、压制后得到的视频文件播放时间会小于设定的分段时间 
+     */</span>
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timer"><span class="kw3">Timer</span></a> mTimer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">long</span> mSegTime <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mSegTime <span class="sy0">=</span> Utils.<span class="me1">getSegmentTime</span><span class="br0">&#40;</span>MainActivity.<span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">*</span> <span class="nu0">60</span> <span class="sy0">*</span> <span class="nu0">1000</span><span class="sy0">;</span>
+&nbsp;
+        mTimer <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timer"><span class="kw3">Timer</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mTimer.<span class="me1">schedule</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timertask"><span class="kw3">TimerTask</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;Restart encoder and muxer&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mHandler.<span class="me1">sendEmptyMessage</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>, mSegTime, mSegTime<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">void</span> stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mTimer <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mTimer.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mTimer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw4">void</span> restart<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mEncoderEOSFlag <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+&nbsp;
+        mEncoderThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mEncoderThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+        mMuxerThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMuxerThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+        releaseEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        prepareEncoder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        mEncoderThread <span class="sy0">=</span> <span class="kw1">new</span> EncoderThread<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMuxerThread <span class="sy0">=</span> <span class="kw1">new</span> MuxerThread<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mEncoderEOSFlag <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        mEncoderThread.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMuxerThread.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> Handler mHandler <span class="sy0">=</span> <span class="kw1">new</span> Handler<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">public</span> <span class="kw4">void</span> handleMessage<span class="br0">&#40;</span>android.<span class="me1">os</span>.<span class="me1">Message</span> msg<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            restart<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//如果更新了分段时间，需要重新设置Timer</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span>mSegTime <span class="sy0">!=</span> Utils.<span class="me1">getSegmentTime</span><span class="br0">&#40;</span>MainActivity.<span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">*</span> <span class="nu0">60</span> <span class="sy0">*</span> <span class="nu0">1000</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT6 SECTION "分段录像方案三实现类" [3489-22079] -->
+<h3 class="sectionedit7" id="分段录像方案二_未完全实现">分段录像方案二。未完全实现</h3>
+<div class="level3">
+
+<p>
+<br/>
+录像数据以流的方式输出，其码流不是封装好的MP4码流，在分段存储时需要对数据做MP4格式封装。MP4封装未实现
+</p>
+<dl class="file">
+<dt><a href="/dokuwiki/htdocs/doku.php?do=export_code&amp;id=android:application:%E4%B8%8D%E4%B8%A2%E7%A7%92%E5%88%86%E6%AE%B5%E5%BD%95%E5%83%8F%E6%96%B9%E6%A1%88&amp;codeblock=3" title="下载片段" class="mediafile mf_java">VideoRecordImpl_v2.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.sim.segvideo</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">java.io.FileOutputStream</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.io.IOException</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.io.InputStream</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.io.OutputStream</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.Timer</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">java.util.TimerTask</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.media.MediaRecorder</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.os.ParcelFileDescriptor</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.util.Log</span><span class="sy0">;</span>
+&nbsp;
+<span class="co3">/**
+ * 1. 开始录像
+ * 2. 视频数据输入到本地流
+ * 3. 线程中读本地流，写入文件
+ * 4. 到指定时间，更换写入的文件
+ * 5. 停止录像 
+ * 
+ * 未实现。录像数据以流的方式输出，其码流不是封装好的MP4码流，在分段存储时需要对数据做MP4格式封装。
+ */</span>
+<span class="kw1">public</span> <span class="kw1">class</span> VideoRecordImpl_v2 <span class="kw1">extends</span> VideoRecordBase <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> MediaRecorder mMediaRecord<span class="sy0">;</span>
+    <span class="kw1">private</span> ReceiverThread mReceiverThread<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">public</span> VideoRecordImpl_v2<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    ParcelFileDescriptor readSide, writeSide<span class="sy0">;</span>
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> initRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+<span class="co1">//            RandomAccessFile raf = new RandomAccessFile(&quot;/sdcard/SegSock.mp4&quot;, &quot;rws&quot;);</span>
+<span class="co1">//            mFd = raf.getFD();</span>
+&nbsp;
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]initRecord. Init local socket&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            ParcelFileDescriptor<span class="br0">&#91;</span><span class="br0">&#93;</span> pipe <span class="sy0">=</span> ParcelFileDescriptor.<span class="me1">createPipe</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            readSide <span class="sy0">=</span> pipe<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            writeSide <span class="sy0">=</span> pipe<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span> 
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]initRecord. ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        configMediaRecord<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> startRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            mMediaRecord.<span class="me1">prepare</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMediaRecord.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+illegalstateexception"><span class="kw3">IllegalStateException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]startRecord. ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]startRecord. ERROR: &quot;</span> <span class="sy0">+</span> e.<span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>mReceiverThread <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mReceiverThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mReceiverThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        mReceiverThread <span class="sy0">=</span> <span class="kw1">new</span> ReceiverThread<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mReceiverThread.<span class="me1">start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> stopRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mMediaRecord <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mMediaRecord.<span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMediaRecord.<span class="me1">release</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mMediaRecord <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>mReceiverThread <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mReceiverThread.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mReceiverThread <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">try</span> <span class="br0">&#123;</span>
+            readSide.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            writeSide.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">void</span> configMediaRecord<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">//configCamera();</span>
+&nbsp;
+        mMediaRecord <span class="sy0">=</span> <span class="kw1">new</span> MediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">//mMediaRecord.setCamera(mCamera);</span>
+        <span class="co1">// 设置从摄像头采集图像</span>
+        mMediaRecord.<span class="me1">setVideoSource</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">VideoSource</span>.<span class="me1">CAMERA</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// 设置视频的输出格式</span>
+        mMediaRecord.<span class="me1">setOutputFormat</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">OutputFormat</span>.<span class="me1">MPEG_4</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMediaRecord.<span class="me1">setVideoEncoder</span><span class="br0">&#40;</span>MediaRecorder.<span class="me1">VideoEncoder</span>.<span class="me1">H264</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mMediaRecord.<span class="me1">setVideoSize</span><span class="br0">&#40;</span>mVideoWidth, mVideoHeight<span class="br0">&#41;</span><span class="sy0">;</span>
+        mMediaRecord.<span class="me1">setVideoFrameRate</span><span class="br0">&#40;</span><span class="nu0">20</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">// 指定SurfaceView来预览视频</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mSurfaceHolder <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mMediaRecord.<span class="me1">setPreviewDisplay</span><span class="br0">&#40;</span>mSurfaceHolder.<span class="me1">getSurface</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//将录像数据输出到 管道流</span>
+        mMediaRecord.<span class="me1">setOutputFile</span><span class="br0">&#40;</span>writeSide.<span class="me1">getFileDescriptor</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]configMediaRecord&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">boolean</span> mReplaceFileFlag <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">synchronized</span> <span class="kw4">void</span> setReplaceFileFlag<span class="br0">&#40;</span><span class="kw4">boolean</span> flag<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mReplaceFileFlag <span class="sy0">=</span> flag<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">class</span> ReceiverThread <span class="kw1">extends</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+thread"><span class="kw3">Thread</span></a> <span class="br0">&#123;</span>
+        <span class="kw1">private</span> <span class="kw4">boolean</span> mmRunning <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+        <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+inputstream"><span class="kw3">InputStream</span></a> mmIns <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+outputstream"><span class="kw3">OutputStream</span></a> mmOus <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                <span class="co1">//mmIns = mReceiver.getInputStream();</span>
+                mmIns <span class="sy0">=</span> <span class="kw1">new</span> ParcelFileDescriptor.<span class="me1">AutoCloseInputStream</span><span class="br0">&#40;</span>readSide<span class="br0">&#41;</span><span class="sy0">;</span>
+                Log.<span class="me1">d</span><span class="br0">&#40;</span>TAG, <span class="st0">&quot;[VideoRecordImpl_v2]ReceiverThread. create mmIns&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mmOus <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+fileoutputstream"><span class="kw3">FileOutputStream</span></a><span class="br0">&#40;</span>getNewRecordFile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw4">byte</span><span class="br0">&#91;</span><span class="br0">&#93;</span> buffer <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">byte</span><span class="br0">&#91;</span><span class="nu0">1024</span> <span class="sy0">*</span> <span class="nu0">1024</span><span class="br0">&#93;</span><span class="sy0">;</span>
+                <span class="kw4">int</span> ret <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+                mmRunning <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+                <span class="kw1">while</span><span class="br0">&#40;</span>mmRunning<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">if</span><span class="br0">&#40;</span>mReplaceFileFlag<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        setReplaceFileFlag<span class="br0">&#40;</span><span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mmOus.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                        mmOus <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+fileoutputstream"><span class="kw3">FileOutputStream</span></a><span class="br0">&#40;</span>getNewRecordFile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+&nbsp;
+                    ret <span class="sy0">=</span> mmIns.<span class="me1">read</span><span class="br0">&#40;</span>buffer<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="kw1">if</span><span class="br0">&#40;</span>ret <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                        mmOus.<span class="me1">write</span><span class="br0">&#40;</span>buffer, <span class="nu0">0</span>, ret<span class="br0">&#41;</span><span class="sy0">;</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">public</span> <span class="kw4">void</span> cancel<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mmRunning <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+            <span class="kw1">try</span> <span class="br0">&#123;</span>
+                mmIns.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                mmOus.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span> <span class="kw1">catch</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+ioexception"><span class="kw3">IOException</span></a> e<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="co1">// end ReceiverThread</span>
+&nbsp;
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timer"><span class="kw3">Timer</span></a> mTimer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> startTimer<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw4">int</span> segTime <span class="sy0">=</span> Utils.<span class="me1">getSegmentTime</span><span class="br0">&#40;</span>MainActivity.<span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">*</span> <span class="nu0">60</span> <span class="sy0">*</span> <span class="nu0">1000</span><span class="sy0">;</span>
+&nbsp;
+        mTimer <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timer"><span class="kw3">Timer</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mTimer.<span class="me1">schedule</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+timertask"><span class="kw3">TimerTask</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            @Override
+            <span class="kw1">public</span> <span class="kw4">void</span> run<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                setReplaceFileFlag<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>, segTime, segTime<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">void</span> stopTimer<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>mTimer <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mTimer.<span class="me1">cancel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mTimer <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT7 SECTION "分段录像方案二。未完全实现" [22080-27882] -->
+<h3 class="sectionedit8" id="activity_类">Activity 类</h3>
+<div class="level3">
+
+<p>
+<br/>
+调用工厂方法创建录像策略、显示预览界面
+</p>
+<dl class="file">
+<dt><a href="/dokuwiki/htdocs/doku.php?do=export_code&amp;id=android:application:%E4%B8%8D%E4%B8%A2%E7%A7%92%E5%88%86%E6%AE%B5%E5%BD%95%E5%83%8F%E6%96%B9%E6%A1%88&amp;codeblock=4" title="下载片段" class="mediafile mf_java">MainActivity.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.sim.segvideo</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">android.app.Activity</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.app.AlertDialog</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.content.Context</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.content.DialogInterface</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.os.Bundle</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.LayoutInflater</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.Menu</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.MenuItem</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.SurfaceHolder</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.SurfaceView</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.view.View</span><span class="sy0">;</span>
+<span class="kw1">import</span> <span class="co2">android.widget.EditText</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">import</span> <span class="co2">com.sim.segvideo.VideoRecordFactory.RecordStrategy</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">class</span> MainActivity <span class="kw1">extends</span> Activity <span class="kw1">implements</span> SurfaceHolder.<span class="me1">Callback</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> TAG <span class="sy0">=</span> <span class="st0">&quot;SEG_VIDEO&quot;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> VIDEO_WIDTH <span class="sy0">=</span> <span class="nu0">640</span><span class="sy0">;</span>
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> VIDEO_HEIGHT <span class="sy0">=</span> <span class="nu0">480</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> SurfaceHolder mSurfaceHolder<span class="sy0">;</span>
+    <span class="kw1">private</span> VideoRecordBase mVideoRecord<span class="sy0">;</span>
+&nbsp;
+    @Override
+    <span class="kw1">protected</span> <span class="kw4">void</span> onCreate<span class="br0">&#40;</span>Bundle savedInstanceState<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span>.<span class="me1">onCreate</span><span class="br0">&#40;</span>savedInstanceState<span class="br0">&#41;</span><span class="sy0">;</span>
+        setContentView<span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">activity_main</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mContext <span class="sy0">=</span> <span class="kw1">this</span><span class="sy0">;</span>
+&nbsp;
+        mVideoRecord <span class="sy0">=</span> VideoRecordFactory.<span class="me1">createVideoRecord</span><span class="br0">&#40;</span>RecordStrategy.<span class="me1">Strategy_V3</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        SurfaceView surfaceView <span class="sy0">=</span> <span class="br0">&#40;</span>SurfaceView<span class="br0">&#41;</span>findViewById<span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">surfaceView</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceHolder <span class="sy0">=</span> surfaceView.<span class="me1">getHolder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceHolder.<span class="me1">addCallback</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> mContext <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="kw1">public</span> <span class="kw1">static</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+context"><span class="kw3">Context</span></a> getContext<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> mContext<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">boolean</span> onCreateOptionsMenu<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menu"><span class="kw3">Menu</span></a> menu<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        getMenuInflater<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">menu</span>.<span class="me1">main</span>, menu<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">boolean</span> onOptionsItemSelected<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+menuitem"><span class="kw3">MenuItem</span></a> item<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw4">int</span> id <span class="sy0">=</span> item.<span class="me1">getItemId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>id <span class="sy0">==</span> R.<span class="me1">id</span>.<span class="me1">action_setting_time</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="coMULTI">/* 在 ActionBar 显示菜单，创建Dialog用于设置分段时间 */</span>
+            LayoutInflater factory <span class="sy0">=</span> LayoutInflater.<span class="me1">from</span><span class="br0">&#40;</span>MainActivity.<span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+view"><span class="kw3">View</span></a> view <span class="sy0">=</span> factory.<span class="me1">inflate</span><span class="br0">&#40;</span>R.<span class="me1">layout</span>.<span class="me1">edittext_dialog</span>, <span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">final</span> EditText edit <span class="sy0">=</span> <span class="br0">&#40;</span>EditText<span class="br0">&#41;</span> view.<span class="me1">findViewById</span><span class="br0">&#40;</span>R.<span class="me1">id</span>.<span class="me1">edit_seg_time</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> t <span class="sy0">=</span> <span class="st0">&quot;&quot;</span> <span class="sy0">+</span> Utils.<span class="me1">getSegmentTime</span><span class="br0">&#40;</span>MainActivity.<span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            edit.<span class="me1">setText</span><span class="br0">&#40;</span>t<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">new</span> AlertDialog.<span class="me1">Builder</span><span class="br0">&#40;</span>MainActivity.<span class="kw1">this</span><span class="br0">&#41;</span>
+                    .<span class="me1">setTitle</span><span class="br0">&#40;</span>R.<span class="me1">string</span>.<span class="me1">dia_title_set_seg_time</span><span class="br0">&#41;</span>
+                    .<span class="me1">setView</span><span class="br0">&#40;</span>view<span class="br0">&#41;</span>
+                    .<span class="me1">setPositiveButton</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">string</span>.<span class="me1">ok</span>,
+                            <span class="kw1">new</span> android.<span class="me1">content</span>.<span class="me1">DialogInterface</span>.<span class="me1">OnClickListener</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                @Override
+                                <span class="kw1">public</span> <span class="kw4">void</span> onClick<span class="br0">&#40;</span>DialogInterface dialog, <span class="kw4">int</span> which<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                    <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> ret <span class="sy0">=</span> edit.<span class="me1">getText</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span>ret.<span class="me1">equals</span><span class="br0">&#40;</span>t<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                                        Utils.<span class="me1">setSegmentTime</span><span class="br0">&#40;</span>MainActivity.<span class="kw1">this</span>, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+integer"><span class="kw3">Integer</span></a>.<span class="me1">parseInt</span><span class="br0">&#40;</span>ret<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="br0">&#125;</span>
+                                <span class="br0">&#125;</span>
+                            <span class="br0">&#125;</span><span class="br0">&#41;</span>
+                    .<span class="me1">setNegativeButton</span><span class="br0">&#40;</span>android.<span class="me1">R</span>.<span class="me1">string</span>.<span class="me1">cancel</span>, <span class="kw2">null</span><span class="br0">&#41;</span>
+                    .<span class="me1">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+                    .<span class="me1">show</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> <span class="kw1">super</span>.<span class="me1">onOptionsItemSelected</span><span class="br0">&#40;</span>item<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> surfaceChanged<span class="br0">&#40;</span>SurfaceHolder holder, <span class="kw4">int</span> format, <span class="kw4">int</span> width, <span class="kw4">int</span> height<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="coMULTI">/* Do Nothing */</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> surfaceCreated<span class="br0">&#40;</span>SurfaceHolder holder<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mVideoRecord.<span class="me1">setSurfaceHolder</span><span class="br0">&#40;</span>mSurfaceHolder<span class="br0">&#41;</span><span class="sy0">;</span>
+        mVideoRecord.<span class="me1">setVideoSize</span><span class="br0">&#40;</span>VIDEO_WIDTH, VIDEO_HEIGHT<span class="br0">&#41;</span><span class="sy0">;</span>
+        mVideoRecord.<span class="me1">initRecord</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mVideoRecord.<span class="me1">startRecord</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> surfaceDestroyed<span class="br0">&#40;</span>SurfaceHolder holder<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        mVideoRecord.<span class="me1">stopRecord</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Activity 类" [27883-31629] -->
+<h3 class="sectionedit9" id="工厂类">工厂类</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/dokuwiki/htdocs/doku.php?do=export_code&amp;id=android:application:%E4%B8%8D%E4%B8%A2%E7%A7%92%E5%88%86%E6%AE%B5%E5%BD%95%E5%83%8F%E6%96%B9%E6%A1%88&amp;codeblock=5" title="下载片段" class="mediafile mf_java">VideoRecordFactory.java</a></dt>
+<dd><pre class="code file java"><span class="kw1">package</span> <span class="co2">com.sim.segvideo</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">final</span> <span class="kw1">class</span> VideoRecordFactory <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw1">enum</span> RecordStrategy <span class="br0">&#123;</span>
+        Strategy_V1, Strategy_V1_1, Strategy_V2, Strategy_V3
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">public</span> <span class="kw1">static</span> VideoRecordBase createVideoRecord<span class="br0">&#40;</span>RecordStrategy strategy<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">switch</span><span class="br0">&#40;</span>strategy<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">case</span> Strategy_V1<span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw1">new</span> VideoRecordImpl_v1<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">case</span> Strategy_V1_1<span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw1">new</span> VideoRecordImpl_v1_1<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">case</span> Strategy_V2<span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw1">new</span> VideoRecordImpl_v2<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">case</span> Strategy_V3<span class="sy0">:</span>
+                <span class="kw1">return</span> <span class="kw1">new</span> VideoRecordImpl_v3<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT9 SECTION "工厂类" [31630-] -->

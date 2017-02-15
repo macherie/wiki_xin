@@ -1,0 +1,62 @@
+======Modem 编译环境安装======
+=====组件发布版本属性=====
+下表列出了组件发布版本属性，并提供了每个 non-HLOS 构建模块的编译器、Python、Perl 及 Cygwin 版本信息。
+
+^     组件发布版本    ^            构建源代码所需的工具链            ^    Python 版本    ^          Perl 版本            ^     构建主机    ^
+| MPSS(AZM)         | Hexagon 6.2.04 | Python 2.7.6(64-bit)     |             Perl 5.10.1             |                  Linux                    |
+| Boot loaders(AZB) | ARM 编译工具 6.01  | Python 2.6.6     |               Perl 5.8.x Linux builds only             |       Windows 7        |
+| RPM(AZR)          | ARM 编译工具 6.01  | Python 2.6.6     |               Perl 5.6.1             |  Linux, Windows XP and Windows 7 only |
+| TZ(AZT)           | ARM 编译工具 6.01  | Python 2.7.3     |               --             | Linux, Windows XP, and Windows 7 only |
+| WCNSS(AZW)        | ARM RVCT 2.2.1.593, ARMCT5.01, Hexagon 5.0 Toolset| Python 2.6.2     |               --             | Linux, Windows XP, and Windows 7 only |
+
+===== Windows 下 Modem 编译环境安装=====
+
+====安装 ARM 编译器 DS6====
+[[platform:8939:install_arm_ds6|Modem 编译环境安装]]
+
+
+----
+
+
+====破解 ARM 编译器 DS6====
+[[platform:892x:modem编译环境安装#破解 ARM 编译器 DS5|破解 ARM 编译器 DS6]]
+
+<code>(如果编译出错，请用smb://192.167.100.225/share/Tool/ARM/6.4.05.tar.gz， 加压后替换之前安装的目录)</code>
+----
+如果有不能使用的，可以找可以编译的人要下Licenses
+
+
+====安装 ActivePerl====
+[[platform:modem:编译环境安装-activeperl|Windows 编译环境安装 - ActivePerl]]
+
+
+----
+
+
+====安装 Python====
+Python需要装两个版本 V2.6.6 和 V2.7.3
+
+[[platform:modem:编译环境安装-python|Windows 编译环境安装 - Python]]
+
+===== Linux 下 Modem 编译环境安装=====
+====安装 Qualcomm 编译器 Hexagon====
+**安装包地址：**
+
+需用账户登陆，该工具受高通限制，所以没有放到共享服务器。
+**Hexagon 6.2.09：**\\192.167.100.225\work\Qualcomm\Hexagon\Linux Tools\Hexagon6209
+
+**安装步骤：**
+[[platform:892x:modem编译环境安装#安装_qualcomm_编译器_hexagon1|安装 Qualcomm 编译器 Hexagon]]
+
+<code>(如果编译出错，请用smb://192.167.100.225/share/Tool/ARM/ARMCompiler6.01.zip， 加压后替换之前安装的目录)</code>
+----
+
+
+====安装 RVDS2.2====
+[[platform:modem:编译环境安装-rvds2.2#linux_下_modem_编译环境安装_-_rvds22|编译环境安装 - RVDS2.2]]
+
+
+----
+
+====编译问题====
+[[platform:892x:modem编译环境安装#编译问题|编译问题]]

@@ -1,0 +1,35 @@
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> getPlaylistCursor<span class="br0">&#40;</span>AsyncQueryHandler async, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> filterstring<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        StringBuilder where <span class="sy0">=</span> <span class="kw1">new</span> StringBuilder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        where.<span class="me1">append</span><span class="br0">&#40;</span>MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span> <span class="sy0">+</span> <span class="st0">&quot; != ''&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// Add in the filtering constraints</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> <span class="br0">&#91;</span><span class="br0">&#93;</span> keywords <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>filterstring <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> <span class="br0">&#91;</span><span class="br0">&#93;</span> searchWords <span class="sy0">=</span> filterstring.<span class="me1">split</span><span class="br0">&#40;</span><span class="st0">&quot; &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            keywords <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a><span class="br0">&#91;</span>searchWords.<span class="me1">length</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a> col <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a>.<span class="me1">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            col.<span class="me1">setStrength</span><span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+collator"><span class="kw3">Collator</span></a>.<span class="me1">PRIMARY</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> searchWords.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                keywords<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">'%'</span> <span class="sy0">+</span> searchWords<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">+</span> <span class="st0">'%'</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> searchWords.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span><span class="st0">&quot; AND &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                where.<span class="me1">append</span><span class="br0">&#40;</span>MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span> <span class="sy0">+</span> <span class="st0">&quot; LIKE ?&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> whereclause <span class="sy0">=</span> where.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>async <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            async.<span class="me1">startQuery</span><span class="br0">&#40;</span><span class="nu0">0</span>, <span class="kw2">null</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">EXTERNAL_CONTENT_URI</span>,
+                    mCols, whereclause, keywords, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> c <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+        c <span class="sy0">=</span> MusicUtils.<span class="me1">query</span><span class="br0">&#40;</span><span class="kw1">this</span>, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">EXTERNAL_CONTENT_URI</span>,
+                mCols, whereclause, keywords, MediaStore.<span class="me1">Audio</span>.<span class="me1">Playlists</span>.<span class="me1">NAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> mergedCursor<span class="br0">&#40;</span>c<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>

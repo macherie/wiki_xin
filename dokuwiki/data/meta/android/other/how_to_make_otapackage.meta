@@ -1,0 +1,5 @@
+a:2:{s:7:"current";a:6:{s:4:"date";a:2:{s:7:"created";i:1390478357;s:8:"modified";i:1390476864;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:8:"relation";a:2:{s:5:"media";a:1:{s:32:"android:other:offical-update.zip";b:1;}s:10:"firstimage";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:393:"基于C500项目的OTA升级包制作
+
+客户需求：拿到update.zip升级包，可以自己定制，比如修改logo，加入系统应用等。
+
+我的思考过程：熟悉recovery升级模式的知道，这个update.zip是经过签名的，如果解压原生update.zip，修改完成后，直接打包升级是不能通过验证，所以需要进行签名，度娘会告诉你。命令是:";}}s:10:"persistent";a:3:{s:4:"date";a:1:{s:7:"created";i:1390478357;}s:4:"user";s:0:"";s:7:"creator";s:0:"";}}

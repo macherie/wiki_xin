@@ -1,0 +1,57 @@
+
+<h1 class="sectionedit1" id="安装git_daemon">安装git daemon</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "安装git daemon" [1-30] -->
+<h2 class="sectionedit2" id="创建git账户">1. 创建git账户</h2>
+<div class="level2">
+
+<p>
+sudo useradd –m git：创建一个名为git的账户
+</p>
+
+<p>
+sudo passwd git：运行此命令后，可设置git账户的密码
+</p>
+
+</div>
+<!-- EDIT2 SECTION "1. 创建git账户" [31-183] -->
+<h2 class="sectionedit3" id="安装_git_daemon">2. 安装 git daemon</h2>
+<div class="level2">
+<pre class="code">sudo apt-get install git-daemon-run</pre>
+
+</div>
+<!-- EDIT3 SECTION "2. 安装 git daemon" [184-266] -->
+<h2 class="sectionedit4" id="安装好git-daemon后_需要修改配置文件_etc_sv_git-daemon_run">3. 安装好git-daemon后, 需要修改配置文件 /etc/sv/git-daemon/run</h2>
+<div class="level2">
+
+<p>
+将
+</p>
+<pre class="code">#!/bin/sh
+exec 2&gt;&amp;1
+echo &#039;git-daemon starting.&#039;
+exec chpst -ugitdaemon \
+  &quot;$(git --exec-path)&quot;/git-daemon --verbose --reuseaddr \
+    --base-path=/var/cache /var/cache/git</pre>
+
+<p>
+修改为：
+</p>
+<pre class="code">#!/bin/sh
+exec 2&gt;&amp;1
+echo &#039;git-daemon starting.&#039;
+exec chpst -ugitdaemon:git \
+  &quot;$(git --exec-path)&quot;/git-daemon --verbose --enable=receive-pack --export-all --reuseaddr \
+    --base-path=/home/git /home/git</pre>
+
+</div>
+<!-- EDIT4 SECTION "3. 安装好git-daemon后, 需要修改配置文件 /etc/sv/git-daemon/run" [267-779] -->
+<h2 class="sectionedit5" id="修改后重启git-daemon">4. 修改后重启git-daemon</h2>
+<div class="level2">
+<pre class="code">sudo sv down git-daemon
+sudo sv up git-daemon</pre>
+
+</div>
+<!-- EDIT5 SECTION "4. 修改后重启git-daemon" [780-] -->

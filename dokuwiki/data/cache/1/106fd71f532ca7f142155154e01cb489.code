@@ -1,0 +1,4 @@
+  adb shell
+  <span class="kw2">mount</span> <span class="re5">-o</span> remount,rw <span class="sy0">/</span> <span class="sy0">/</span>
+  <span class="kw2">chmod</span> <span class="nu0">777</span> storage
+&nbsp;

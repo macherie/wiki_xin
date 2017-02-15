@@ -1,0 +1,104 @@
+====== BSS ======
+
+BSS stands for Basic Service Set. The coverage of an access point is called a BSS. 
+
+====== cfg80211 ======
+
+Kernel side of configuration management for wireless devices. nl80211 is the User-space side of configuration management for wireless devices.
+
+Works together with FullMAC-drivers and also with mac80211-based drivers. 
+
+====== FullMAC ======
+
+FullMAC is a term used to describe a type of wireless card where the MLME is managed in hardware. You would not use mac80211 to write a FullMAC wireless driver. 
+
+====== IBSS ======
+
+IBSS stands for Independent Basic Service Set. Its basically Ad-Hoc mode. See Independent Basic Service Set
+
+====== Information Element ======
+
+An Information Element (IE) is a part of management frames in the IEEE 802.11 wireless LAN protocol. IEs are a device's way to transfer descriptive information about itself inside management frames. There are usually several IEs inside each such frame, and each is built of Type-length-value (TLVs). 
+
+The common structure of an IE is as follows:
+
+
+|   1   |    1   |     1-255       |
++-------+--------+-----------------+
+| Type  | Length |     Data        |
++-------+--------+-----------------+
+
+Whereas the vendor specific IE looks like this:
+
+|   1   |    1   |          4        |    1-251   |
++-------+--------+-------------------+------------+
+|  221  | Length |        OUI        |     Data   |
++-------+--------+-------------------+------------+
+
+====== iw ======
+
+iw is a new nl80211 based CLI configuration utility for wireless devices.
+
+====== nl80211 ======
+
+User-space side of configuration management for wireless devices. It is a Netlink-based user-space protocol. cfg80211 is Kernel side of configuration management for wireless devices.
+
+Several user-space applications are available which utilize nl80211. See Developer Docs for nl80211. 
+
+====== mac80211 ======
+
+A driver API for SoftMAC WNICs. See Developer Docs for mac80211.
+
+See also SoftMAC.
+
+====== MAC ======
+
+A WNIC works on both, Layer 1 and Layer 2 of the OSI model. MAC is a sub-layer for Layer2. Media Access Control
+
+====== MLME ======
+
+MLME Stands for Media Access Control (MAC) Sublayer Management Entity. MLME is the management entity where the Physical layer (PHY) MAC state machines reside. Examples of states a MLME may assist in reaching:
+
+    Authenticate
+    Deauthenticate
+    Associate
+    Disassociate
+    Reassociate
+    Beacon
+    Probe
+    Timing Synchronization Function (TSF) 
+
+mac80211's MLME management implementation is currently handled by net/mac80211/ieee80211_sta.c. This handles only the STA MLME
+
+====== PHY ======
+
+A WNIC works on both, Layer 1 and Layer 2 of the OSI model. PHY is abbreviation for physical-layer controller and refers to the hardware components of the WNIC, that are responsible for creating/producing the em waves conforming to the standards specified in the responsible standard, e.g. IEEE 802.11a.
+
+See PHY and also Physical layer.
+
+====== SoftMAC ======
+
+SoftMAC is a term used to describe a type of WNIC where the MLME is expected to be managed in software. mac80211 is a driver API for SoftMAC WNIC, for example. 
+====== SSID ======
+
+SSID stands for Service Set IDentifier. The SSID is a code attached to all packets on a wireless network to identify each packet as part of that network. The code consists of a string of 1-32 octets (usually represented as case sensitive alphanumeric characters).
+
+====== Station (STA) ======
+
+Station (or STA) is the generic term for a device with a radio that can communicate with other stations in a wireless network. Common forms of a station are access points (AP), computers, or phones.
+
+====== WE ======
+
+WE stands for Wireless-Extensions - the old driver API and user <�"> kernel communication transport. Obsoleted by #cfg80211
+
+====== WEXT ======
+
+WEXT stands for Wireless-Extensions - the old driver API and user <�"> kernel communication transport. Obsoleted by #cfg80211
+
+====== WIPHY ======
+
+Wireless PHY.
+
+====== WNIC ======
+
+The Wireless Network Interface Controller always refers to the hardware performing the functionality described in the standards family, i.e. IEEE 802.11. This can be an entire PCB (e.g. a mini PCIe wireless card), a single Chip or the functionality can even be integrated into a SoC. 

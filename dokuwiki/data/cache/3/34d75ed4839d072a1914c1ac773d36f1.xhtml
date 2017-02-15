@@ -1,0 +1,117 @@
+
+<h2 class="sectionedit1" id="selinux">SElinux</h2>
+<div class="level2">
+
+<p>
+4.4之前的版本在LINUX应用层需要打开下面的宏，4.3是正式完全引入SElinux，4.1.2的S300P项目证实是可以打开SElinux。
+宏：
+</p>
+<pre class="code">HAVE_SELINUX</pre>
+
+<p>
+LINUX内核层
+宏(并不是所有这些宏都需要)：
+</p>
+<pre class="code"># CONFIG_KEYS is not set
+# CONFIG_SECURITY_DMESG_RESTRICT is not set
+CONFIG_SECURITY=y
+CONFIG_SECURITYFS=y
+CONFIG_SECURITY_NETWORK=y
+# CONFIG_SECURITY_NETWORK_XFRM is not set
+CONFIG_SECURITY_PATH=y
+CONFIG_LSM_MMAP_MIN_ADDR=4096
+CONFIG_SECURITY_SELINUX=y
+# CONFIG_SECURITY_SELINUX_BOOTPARAM is not set
+# CONFIG_SECURITY_SELINUX_DISABLE is not set #关闭SELINUX
+# CONFIG_SECURITY_SELINUX_DEVELOP is not set #可能可以切换Permissive模式与Enforcing模式，未定义就进入Enforcing模式，否则进入Permissive模式
+# CONFIG_SECURITY_SELINUX_AVC_STATS is not set
+CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE=1
+# CONFIG_SECURITY_SELINUX_POLICYDB_VERSION_MAX is not set
+# CONFIG_SECURITY_TOMOYO is not set
+CONFIG_SECURITY_APPARMOR=y
+CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
+# CONFIG_SECURITY_YAMA is not set
+# CONFIG_IMA is not set
+CONFIG_DEFAULT_SECURITY_SELINUX=y
+# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
+# CONFIG_DEFAULT_SECURITY_DAC is not set
+CONFIG_DEFAULT_SECURITY=&quot;selinux&quot;
+CONFIG_CRYPTO=y</pre>
+
+<p>
+网上的详细文档
+blog.csdn.net/innost/article/details/19299937
+</p>
+
+<p>
+下载文档
+<a href="/dokuwiki/lib/exe/fetch.php?media=linux:seandroid_selinux.zip" class="media mediafile mf_zip" title="linux:seandroid_selinux.zip (3.7 MB)">seandroid_selinux.zip</a>
+</p>
+
+</div>
+<!-- EDIT1 SECTION "SElinux" [1-1402] -->
+<h2 class="sectionedit2" id="简介">简介</h2>
+<div class="level2">
+
+<p>
+在4.3版本之前，比如4.2，Android也或多或少在代码里集成了SElinux的部分模块，但是这些代码并没有被激活。从4.3版本开始，Android正式引入SELinux，并且开启了SELinux功能。目前的4.3版本中，作为一个SEAndroid “Beta”版本，SELinux的运行模式为permissive，即只会记录，不会拦截。
+</p>
+
+<p>
+可以在Android shell通过setenforce命令来设置SELinux的模式。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=linux%3Aselinux&amp;media=linux:111111wp-display-data.php.png" class="media" title="linux:111111wp-display-data.php.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:111111wp-display-data.php.png" class="media" alt="" /></a>
+</p>
+
+<p>
+查看文件的权限状态：
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=linux%3Aselinux&amp;media=linux:12222wp-display-data.php.png" class="media" title="linux:12222wp-display-data.php.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:12222wp-display-data.php.png" class="media" alt="" /></a>
+</p>
+
+<p>
+其中u:object_r:rootfs:s0中有4个字段，分别是user, role, type, security-level，其中最重要的是type，所有的policy都围绕type展开。
+</p>
+
+<p>
+Android引入SELinux之后，被讨论最多的一个变化就是root。由于Android目前为每个应用设立了一个单独用户用来限制每个进程的访问权先，所以只要不root，android平台就相对来讲安全很多。在没有使用SELinux的android系统上，一旦手机被root，用户就获得了su权限，就可以对系统文件和其他应用进行操作。如果启用了SELinux，管理员就可以设置策略，限定su的访问，比如可以设置su不可以修改系统文件，这样就算手机被root，也可以保障android系统不被恶意篡改。
+</p>
+
+<p>
+<a href="/dokuwiki/lib/exe/detail.php?id=linux%3Aselinux&amp;media=linux:33333wp-display-data.php.png" class="media" title="linux:33333wp-display-data.php.png"><img src="/dokuwiki/lib/exe/fetch.php?media=linux:33333wp-display-data.php.png" class="media" alt="" /></a>
+</p>
+
+<p>
+（图片转自：<a href="http://blog.csdn.net/yiyaaixuexi/article/details/8490886" class="urlextern" title="http://blog.csdn.net/yiyaaixuexi/article/details/8490886"  rel="nofollow">http://blog.csdn.net/yiyaaixuexi/article/details/8490886</a>）
+</p>
+
+<p>
+另外一个关于root的敏感话题是“root手机”。目前android上大部分的root方法是在注入代码到具有su权限系统模块中去，对于启用了SELinux的android系统，就可以配置策略禁用对系统模块进行类似的操作，比如发送socket数据，所以SELinux的启用一定程度上也增加了root的难度。
+</p>
+
+<p>
+由于SELinux引入android不久，还有很多不完善的地方。在DEFCON 21上，来自viaForensics的Pau Oliva就演示了几个方法来绕过SEAndroid(<a href="https://viaforensics.com/mobile-security/implementing-seandroid-defcon-21-presentation.html" class="urlextern" title="https://viaforensics.com/mobile-security/implementing-seandroid-defcon-21-presentation.html"  rel="nofollow">https://viaforensics.com/mobile-security/implementing-seandroid-defcon-21-presentation.html</a>)：
+</p>
+
+<p>
+1. 用恢复模式（recovery）刷回permissive模式的镜像
+</p>
+
+<p>
+2. Su超级用户没有设置SELinux的模式，但是system user系统用户可以。
+</p>
+
+<p>
+3. Android通过/system/app/SEAndroidManager.apk来设置SELinux模式，所以只要在recovery模式下将其删除就可以绕过
+</p>
+
+<p>
+4. 在Android启动时直接操作内核内存，通过将内核里的unix_ioctl符号改写成reset_security_ops重置LSM（Linux Security Modules）
+</p>
+
+</div>
+<!-- EDIT2 SECTION "简介" [1403-] -->

@@ -1,0 +1,66 @@
+======添加帐号======
+
+  * 打开Edit->Account Settings ,选择左下放的 “Account actions”->"Add Mail Account".
+  * 在弹出框中填入帐号密码的信息。
+{{:linux:搭建工作环境:screenshot_from_2015-08-05_13_24_01.png?nolink|}}
+
+  * 这个时候选择手动配置，修改如下图
+{{:linux:搭建工作环境:screenshot_from_2015-08-05_13_24_28.png?nolink|}}
+  * 手动配置完成确定后会有一个警告，选择确定。再打开Edit->Account Settings ，会看到自己添加的帐号。这样就完成了帐号基本配置
+
+  * 打开Edit->preferences->Advanced->General->Config Editor->"I'll be carefull, I promise"修改下面两个值
+
+  mail.identity.default.reply_on_top  把0修改为1  //把自己回复的内容放在引用邮件的前面。
+  mail.identity.default.sig_bottom  把true修改为false  //把签名放在回复内容的下面，而不是放在整封邮件的下面。
+
+  * 打开Tool->Add-ons,搜索“ReFwdFormatter”和"SmartTemplate4"和"Subject Cleaner"安装，然后重启Thunderbird，如下图
+{{:linux:搭建工作环境:screenshot_from_2015-08-03_10_39_07.png?nolink&950|}}
+
+  * 安装完成后能在Tool->Add-ons->Extensions里面找到刚才安装的那三个插件，如下图
+{{:linux:搭建工作环境:screenshot_from_2015-08-06_17_11_53.png?nolink|}}
+
+  * ReFwdFormatter安装好后不用配置，默认配置就能工作。
+  * SmartTemplate4需要配置。打开Tool->Add-ons->Extensions->SmartTemplate4->preferences,分别在“Reply”和"Forward"标签页的“Quote header”里面填写如下代码：
+
+<code html>
+</br>
+<div style="border:none;border-top:solid #B5C4DF 1.0pt;padding:0cm 0cm 0cm 0cm">
+    <p class="MsoNormal" style='margin:0cm;margin-bottom:.0001pt;text-align:justify;font-size:9.0pt;font-family:"Tahoma","sans-serif","宋体";text-align:left;mso-outline-level:1'>
+        <b>发件人：</b> %from%<br/>
+        <b>发送时间：</b> %X:=sent% %datelocal%<br/>
+        [[<b>收件人：</b> %to%]][[<br/><b>抄送：</b> %cc%]]<br/>
+        <b>主题：</b> %subject%<br/><br/>
+    </p>
+</div>
+</code>
+  * 按照如下图红框所示勾选相关选项或在去掉选项，修改完成后要重启Thunderbird。
+{{:linux:搭建工作环境:screenshot_from_2015-08-05_14_49_09.png?nolink&1000}}
+
+  * 再打开Tool→Add-ons→Extensions→SmartTemplate4→preferences,分别把“Reply”和”Forward”标签页里面“Replace line breaks with<br>”前面的勾勾上，重启Thunderbird，重启之后再把刚才勾选的Replace line breaks with<br>前面的勾去掉。这地方是这个插件的一个小bug。
+
+  * Subject Cleaner需要配置。打开Tool→Add-ons→Extensions→Subject Cleaner→preferences,点击“Add”添加几个规则。如下图
+{{:linux:搭建工作环境:screenshot_from_2015-08-06_17_42_18.png?nolink|}}
+
+
+
+====== 注意 ======
+
+ * 做完来所有操作，发现回复活在转发邮件签名还是放在整个邮件的最下面，请检查下图中设置。
+
+{{:linux:搭建工作环境:screenshot_from_2015-08-05_17_18_56.png?nolink|}}
+
+
+
+
+
+======设置帐号======
+=====设置署名=====
+  * 再打开Edit→Account Settings，选择自己的帐号，在"Signature Text"中输入自己的署名。可以选择使用html格式化自己的签名。下面是一个html格式签名模板(要修改自己的姓名和电话)。
+<code html>
+<div style='font-family:"Calibri","sans-serif","宋体";font-size:10.5pt;color:#1f497d;'>
+    <p style="margin:0px">Your Name</p>
+    <p style="margin:0px">Shanghai SIMCom Ltd.</p>
+    <p style="margin:0px">TEL: (+86) 21 xxxxxxxx</p>
+    <p style="margin:0px">Address: Building A, SIM Technology Building, No.633, Jinzhong Road, Changning District, Shanghai P.R. China 200335</p>
+</div>
+</code>

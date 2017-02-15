@@ -1,0 +1,11 @@
+
+<p>
+<strong>关于Android 6.0+ Theme.NoDisplay 导致应用崩溃解析</strong>
+</p>
+
+<p>
+<strong>1. 现象</strong>
+</p>
+<pre class="code">在PBS01上移植S700中OSUpdate代码并编译之后烧入设备做升级，选择相应的ota升级包之后程序崩溃。报错信息如下所示：
+   java.lang.IllegalStateException: Activity {com.qualcomm.update/com.qualcomm.update.InstallReceiver} did not 
+   call finish() prior to onResume() completing</pre>

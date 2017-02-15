@@ -1,0 +1,5 @@
+<span class="kw1">if</span><span class="br0">&#40;</span>mApp <span class="kw1">instanceof</span> MSimPhoneApp<span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="br0">&#40;</span><span class="br0">&#40;</span>MSimPhoneApp<span class="br0">&#41;</span>mApp<span class="br0">&#41;</span>.<span class="me1">displayCallScreen</span><span class="br0">&#40;</span>intent.<span class="me1">getIntExtra</span><span class="br0">&#40;</span>MSimConstants.<span class="me1">SUBSCRIPTION_KEY</span>, mApp.<span class="me1">getDefaultSubscription</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+      mApp.<span class="me1">displayCallScreen</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

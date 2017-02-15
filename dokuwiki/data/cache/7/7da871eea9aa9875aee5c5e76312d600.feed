@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! tool</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:45:31+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=tool:ubuntu%E4%B8%8B%E7%9A%84%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7&amp;rev=1392724239&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=tool:ubuntu%E4%B8%8B%E7%9A%84%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7&amp;rev=1392724239&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-18T12:50:39+01:00</dc:date>
+        <title>tool:ubuntu下的烧录工具</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=tool:ubuntu%E4%B8%8B%E7%9A%84%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7&amp;rev=1392724239&amp;do=diff</link>
+        <description>--- 杨克猛 2014/02/17
+
+Flash Image Tool1.0
+
+为了ubuntu下能够方便地烧录版本，我开发了Flash Image Tool.现在服务器(192.167.100.225)上有一份它的拷贝share/Tool/ubuntu下的烧录工具。
+Flash Image Tool采用java开发的，界面用了 swing,目前它能够支持三个平台的烧录MSM8625Q，MSM8960和MSM8928，如果将来有新的平台，在配置表burnimg.cfg添加它，代码的组合框添加平台的名字就可以了，扩展很方便。</description>
+    </item>
+</rdf:RDF>

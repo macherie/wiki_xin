@@ -1,0 +1,145 @@
+
+<h1 class="sectionedit1" id="android代码库manifestxml文件介绍">Android代码库manifest.xml文件介绍</h1>
+<div class="level1">
+
+<p>
+Android源码库数据量庞大，因此Google为了方便管理代码库以及后期的开发，特此引入了repo来封装git，大大的简化了代码库的下载、更新和推送。而庞大的代码库则被封装在.repo/manifest.xml文件中，在下载或推送代码时，git会根据xml文件对应的库和路径进行代码的自动索引。现就xml文件简单介绍如下：
+</p>
+<pre class="code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;manifest&gt;
+  &lt;remote fetch=&quot;git@172.16.6.72:/&quot; name=&quot;sim&quot; review=&quot;http://172.16.6.72:8080&quot;/&gt;
+  &lt;default remote=&quot;sim&quot; revision=&quot;QRD8926_KK&quot;/&gt;
+  &lt;project name=&quot;device/common&quot;/&gt;
+  &lt;project groups=&quot;pdk&quot; name=&quot;device/generic/armv7-a-neon&quot;/&gt;
+  &lt;project groups=&quot;pdk&quot; name=&quot;device/generic/common&quot;/&gt;
+  &lt;project name=&quot;device/qcom/common&quot;&gt;
+    &lt;copyfile dest=&quot;build.sh&quot; src=&quot;build.sh&quot;/&gt;
+    &lt;copyfile dest=&quot;vendor/qcom/build/tasks/generate_extra_images.mk&quot; src=&quot;generate_extra_images.mk&quot;/&gt;
+  &lt;/project&gt;
+  &lt;project groups=&quot;pdk&quot; name=&quot;platform/external/chromium-trace&quot; path=&quot;external/chromium-trace&quot;/&gt;
+&lt;/manifest&gt;</pre>
+
+</div>
+<!-- EDIT1 SECTION "Android代码库manifest.xml文件介绍" [1-1104] -->
+<h1 class="sectionedit2" id="manifest元素">manifest元素</h1>
+<div class="level1">
+
+<p>
+最顶层的xml元素，&lt;manifest&gt;与&lt;/manifest&gt;对应，成对出现。
+</p>
+
+</div>
+<!-- EDIT2 SECTION "manifest元素" [1105-1208] -->
+<h1 class="sectionedit3" id="remote元素">remote元素</h1>
+<div class="level1">
+
+<p>
+功能：设置远程git服务器的属性
+</p>
+
+<p>
+属性：
+</p>
+<ul>
+<li class="level1"><div class="li"> name：远程git服务器的名字，直接用于git fetch，git remote等操作。</div>
+</li>
+<li class="level1"><div class="li"> alias：远程git服务器的别名，如果设置了，则会覆盖name的设定，在一个manifest文件中，name不能重名，但alias可以重名。</div>
+</li>
+<li class="level1"><div class="li"> fetch：所有projects的git url前缀。</div>
+</li>
+<li class="level1"><div class="li"> review：指定gerrit服务器名，用于repo upload操作，若没指定，repo upload无效果。</div>
+</li>
+</ul>
+
+<p>
+例如：
+</p>
+<pre class="code">&lt;remote fetch=&quot;ssh://git.example.com&quot;   name=&quot;test&quot;   review=&quot;gerrit.example.com&quot;/&gt;</pre>
+
+</div>
+<!-- EDIT3 SECTION "remote元素" [1209-1798] -->
+<h1 class="sectionedit4" id="default元素">default元素</h1>
+<div class="level1">
+
+<p>
+功能：设定所有project的默认属性值，如果在project元素中没有指定一个属性，则使用default元素的属性值。
+属性：
+</p>
+<ul>
+<li class="level1"><div class="li"> remote：之前定义的某一的remote元素中name属性值，用于指定使用哪一个远程git服务器。</div>
+</li>
+<li class="level1"><div class="li"> revesion：git分支名字，例如master或者 refs/heads/master</div>
+</li>
+<li class="level1"><div class="li"> sync_j：在repo sync中默认并行的数目</div>
+</li>
+<li class="level1"><div class="li"> sync_c：设置为true，则只同步指定的分支（revision属性指定），而不是所有ref内容。</div>
+</li>
+<li class="level1"><div class="li"> sync_s：设置为true，则会同步git的子项目。</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT4 SECTION "default元素" [1799-2386] -->
+<h1 class="sectionedit5" id="manifest-server元素">manifest-server元素</h1>
+<div class="level1">
+
+<p>
+只能有一个该元素，他的url属性用于指定manifest服务的url，通常是一个xml rpc服务。
+</p>
+
+</div>
+<!-- EDIT5 SECTION "manifest-server元素" [2387-2532] -->
+<h1 class="sectionedit6" id="project元素">project元素</h1>
+<div class="level1">
+
+<p>
+功能：指定一个需要clone的git仓库在服务器上对应的路径和clone到本地后所属的路径。
+</p>
+
+<p>
+属性：
+</p>
+<ul>
+<li class="level1"><div class="li"> name: 唯一的名字标识project，同时也用于生成git仓库的URL。格式如下：</div>
+</li>
+</ul>
+<pre class="code"> ${remote_fetch}/${project_name}.git</pre>
+<ul>
+<li class="level1"><div class="li"> path: 可选的路径。指定git clone出来的代码存放在本地的子目录。如果没有指定，则以name作为子目录名。</div>
+</li>
+<li class="level2"><div class="li"> remote: 指定之前在某个remote元素中的name。</div>
+</li>
+<li class="level2"><div class="li"> revision: 指定需要获取的git提交点（master, refs/heads/master, tag或者SHA-1值）。</div>
+</li>
+<li class="level2"><div class="li"> groups: 列出project所属的组，以空格或者逗号分隔多个组名。所有的project都自动属于“all”组。每一个project自动属于name:&#039;name&#039; 和path:&#039;path&#039;组。</div>
+</li>
+</ul>
+
+<p>
+例如
+</p>
+<pre class="code">&lt;project name=&quot;monkeys&quot; path=&quot;barrel-of&quot;/&gt;，它自动属于default, name:monkeys, 和path:barrel-of组。如果一个project属于notdefault组，则repo sync时不会下载。</pre>
+<ul>
+<li class="level1"><div class="li"> sync_c: 如果设置为true，则只同步指定的分支(revision 属性指定)，而不是所有的ref内容。</div>
+</li>
+<li class="level2"><div class="li"> sync_s: 如果设置为true，则会同步git的子项目。</div>
+</li>
+<li class="level2"><div class="li"> upstream: 在哪个git分支可以找到一个SHA1。用于同步revision锁定的manifest(-c 模式)。该模式可以避免同步整个ref空间。</div>
+</li>
+<li class="level2"><div class="li"> annotation: 可以有多个annotation，格式为name-value pair。在repo forall 命令中这些值会导入到环境变量中。</div>
+</li>
+<li class="level2"><div class="li"> remove-project: 从内部的manifest表中删除指定的project。经常用于本地的manifest文件，用户可以替换一个project的定义。</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT6 SECTION "project元素" [2533-4165] -->
+<h1 class="sectionedit7" id="include元素">include元素</h1>
+<div class="level1">
+
+<p>
+通过name属性可以引入另外一个manifest文件(路径相对于manifest repository&#039;s root）。
+</p>
+
+</div>
+<!-- EDIT7 SECTION "include元素" [4166-] -->

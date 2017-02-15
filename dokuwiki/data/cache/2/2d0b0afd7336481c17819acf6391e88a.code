@@ -1,0 +1,20 @@
+<span class="kw1">protected</span> <span class="kw4">void</span> bindPhoto<span class="br0">&#40;</span><span class="kw1">final</span> ContactListItemView view, <span class="kw4">int</span> partitionIndex, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+cursor"><span class="kw3">Cursor</span></a> cursor<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>isPhotoSupported<span class="br0">&#40;</span>partitionIndex<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        view.<span class="me1">removePhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// Set the photo, if available</span>
+    <span class="kw4">long</span> photoId <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>cursor.<span class="me1">isNull</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_ID</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        photoId <span class="sy0">=</span> cursor.<span class="me1">getLong</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_ID</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span>photoId <span class="sy0">!=</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        getPhotoLoader<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">loadThumbnail</span><span class="br0">&#40;</span>view.<span class="me1">getPhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, photoId, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> photoUriString <span class="sy0">=</span> cursor.<span class="me1">getString</span><span class="br0">&#40;</span>ContactQuery.<span class="me1">CONTACT_PHOTO_URI</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">final</span> Uri photoUri <span class="sy0">=</span> photoUriString <span class="sy0">==</span> <span class="kw2">null</span> <span class="sy0">?</span> <span class="kw2">null</span> <span class="sy0">:</span> Uri.<span class="me1">parse</span><span class="br0">&#40;</span>photoUriString<span class="br0">&#41;</span><span class="sy0">;</span>
+        getPhotoLoader<span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">loadDirectoryPhoto</span><span class="br0">&#40;</span>view.<span class="me1">getPhotoView</span><span class="br0">&#40;</span><span class="br0">&#41;</span>, photoUri, <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

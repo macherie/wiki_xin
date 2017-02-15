@@ -1,0 +1,21 @@
+a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1469007841;s:8:"modified";i:1469500708;}s:7:"creator";s:10:"cheng.qian";s:4:"user";s:10:"cheng.qian";s:11:"last_change";a:7:{s:4:"date";i:1469500708;s:2:"ip";s:12:"172.21.1.195";s:4:"type";s:1:"E";s:2:"id";s:20:"platform:6735:编译";s:4:"user";s:10:"cheng.qian";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"cheng.qian";s:10:"cheng.qian";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:214:"MT6735 android5.1 编译
+
+各image指令如下:
+
+
+make bootimage
+cacheimage
+ramdisk
+recoveryimage
+secroimage
+systemimage
+userdataimage
+pl
+lk
+
+
+更多指令可查:
+
+
+device/mediatek/build/build/mk
+build/core/main.mk";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1469007841;s:8:"modified";i:1469500708;}s:7:"creator";s:10:"cheng.qian";s:4:"user";s:10:"cheng.qian";s:11:"last_change";a:7:{s:4:"date";i:1469500708;s:2:"ip";s:12:"172.21.1.195";s:4:"type";s:1:"E";s:2:"id";s:20:"platform:6735:编译";s:4:"user";s:10:"cheng.qian";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:10:"cheng.qian";s:10:"cheng.qian";}}}

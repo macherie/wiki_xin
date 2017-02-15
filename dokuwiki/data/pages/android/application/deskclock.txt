@@ -1,0 +1,94 @@
+熟悉时钟使用模块：
+该程序入口类（DeskClock）使用了singleTask启动模式，继承Activity类，实现了{ LabelDialogFragment.TimerLabelDialogHandler,
+            LabelDialogFragment.AlarmLabelDialogHandler }这几个接口。
+然后分别重写了{ onNewIntent/onCreate/onResume/onPause/onSaveInstanceState/onCreateOptionsMenu/onPrepareOptionsMenu/onOptionsItemSelected这些函数。
+另外声明了内部类TabsAdapter继承了FragmentPagerAdapter实现了ActionBar.TabListener, ViewPager.OnPageChangeListener接口.
+再声明了一个静态抽象类OnTapListener实现了OnTouchListener接口}等等..
+
+程序主要入口界面：
+
+@Override
+    protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+
+        mSelectedTab = CLOCK_TAB_INDEX;
+        if (icicle != null) {
+            mSelectedTab = icicle.getInt(KEY_SELECTED_TAB, CLOCK_TAB_INDEX);
+        }
+
+        // Timer receiver may ask the app to go to the timer fragment if a timer expired
+        Intent i = getIntent();
+        if (i != null) {
+            int tab = i.getIntExtra(SELECT_TAB_INTENT_EXTRA, -1);
+            if (tab != -1) {
+                mSelectedTab = tab;
+            }
+        }
+        initViews();
+        setHomeTimeZone();
+
+        // We need to update the system next alarm time on app startup because the
+        // user might have clear our data.
+        AlarmStateManager.updateNextAlarm(this);
+    }
+    **初始化页面加载**
+    private void initViews() {
+        if (mTabsAdapter == null) {
+            mViewPager = new ViewPager(this);
+            mViewPager.setId(R.id.desk_clock_pager);
+            // Keep all four tabs to minimize jank.
+            mViewPager.setOffscreenPageLimit(3);
+            mTabsAdapter = new TabsAdapter(this, mViewPager);
+            createTabs(mSelectedTab);
+        }
+        setContentView(mViewPager);
+        mActionBar.setSelectedNavigationItem(mSelectedTab);
+    }
+    **添加页面选项卡**
+    private void createTabs(int selectedIndex) {
+        mActionBar = getActionBar();
+
+        if (mActionBar != null) {
+            mActionBar.setDisplayOptions(0);
+            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+            mAlarmTab = mActionBar.newTab();
+            mAlarmTab.setIcon(R.drawable.alarm_tab);
+            mAlarmTab.setContentDescription(R.string.menu_alarm);
+            mTabsAdapter.addTab(mAlarmTab, AlarmClockFragment.class, ALARM_TAB_INDEX);
+
+            mClockTab = mActionBar.newTab();
+            mClockTab.setIcon(R.drawable.clock_tab);
+            mClockTab.setContentDescription(R.string.menu_clock);
+            mTabsAdapter.addTab(mClockTab, ClockFragment.class, CLOCK_TAB_INDEX);
+
+            mTimerTab = mActionBar.newTab();
+            mTimerTab.setIcon(R.drawable.timer_tab);
+            mTimerTab.setContentDescription(R.string.menu_timer);
+            mTabsAdapter.addTab(mTimerTab, TimerFragment.class, TIMER_TAB_INDEX);
+
+            mStopwatchTab = mActionBar.newTab();
+            mStopwatchTab.setIcon(R.drawable.stopwatch_tab);
+            mStopwatchTab.setContentDescription(R.string.menu_stopwatch);
+            mTabsAdapter.addTab(mStopwatchTab, StopwatchFragment.class,STOPWATCH_TAB_INDEX);
+
+            mActionBar.setSelectedNavigationItem(selectedIndex);
+            mTabsAdapter.notifySelectedPage(selectedIndex);
+        }
+    }
+    
+    **设置本地时区**
+  private void setHomeTimeZone() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String homeTimeZone = prefs.getString(SettingsActivity.KEY_HOME_TZ, "");
+        if (!homeTimeZone.isEmpty()) {
+            return;
+        }
+        homeTimeZone = TimeZone.getDefault().getID();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(SettingsActivity.KEY_HOME_TZ, homeTimeZone);
+        editor.apply();
+        Log.v(LOG_TAG, "Setting home time zone to " + homeTimeZone);
+    }
+
+

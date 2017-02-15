@@ -1,0 +1,14 @@
+a:2:{s:7:"current";a:10:{s:4:"date";a:2:{s:7:"created";i:1390478358;s:8:"modified";i:1451900484;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"contributor";a:2:{s:6:"yi.hao";N;s:7:"kun.mao";s:7:"kun.mao";}s:11:"last_change";a:7:{s:4:"date";i:1455673689;s:2:"ip";s:11:"172.21.2.67";s:4:"type";s:1:"E";s:2:"id";s:33:"platform:8625q:issues:s200_reboot";s:4:"user";s:7:"kun.mao";s:3:"sum";s:41:"Links adapted because of a move operation";s:5:"extra";s:0:"";}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:33:"platform:8625q:issues:s200_reboot";i:1451899809;s:46:"linux:服务器管理:8625q:issues:s200_reboot";i:1451900484;s:49:"platform:服务器管理:8625q:issues:s200_reboot";i:1451900418;}}s:5:"title";s:61:"S200机器反复重启（需要拔电池之后才能恢复）";s:8:"relation";a:2:{s:5:"media";a:1:{s:45:"linux:8625q:patch-for-ncp6335d-mess-issue.zip";b:1;}s:10:"firstimage";s:0:"";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:644:"S200机器反复重启（需要拔电池之后才能恢复）
+
+现象:
+
+
+kernel起来后会出现Oops,而且这个Oops不是固定的，每次都可能不同。接着机器就重启了，就这样不断的重启。
+
+
+原因:
+
+
+8625Q平台使用NCP6335D这颗DC-DC Buck来提供CPU的Core电压，某些情况下这个IC会进入错误的状态，它的输出已经不是一系列的方波了，而是连续不变的。
+在这种状态下，即使机器重启也不能恢复正常，除非彻底断电。
+由于这颗IC的状态异常，也就导致了CPU的Core的电压异常，kernel就会出现随机的Panic，从而导致机器重启。…";}}s:10:"persistent";a:6:{s:4:"date";a:2:{s:7:"created";i:1390478358;s:8:"modified";i:1451900484;}s:4:"user";s:0:"";s:7:"creator";s:0:"";s:11:"contributor";a:2:{s:6:"yi.hao";N;s:7:"kun.mao";s:7:"kun.mao";}s:11:"last_change";a:7:{s:4:"date";i:1455673689;s:2:"ip";s:11:"172.21.2.67";s:4:"type";s:1:"E";s:2:"id";s:33:"platform:8625q:issues:s200_reboot";s:4:"user";s:7:"kun.mao";s:3:"sum";s:41:"Links adapted because of a move operation";s:5:"extra";s:0:"";}s:11:"plugin_move";a:1:{s:7:"old_ids";a:3:{s:33:"platform:8625q:issues:s200_reboot";i:1451899809;s:46:"linux:服务器管理:8625q:issues:s200_reboot";i:1451900484;s:49:"platform:服务器管理:8625q:issues:s200_reboot";i:1451900418;}}}}

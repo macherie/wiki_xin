@@ -1,0 +1,56 @@
+=====sepolicy规则=====
+selunx,seandroid规则
+
+较详细的规则可以查看：
+[[172.21.1.23/dokuwiki/doku.php?id=linux:selinux:selinux添加策略]]
+
+====1. 节点访问权限====
+
+<5>[77037.274119] [(2015-01-20 09:17:42.876329323 UTC)] [cpuid: 2] type=1400 audit(1421745462.859:2172964): avc:  denied  { <color green>**write**</color> } for  pid=15848\\
+comm="system_server" name="enable" dev="sysfs" ino=9381 scontext=u:r:<color blue>**zygote**</color>:s0 tcontext=u:object_r:<color red>**sysfs**</color>:s0 tclass=<color fuchsia>**file**</color>
+
+<5>[77037.841329] [(2015-01-20 09:17:43.443539322 UTC)] [cpuid: 0] type=1400 audit(1421745463.429:2172966): avc:  denied  { <color green>open</color> } for  pid=15871\\
+comm="ActivityManager" name="stat" dev="proc" ino=5513 scontext=u:r:<color blue>zygote</color>:s0 tcontext=u:r:<color red>init</color>:s0 tclass=<color fuchsia>file</color>
+
+<5>[77037.912449] [(2015-01-20 09:17:43.514659321 UTC)] [cpuid: 2] type=1400 audit(1421745463.509:2172968): avc:  denied  { <color green>open</color> } for  pid=15871\\
+comm="ActivityManager" name="stat" dev="proc" ino=5515 scontext=u:r:<color blue>zygote</color>:s0 tcontext=u:r:<color red>kernel</color>:s0 tclass=<color fuchsia>file</color>
+
+
+这种情况可能发生在代码中fork一个进程或者调用system()函数进行read/write某个file时就会出现这些denied，使得操作无法进行。\\
+那么如何处理这些denied信息，我们拿上面的log作为例子，可以在extern/sepolicy下新建一个test.te文件（这个目录下的te文件会自动全部加入编译），比如
+
+**test.te**\\
+allow <color blue><scontext></color> <color red><tcontext></color>:<color fuchsia><tclass></color>  <color green><operation></color>\\
+**1. allow <color blue>**zygote**</color>  <color red>**sysfs**</color>:<color fuchsia>**file**</color>  <color green>**write**</color>; #解释:允许源上下文类型是<color blue>zygote</color>的进程对目的上下文类型是<color red>sysfs</color>的<color fuchsia>file</color>进行<color green>write</color>操作**
+<code>
+2. allow zygote init:file open;
+
+3. allow zygote kernel:file open;
+</code>
+这样就可以保证上面的log中就不会再出现这些denied了。
+
+====2. 验证修改====
+编译之后，直接查看这个文件就可以。
+<code>
+out/target/product/q39/obj/ETC/sepolicy_intermediates/policy.conf
+</code>
+
+====3. 查看进程和文件的sepolicy属性====
+<code>
+shell@TCL_M3G:/ $ ps -Z                                                        
+LABEL                          USER     PID   PPID  NAME
+u:r:init:s0                    root      1     0     /init
+u:r:kernel:s0                  root      2     0     kthreadd
+u:r:kernel:s0                  root      3     2     ksoftirqd/0
+u:r:kernel:s0                  root      5     2     kworker/0:0H
+u:r:kernel:s0                  root      6     2     kworker/u16:0
+u:r:kernel:s0                  root      7     2     migration/0
+
+shell@TCL_M3G:/ $ ls -Z
+drwxr-xr-x root             root              u:object_r:cgroup:s0 acct
+drwxrwx--- system      cache           u:object_r:cache_file:s0 cache
+lrwxrwxrwx root           root              u:object_r:rootfs:s0 charger -> /sbin/healthd
+dr-x------ root                 root              u:object_r:rootfs:s0 config
+lrwxrwxrwx root           root              u:object_r:rootfs:s0 d -> /sys/kernel/debug
+drwxrwx--x system      system        u:object_r:system_data_file:s0 data
+</code>

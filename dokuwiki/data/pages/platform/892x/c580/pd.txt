@@ -1,0 +1,103 @@
+====== S55项目PD ======
+
+
+^      PRODUCT SPECIFICATION  ^^^^
+| MODEL NAME | TBD  |||
+| PRODUCT CODE | TBD |||
+| CABIN | Color | Black/White  ||
+| ::: | Cabinet Dimensions | (L)153mm*(W)77mm*(T)9.0mm(Camera area:9.65mm) ||
+| ::: | Weight | TBD ||
+| ::: | ID | Shadow ||
+| ::: | Material | Optical Coating ||
+^     DISPLAY MODULE SPECIFICATIONS  ^^^^
+| DISPLAY | Size | 5.5”  ||
+| ::: | Resolution | HD (1280x720)  ||
+| ::: | Color Space | TYP X=0.30 Y=0.31 ||
+| ::: | Display Technology | IPS ||
+| ::: | PPI | 269 ||
+| ::: | Brightness | 400 cd/m2   ||
+| ::: | Contrast Ratio | 800:01:00 ||
+| ::: | Refresh Rate | 60Hz ||
+| TOUCH SCREEN | Touch Technology | Capacitive  ||
+| ::: | Manufacturing Technology | OGS ||
+| ::: | Multi Touch | YES 5 POINT ||
+^      HARDWARE SPECIFICATIONS  ^^^^
+| PROCESSOR | CPU | MSM8926 ||
+| ::: | CPU Speed | 1.2 GHz ||
+| ::: | Number of Cores | Quadcore ||
+| ::: | GPU | Adreno 305 450MHz ||
+| STORAGE | RAM | 1 GB  ||
+| ::: | ROM | 16 GB ||
+| ::: | EXTERNAL MEMORY | Upto 32GB  ||
+| NETWORKING | 2G | GSM Frequency Bands | 850/900/1800/1900 |
+| ::: |  | GPRS | YES |
+| ::: |  | EDGE | YES |
+| ::: | 3G | UMTS Frequency Bands | 900/2100 |
+| ::: |  | HSDPA | 42 Mbps |
+| ::: |  | HSUPA | 5.76 Mbps |
+| ::: | LTE | LTE Frequency Bands | 800/850/900/1800/2100/2600 |
+| ::: | WIFI | WLAN Revision | 802.11 a/b/g/n |
+| ::: | BT | BT Revision | BT 4.0 |
+| ::: | NFC | NFC | YES |
+| ::: |  | Secure Element | YES |
+| ::: | FM | HW FM Support | YES |
+| ::: |  | SW FM Support | NO |
+| ::: | GNSS (GPS + GLONASS) | YES ||
+| CAMERA | Main Camera | Resolution | 13 MP |
+| ::: |  | Auto Focus | YES |
+| ::: |  | Picture Format | JPEG |
+| ::: |  | Flashlight | YES |
+| ::: | Front Camera | Resolution | 2 MP |
+| ::: |  | Focus | Fixed  |
+| ::: |  | Picture Format | JPEG |
+| SENSORS | G Sensor | YES ||
+| ::: | Proximity | YES  ||
+| ::: | Ambient Light Sensor | YES  ||
+| ::: | E-Compass | YES ||
+| ::: | Gyroscope | YES ||
+| ::: | Hall Sensor | YES ||
+| I/O PORTS | Audio Jack | YES (3.5 mm) ||
+| ::: | Micro USB | YES  ||
+| ::: | Micro SD | YES  ||
+| ::: | Sim Card | Single / Micro  ||
+| ::: | Microphone | YES x1  ||
+| ::: | Speaker | YES x1 ||
+| PHYSICAL INTERFACE | LED Indicator | YES(Charging indication: charging-red; full charging-green; notice indication: blue; Reference Sumsung definition) ||
+| ::: | Power Button | YES  ||
+| ::: | Volume Buttons | YES ||
+| ::: | Camera Button | YES ||
+| ::: | Home Button | NO ||
+| BATTERY | Capacity | Min 2000mAh ||
+| ::: | Technology | Li-Ion ||
+| ::: | Detachable | YES  ||
+| ::: | Standby Time (GSM) | TBD  ||
+| ::: | Standby Time (3G) | TBD ||
+| ::: | Talk Time (GSM) | TBD ||
+| ::: | Talk Time (3G) | TBD ||
+| ::: | Approvals | IEC/EN 62133 ||
+^    SOFTWARE SPECIFICATIONS  ^^^^
+| OPERATING SYSTEM | Android 4.4 KitKat or Latest-  |||
+| MARKET | Google Play Store |||
+| GMS | YES |||
+| VALUE ADDED SOFTWARE | WiFi Display | YES ||
+| ::: | FluencePro | YES  ||
+| ::: | Face Detection | YES  ||
+| ::: | iZAT | YES ||
+| ::: | Dolby | YES ||
+| PREINSTALLED APPS | TBD |||
+| DEFAULT LANGUAGE | TURKISH  |||
+| LANGUAGE SUPPORT | ALL EUROPEAN  |||
+| CUSTOMIZED UI | YES |||
+| VIDEO / AUDIO SUPPORT | Audio |||
+| ::: | Video | 15fps 1080p (H264 BP) 30fps 720p (MPEG-4/ H.263 / H.264 / DivX 4/5/6) 30fps FWVGA
+
+
+ (VC-1/VP8) H.265 (HEVC): WVGA at 30fps 720p at 30fps  ||
+
+===== 进fastboot模式 =====
+
+**按住”音量-“然后开机**
+
+图中红色部分
+
+{{linux:8928:d508:img_20140226_154138.jpg?600|}}

@@ -1,0 +1,17 @@
+<span class="nu0">1290</span> <span class="kw4">static</span> <span class="kw4">int</span> __init rda_module_init_f<span class="br0">&#40;</span><span class="kw4">void</span><span class="br0">&#41;</span>
+<span class="nu0">1291</span> <span class="br0">&#123;</span>
+<span class="nu0">1292</span>         <span class="kw4">int</span> err<span class="sy0">;</span>
+<span class="nu0">1293</span>         RDA_DEBUG<span class="br0">&#40;</span><span class="st0">&quot;chaser    init in it<span class="es1">\n</span>&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1294</span>         err <span class="sy0">=</span> i2c_register_board_info<span class="br0">&#40;</span><span class="nu0">3</span><span class="sy0">,&amp;</span>fm_i2c_info<span class="sy0">,</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1295</span>         RDA_DEBUG<span class="br0">&#40;</span><span class="st0">&quot;chaser ret=%d<span class="es1">\n</span>&quot;</span><span class="sy0">,</span>err<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1296</span>         err <span class="sy0">=</span> platform_device_register<span class="br0">&#40;</span><span class="sy0">&amp;</span>rda_fm_device<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1297</span>         err <span class="sy0">=</span> platform_driver_register<span class="br0">&#40;</span><span class="sy0">&amp;</span>rda_fm_platform<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1298</span>         <span class="kw1">if</span><span class="br0">&#40;</span>err<span class="br0">&#41;</span>
+<span class="nu0">1299</span>         <span class="br0">&#123;</span>
+<span class="nu0">1300</span>                 RDA_ERR<span class="br0">&#40;</span><span class="st0">&quot;module_init:register i2c is err<span class="es1">\n</span>&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1301</span>                 <span class="kw1">return</span> err<span class="sy0">;</span>
+<span class="nu0">1302</span>         <span class="br0">&#125;</span>
+<span class="nu0">1303</span>         <span class="kw1">return</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="nu0">1304</span> <span class="br0">&#125;</span>
+<span class="nu0">1305</span> <span class="sy0">-</span> module_init<span class="br0">&#40;</span>rda_module_init_f<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="nu0">1305</span> <span class="sy0">+</span> arch_initcall<span class="br0">&#40;</span>rda_module_init_f<span class="br0">&#41;</span><span class="sy0">;</span>

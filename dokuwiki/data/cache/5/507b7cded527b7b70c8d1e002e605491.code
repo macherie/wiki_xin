@@ -1,0 +1,6 @@
+<span class="sy0">**</span>R1..R2” 与 “^R1 R2”表示的范围一样，均可以表示达到 R2但不可以达到R1的所有提交（即包含R2 但是不包含 R1）<span class="sy0">**</span>“
+&nbsp;
+ “R1...R2” 叫做 ”Symmetric difference“，它与 <span class="st0">&quot;R1 R2 --not <span class="es4">$(git merge-base --all R1 R2)</span>&quot;</span>表示的范围一样，都是表示可以到R1或者R1，但是不能同时达到两者的提交。（即包含R1和R2，但是不包含两者共同的祖先） 
+&nbsp;
+&nbsp;
+<span class="nu0">3</span>） “R1...R2” 和 “R2...R1” 表示的范围一样。

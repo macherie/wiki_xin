@@ -1,0 +1,2 @@
+$ <span class="kw2">git config</span> <span class="re5">--global</span> user.name yourname
+$ <span class="kw2">git config</span> <span class="re5">--global</span> user.email <span class="st0">&quot;youremail&quot;</span>

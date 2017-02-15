@@ -1,0 +1,18 @@
+
+<p>
+项目中遇到主副camera共用一组MCLK:在mt6795 mt6735,HW上MCLK和SW上MCLK配置不匹配的话，如HWMCLK共用，SW没有
+共用的话，会造成开机时搜到对应的sensor id，但是open时又找不到id，i2c不同。
+</p>
+
+<p>
+修改cfg_setting_imgsensor.cpp 中函数getSensorMclkConnection, 根据HW 上实际MCLK连接情况来配置。
+比如说:若sub sensor和main 共用MCLK1,则做如下修改:
+</p>
+
+<p>
+<img src="/dokuwiki/lib/exe/fetch.php?media=platform:6735:screenshot_from_2016-03-02_20_03_55.png" class="media" alt="" />
+</p>
+
+<p>
+<strong>2  修改</strong>
+</p>

@@ -1,0 +1,45 @@
+
+<p>
+wpa_cli -iwlan0 add_network 
+</p>
+
+<p>
+wpa_cli -iwlan0 set_network 1 ssid &#039;“……”&#039; 
+</p>
+
+<p>
+wpa_cli -iwlan0 set_network 1 psk &#039;“……”&#039; 
+</p>
+
+<p>
+wpa_cli -iwlan0 enable_network 1
+</p>
+
+<p>
+wpa_cli -iwlan0 select_network 1
+</p>
+
+<p>
+wpa_cli -iwlan0 save_config
+</p>
+
+<p>
+dhclient -r wlan0
+</p>
+
+<p>
+dhclient wlan0
+</p>
+
+<p>
+wpa_cli -iwlan0 list_network
+wpa_cli -iwlan0 remove_network 1
+</p>
+
+<p>
+wpa_supplicant -iwlan0 -c/etc/wpa_supplicant.conf -B
+</p>
+
+<p>
+wpa_passphrase ssid psk &gt; /etc/wpa_supplicant.conf
+</p>

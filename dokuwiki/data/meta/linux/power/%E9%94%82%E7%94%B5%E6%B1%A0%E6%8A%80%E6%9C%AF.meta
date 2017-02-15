@@ -1,0 +1,7 @@
+a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1458284930;s:8:"modified";i:1458284965;}s:7:"creator";s:6:"祁信";s:4:"user";s:6:"xin.qi";s:11:"last_change";a:7:{s:4:"date";i:1458284965;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"E";s:2:"id";s:27:"linux:power:锂电池技术";s:4:"user";s:6:"xin.qi";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"祁信";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:755:"1、电池容量
+ 电池的容量由电池内活性物质的数量决定，通常用毫安时mAh或者 Ah表示。例如1000mAh就是能以1A的电流放电1h换算为所含电荷量大约为3600C。
+2、标称电压
+ 电池正负极之间的电势差称为电池的标称电压。标称电压由极板材料的电极电位和内部电解液的浓度决定。
+ 锂电放电图，是呈抛物线的，4.3V降到3.7V和3.7V降到3.0V，都是变化很快的。惟有3.7V左右的放电时间是最长的，几乎占到了3/4的时间，
+ 因此锂电池的标称电压是指维持放电时间最长的那段电压。
+ 锂电池的标称电压有3.7V和3.8V，如果为3.7V，则充电终止电压为4.2V，如果为3.8V，则充电终止电压为4.35V。…";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1458284930;s:8:"modified";i:1458284965;}s:7:"creator";s:6:"祁信";s:4:"user";s:6:"xin.qi";s:11:"last_change";a:7:{s:4:"date";i:1458284965;s:2:"ip";s:12:"172.21.10.62";s:4:"type";s:1:"E";s:2:"id";s:27:"linux:power:锂电池技术";s:4:"user";s:6:"xin.qi";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"xin.qi";s:6:"祁信";}}}

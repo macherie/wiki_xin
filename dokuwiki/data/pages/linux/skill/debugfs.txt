@@ -1,0 +1,200 @@
+高通文档: <<Introduction to Linux Kernel Debug Feature>>
+
+默认debugfs位置
+cd /mnt/debugfs
+
+
+**Linux debugfs使用分享** 
+
+软件查看gpio状态
+
+在调试中加入debugfs有时可以起到事半功倍的效果： 
+<code>
+adb shell
+ #mkdir /data/debug
+ #mount -t debugfs debugfs /data/debug
+ #cd /data/debug 
+</code>
+查看gpio状态
+ 
+root@Android:/data/debugfs # cat gpio
+ 
+GPIOs 0-15:
+  gpio-0  (front_camera_rst    ) out lo
+ 
+GPIOs 16-42:
+  gpio-17  (tsl2771_int        ) in  hi
+  gpio-26  (ctp_reset          ) out hi
+  gpio-29  (front_camera_pwd    ) out hi
+  gpio-31  (gpio_kp_out        ) out lo
+  gpio-32  (gpio_kp_out        ) out lo
+  gpio-35  (GPIO_E186_POWER    ) in  lo
+  gpio-36  (gpio_kp_in          ) in  hi
+  gpio-37  (gpio_kp_in          ) in  hi
+  gpio-42  (hs_sw              ) in  hi
+ 
+GPIOs 43-67:
+  gpio-48  (ctp_irq            ) in  hi
+  gpio-60  (qup_scl            ) in  hi
+  gpio-61  (qup_sda            ) in  hi
+ 
+GPIOs 68-94:
+  gpio-76  (lis3dh_acc_int      ) in  lo
+  gpio-82  ([auto]              ) out hi
+  gpio-85  (bahama sys_rst_n    ) in  lo
+  gpio-94  ([auto]              ) out hi
+ 
+GPIOs 95-106:
+  gpio-97  (MDP_VSYNC          ) in  lo
+ 
+GPIOs 107-132:
+  gpio-107 (ctp_power          ) in  hi
+  gpio-115 (GPIO_E186_WAKEUP    ) in  lo
+  gpio-131 (qup_scl            ) in  hi
+  gpio-132 (qup_sda            ) in  hi
+ 
+查看regulator
+
+ root@android:/data/debugfs # cd regulator/  
+<code>
+dummy/ ldo03/ ldo06/ ldo09/ ldo12/ ldo15/ ldo18/ smps1/ smps4/
+ldo01/ ldo04/ ldo07/ ldo10/ ldo13/ ldo16/ ldo19/ smps2/
+ldo02/ ldo05/ ldo08/ ldo11/ ldo14/ ldo17/ ncp/  smps3/
+ </code>
+root@android:/data/debugfs # cat regulator/ldo10/voltage
+<code>
+3000000
+ </code>
+查看clk
+
+ root@android:/ # cat /data/debugfs/clk/ 
+<code>
+adm_clk/                  ebi_mddi_clk/
+ sdc1_p_clk/         
+adsp_clk/                ebi_vfe_clk/
+ sdc2_clk/           
+ahb_m_clk/                ecodec_clk/
+ sdc2_p_clk/         
+ahb_s_clk/                gp_clk/
+ sdc3_clk/           
+cam_m_clk/                grp_3d_clk/
+ sdc3_p_clk/         
+csi0_clk/                grp_3d_p_clk/
+ sdc4_clk/           
+csi0_p_clk/              gsbi1_qup_clk/
+ sdc4_p_clk/         
+csi0_vfe_clk/            gsbi1_qup_p_clk/
+ tsif_p_clk/         
+csi1_clk/                gsbi2_qup_clk/
+ tsif_ref_clk/       
+csi1_p_clk/              gsbi2_qup_p_clk/
+ uart1_clk/           
+csi1_vfe_clk/            icodec_rx_clk/
+ uart1dm_clk/         
+debug_suspend            icodec_tx_clk/
+ uart2_clk/           
+dsi_byte_clk/            imem_clk/
+ uart2dm_clk/         
+dsi_clk/                  mdp_clk/
+ usb_hs2_clk/         
+dsi_esc_clk/              mdp_dsi_p_clk/
+ usb_hs_clk/         
+dsi_pixel_clk/            mdp_lcdc_pad_pclk_clk/
+ usb_hs_core_clk/     
+dsi_ref_clk/              mdp_lcdc_pclk_clk/
+ usb_hs_p_clk/       
+ebi1_clk/                mdp_vsync_clk/
+ usb_phy_clk/         
+ebi2_clk/                pbus_clk/
+ vdc_clk/             
+ebi_acpu_clk/            pcm_clk/
+ vfe_clk/             
+ebi_adm_clk/              pmdh_clk/
+ vfe_mdc_clk/         
+ebi_grp_3d_clk/          sdac_clk/               
+ebi_lcdc_clk/            sdc1_clk/ 
+</code>
+查看时钟
+
+root@android:/ # cat /data/debugfs/clk/mdp_clk/rate   
+<code>
+200000000
+</code>
+
+使用debugfs调试：
+<code>
+root@android:/ # mkdir /data/debugfs
+
+root@android:/ # mount -t debugfs debugfs /data/debugfs                       
+
+root@android:/ # cd /data/debugfs/                                             
+
+root@android:/data/debugfs # cd pm8921                                         
+
+pm8921-bms/  pm8921-dbg/  pm8921_chg/  
+
+root@android:/data/debugfs # cd pm8921_chg/                                    
+
+root@android:/data/debugfs/pm8921_chg # 
+
+root@android:/data/debugfs/pm8921_chg # 
+
+root@android:/data/debugfs/pm8921_chg # ls -l
+
+  -r--r--r-- root     root            0 2013-04-18 15:25 ATCDONE_IRQ
+  -r--r--r-- root     root            0 2013-04-18 15:25 ATCFAIL_IRQ
+  -r--r--r-- root     root            0 2013-04-18 15:25 BATFET_IRQ
+  -r--r--r-- root     root            0 2013-04-18 15:25 BATTTEMP_COLD_IRQ
+ -r--r--r-- root     root            0 2013-04-18 15:25 ATCDONE_IRQ
+</code>
+查看中断状态：
+<code>
+root@android:/data/debugfs/pm8921_chg # cat FASTCHG_IRQ    //查看是否在快速充电阶段 调用get_reg（）；
+
+1
+
+dmesg:
+
+<4>[   95.057652] get_rt_status i=14 ret=1 
+</code>
+查看寄存器的值：
+<code>
+root@android:/data/debugfs/pm8921_chg # cat CHG_ITERM       //查看充电截至电流寄存器Value 调用set_reg（）；
+
+0x07
+
+dmesg:
+
+<4>[  275.319975] get_reg data = 0x215, val= 0x07
+</code>
+写入某个寄存器：
+<code>
+root@android:/data/debugfs/pm8921_chg # echo 0x06 > CHG_ITERM   //将0x06写入CHG_ITERM   调用get_rt_status（）；
+
+0x07
+
+dmesg:
+
+<4>[  476.374118] set_reg data = 0x215, val= 0x06
+</code>
+
+
+
+
+
+读写PMIC寄存器，通过高通的spmi通信协议
+<code>
+root@s55:/data/debug/spmi/spmi-0 # echo 0x0001 > address
+
+root@s55:/data/debug/spmi/spmi-0 # cat data
+01110 -- 00
+</code>
+
+控制gpio状态
+<code>
+root@cb09:/ # cd sys/class/gpio/
+root@cb09:/sys/class/gpio # echo 0 > export
+root@cb09:/sys/class/gpio # cd gpio0/
+root@cb09:/sys/class/gpio/gpio0 # echo 1 > value
+
+</code>

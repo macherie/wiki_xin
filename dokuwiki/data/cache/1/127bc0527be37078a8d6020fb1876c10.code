@@ -1,0 +1,1 @@
+<span class="co4">$ </span><span class="kw2">ssh-keygen</span> <span class="re5">-t</span> rsa <span class="re5">-C</span> <span class="st0">&quot;youremail&quot;</span>

@@ -1,0 +1,48 @@
+
+<h1 class="sectionedit1" id="adb_and_fastboot_permission">Adb and Fastboot permission</h1>
+<div class="level1">
+
+<p>
+ — <em><a href="mailto:&#x79;&#x75;&#x6e;&#x71;&#x69;&#x2e;&#x6d;&#x69;&#x61;&#x6f;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x79;&#x75;&#x6e;&#x71;&#x69;&#x2e;&#x6d;&#x69;&#x61;&#x6f;&#x40;&#x73;&#x69;&#x6d;&#x2e;&#x63;&#x6f;&#x6d;">苗运齐</a> 2013/12/16 09:35</em><img src="/dokuwiki/lib/images/smileys/facepalm.gif" class="icon" alt="m(" />
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Adb and Fastboot permission" [1-104] -->
+<h1 class="sectionedit2" id="file_path">file path</h1>
+<div class="level1">
+
+<p>
+-rwxr-xr-x 1 root root 739 Sep  4 17:28 /etc/udev/rules.d/51-android.rules
+</p>
+
+</div>
+<!-- EDIT2 SECTION "file path" [105-205] -->
+<h1 class="sectionedit3" id="file_content">file content</h1>
+<div class="level1">
+<pre class="code">SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;18d1&quot;, ATTR{idProduct}==&quot;d00d&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;05c6&quot;, ATTR{idProduct}==&quot;9025&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;05c6&quot;, ATTR{idProduct}==&quot;9015&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;18d1&quot;, ATTR{idProduct}==&quot;9025&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;18d1&quot;, ATTR{idProduct}==&quot;d002&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;05c6&quot;, ATTR{idProduct}==&quot;9026&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tiger&quot;</pre>
+
+</div>
+<!-- EDIT3 SECTION "file content" [206-811] -->
+<h1 class="sectionedit4" id="summary">summary</h1>
+<div class="level1">
+
+<p>
+tiger 切换成自己的 用户名
+</p>
+
+</div>
+<!-- EDIT4 SECTION "summary" [812-869] -->
+<h1 class="sectionedit5" id="重启udev">重启udev</h1>
+<div class="level1">
+
+<p>
+sudo /etc/init.d/udev restart
+</p>
+
+</div>
+<!-- EDIT5 SECTION "重启udev" [870-] -->

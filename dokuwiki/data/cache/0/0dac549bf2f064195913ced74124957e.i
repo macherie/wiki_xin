@@ -1,0 +1,5 @@
+a:13:{i:0;a:3:{i:0;s:14:"document_start";i:1;a:0:{}i:2;i:0;}i:1;a:3:{i:0;s:6:"header";i:1;a:3:{i:0;s:9:"am 命令";i:1;i:1;i:2;i:1;}i:2;i:1;}i:2;a:3:{i:0;s:12:"section_open";i:1;a:1:{i:0;i:1;}i:2;i:1;}i:3;a:3:{i:0;s:13:"section_close";i:1;a:0:{}i:2;i:26;}i:4;a:3:{i:0;s:6:"header";i:1;a:3:{i:0;s:21:"am 命令播放音乐";i:1;i:2;i:2;i:26;}i:2;i:26;}i:5;a:3:{i:0;s:12:"section_open";i:1;a:1:{i:0;i:2;}i:2;i:26;}i:6;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:95:"
+am start -n com.android.music/com.android.music.MediaPlaybackActivity -d /mnt/sdcard/test.mp3
+";i:1;s:4:"bash";i:2;N;}i:2;i:65;}i:7;a:3:{i:0;s:13:"section_close";i:1;a:0:{}i:2;i:175;}i:8;a:3:{i:0;s:6:"header";i:1;a:3:{i:0;s:15:"am 启动Camera";i:1;i:2;i:2;i:175;}i:2;i:175;}i:9;a:3:{i:0;s:12:"section_open";i:1;a:1:{i:0;i:2;}i:2;i:175;}i:10;a:3:{i:0;s:4:"code";i:1;a:3:{i:0;s:61:"
+am start -n com.android.gallery3d/com.android.camera.Camera
+";i:1;s:4:"bash";i:2;N;}i:2;i:208;}i:11;a:3:{i:0;s:13:"section_close";i:1;a:0:{}i:2;i:285;}i:12;a:3:{i:0;s:12:"document_end";i:1;a:0:{}i:2;i:285;}}

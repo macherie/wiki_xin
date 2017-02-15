@@ -1,0 +1,28 @@
+        gen<span class="sy0">-</span>vkeys <span class="br0">&#123;</span>                                                                                                                   
+                compatible <span class="sy0">=</span> <span class="st0">&quot;qcom,gen-vkeys&quot;</span><span class="sy0">;</span>
+                label <span class="sy0">=</span> <span class="st0">&quot;synaptics_dsx&quot;</span><span class="sy0">;</span>
+                qcom<span class="sy0">,</span>disp<span class="sy0">-</span>maxx <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1599</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>disp<span class="sy0">-</span>maxy <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">2559</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>panel<span class="sy0">-</span>maxx <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1599</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>panel<span class="sy0">-</span>maxy <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">2703</span><span class="sy0">&gt;;</span>
+                qcom<span class="sy0">,</span>key<span class="sy0">-</span>codes <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">158</span> <span class="nu0">139</span> <span class="nu0">102</span> <span class="nu0">217</span><span class="sy0">&gt;;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+        gpio_keys <span class="br0">&#123;</span>
+                compatible <span class="sy0">=</span> <span class="st0">&quot;gpio-keys&quot;</span><span class="sy0">;</span>
+                input<span class="sy0">-</span>name <span class="sy0">=</span> <span class="st0">&quot;gpio-keys&quot;</span><span class="sy0">;</span>
+                vol_up <span class="br0">&#123;</span>
+                        label <span class="sy0">=</span> <span class="st0">&quot;volume_up&quot;</span><span class="sy0">;</span>
+                        gpios <span class="sy0">=</span> <span class="sy0">&lt;&amp;</span>pm8994_gpios <span class="nu0">2</span> <span class="nu12">0x1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>input<span class="sy0">-</span>type <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>code <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">115</span><span class="sy0">&gt;;</span>
+                        gpio<span class="sy0">-</span>key<span class="sy0">,</span>wakeup<span class="sy0">;</span>
+                        debounce<span class="sy0">-</span>interval <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">15</span><span class="sy0">&gt;;</span>
+                <span class="br0">&#125;</span><span class="sy0">;</span>
+                camera_on <span class="br0">&#123;</span>
+                        label <span class="sy0">=</span> <span class="st0">&quot;camera_on&quot;</span><span class="sy0">;</span>
+                        gpios <span class="sy0">=</span> <span class="sy0">&lt;&amp;</span>pm8994_gpios <span class="nu0">5</span> <span class="nu12">0x1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>input<span class="sy0">-</span>type <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">1</span><span class="sy0">&gt;;</span>
+                        linux<span class="sy0">,</span>code <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">212</span><span class="sy0">&gt;;</span>
+                        gpio<span class="sy0">-</span>key<span class="sy0">,</span>wakeup<span class="sy0">;</span>
+                        debounce<span class="sy0">-</span>interval <span class="sy0">=</span> <span class="sy0">&lt;</span><span class="nu0">15</span><span class="sy0">&gt;;</span>
+                <span class="br0">&#125;</span><span class="sy0">;</span>

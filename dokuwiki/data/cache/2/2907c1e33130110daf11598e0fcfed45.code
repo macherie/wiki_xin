@@ -1,0 +1,8 @@
+更新<span class="kw2">git</span> user.mail ,并重提交
+重配置邮箱（需与gerrit注册的邮箱一致 <span class="br0">&#41;</span>
+<span class="kw2">git config</span> <span class="re5">--global</span> user.email  fei.yang<span class="sy0">@</span>phicomm.com.cn
+撤消提交但保留本地修改
+<span class="kw2">git reset</span> –q <span class="sy0">&lt;</span>commit_id<span class="sy0">&gt;</span> 本次提交之前的commit_id
+再次添加并提交
+<span class="kw2">git add</span> fill <span class="sy0">&amp;</span> <span class="kw2">git commit</span> 
+<span class="kw2">git</span>  push origin HEAD:refs<span class="sy0">/</span>for<span class="sy0">/</span>…

@@ -1,0 +1,39 @@
+    <span class="kw1">public</span> <span class="kw4">void</span> populate<span class="br0">&#40;</span>ContactList list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// Very tricky bug. In the recipient editor, we always leave a trailing</span>
+        <span class="co1">// comma to make it easy for users to add additional recipients. When a</span>
+        <span class="co1">// user types (or chooses from the dropdown) a new contact Mms has never</span>
+        <span class="co1">// seen before, the contact gets the correct trailing comma. But when the</span>
+        <span class="co1">// contact gets added to the mms's contacts table, contacts sends out an</span>
+        <span class="co1">// onUpdate to CMA. CMA would recompute the recipients and since the</span>
+        <span class="co1">// recipient editor was still visible, call mRecipientsEditor.populate(recipients).</span>
+        <span class="co1">// This would replace the recipient that had a comma with a recipient</span>
+        <span class="co1">// without a comma. When a user manually added a new comma to add another</span>
+        <span class="co1">// recipient, this would eliminate the span inside the text. The span contains the</span>
+        <span class="co1">// number part of &quot;Fred Flinstone &lt;123-1231&gt;&quot;. Hence, the whole</span>
+        <span class="co1">// &quot;Fred Flinstone &lt;123-1231&gt;&quot; would be considered the number of</span>
+        <span class="co1">// the first recipient and get entered into the canonical_addresses table.</span>
+        <span class="co1">// The fix for this particular problem is very easy. All recipients have commas.</span>
+        <span class="co1">// TODO: However, the root problem remains. If a user enters the recipients editor</span>
+        <span class="co1">// and deletes chars into an address chosen from the suggestions, it'll cause</span>
+        <span class="co1">// the number annotation to get deleted and the whole address (name + number) will</span>
+        <span class="co1">// be used as the number.</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>list.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// The base class RecipientEditTextView will ignore empty text. That's why we need</span>
+            <span class="co1">// this special case.</span>
+            setText<span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="co1">// Clear the recipient when add contact again</span>
+            setText<span class="br0">&#40;</span><span class="st0">&quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span>Contact c <span class="sy0">:</span> list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="co1">// Calling setText to set the recipients won't create chips,</span>
+                <span class="co1">// but calling append() will.</span>
+&nbsp;
+                <span class="co1">// Need to judge  whether contactToToken(c) return valid data,if it is not,</span>
+                <span class="co1">// do not append it so that the comma can not be displayed.</span>
+                CharSequence charSequence <span class="sy0">=</span> contactToToken<span class="br0">&#40;</span>c<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>charSequence <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> charSequence.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    append<span class="br0">&#40;</span> charSequence<span class="sy0">+</span> <span class="st0">&quot;, &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

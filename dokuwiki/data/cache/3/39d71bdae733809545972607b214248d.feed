@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://172.21.1.23/dokuwiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://172.21.1.23/dokuwiki/feed.php">
+        <title>SIMCOM DokuWiki! doc</title>
+        <description></description>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <image rdf:resource="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico" />
+       <dc:date>2014-03-07T10:38:44+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%95%B0%E6%8D%AE%E4%B8%9A%E5%8A%A1%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&amp;rev=1392960922&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E6%89%AB%E6%8F%8F%E5%A4%B4%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E&amp;rev=1392967054&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=doc:efs%E5%88%86%E5%8C%BA%E6%8D%9F%E5%9D%8F%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90&amp;rev=1392964390&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=doc:how_to_get_and_analyze_ram_dump&amp;rev=1392966465&amp;do=diff"/>
+                <rdf:li rdf:resource="http://172.21.1.23/dokuwiki/doku.php?id=doc:jtag%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95&amp;rev=1392967563&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico">
+        <title>SIMCOM DokuWiki!</title>
+        <link>http://172.21.1.23/dokuwiki/</link>
+        <url>http://172.21.1.23/dokuwiki/lib/tpl/dokubook/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%95%B0%E6%8D%AE%E4%B8%9A%E5%8A%A1%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&amp;rev=1392960922&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T06:35:22+01:00</dc:date>
+        <title>doc:数据业务丢失问题分析报告</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%95%B0%E6%8D%AE%E4%B8%9A%E5%8A%A1%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&amp;rev=1392960922&amp;do=diff</link>
+        <description>--- 尹姝 2014/2/21
+Document Title:     数据业务丢失问题分析报告Version:            1.01               Date:               2013-04-22         Status:             Release            Document Control ID:SIM0001.pdf        Writer:             Pengpeng</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E6%89%AB%E6%8F%8F%E5%A4%B4%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E&amp;rev=1392967054&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T08:17:34+01:00</dc:date>
+        <title>doc:智能设备扫描头接口说明</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=doc:%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E6%89%AB%E6%8F%8F%E5%A4%B4%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E&amp;rev=1392967054&amp;do=diff</link>
+        <description>--- 尹姝 2014/2/21
+Document Title:     SIMCom智能设备扫描头接口说明Version:            1.01                    Date:               2014-02-13              Status:             Release                 Document Control ID:SIM0005                 Writer:             Yunqi.miao</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=doc:efs%E5%88%86%E5%8C%BA%E6%8D%9F%E5%9D%8F%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90&amp;rev=1392964390&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T07:33:10+01:00</dc:date>
+        <title>doc:efs分区损坏问题分析</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=doc:efs%E5%88%86%E5%8C%BA%E6%8D%9F%E5%9D%8F%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90&amp;rev=1392964390&amp;do=diff</link>
+        <description>--- 尹姝 2014/2/21
+Document Title:     EFS分区损坏问题分析报告Version:            1.01               Date:               2013-04-19         Status:             Release            Document Control ID:SIM0003            Writer:             Xifangqing</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=doc:how_to_get_and_analyze_ram_dump&amp;rev=1392966465&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T08:07:45+01:00</dc:date>
+        <title>doc:how_to_get_and_analyze_ram_dump</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=doc:how_to_get_and_analyze_ram_dump&amp;rev=1392966465&amp;do=diff</link>
+        <description>--- 尹姝 2014/2/21
+Document Title:     How to get and analyze RAM dumpVersion:            1.01                           Date:               2013-04-22                     Status:             Release                        Document Control ID:SIM0004                        Writer:             Xifangqing</description>
+    </item>
+    <item rdf:about="http://172.21.1.23/dokuwiki/doku.php?id=doc:jtag%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95&amp;rev=1392967563&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2014-02-21T08:26:03+01:00</dc:date>
+        <title>doc:jtag动态调试</title>
+        <link>http://172.21.1.23/dokuwiki/doku.php?id=doc:jtag%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95&amp;rev=1392967563&amp;do=diff</link>
+        <description>--- 尹姝 2014/2/21
+Document Title:     JTAG动态调试  Version:            1.01        Date:               2013-04-10  Status:             Release     Document Control ID:SIM0002     Writer:             Xifangqing  
+----------
+
+调试前准备:
+
+编译一个Debug版本的image然后用QPST烧录到机器</description>
+    </item>
+</rdf:RDF>

@@ -1,0 +1,7 @@
+<span class="co1">// Ok, we actually want to launch the incoming call</span>
+<span class="co1">// UI at this point (in addition to simply posting a notification</span>
+<span class="co1">// to the status bar).  Setting fullScreenIntent will cause</span>
+<span class="co1">// the InCallScreen to be launched immediately *unless* the</span>
+<span class="co1">// current foreground activity is marked as &quot;immersive&quot;.</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span>DBG<span class="br0">&#41;</span> log<span class="br0">&#40;</span><span class="st0">&quot;- Setting fullScreenIntent: &quot;</span> <span class="sy0">+</span> inCallPendingIntent<span class="br0">&#41;</span><span class="sy0">;</span>
+builder.<span class="me1">setFullScreenIntent</span><span class="br0">&#40;</span>inCallPendingIntent, <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>

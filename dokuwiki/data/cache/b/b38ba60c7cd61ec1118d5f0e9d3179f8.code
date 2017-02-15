@@ -1,0 +1,150 @@
+<span class="kw1">public</span> <span class="kw1">class</span> CameraService <span class="kw1">extends</span> Service <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Adocs.oracle.com+javase+docs+api+string"><span class="kw3">String</span></a> TAG <span class="sy0">=</span> <span class="st0">&quot;SimCameraService&quot;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> <span class="kw4">int</span> mTexureIdFront, mTexureIdBack<span class="sy0">;</span>
+    <span class="kw1">private</span> SurfaceTexture mSurfaceTextureFront, mSurfaceTextureBack<span class="sy0">;</span>
+    <span class="kw1">private</span> SegmentedUtil mSegmentedFront, mSegmentedBack<span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> OnFrameAvailableListener mViewListenerFront <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+    <span class="kw1">private</span> OnFrameAvailableListener mViewListenerBack <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">private</span> CameraBinder mBinder <span class="sy0">=</span> <span class="kw1">new</span> CameraBinder<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> IBinder onBind<span class="br0">&#40;</span>Intent intent<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> mBinder<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onCreate<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span>.<span class="me1">onCreate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        startForeground<span class="br0">&#40;</span><span class="sy0">-</span><span class="nu0">1982</span>, <span class="kw1">new</span> Notification<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// 启动前摄</span>
+        mTexureIdFront <span class="sy0">=</span> CameraGLSurfaceView.<span class="me1">createTextureID</span><span class="br0">&#40;</span>SegmentedBase.<span class="me1">CAMERA_ID_FRONT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceTextureFront <span class="sy0">=</span> <span class="kw1">new</span> SurfaceTexture<span class="br0">&#40;</span>mTexureIdFront<span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceTextureFront.<span class="me1">setOnFrameAvailableListener</span><span class="br0">&#40;</span>mInternalListenerFront<span class="br0">&#41;</span><span class="sy0">;</span>
+        mSegmentedFront <span class="sy0">=</span> <span class="kw1">new</span> SegmentedUtil<span class="br0">&#40;</span>SegmentedBase.<span class="me1">CAMERA_ID_FRONT</span>,
+                SegmentedBase.<span class="me1">VIDEO_WIDTH_FRONT</span>,
+                SegmentedBase.<span class="me1">VIDEO_HEIGHT_FRONT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSegmentedFront.<span class="me1">startCameraPreview</span><span class="br0">&#40;</span>mSurfaceTextureFront<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// 启动后摄</span>
+        mTexureIdBack <span class="sy0">=</span> CameraGLSurfaceView.<span class="me1">createTextureID</span><span class="br0">&#40;</span>SegmentedBase.<span class="me1">CAMERA_ID_BACK</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceTextureBack <span class="sy0">=</span> <span class="kw1">new</span> SurfaceTexture<span class="br0">&#40;</span>mTexureIdBack<span class="br0">&#41;</span><span class="sy0">;</span>
+        mSurfaceTextureBack.<span class="me1">setOnFrameAvailableListener</span><span class="br0">&#40;</span>mInternalListenerBack<span class="br0">&#41;</span><span class="sy0">;</span>
+        mSegmentedBack <span class="sy0">=</span> <span class="kw1">new</span> SegmentedUtil<span class="br0">&#40;</span>SegmentedBase.<span class="me1">CAMERA_ID_BACK</span>,
+                SegmentedBase.<span class="me1">VIDEO_WIDTH_BACK</span>,
+                SegmentedBase.<span class="me1">VIDEO_HEIGHT_BACK</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        mSegmentedBack.<span class="me1">startCameraPreview</span><span class="br0">&#40;</span>mSurfaceTextureBack<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// 通知MainActivity绑定服务</span>
+        sendStickyBroadcast<span class="br0">&#40;</span><span class="kw1">new</span> Intent<span class="br0">&#40;</span>CameraProxy.<span class="me1">ACTION_SERVICE_CREATED</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** MainActivity与CameraService通信Binder **/</span>
+    <span class="kw1">public</span> <span class="kw1">class</span> CameraBinder <span class="kw1">extends</span> Binder <span class="kw1">implements</span> CameraProxy <span class="br0">&#123;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> SurfaceTexture getSurfaceTexureFront<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> mSurfaceTextureFront<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">int</span> getTexureIdFront<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> mTexureIdFront<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> registerFrameAvailableListenerFront<span class="br0">&#40;</span>OnFrameAvailableListener l<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mViewListenerFront <span class="sy0">=</span> l<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> SurfaceTexture getSurfaceTexureBack<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> mSurfaceTextureBack<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">int</span> getTexureIdBack<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> mTexureIdBack<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> registerFrameAvailableListenerBack<span class="br0">&#40;</span>OnFrameAvailableListener l<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mViewListenerBack <span class="sy0">=</span> l<span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> startMediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            startMedia<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> stopMediaRecorder<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            stopMedia<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 前摄画面绘制监听 **/</span>
+    <span class="kw1">private</span> OnFrameAvailableListener mInternalListenerFront <span class="sy0">=</span> <span class="kw1">new</span> OnFrameAvailableListener<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> onFrameAvailable<span class="br0">&#40;</span>SurfaceTexture surfaceTexture<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mViewListenerFront <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mViewListenerFront.<span class="me1">onFrameAvailable</span><span class="br0">&#40;</span>surfaceTexture<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co3">/** 后摄画面绘制监听 **/</span>
+    <span class="kw1">private</span> OnFrameAvailableListener mInternalListenerBack <span class="sy0">=</span> <span class="kw1">new</span> OnFrameAvailableListener<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+        @Override
+        <span class="kw1">public</span> <span class="kw4">void</span> onFrameAvailable<span class="br0">&#40;</span>SurfaceTexture surfaceTexture<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>mViewListenerBack <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                mViewListenerBack.<span class="me1">onFrameAvailable</span><span class="br0">&#40;</span>surfaceTexture<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co3">/** 启动编码 **/</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> startMedia<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedFront <span class="sy0">&amp;&amp;</span> <span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedBack<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mSegmentedFront.<span class="me1">startMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSegmentedBack.<span class="me1">startMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 停止编码 **/</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> stopMedia<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedFront <span class="sy0">&amp;&amp;</span> <span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedBack<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mSegmentedFront.<span class="me1">releaseMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSegmentedBack.<span class="me1">releaseMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co3">/** 销毁编码器与控件 **/</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> releaseMediaCamera<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedFront<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mSegmentedFront.<span class="me1">releaseCameraPreview</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSegmentedFront.<span class="me1">releaseMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw2">null</span> <span class="sy0">!=</span> mSegmentedBack<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            mSegmentedBack.<span class="me1">releaseCameraPreview</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            mSegmentedBack.<span class="me1">releaseMediaRecorder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    @Override
+    <span class="kw1">public</span> <span class="kw4">void</span> onDestroy<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">super</span>.<span class="me1">onDestroy</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        releaseMediaCamera<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        stopForeground<span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>

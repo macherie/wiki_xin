@@ -1,0 +1,33 @@
+
+<p>
+<strong>我们如何在shell脚本中进行浮点运算呢？童鞋们请看下面的例子：
+</strong>
+</p>
+
+<p>
+var=`echo “scale=10; 5 / 3” | bc`
+</p>
+
+<p>
+echo ” 5 / 3 = $var”
+</p>
+
+<p>
+var=`echo “scale=4; 5.2343 + 5.4545” | bc`
+</p>
+
+<p>
+echo “5.2343 + 5.4545 = $var”
+</p>
+
+<p>
+var=`echo “scale=10; 5.2343 * 5.4545” | bc`
+</p>
+
+<p>
+echo “5.2343 * 5.4545 = $var”
+</p>
+
+<p>
+<img src="/dokuwiki/lib/images/smileys/icon_cool.gif" class="icon" alt="8-)" />
+</p>

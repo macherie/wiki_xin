@@ -1,0 +1,33 @@
+1402558318	172.21.10.36	C	platform:892x:c580:cmda_evdo	song.zhang	创建	
+1402558335	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402558394	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402558411	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402560875	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402560975	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402561091	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402561237	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[手机无法注册上1X和EVDO网络] 	
+1402562402	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[插入电信卡，可以注册网络，但不能拨打电话] 	
+1402563172	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563182	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563271	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563408	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563692	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563705	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402563926	172.21.2.33	E	platform:892x:c580:cmda_evdo	shu.yin		
+1402565232	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[详细描述：无论是选择CDMA还是EVDO网络，手机都无法注册上数据业务，电话可以正常拨打] 	
+1402898573	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402898601	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[4,机器收到电话会自动接听] 	
+1402900280	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[4,来电后自动接听] 	
+1402900290	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[4,来电后自动接听] 	
+1402900297	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[4,来电自动接听] 	
+1402913160	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[3,手机支持CDMA网络需要设置的NV] 	
+1402915383	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[3,手机支持CDMA网络需要设置的NV] 	
+1402997324	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang		
+1402997452	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[5,切换成CDMA only模式，电话呼不进来] 	
+1402997499	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[7,激活呼叫等待功能] 	
+1402997509	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[7,激活呼叫等待功能] 	
+1403856743	172.21.10.36	E	platform:892x:c580:cmda_evdo	song.zhang	[3,手机支持CDMA网络需要设置的NV] 	
+1451899814	172.21.2.114	C	linux:服务器管理:892x:c580:cmda_evdo	yi.hao	Page moved from platform:892x:c580:cmda_evdo to linux:服务器管理:892x:c580:cmda_evdo	
+1451900270	172.21.2.114	C	platform:服务器管理:892x:c580:cmda_evdo	yi.hao	Page moved from linux:服务器管理:892x:c580:cmda_evdo to platform:服务器管理:892x:c580:cmda_evdo	
+1451900423	172.21.2.114	C	linux:服务器管理:892x:c580:cmda_evdo	yi.hao	Page moved from platform:服务器管理:892x:c580:cmda_evdo to linux:服务器管理:892x:c580:cmda_evdo	
+1451900488	172.21.2.114	C	platform:892x:c580:cmda_evdo	yi.hao	Page moved from linux:服务器管理:892x:c580:cmda_evdo to platform:892x:c580:cmda_evdo	

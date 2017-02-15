@@ -1,0 +1,12 @@
+<span class="co0">#</span>
+<span class="co0"># This is a non-functional placeholder file, here for example purposes</span>
+<span class="co0"># only.</span>
+<span class="co0">#</span>
+<span class="co0"># If you had a patch for your recipe, you'd put it in this directory</span>
+<span class="co0"># and reference it from your recipe's SRC_URI:</span>
+<span class="co0">#</span>
+<span class="co0">#  SRC_URI += &quot;file://example.patch&quot;</span>
+<span class="co0">#</span>
+<span class="co0"># Note that you could also rename the directory containing this patch</span>
+<span class="co0"># to remove the version number or simply rename it 'files'.  Doing so</span>
+<span class="co0"># allows you to use the same directory for multiple recipes.</span>

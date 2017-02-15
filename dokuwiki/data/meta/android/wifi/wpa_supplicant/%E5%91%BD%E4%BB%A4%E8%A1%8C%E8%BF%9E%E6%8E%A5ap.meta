@@ -1,0 +1,15 @@
+a:2:{s:7:"current";a:8:{s:4:"date";a:2:{s:7:"created";i:1397613550;s:8:"modified";i:1397613767;}s:7:"creator";s:14:"pengpeng.zhang";s:4:"user";s:14:"pengpeng.zhang";s:11:"last_change";a:7:{s:4:"date";i:1397613767;s:2:"ip";s:12:"172.21.1.130";s:4:"type";s:1:"E";s:2:"id";s:45:"android:wifi:wpa_supplicant:命令行连接ap";s:4:"user";s:14:"pengpeng.zhang";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:14:"pengpeng.zhang";s:14:"pengpeng.zhang";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}s:11:"description";a:1:{s:8:"abstract";s:263:"wpa_cli -iwlan0 add_network 
+
+wpa_cli -iwlan0 set_network 1 ssid '“……”' 
+
+wpa_cli -iwlan0 set_network 1 psk '“……”' 
+
+wpa_cli -iwlan0 enable_network 1
+
+wpa_cli -iwlan0 select_network 1
+
+wpa_cli -iwlan0 save_config
+
+dhclient -r wlan0
+
+dhclient wlan0";}s:8:"relation";a:1:{s:10:"firstimage";s:0:"";}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1397613550;s:8:"modified";i:1397613767;}s:7:"creator";s:14:"pengpeng.zhang";s:4:"user";s:14:"pengpeng.zhang";s:11:"last_change";a:7:{s:4:"date";i:1397613767;s:2:"ip";s:12:"172.21.1.130";s:4:"type";s:1:"E";s:2:"id";s:45:"android:wifi:wpa_supplicant:命令行连接ap";s:4:"user";s:14:"pengpeng.zhang";s:3:"sum";s:0:"";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:14:"pengpeng.zhang";s:14:"pengpeng.zhang";}}}

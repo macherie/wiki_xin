@@ -1,0 +1,36 @@
+Parsing recipes: <span class="nu0">100</span><span class="sy0">%</span> <span class="sy0">|</span><span class="co0">#################################################################################################################################| Time: 00:01:06</span>
+Parsing of <span class="nu0">2050</span> .bb files <span class="kw3">complete</span> <span class="br0">&#40;</span><span class="nu0">0</span> cached, <span class="nu0">2050</span> parsed<span class="br0">&#41;</span>. <span class="nu0">2565</span> targets, <span class="nu0">157</span> skipped, <span class="nu0">3</span> masked, <span class="nu0">0</span> errors.
+NOTE: Resolving any missing task queue dependencies
+&nbsp;
+Build Configuration:
+BB_VERSION        = <span class="st0">&quot;1.26.0&quot;</span>
+BUILD_SYS         = <span class="st0">&quot;x86_64-linux&quot;</span>
+NATIVELSBSTRING   = <span class="st0">&quot;Ubuntu-14.04&quot;</span>
+TARGET_SYS        = <span class="st0">&quot;arm-poky-linux-gnueabi&quot;</span>
+MACHINE           = <span class="st0">&quot;imx6ulevk&quot;</span>
+DISTRO            = <span class="st0">&quot;poky&quot;</span>
+DISTRO_VERSION    = <span class="st0">&quot;1.8&quot;</span>
+TUNE_FEATURES     = <span class="st0">&quot;arm armv7a vfp neon callconvention-hard cortexa7&quot;</span>
+TARGET_FPU        = <span class="st0">&quot;vfp-neon&quot;</span>
+meta              
+meta-yocto        = <span class="st0">&quot;(nobranch):83aa565d93aacae484976562ef1ae8dbbb6b2bc0&quot;</span>
+meta-oe           
+meta-multimedia   = <span class="st0">&quot;(nobranch):10d3c8f85280a0bf867a8e4f84bcda81c290d28e&quot;</span>
+meta-fsl-arm      = <span class="st0">&quot;(nobranch):c5326c90d6754c8630504ae29244907b0841c3a9&quot;</span>
+meta-fsl-arm-extra = <span class="st0">&quot;(nobranch):436b86e3421736216412bdbb21cd9cb08c758c75&quot;</span>
+meta-fsl-demos    = <span class="st0">&quot;(nobranch):836bdf5a9d500ed258f1ddc07d89eca74a704098&quot;</span>
+meta-bsp          
+meta-sdk          = <span class="st0">&quot;(nobranch):2f59ef1080f616f391b1c488fb2204e570f90239&quot;</span>
+meta-browser      = <span class="st0">&quot;(nobranch):4b27058a8275a5310161459c9bb8f4c52a77762c&quot;</span>
+meta-gnome        
+meta-networking   
+meta-python       
+meta-ruby         
+meta-filesystems  = <span class="st0">&quot;(nobranch):10d3c8f85280a0bf867a8e4f84bcda81c290d28e&quot;</span>
+meta-qt5          = <span class="st0">&quot;(nobranch):fc026381545650e10fdd488d5b2a3b2d78f87793&quot;</span>
+meta-elmo         = <span class="st0">&quot;&lt;unknown&gt;:&lt;unknown&gt;&quot;</span>
+&nbsp;
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted <span class="nu0">371</span> tasks of <span class="kw2">which</span> <span class="nu0">358</span> didn<span class="st_h">'t need to be rerun and all succeeded.</span>

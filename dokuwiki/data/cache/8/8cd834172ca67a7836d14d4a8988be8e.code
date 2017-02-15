@@ -1,0 +1,21 @@
+    <span class="kw1">public</span> <span class="kw4">void</span> populate<span class="br0">&#40;</span>ContactList list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>list.<span class="me1">size</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// The base class RecipientEditTextView will ignore empty text. That's why we need</span>
+            <span class="co1">// this special case.</span>
+            setText<span class="br0">&#40;</span><span class="kw2">null</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="co1">// Clear the recipient when add contact again</span>
+            setText<span class="br0">&#40;</span><span class="st0">&quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">for</span> <span class="br0">&#40;</span>Contact c <span class="sy0">:</span> list<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="co1">// Calling setText to set the recipients won't create chips,</span>
+                <span class="co1">// but calling append() will.</span>
+&nbsp;
+                <span class="co1">// Need to judge  whether contactToToken(c) return valid data,if it is not,</span>
+                <span class="co1">// do not append it so that the comma can not be displayed.</span>
+                CharSequence charSequence <span class="sy0">=</span> contactToToken<span class="br0">&#40;</span>c<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">if</span> <span class="br0">&#40;</span>charSequence <span class="sy0">!=</span> <span class="kw2">null</span> <span class="sy0">&amp;&amp;</span> charSequence.<span class="me1">length</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    append<span class="br0">&#40;</span> charSequence<span class="sy0">+</span> <span class="st0">&quot;, &quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>

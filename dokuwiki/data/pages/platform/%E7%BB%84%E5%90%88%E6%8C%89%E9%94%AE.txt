@@ -1,0 +1,33 @@
+各平台组合按键
+
+                 产品型号            Download模式	                              Recovery模式	            Fastboot模式	                 截屏                                    备注                                                              
+====== 8625 ======
+	
+                 S100D         （Voice+）+（Voice-）+Power        （Voice-）+Power	（Voice+）+Power	     （Voice-）+Power      所有项目Recovery模式支持sd卡升级        
+                  S200           （Voice+）+（Voice-）+Power        （Voice-）+Power	（Voice+）+Power	     （Voice-）+Power
+                 S300P          （Voice+）+（Voice-）+Power        （Voice-）+Power       （Voice+）+Power	     （Voice-）+Power
+====== 8926 ======
+	
+                D508             （Voice+）+（Voice-）+Power       （Voice+）+Power	 （Voice-）+Power	    （Voice-）+Power
+                D801             （Voice+）+（Voice-）+Power       （Voice+）+Power	 （Voice-）+橘色键	    （Voice-）+Power
+                C580             （Voice+）+（Voice-）+Power        （Voice+）+Power      （Voice-）+Power	    （Voice-）+Power
+                S55                （Voice+）+（Voice-）+Power        （Voice+）+Power      （Voice-）+camera	    （Voice-）+Power
+====== 8939 ======
+                Q39/S700    （Voice+）+（Voice-）+Power       （Voice+）+Power	 （Voice-）+Power	    （Voice-）+Power
+
+====== 8909 ======
+                S600               左扫描键 + 右侧方键  +Power        右侧方键+Power	 	 左扫描键 +Power
+====== 8096 ======
+                CB09               左扫描键 + 右侧方键  +Power        右侧方键+Power	 （Voice-）+Power
+
+
+======项目暗码======
+
+                             测试工具(或测试开关)               CIT
+    S700:                     *#*#1111#*#*                   *#*#00#*#*
+    Q39                       *#*#564548#*#*               *#*#00#*#*
+    S600:                     #*20081111#                       *#886#
+    HomeBox                                                              *#889#
+    CB04                      *#*#3646633#*#*            *#889#
+    CB09                                                                       *#*#00#*#*
+    
